@@ -117,6 +117,7 @@ set cursorline "enable line under cursor"
 let skip_defaults_vim=1
 set incsearch "search as characters are entered"
 set hlsearch "highlight matches"
+set backspace=indent,eol,start " this makes backspace work as normal
 "note for future me, perhaps you can try folding, its lets you collapse code down like a project sidebar viwer type thing would."
 filetype plugin indent on "this enables It detection, plugin and indent at once"
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
