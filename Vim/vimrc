@@ -63,7 +63,7 @@ filetype plugin indent on    " required
 " Author:       Bjorn Winckler <bjorn.winckler@gmail.com>
 " Maintainer:   macvim-dev (https://github.com/macvim-dev)
 
-set nocompatible
+"set nocompatible we have already set this above
 
 " The default for 'backspace' is very confusing to new users, so change it to a
 " more sensible value.  Add "set backspace&" to your ~/.vimrc to reset it.

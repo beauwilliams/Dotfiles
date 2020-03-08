@@ -127,6 +127,15 @@ alias lc="colorls --tree"
 
 alias vimsearch="vim -c 'FZF'"
 
+alias powerlineconfig="p10k configure"
+
+alias bd="cd .."
+
+#Creating aliases for my dotfiles integration with github
+#
+alias mergevimrc="cp /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc ~/Git_Downloads/Dotfiles/Vim"
+alias mergezshrc="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
+
 #BEAU - config for z.lua file search
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
 
@@ -142,4 +151,4 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html 
-source ~/.iterm2_shell_integration.zsh
+#source ~/.iterm2_shell_integration.zsh
