@@ -129,7 +129,7 @@ alias vimsearch="vim -c 'FZF'"
 
 alias powerlineconfig="p10k configure"
 
-alias bd="cd .."
+alias backdirectory="cd .."
 
 #Creating aliases for my dotfiles integration with github
 #
