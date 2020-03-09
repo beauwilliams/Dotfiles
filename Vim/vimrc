@@ -127,3 +127,9 @@ let g:rehash256 = 1 "enabling 256 support for molokai
 
 "BEAU New configs still under testing
 set wildmenu "enables visual autocomplete for vim command NOTE, use tab to enable
+"BEAU - making vim autocomplete more bash like - NOTE there is an option
+"<full> which prints a full list, not really a fan as it confuses me too much
+"text on screen and lose my flow
+set wildmode=list,full
+
+
