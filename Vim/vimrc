@@ -35,7 +35,9 @@ let g:airline_theme='minimalist'
 Plugin 'ryanoasis/vim-devicons' "Dev icons for vim plugins
 Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using for java
 Plugin 'https://github.com/vim-syntastic/syntastic.git' "Syntax highlighting
-Plugin 'preservim/nerdtree' "Adds file system tree - if you want it =D
+"Plugin 'preservim/nerdtree' "Adds file system tree - if you want it = D NOTE:
+"Disabled this based on advice from https://shapeshed.com/vim-netrw/ - trying
+"netrw instead - less dependencies
 Plugin 'junegunn/fzf', { 'do': './install --bin' } "ensures we have most recent binaries for fzf
 Plugin 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim SEE HERE FOR MORE DETAILS
 
