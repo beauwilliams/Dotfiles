@@ -133,3 +133,4 @@ set wildmenu "enables visual autocomplete for vim command NOTE, use tab to enabl
 set wildmode=list,full
 
 
+set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
