@@ -129,4 +129,4 @@ set t_Co=256 "enabling 256 color support
 let g:rehash256 = 1 "enabling 256 support for molokai
 
 "BEAU New configs still under testing
-set wildmenu "enables visual autocomplete for vim commands
+set wildmenu "enables visual autocomplete for vim command NOTE, use tab to enable
