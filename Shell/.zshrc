@@ -125,16 +125,21 @@ alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not workin
 alias ls="colorls --sort-dirs --report"
 alias lc="colorls --tree"
 
-alias vimsearch="vim -c 'FZF'"
+alias vs="vim -c 'FZF'"
 
 alias powerlineconfig="p10k configure"
 
 alias bd="cd .."
 
+
+alias mergevim="cp /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc ~/Git_Downloads/Dotfiles/Vim"
+alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
+
+#TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
+alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+
 #Creating aliases for my dotfiles integration with github
 #
-alias mergevimrc="cp /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc ~/Git_Downloads/Dotfiles/Vim"
-alias mergezshrc="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
 
 #BEAU - config for z.lua file search
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
@@ -151,4 +156,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html 
-#source ~/.iterm2_shell_integration.zsh
+#source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
+#
+
