@@ -105,6 +105,7 @@ endif
 
 "BEAU CONFIGS
 set autoindent "enable auto-indentation"
+set smartindent  " smart  autoindent (e.g. add indent after '{')
 syntax on  "enable syntax highlighting"
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
@@ -134,3 +135,5 @@ set wildmode=list,full
 
 
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
+
+nmap ; :
