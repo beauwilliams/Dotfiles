@@ -112,7 +112,9 @@ source $ZSH/oh-my-zsh.sh
 # BEAU: Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
 #BEAU - Powerline code for zsh shell
-. /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
+##Not surte I actually use powrline now since using powerlevel10k
+##Zsh taking too long to start atm
+#. /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
 #BEAU - My aliases
 alias vimconfig="vi /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc"
@@ -122,13 +124,14 @@ alias ohmyzshplugins="cd ~/.oh-my-zsh/custom/plugins"
 alias zghthemeconfig='vi ~/.p10k.zsh' #https://github.com/romkatv/powerlevel10k#oh-my-zsh
 alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not working
 #BEAU Below alias enables colourful ls
-alias ls="colorls --sort-dirs --report"
-alias lc="colorls --tree"
-
+alias ls="lsd -la"
+alias lt="lsd --tree"
+#fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
+alias ff="vim -c 'FZF'"
 alias vs="vim -c 'FZF'"
 
 alias powerlineconfig="p10k configure"
-
+#My little go back quicker command
 alias bd="cd .."
 
 
@@ -137,6 +140,8 @@ alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
 
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+
+alias actmon="htop"
 
 #Creating aliases for my dotfiles integration with github
 #
@@ -148,6 +153,8 @@ eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+eval "$(jenv init -)"
+
 #BEAU - adding tab completion for color ls module installed using ruby see 
 #https://github.com/athityakumar/colorls
 #source $(dirname $(gem which colorls))/tab_complete.sh
@@ -157,5 +164,4 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 #BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html 
 #source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
-#
 

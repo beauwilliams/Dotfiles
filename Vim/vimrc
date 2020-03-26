@@ -34,6 +34,8 @@ Plugin 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airlin
 let g:airline_theme='minimalist'
 Plugin 'ryanoasis/vim-devicons' "Dev icons for vim plugins
 Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using for java
+"Disabling YCM preview window they displays up the top
+set completeopt-=preview
 "Disabling Syntastic think it was causing issues with java files for now
 "Plugin 'https://github.com/vim-syntastic/syntastic.git' "Syntax highlighting
 "Plugin 'preservim/nerdtree' "Adds file system tree - if you want it = D NOTE:
@@ -42,9 +44,18 @@ Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using f
 Plugin 'junegunn/fzf', { 'do': './install --bin' } "ensures we have most recent binaries for fzf
 Plugin 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim SEE HERE FOR MORE DETAILS
 
+"Markdown Support for Joplin CLI
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+
+"Vim auto- autocorrect uses vim 'spell' automagically
+Plugin 'sedm0784/vim-you-autocorrect'
+
 "CURRENT THEME CONFIG OPTIONS
 Plugin 'https://github.com/tomasr/molokai.git' "Molokai Theme"
 
+" Ale linter extension
+Plugin 'dense-analysis/ale'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -137,4 +148,11 @@ set wildmode=list,full
 
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 
+"FZF Vim config
+"set rtp+=/usr/local/opt/fzf
+
 nmap ; :
+"NO MORE SHIFT KEY :D
+"
+"adding autoclosing brackets map
+inoremap { {}<left>
