@@ -132,6 +132,9 @@ set backspace=indent,eol,start " this makes backspace work as normal
 filetype plugin indent on "this enables It detection, plugin and indent at once"
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
 
+"hopefully this speeds up vim!
+set lazyredraw
+
 "THEME CONFIG
 colorscheme molokai
 set termguicolors "enabling terminal color support
@@ -151,6 +154,8 @@ set autochdir "sets the cwd to whatever file is in view. This allows better ommi
 "FZF Vim config
 "set rtp+=/usr/local/opt/fzf
 
+nmap e $
+nmap s 0
 nmap ; :
 "NO MORE SHIFT KEY :D
 "
