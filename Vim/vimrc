@@ -153,7 +153,7 @@ set autochdir "sets the cwd to whatever file is in view. This allows better ommi
 
 "FZF Vim config
 "set rtp+=/usr/local/opt/fzf
-
+"Go to start and end of line quick!
 nmap e $
 nmap s 0
 nmap ; :
