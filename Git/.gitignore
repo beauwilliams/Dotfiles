@@ -1,0 +1,4 @@
+#Ignoring my C completor conf
+.ycm_extra_conf.py
+
+
