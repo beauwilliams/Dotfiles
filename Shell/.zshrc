@@ -1,3 +1,7 @@
+#================ZSH DEFAULT OPTIONS=========================
+
+
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -69,7 +73,11 @@ ZSH_THEME='powerlevel10k/powerlevel10k'
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 #
-#/////##BEAU THIS IS WHERE ZSH PLUGINS FOR OHMYZSH ARE##/////
+#
+#===================END ZSH DEFAULTS================================
+#
+#
+#=================OH MY ZSH PLUGINS=================================
 #
 plugins=(git
         zsh-syntax-highlighting
@@ -84,6 +92,10 @@ plugins=(git
 
 source $ZSH/oh-my-zsh.sh
 
+#===================END PLUGIN CONFIG===========================
+#
+#
+#
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"
@@ -97,6 +109,8 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+
+
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -146,7 +160,7 @@ alias actmon="htop"
 #Creating aliases for my dotfiles integration with github
 #
 
-#BEAU - config for z.lua file search
+#BEAU - config for z.lua directory jumper i.e z
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
 
 
@@ -154,14 +168,51 @@ eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
 export PATH="$PATH:$HOME/.rvm/bin"
 
 eval "$(jenv init -)"
+#Launches jenv, but why?
 
-#BEAU - adding tab completion for color ls module installed using ruby see 
+#BEAU - adding tab completion for color ls module installed using ruby see
 #https://github.com/athityakumar/colorls
 #source $(dirname $(gem which colorls))/tab_complete.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-#BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html 
+#BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html
 #source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
 
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+#Creating python3 and pip3 alias, essentially upgrading my system to python3
+alias python="~/opt/miniconda3/bin/python"
+alias pip="/usr/local/bin/pip3"
+alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
+#See here https://stackoverflow.com/questions/41060382/using-pip-to-install-packages-to-anaconda-environment
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/admin/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/admin/opt/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/admin/opt/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/admin/opt/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+#Adding a markdown previewer command to my terminal
+#From here: https://tosbourn.com/view-markdown-files-terminal/
+#rmd () {
+#  pandoc $1 | lynx -stdin
+#}
+#NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
+#Does not matter what reader we usem remember one command! mdreader
+alias mdreader='mdless' 
+
+#Adding path for node installation, something happened during update and npm dissapeared!
+export PATH="/usr/local/bin:$PATH"
