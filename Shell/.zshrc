@@ -1,7 +1,6 @@
 #================ZSH DEFAULT OPTIONS=========================
 
 
-
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -95,8 +94,10 @@ source $ZSH/oh-my-zsh.sh
 #===================END PLUGIN CONFIG===========================
 #
 #
-#
-# User configuration
+#====================BEGIN USER CONFIG==========================
+
+# -e ensure scipt stops when first cmd fails, -u ensure script exits on first unset variable, -o pipefail means that if piped commands fail, exit code is whole command not last failed piped command
+#   set -euo pipefail
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -111,28 +112,43 @@ source $ZSH/oh-my-zsh.sh
 # fi
 
 
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# BEAU: Disable the username@hostname text in terminal when logged in to local machine
+prompt_context(){}
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-# BEAU: Disable the username@hostname text in terminal when logged in to local machine
-prompt_context(){}
 #BEAU - Powerline code for zsh shell
 ##Not surte I actually use powrline now since using powerlevel10k
 ##Zsh taking too long to start atm
 #. /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
+
+#==================END USER CONFIG=======================================
+#
+#
+#
+#====================BEGIN ALIASES=======================================
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+
 #BEAU - My aliases
+
+
+###CONFIGS###
 alias vimconfig="vi /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc"
 alias zshconfig="vi ~/.zshrc"
+alias powerlineconfig="p10k configure"
+
+
+###ZSH ALIASES###
 alias zshreload="source ~/.zshrc"
 alias ohmyzshplugins="cd ~/.oh-my-zsh/custom/plugins"
 alias zghthemeconfig='vi ~/.p10k.zsh' #https://github.com/romkatv/powerlevel10k#oh-my-zsh
@@ -143,53 +159,76 @@ alias lt="lsd --tree"
 #fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
 alias ff="vim -c 'FZF'"
 alias vs="vim -c 'FZF'"
-
-alias powerlineconfig="p10k configure"
+#TURNS OUT WE CAN SIMPLY USE .. in zsh, can extend it to ... .... etc
 #My little go back quicker command
-alias bd="cd .."
+#alias bd="cd .."
 
 
+###GIT ALIASES####
+#Creating aliases for my dotfiles integration with github
 alias mergevim="cp /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc ~/Git_Downloads/Dotfiles/Vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
 
+
+###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
 
-alias actmon="htop"
 
-#Creating aliases for my dotfiles integration with github
-#
-
-#BEAU - config for z.lua directory jumper i.e z
-eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
-
-
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
-eval "$(jenv init -)"
-#Launches jenv, but why?
-
-#BEAU - adding tab completion for color ls module installed using ruby see
-#https://github.com/athityakumar/colorls
-#source $(dirname $(gem which colorls))/tab_complete.sh
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-#BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html
-#source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
+###APP SHORTCUTS###
+alias activitymonitor="htop"
+#Adding a markdown previewer command to my terminal
+#From here: https://tosbourn.com/view-markdown-files-terminal/
+#rmd () {
+#  pandoc $1 | lynx -stdin
+#}
+#NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
+#Does not matter what reader we usem remember one command! mdreader
+alias mdreader='mdless'
 
 
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+###PYTHON ALIASES###
 #Creating python3 and pip3 alias, essentially upgrading my system to python3
 alias python="~/opt/miniconda3/bin/python"
 alias pip="/usr/local/bin/pip3"
 alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
-#See here https://stackoverflow.com/questions/41060382/using-pip-to-install-packages-to-anaconda-environment
 
+
+#==================================END ALIASES===================================
+#
+#
+#
+#========================START INITS, PATHS & SOURCES=============================
+
+###INITS###
+#BEAU - config for z.lua directory jumper i.e z
+eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
+#Launches jenv, but why?
+eval "$(jenv init -)"
+
+
+###SOURCES###
+#BEAU - adding tab completion for color ls module installed using ruby see
+#https://github.com/athityakumar/colorls
+#source $(dirname $(gem which colorls))/tab_complete.sh
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+#BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html
+#source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
+#Fuzzy finder FZF source
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+
+###PATHS###
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+#Adding path for node installation, something happened during update and npm dissapeared!
+export PATH="/usr/local/bin:$PATH"
+
+
+###PATHS###
+#See here https://stackoverflow.com/questions/41060382/using-pip-to-install-packages-to-anaconda-environment
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/admin/opt/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
@@ -204,15 +243,10 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-#Adding a markdown previewer command to my terminal
-#From here: https://tosbourn.com/view-markdown-files-terminal/
-#rmd () {
-#  pandoc $1 | lynx -stdin
-#}
-#NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
-#Does not matter what reader we usem remember one command! mdreader
-alias mdreader='mdless' 
-
-#Adding path for node installation, something happened during update and npm dissapeared!
-export PATH="/usr/local/bin:$PATH"
+#
+#
+# =====================END OF INITS, PATHS & SOURCES===============================
+#
+#
+#
+# ==========================END OF ZSH CONFIG======================================
