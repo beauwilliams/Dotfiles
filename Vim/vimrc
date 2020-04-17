@@ -1,5 +1,5 @@
-set nocompatible " Makes vim not compatible with vi, no need for that old stuff!
-
+" Makes vim not compatible with vi, no need for that old stuff!
+set nocompatible
 
 "===============================START VUNDLE==================================
 
@@ -29,56 +29,72 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 "BEAU PLUGINS
 
+"STATUSLINE CONFIG
 Plugin 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plugin 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set the theme, e.g. :AirlineTheme simple CURRENTLY USING
-let g:airline_theme='base16_vim' "copies vim colours
+let g:airline_theme='gruvbox' "copies vim colours
 set noshowmode "Don't need to see insert mode twice when using airline"
 set shortmess+=F  " to get rid of the file name displayed in the command line bar
 
-
+"GLYPH SUPPORT
 Plugin 'ryanoasis/vim-devicons' "Dev icons for vim plugins - for vim airline
+
+"AUTOCLOSING BRACKETS ETC
+Plugin 'Raimondi/delimitMate'
+
+
+"AUTOCOMPLETION, SYNTAX
 Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using for java
 "Disabling YCM preview window they displays up the top
 set completeopt-=preview
-
 "Disabling Syntastic think it was causing issues with java files for now
 "Plugin 'https://github.com/vim-syntastic/syntastic.git' "Syntax highlighting
 
+"SNIPPETS
+"Adding snippets, using YCM for poups
+Plugin 'SirVer/ultisnips'
+"The ultisnips engine is seperate from snippets so we will add this repo
+Plugin 'honza/vim-snippets'
 
+"TAB OVERLOADING FOR SNIPPETS & AUTOCOMPLETE
+Plugin 'ervandew/supertab'
+
+"LINTING
+" Ale linter extension, using YCM config for C, provideds symantic error
+" detection
+Plugin 'dense-analysis/ale'
+
+"AUTOCORRECTION
+"Vim auto- autocorrect uses vim 'spell' automagically
+" Use :EnableAutocorrect
+Plugin 'sedm0784/vim-you-autocorrect'
+
+"FILE BROSWER
 "Plugin 'preservim/nerdtree' "Adds file system tree - if you want it = D NOTE:
 "Disabled this based on advice from https://shapeshed.com/vim-netrw/ - trying
 "netrw instead - less dependencies
 
+"FUZZY FINDER
 "Commenting this out, not sure if neccesary? - Plugin 'junegunn/fzf', { 'do': './install --bin' } "ensures we have most recent binaries for fzf
 Plugin 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim SEE HERE FOR MORE DETAILS
 "FZF Vim config - fzf wont work without it
 set rtp+=/usr/local/opt/fzf
 
+"NOTEBOOK SUPPORT (JOPLIN)
 "Markdown Support for Joplin CLI
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 
-"Vim auto- autocorrect uses vim 'spell' automagically
-" Use :EnableAutocorrect
-Plugin 'sedm0784/vim-you-autocorrect'
 
 "CURRENT THEME CONFIG OPTIONS
 Plugin 'morhetz/gruvbox' "Theme is already downloaded but incase updates will keep here
 
-" Ale linter extension, using YCM config for C, provideds symantic error
-" detection
-Plugin 'dense-analysis/ale'
-" All of your Plugins must be added before the following line
-
-"Adding snippets, using YCM for poups
-Plugin 'SirVer/ultisnips'
-"The ultisnips engine is seperate from snippets so we will add this repo
-Plugin 'honza/vim-snippets'
 call vundle#end()            " required
 filetype plugin indent on    " required
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
+"VUNDLE DOCUMENTATION
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
@@ -168,9 +184,9 @@ set lazyredraw
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 
 "THEME CONFIG
-colorscheme gruvbox
-set termguicolors "enabling terminal color support
+colorscheme gruvbox 
 set t_Co=256 "enabling 256 color support
+"set termguicolors "enabling terminal color support
 "let g:rehash256 = 1 "enabling 256 support for molokai
 
 "
@@ -194,7 +210,8 @@ set path+=**
 let g:ycm_collect_identifiers_from_tags_files = 1
 
 "Highlight whitespaces in white so I can easily find and remove them
-match VisualNOS /\s\+$/
+"use :help highlight to find highlight groups like one used below
+match StatusLineNC /\s\+$/  
 "==============================END CONFIGS=======================================
 "
 "
@@ -215,18 +232,25 @@ cnoreabbrev fzf FZF
 "
 "Speeding up auto correction toggle for my uni lectures
 "Note plgn is Vim-you-autocorrect
-cnoreabbrev spellcheckon EnableAutocorrect
-cnoreabbrev spellcheckoff  DisableAutocorrect
-
+cnoreabbrev spellon EnableAutocorrect
+cnoreabbrev spelloff  DisableAutocorrect
 
 
 "adding autoclosing brackets map
-inoremap { {}<left>
+"inoremap {<CR> {<CR>}<ESC>O
+"NOTE TO SELF - REPLACED with delimitMate :help delimitmate
+let g:delimitMate_expand_cr = 1
 
-
-"adding mapping for Ultisnips, note can't use tab because YCM uses it already,
-"also note, using ctrl-e also means I can't down scrool with ctrl-e
-let g:UltiSnipsExpandTrigger="<C-E>"
+"NOTE, WE ARE USING SUPERTAB TO HELP WITH MAPPINGS
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+"Disabling, so I can use s-tab to expand trigger g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:SuperTabCrMapping = 0
 
 "=============================END REMAPPINGS===============================
 "
@@ -253,6 +277,7 @@ let g:airline_section_z = "%p%%  \ue0a1 %l/%L  \ue0a3 %c"
 "Remove the filetype encoding section, I dont need to specifically know this
 "most of the time!
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'conflicts' ]
 "Shorten 'words' to 'w' for wordcount
 "let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
 "let g:airline#extensions#wordcount#format = '%d w'
