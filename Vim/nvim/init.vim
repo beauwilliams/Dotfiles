@@ -19,6 +19,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'laher/fuzzymenu.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 Plug 'rust-lang/rust.vim'
 
 " List ends here. Plugins become visible to Vim after this call.
@@ -50,6 +51,15 @@ set showmatch
 "hopefully this speeds up vim!
 set lazyredraw
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
+set wildmenu "enhanced tab completion for vim command bar
+"making vim autocomplete more bash-autocomplete like - NOTE we are also
+"setting it to display a list of suggestions, and a bar that lets us select
+"which completion we would like using wildmode var
+set wildmode=list,full
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=50
+
 
 "THEME CONFIG
 syntax enable
@@ -62,25 +72,11 @@ set t_Co=256 "enabling 256 color support
 "let g:rehash256 = 1 "enabling 256 support for molokai
 
 
-"TESTING CONFIGS
-" share system clipboard but also retain nvim clipboard (see += compared
-"to just =)
-set clipboard+=unnamed
-"
-"
-"
-
-"FZF CONFIGS
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
-
 "==========================CONFIGS UNDER TESTING=============================
 "
 "
 "
 "FROM https://github.com/erkrnt/awesome-streamerrc/blob/master/ThePrimeagen/.vimrc
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=50
 
 "Auto Whitspace trimming!!
 fun! TrimWhitespace()
@@ -91,15 +87,17 @@ endfun
 
 autocmd BufWritePre * :call TrimWhitespace()
 
-set wildmenu "enables visual autocomplete for vim command NOTE, use tab to enable
-"Essentially you don't have to hit a button for suggestions to come up
-"BEAU - making vim autocomplete more bash like - NOTE there is an option
-"<full> which prints a full list, not really a fan as it confuses me too much
-"text on screen and lose my flow
-set wildmode=list,full
 
+"FZF CONFIGS
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
 "Enabling :find to search entire current directory of project you are working in using recursion
 set path+=**
+
+" share system clipboard but also retain nvim clipboard (see += compared
+"to just =) essentially instead of overwriting we are appending to a list of
+"copied things to the clipboard
+set clipboard+=unnamed
+
 
 "TESTING https://github.com/ycm-core/YouCompleteMe/issues/560
 "let g:ycm_collect_identifiers_from_tags_files = 1
@@ -131,7 +129,6 @@ cnoreabbrev spellon EnableAutocorrect
 cnoreabbrev spelloff  DisableAutocorrect
 
 
-"TEST MAPPINGS
 "Clear highlights quick!
 nnoremap c<space> :nohlsearch<cr>
 "Replace/Delete words quick!
@@ -153,7 +150,7 @@ nnoremap <F2> :let _save_pos=getpos(".") <Bar>
     \ :call setpos('.', _save_pos)<Bar>
     \ :unlet _save_pos<CR><CR>
 
-"NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
+"NOTE: Mapped iTERM2 CMD+/ to ++ so we can overload the vim + function
 "already there
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
@@ -167,6 +164,12 @@ vmap <Leader><Leader> <Plug>FzmVisual
 "note the cr is an enter, i.e it hits enter and does the command
 nmap <Leader>n :NERDTreeToggle<cr>
 
+
+
+"==========================MAPPINGS UNDER TESING=============================
+
+"Lets see what all this hype is about.. the CHAD of file tree viewers, CHADtree
+nnoremap <leader>v <cmd>CHADopen<cr>
 "=============================END REMAPPINGS===============================
 "
 "
