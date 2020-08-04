@@ -1,3 +1,4 @@
+export PATH="/usr/local/sbin:$PATH"
 #================ZSH DEFAULT OPTIONS=========================
 
 
@@ -141,14 +142,18 @@ prompt_context(){}
 
 #BEAU - My aliases
 
+###GIT ALIASES
+alias git-create="hub create"
 
 ###CONFIGS###
-alias vimconfig="vi /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc"
+alias vimconfig="vi ~/.vimrc"
 alias zshconfig="vi ~/.zshrc"
 alias powerlineconfig="p10k configure"
+alias nvimconfig="nvim ~/.config/nvim/init.vim"
+alias sshconfig="vi ~/.ssh/config"
 
 
-###ZSH ALIASES###
+###ZSH ###
 alias zshreload="source ~/.zshrc"
 alias ohmyzshplugins="cd ~/.oh-my-zsh/custom/plugins"
 alias zghthemeconfig='vi ~/.p10k.zsh' #https://github.com/romkatv/powerlevel10k#oh-my-zsh
@@ -162,17 +167,28 @@ alias vs="vim -c 'FZF'"
 #TURNS OUT WE CAN SIMPLY USE .. in zsh, can extend it to ... .... etc
 #My little go back quicker command
 #alias bd="cd .."
+alias cat="bat"
+
+#COOL SHIT
+alias -- -="cd -" #quick jump back to prev dir with -
+alias bd="cd .." #for when .. does not work on new systems
 
 
 ###GIT ALIASES####
 #Creating aliases for my dotfiles integration with github
-alias mergevim="cp /usr/local/Cellar/macvim/8.2-162/MacVim.app/Contents/Resources/vim/vimrc ~/Git_Downloads/Dotfiles/Vim"
+alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
+alias mergevim="cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim"
 
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+#APP LAUNCHERS
+alias dymosdk="open /Library/Frameworks/DYMO/SDK/DYMO.DLS.Printing.Host.app"
+alias helloyoutube="echo SUP. CHECK IT OUT. WE MAKING OUR OWN COMMANDS OUT HERE"
+alias whatsitabout="echo MAKING CUSTOM ALIASES BABY"
+alias soundscool="echo LETS GET IT"
 
 
 ###APP SHORTCUTS###
@@ -189,10 +205,9 @@ alias mdreader='mdless'
 
 ###PYTHON ALIASES###
 #Creating python3 and pip3 alias, essentially upgrading my system to python3
-alias python="~/opt/miniconda3/bin/python"
-alias pip="/usr/local/bin/pip3"
-alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
-
+#alias python="~/opt/miniconda3/bin/python"
+#alias pip="/usr/local/bin/pip3"
+#NO LONGER NEEDED USED PIP3 COMMAND FOR NOW #alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
 
 #==================================END ALIASES===================================
 #
@@ -204,8 +219,8 @@ alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to
 #BEAU - config for z.lua directory jumper i.e z
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
 #Launches jenv, but why?
+export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
-
 
 ###SOURCES###
 #BEAU - adding tab completion for color ls module installed using ruby see
@@ -224,7 +239,7 @@ eval "$(jenv init -)"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 #Adding path for node installation, something happened during update and npm dissapeared!
-export PATH="/usr/local/bin:$PATH"
+export PATH="/usr/local/bin/:$PATH"
 
 
 ###PATHS###
@@ -250,3 +265,16 @@ unset __conda_setup
 #
 #
 # ==========================END OF ZSH CONFIG======================================
+#export PATH="/usr/local/opt/qt/bin:$PATH"
+export JAVA_HOME=$(/usr/libexec/java_home -v 12)
+#setting adoptopenjdk8 as default
+export PATH="$HOME/tools/nvim:$PATH"
+export PATH=$HOME/Library/Haskell/bin:$PATH
+[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
+export PATH="$PATH:/Users/admin/Git_Downloads/SDK..Downloads/flutter/bin"
+#export PATH="$PATH:/Users/admin/SDK/Android_Studio/platform-tools"
+export ANDROID_HOME=/Users/$USER/SDK/Android_Studio/
+export ANDROID_SDK_ROOT=$ANDROID_HOME
+PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+if [ -e /Users/admin/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/admin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer

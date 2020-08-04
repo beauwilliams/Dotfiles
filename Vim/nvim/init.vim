@@ -25,6 +25,8 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 Plug 'rust-lang/rust.vim'
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
+
+
 " Theme Configuration
 syntax enable
 set background=dark
@@ -32,6 +34,8 @@ colorscheme gruvbox
 let g:gruvbox_contrast_dark='soft' " lightens up gruvbox, too dark otherwise
 "let g:solarized_termcolors=256
 
+"FZF CONFIGS
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
 
 "============================START MY CONFIGS===============================
 "
@@ -66,6 +70,9 @@ set t_Co=256 "enabling 256 color support
 "set termguicolors "enabling terminal color support
 "let g:rehash256 = 1 "enabling 256 support for molokai
 
+"ZOMG - share system clipboard but also retain nvim clipboard (see += compared
+"to just =)
+set clipboard+=unnamed
 "
 "
 "==========================CONFIGS UNDER TESTING=============================

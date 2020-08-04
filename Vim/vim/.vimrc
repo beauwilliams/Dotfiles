@@ -29,6 +29,8 @@ Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 "BEAU PLUGINS
 
+"TEST PLUGINS
+
 "STATUSLINE CONFIG
 Plugin 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plugin 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set the theme, e.g. :AirlineTheme simple CURRENTLY USING
@@ -69,6 +71,9 @@ Plugin 'dense-analysis/ale'
 " Use :EnableAutocorrect
 Plugin 'sedm0784/vim-you-autocorrect'
 
+"COMMENT STUFF FAST
+Plugin 'preservim/nerdcommenter'
+
 "FILE BROSWER
 "Plugin 'preservim/nerdtree' "Adds file system tree - if you want it = D NOTE:
 "Disabled this based on advice from https://shapeshed.com/vim-netrw/ - trying
@@ -79,6 +84,8 @@ Plugin 'sedm0784/vim-you-autocorrect'
 Plugin 'junegunn/fzf.vim' "https://github.com/junegunn/fzf.vim SEE HERE FOR MORE DETAILS
 "FZF Vim config - fzf wont work without it
 set rtp+=/usr/local/opt/fzf
+Plugin 'https://github.com/laher/fuzzymenu.vim'
+
 
 "NOTEBOOK SUPPORT (JOPLIN)
 "Markdown Support for Joplin CLI
@@ -184,7 +191,7 @@ set lazyredraw
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 
 "THEME CONFIG
-colorscheme gruvbox 
+colorscheme gruvbox
 set t_Co=256 "enabling 256 color support
 "set termguicolors "enabling terminal color support
 "let g:rehash256 = 1 "enabling 256 support for molokai
@@ -195,6 +202,19 @@ set t_Co=256 "enabling 256 color support
 "
 "
 "
+"FROM https://github.com/erkrnt/awesome-streamerrc/blob/master/ThePrimeagen/.vimrc
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=50
+
+"Auto Whitspace trimming!!
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+
 
 set wildmenu "enables visual autocomplete for vim command NOTE, use tab to enable
 "Essentially you don't have to hit a button for suggestions to come up
@@ -211,7 +231,7 @@ let g:ycm_collect_identifiers_from_tags_files = 1
 
 "Highlight whitespaces in white so I can easily find and remove them
 "use :help highlight to find highlight groups like one used below
-match StatusLineNC /\s\+$/  
+match StatusLineNC /\s\+$/
 "==============================END CONFIGS=======================================
 "
 "
@@ -241,16 +261,55 @@ cnoreabbrev spelloff  DisableAutocorrect
 "NOTE TO SELF - REPLACED with delimitMate :help delimitmate
 let g:delimitMate_expand_cr = 1
 
+
 "NOTE, WE ARE USING SUPERTAB TO HELP WITH MAPPINGS
+fun! GoYCM()
 " make YCM compatible with UltiSnips (using supertab)
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+endfun
+
+fun! GoSupertab()
 let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabCrMapping = 0
+endfun
+
+"fun! GoUltisnips()
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<s-tab>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 "Disabling, so I can use s-tab to expand trigger g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-let g:SuperTabCrMapping = 0
+"endfun
+
+
+"TEST MAPPINGS
+"Clear highlights quick!
+nnoremap c<space> :nohlsearch<cr>
+"Replace/Delete words quick!
+"nnoremap ,x *``cgn
+nnoremap c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+nnoremap c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+nnoremap d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
+nnoremap d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
+
+imap jj <ESC>
+
+"Remove superfluous whitespaces with F2!
+nnoremap <F2> :let _save_pos=getpos(".") <Bar>
+    \ :let _s=@/ <Bar>
+    \ :%s/\s\+$//e <Bar>
+    \ :let @/=_s <Bar>
+    \ :nohl <Bar>
+    \ :unlet _s<Bar>
+    \ :call setpos('.', _save_pos)<Bar>
+    \ :unlet _save_pos<CR><CR>
+
+"NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
+"already there
+"Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
+nmap ++ <plug>NERDCommenterToggle
+vmap ++ <plug>NERDCommenterToggle
+
 
 "=============================END REMAPPINGS===============================
 "
@@ -282,6 +341,23 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'c
 "let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
 "let g:airline#extensions#wordcount#format = '%d w'
 "let g:airline#extensions#wordcount#enabled = 1
+
+"=============================END STATUSLINE CONFIG=================================
+"
+"
+"
+"
+"===============================BEGIN FUNCTION CALLS===============================
+"Auto remove whitespaces!
+autocmd BufWritePre * :call TrimWhitespace()
+"Only enable YCM for the below files!
+autocmd FileType java,python,javascript,c :call GoSupertab()
+"For some reason mapping ultisnips to fn causes an issue with tabs
+"autocmd FileType java,python,javascript,c :call GoUltisnips()
+autocmd FileType java,python,javascript,c :call GoYCM()
+"autocmd FileType cpp,cxx,h,hpp,c :call GoCoc()
+
+"===============================END FUNCTION CALLS===============================
 
 "
 "===============================END VIM CONFIG=================================
