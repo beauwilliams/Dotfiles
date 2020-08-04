@@ -19,23 +19,10 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'laher/fuzzymenu.vim'
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
-
-
-"RUST STUFFS
 Plug 'rust-lang/rust.vim'
+
 " List ends here. Plugins become visible to Vim after this call.
 call plug#end()
-
-
-" Theme Configuration
-syntax enable
-set background=dark
-colorscheme gruvbox
-let g:gruvbox_contrast_dark='soft' " lightens up gruvbox, too dark otherwise
-"let g:solarized_termcolors=256
-
-"FZF CONFIGS
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
 
 "============================START MY CONFIGS===============================
 "
@@ -65,16 +52,27 @@ set lazyredraw
 set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 
 "THEME CONFIG
-"colorscheme gruvbox
+syntax enable
+set background=dark
+colorscheme gruvbox
+let g:gruvbox_contrast_dark='soft' " lightens up gruvbox, too dark otherwise
+"let g:solarized_termcolors=256
 set t_Co=256 "enabling 256 color support
 "set termguicolors "enabling terminal color support
 "let g:rehash256 = 1 "enabling 256 support for molokai
 
-"ZOMG - share system clipboard but also retain nvim clipboard (see += compared
+
+"TESTING CONFIGS
+" share system clipboard but also retain nvim clipboard (see += compared
 "to just =)
 set clipboard+=unnamed
 "
 "
+"
+
+"FZF CONFIGS
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
+
 "==========================CONFIGS UNDER TESTING=============================
 "
 "
@@ -158,6 +156,9 @@ nnoremap <F2> :let _save_pos=getpos(".") <Bar>
 "NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
 "already there
 
+"FuzzyFinderMappings AKA ctrl+p search like say vscode
+nmap <Leader>p :FZF<cr>
+vmap <Leader>p :FZF<cr>
 "Fuzzymenu Mappings
 nmap <Leader><Leader> <Plug>Fzm
 vmap <Leader><Leader> <Plug>FzmVisual
@@ -191,14 +192,14 @@ endfunction
   "call neomake#configure#automake('nw', 1000)
 "endif
 "
-" " Copy to clipboard
-vnoremap  <leader>y  "+y
-nnoremap  <leader>Y  "+yg_
-nnoremap  <leader>y  "+y
+" Copy to clipboard -- RETIRED, just remember "+y
+"vnoremap  <leader>y  "+y
+"nnoremap  <leader>Y  "+yg_
+"nnoremap  <leader>y  "+y
 "nnoremap  <leader>yy  "+yy
 
 " " Paste from clipboard
-nnoremap <leader>p "+p
-nnoremap <leader>P "+P
-vnoremap <leader>p "+p
+"nnoremap <leader>p "+p
+"nnoremap <leader>P "+P
+"vnoremap <leader>p "+p
 "vnoremap <leader>P "+P
