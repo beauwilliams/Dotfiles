@@ -176,9 +176,9 @@ alias bd="cd .." #for when .. does not work on new systems
 
 ###GIT ALIASES####
 #Creating aliases for my dotfiles integration with github
-alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim"
+alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
-alias mergevim="cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim"
+alias mergenvim="cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim"
 
 
 ###MAC ALIASES###
