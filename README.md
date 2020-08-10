@@ -14,7 +14,7 @@ _Thank you_ :smile:
 
 ## Key Neovim Features
 
-#### Open files quick!! FZF and Ripgrep - Easy Window Splitting. All a couple of keystrokes away. Whoneeds file explorers.
+#### Open files quick!! FZF and Ripgrep - Easy Window Splitting. All a couple of keystrokes away. Who needs file explorers.
 
 #### Excellent and fast LSP with COC.nvim. Java support is fantastic, despite often being a struggle without a heavy IDE
 
