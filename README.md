@@ -10,7 +10,7 @@ _Thank you_ :smile:
 
 ### Sneak Peak of Neovim Config
 
-![gif1](https://im7.ezgif.com/tmp/ezgif-7-3e9371469ed6.gif)
+![gif1](https://i.ibb.co/j8SRZjD/dotfiles.gif)
 
 ## Key Neovim Features
 
