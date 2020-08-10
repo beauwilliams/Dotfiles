@@ -46,8 +46,9 @@ Plugin 'Raimondi/delimitMate'
 
 
 "AUTOCOMPLETION, SYNTAX
-Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using for java
+"Plugin 'https://github.com/ycm-core/YouCompleteMe.git' "Autocompletion - using for java --- NOPE, I AM DONE. SCREW THIS DAMN SOFTWARE. YCM needs to be recompiled each update and its a total bitch to recompile and does not like conda
 "Disabling YCM preview window they displays up the top
+"DONT FORGET YCM NEED TO BE RE-MAKED after each update https://github.com/ycm-core/YouCompleteMe
 set completeopt-=preview
 "Disabling Syntastic think it was causing issues with java files for now
 "Plugin 'https://github.com/vim-syntastic/syntastic.git' "Syntax highlighting
@@ -241,9 +242,11 @@ match StatusLineNC /\s\+$/
 "=============================START REMAPS========================================
 
 "Go to start and end of line quick!
-nmap e $
-nmap s 0
-nmap ; :
+"nmap e $
+"nmap s 0
+"nmap ; :
+"when using brace matching with % its also highlights it for us :)
+noremap % v%
 "NO MORE SHIFT KEY :D
 "Using this will give you an error, user defnd cmds in vim must start with
 "capital letter command fzf execute "FZF"

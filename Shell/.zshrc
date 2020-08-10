@@ -257,7 +257,15 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+#<<< conda initialize <<<
+#
+#
+# TELL FZF TO USE RIPGREP
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
 #
 #
 # =====================END OF INITS, PATHS & SOURCES===============================
@@ -278,3 +286,6 @@ export ANDROID_SDK_ROOT=$ANDROID_HOME
 PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 if [ -e /Users/admin/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/admin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+#ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
+export BAT_THEME='gruvbox'
