@@ -2,7 +2,7 @@
 "
 "
 if &compatible
-  set nocompatible " Using vim-plug we must set not compatible with old vim
+        set nocompatible " Using vim-plug we must set not compatible with old vim
 endif
 
 
@@ -59,7 +59,6 @@ set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting tab to 4 spaces"
 set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
 set cursorline "enable line under cursor"
-"let skip_defaults_vim=1 "is this useful? - Disabled 14/apr/20
 set incsearch "search as characters are entered"
 set hlsearch "highlight matches"
 set ignorecase "ignore cases when searching
@@ -68,19 +67,12 @@ set backspace=indent,eol,start " this makes backspace work as normal
 set scrolloff=5 "Set the cursor 5 lines down instead of at the top
 set undofile "Keeps undo history even after we close a file
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
-"match opening and closing braces
-set showmatch
-"hopefully this speeds up vim!
-set lazyredraw
-"set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
+set showmatch "match opening and closing braces
+set lazyredraw "hopefully this speeds up vim!
 set wildmenu "enhanced tab completion for vim command bar
-"making vim autocomplete more bash-autocomplete like - NOTE we are also
-"setting it to display a list of suggestions, and a bar that lets us select
-"which completion we would like using wildmode var
-set wildmode=list,full
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=50
+set wildmode=list,full "Displays a handy list of commands we can tab thru"
+set updatetime=50 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience. - some dude on the internet (not my idea)
 
 "THEME CONFIG
 set background=dark
@@ -95,25 +87,25 @@ let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 "==========================CONFIGS UNDER TESTING=============================
 "
 "
+"set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
+"This kind of makes workflows annoying where it screws up fzf if i enter a
+"file within a tree, I cant get back to files at the root
+"Seems like our completion is g anyways -- review later
 "
 "FROM https://github.com/erkrnt/awesome-streamerrc/blob/master/ThePrimeagen/.vimrc
-
 "Auto Whitspace trimming!!
 fun! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
 endfun
-
 autocmd BufWritePre * :call TrimWhitespace()
 
 
 
 
-" share system clipboard but also retain nvim clipboard (see += compared
-"to just =) essentially instead of overwriting we are appending to a list of
-"copied things to the clipboard
-set clipboard+=unnamed
+set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
+"to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
 
 
 
@@ -123,70 +115,47 @@ set relativenumber
 "ENABLE BUFFERS TO HIDE - PREVENTS ERROR:
 "E37: No write since last change (add ! to override)
 "When opening a new buffer before saving current one
-"set hidden
+set hidden
 
 
-
-
-
-
-
-
-"TESTING https://github.com/ycm-core/YouCompleteMe/issues/560
-"let g:ycm_collect_identifiers_from_tags_files = 1
-
-"Highlight whitespaces in white so I can easily find and remove them
-"use :help highlight to find highlight groups like one used below
-"match StatusLineNC /\s\+$/
-
-"NETRW CONFIGS
-"SET NETRW SIZE
-"let g:netrw_winsize=22
-"NETRW commands :Lex :Vex: Sex
 "
 "------AUTO RESIZING WINDOWS----------
 "
 "UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
 " From https://github.com/knubie/dotfiles/blob/fe7967f875945e54d49fc672f575c47691a1e4cc/.vimrc#L136
 augroup ReduceNoise
-    autocmd!
-    " Automatically resize active split to 85 width
-    autocmd WinEnter * :call ResizeSplits()
+        autocmd!
+        " Automatically resize active split to 85 width
+        autocmd WinEnter * :call ResizeSplits()
 
-    autocmd WinEnter * setlocal cursorline
-    autocmd WinEnter * setlocal signcolumn=auto
+        autocmd WinEnter * setlocal cursorline
+        autocmd WinEnter * setlocal signcolumn=auto
 
-    autocmd WinLeave * setlocal nocursorline
-    autocmd WinLeave * setlocal signcolumn=no
+        autocmd WinLeave * setlocal nocursorline
+        autocmd WinLeave * setlocal signcolumn=no
 
 augroup END
 
 function! ResizeSplits()
-    if &ft == 'nerdtree'
-        return
-    elseif &ft == 'qf'
-        " Always set quickfix list to a height of 10
-        resize 10
-        return
-    else
-        set winwidth=120
-        wincmd =
-    endif
+        if &ft == 'nerdtree'
+                return
+        elseif &ft == 'qf'
+                " Always set quickfix list to a height of 10
+                resize 10
+                return
+        else
+                set winwidth=120
+                wincmd =
+        endif
 endfunction
 
 "-----------------------------------------
 
-"UNDER TESTING -- FZF PREVIEW VIM AS REPLACEMENT FOR FZF VIM, ITS S SUPER UP
-"VERSION, BASICALLY A PREMADE CONFIG OF FZF WITH DEV ICONS ETC.
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_command = 'bat --color=always --plain {-1}'
-" https://github.com/yuki-ycino/fzf-preview.vim/blob/master/README.md
 
 "############UNDER TESTING############
 "SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
 "COLOURS
 autocmd! FileType c,cpp,java,php call CSyntaxAfter()
-
 
 
 "==============================END CONFIGS=======================================
@@ -202,12 +171,6 @@ let mapleader = "\<Space>"
 
 
 "
-"Go to start and end of line quick!
-"nmap e $ use shift+A and shift+S instead :)
-"nmap s 0
-"nmap ; : RETIRING - when I used the f and t commands - we can cycle through
-"with , and ; so we need to remove out semi colon mapping
-"NO MORE SHIFT KEY :D
 
 
 "Speeding up auto correction toggle for my uni lectures
@@ -219,9 +182,14 @@ cnoreabbrev spelloff  DisableAutocorrect
 "Clear highlights quick!
 nnoremap <silent><leader>c :nohlsearch<cr>
 
+"FORMATTERS
 "Remove indents from code! (a simple code formatter)
-nnoremap <silent><leader>f gg=G
+nnoremap <silent><leader>i gg=G
+"Run Neoformat
+nnoremap <silent><leader>F :Neoformat<CR>
 
+
+"FIND AND REPLACE
 "Replace/Delete words quick! ONE BY ONE
 "nnoremap ,x *``cgn
 nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
@@ -236,13 +204,13 @@ imap jj <ESC>
 "Remove superfluous whitespaces with leader W (as in the shift-w big W)
 "We user <leader>w elsewhere to move between windows quick
 nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
-    \ :let _s=@/ <Bar>
-    \ :%s/\s\+$//e <Bar>
-    \ :let @/=_s <Bar>
-    \ :nohl <Bar>
-    \ :unlet _s<Bar>
-    \ :call setpos('.', _save_pos)<Bar>
-    \ :unlet _save_pos<CR><CR>
+                        \ :let _s=@/ <Bar>
+                        \ :%s/\s\+$//e <Bar>
+                        \ :let @/=_s <Bar>
+                        \ :nohl <Bar>
+                        \ :unlet _s<Bar>
+                        \ :call setpos('.', _save_pos)<Bar>
+                        \ :unlet _save_pos<CR><CR>
 
 "NOTE: Mapped iTERM2 CMD+/ to ++ so we can overload the vim + function
 "already there
@@ -254,9 +222,9 @@ nnoremap <silent> <Leader>h :History<CR>
 "Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
 "FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
 "leader-s for SEARCH
-nnoremap <silent> <Leader>s :RG<CR>
+nnoremap <silent> <Leader>f :RG<CR>
 
-"leader-b for BUFFER LIST (shoq buffers)
+"leader-b for BUFFER LIST (show buffers)
 "leader-s for SPLIT CYCLING (cycle current windows)
 nnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <leader>w <C-w>w
@@ -269,10 +237,6 @@ vmap <silent><Leader><Leader> <Plug>FzmVisual
 
 nmap <Leader>n :NERDTreeToggle<cr>
 
-"NETRW MAPPINGS - Lex opens and does not close, vex opens and closes when you
-"open file
-"nmap <Leader>n :Lex<cr> AUG2020 - Moving back to nerdtree as our file split
-"function is not working with netrw it seems to load not as a split?
 
 
 "Resize our splits with <leader> +/- easily
@@ -294,17 +258,6 @@ nmap <silent><leader>e :CocCommand explorer<CR>
 
 
 
-" Copy to clipboard -- RETIRED, just remember "+y
-"vnoremap  <leader>y  "+y
-"nnoremap  <leader>Y  "+yg_
-"nnoremap  <leader>y  "+y
-"nnoremap  <leader>yy  "+yy
-
-" " Paste from clipboard
-"nnoremap <leader>p "+p
-"nnoremap <leader>P "+P
-"vnoremap <leader>p "+p
-"vnoremap <leader>P "+P
 "
 "=============================END REMAPPINGS===============================
 "
@@ -314,7 +267,7 @@ nmap <silent><leader>e :CocCommand explorer<CR>
 
 "ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
 if !exists("g:syntax_on")
-    syntax enable
+        syntax enable
 endif
 
 
@@ -322,18 +275,12 @@ endif
 "so we don't need to rely on visual mode as much, try yip or y4y
 "NOTE REQUIRES NVIM V5
 augroup highlight_yank
-    autocmd!
-    autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+        autocmd!
+        autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
 augroup END
 
-function! MyOnBattery()
-  if has('macunix')
-    return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
-  elseif has('unix')
-    return readfile('/sys/class/power_supply/AC/online') == ['0']
-  endif
-  return 0
-endfunction
+
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""EASY WINDOW MANAGEMENT""""""""""""
@@ -341,16 +288,16 @@ endfunction
 "default move between splits with ctrl h j k l
 "IF no split to move to, create a new split
 function! WinMove(key)
-    let t:curwin = winnr()
-    exec "wincmd ".a:key
-    if (t:curwin == winnr())
-        if (match(a:key,'[jk]'))
-            wincmd v
-        else
-            wincmd s
-        endif
+        let t:curwin = winnr()
         exec "wincmd ".a:key
-    endif
+        if (t:curwin == winnr())
+                if (match(a:key,'[jk]'))
+                        wincmd v
+                else
+                        wincmd s
+                endif
+                exec "wincmd ".a:key
+        endif
 endfunction
 
 
@@ -364,13 +311,6 @@ nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""
 
-"retired for now
-"if MyOnBattery()
-  "call neomake#configure#automake('w')
-"else
-  "call neomake#configure#automake('nw', 1000)
-"endif
-"
 "
 "============================END FUNCTIONS CONFIG=======================
 "
@@ -379,12 +319,12 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "
 " Abbreviating INSERT NORMAL etc to just the first character
 let airline_mode_map = {
-    \ '__'      : '_',
-    \ 'c'       : 'C',
-    \ 'i'       : 'I',
-    \ 'v'       : 'V',
-    \ 'n'      : 'N',
-    \ }
+                        \ '__'      : '_',
+                        \ 'c'       : 'C',
+                        \ 'i'       : 'I',
+                        \ 'v'       : 'V',
+                        \ 'n'      : 'N',
+                        \ }
 
 " remove the filetype part - now it just displays the icon
 let g:airline_section_x =''
@@ -399,9 +339,9 @@ let g:airline_section_z = "%p%%  \ue0a1 %l/%L  \ue0a3 %c"
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'conflicts' ]
 "Shorten 'words' to 'w' for wordcount
-"let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
-"let g:airline#extensions#wordcount#format = '%d w'
-"let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
+let g:airline#extensions#wordcount#format = '%d w'
+let g:airline#extensions#wordcount#enabled = 1
 
 "=============================END STATUSLINE CONFIG=================================
 "
@@ -410,40 +350,40 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'c
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
-  " Recently vim can merge signcolumn and number column into one
-  set signcolumn=number
+        " Recently vim can merge signcolumn and number column into one
+        set signcolumn=number
 else
-  set signcolumn=yes
+        set signcolumn=yes
 endif
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
 " other plugin before putting this into your config.
 inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
+                        \ pumvisible() ? "\<C-n>" :
+                        \ <SID>check_back_space() ? "\<TAB>" :
+                        \ coc#refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 " Use <c-space> to trigger completion.
 if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
+        inoremap <silent><expr> <c-space> coc#refresh()
 else
-  inoremap <silent><expr> <c-@> coc#refresh()
+        inoremap <silent><expr> <c-@> coc#refresh()
 endif
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
 " position. Coc only does snippet and additional edit on confirm.
 " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
 if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+        inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 endif
 
 " Use `[g` and `]g` to navigate diagnostics
@@ -461,11 +401,11 @@ nmap <silent> gr <Plug>(coc-references)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
+        if (index(['vim','help'], &filetype) >= 0)
+                execute 'h '.expand('<cword>')
+        else
+                call CocAction('doHover')
+        endif
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
@@ -488,11 +428,6 @@ nmap <leader>rn <Plug>(coc-rename)
 "Part of prettier recommended configs
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-"FORMAT WITH <leader>F easily
-"I.E space+CAPTITAL F (we have a normal code formatter elsewhere for java etc)
-"vmap <leader>F  :Prettier<CR>
-"nmap <leader>F  :Prettier<CR>
-"
 "NOTE -- SET Prettier languages with :CocConfig
 "Prettier seems to format java okay which is neat :)
 "
@@ -504,30 +439,30 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 "==========================START FZF CONFIGS=============================
 "
 "WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
-let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
+"let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
+let $FZF_DEFAULT_OPTS="--layout=reverse --margin=1,4 --preview-window 'right:60%'"
 "FZF CONFIGS
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
-let g:fzf_preview_window = 'right:60%'
+"let g:fzf_preview_window = 'right:60%'
 let g:fzf_history_dir = '~/.local/share/fzf-history'
-"let g:fzf_layout = "reverse"
 "Enabling :find to search entire current directory of project you are working in using recursion
 set path+=**
 "Shows file preview in files search etc
 let g:fzf_files_options =
-  \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+                        \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
 "Allows us to ignore files with fzf
 "WE HAVE SET RIPGREP AS OUR GREP PROVIDER - FASTEST GREP IN THE WEST
 let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor}/*"'
 "command! -bang -nargs=? -complete=dir Files
- ""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
- command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline', '--layout=reverse']}), <bang>0)
+command! -bang -nargs=? -complete=dir Files
+                        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline', '--layout=reverse']}), <bang>0)
 
- " The query history for this command will be stored as 'ls' inside g:fzf_history_dir.
+" The query history for this command will be stored as 'ls' inside g:fzf_history_dir.
 " The name is ignored if g:fzf_history_dir is not defined.
 command! -bang -complete=dir -nargs=* LS
-    \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
+                        \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
 
 "capital letter command fzf execute "FZF"
 "The below works beautifully!
@@ -545,20 +480,20 @@ cnoreabbrev fzf FZF
 "This fn replaces grep with Ripgrep, so we can do better search and replace.
 "Also prevents searching .git files and some other sane defaults
 if executable('rg')
-  set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+        set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 endif
 
-  "let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+"let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
 
 "RIPGREP CONFIG - Prevent :Rg searching files, we want to search within files
 "only. We have FZF :Files to search for files
 "
 function! RipgrepFzf(query, fullscreen)
-  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-  let initial_command = printf(command_fmt, shellescape(a:query))
-  let reload_command = printf(command_fmt, '{q}')
-  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+        let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+        let initial_command = printf(command_fmt, shellescape(a:query))
+        let reload_command = printf(command_fmt, '{q}')
+        let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+        call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
 endfunction
 "NOTE NEED TO MAP TO NEW COMMAND "RG" instead of "Rg"
 command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
@@ -579,8 +514,111 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "
 "
 "==========================END RIPGREP CONFIGS=============================
-map <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(systemlist("cd " . shellescape(fnamemodify(resolve(expand('%:p')), ":h")) . " && git log --no-merges -n 1 -L " . shellescape(line("v") . "," . line(".") . ":" . resolve(expand("%:p")))), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
+"
+"
 "
 "===============================END VIM CONFIG=================================
 "
 "
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"
+"===============================RETIRED CODE==================================
+"
+"
+"
+"
+"Removed because I ended up just configuring fzf myself before I even got into
+"using this plugin
+"=========
+""UNDER TESTING -- FZF PREVIEW VIM AS REPLACEMENT FOR FZF VIM, ITS S SUPER UP
+"VERSION, BASICALLY A PREMADE CONFIG OF FZF WITH DEV ICONS ETC.
+"let g:fzf_preview_use_dev_icons = 1
+"let g:fzf_preview_command = 'bat --color=always --plain {-1}'
+" https://github.com/yuki-ycino/fzf-preview.vim/blob/master/README.md
+"========
+
+
+
+
+
+" Copy to clipboard -- RETIRED, just remember "+y
+" ========
+"vnoremap  <leader>y  "+y
+"nnoremap  <leader>Y  "+yg_
+"nnoremap  <leader>y  "+y
+"nnoremap  <leader>yy  "+yy
+
+" " Paste from clipboard
+"nnoremap <leader>p "+p
+"nnoremap <leader>P "+P
+"vnoremap <leader>p "+p
+"vnoremap <leader>P "+P
+"========
+"
+"
+"
+"
+"Using fuzzy search mostly now..
+"======
+"NETRW MAPPINGS - Lex opens and does not close, vex opens and closes when you
+"open file
+"nmap <Leader>n :Lex<cr> AUG2020 - Moving back to nerdtree as our file split
+"function is not working with netrw it seems to load not as a split?
+"NETRW CONFIGS
+"SET NETRW SIZE
+"let g:netrw_winsize=22
+"NETRW commands :Lex :Vex: Sex
+"======
+"
+"
+"
+"
+"This just got annoying to look at and use auto white trimmer now anyways
+"=============
+"Highlight whitespaces in white so I can easily find and remove them
+"use :help highlight to find highlight groups like one used below
+"match StatusLineNC /\s\+$/
+"======
+
+
+"Lame ass remaps from my early vim days :)
+"=============
+"Go to start and end of line quick!
+"nmap e $ use shift+A and shift+S instead :)
+"nmap s 0
+"nmap ; : RETIRING - when I used the f and t commands - we can cycle through
+"with , and ; so we need to remove out semi colon mapping
+"NO MORE SHIFT KEY :D
+"=================
+"
+"
+"
+"===============RETIRED BUT SAVE THIS FOR LATER===============
+"Great function to save power when on battery if needed
+"function! MyOnBattery()
+"        if has('macunix')
+"                return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
+"        elseif has('unix')
+"                return readfile('/sys/class/power_supply/AC/online') == ['0']
+"        endif
+"        return 0
+"endfunction
+
+"if MyOnBattery()
+  "call neomake#configure#automake('w')
+"else
+  "call neomake#configure#automake('nw', 1000)
+"endif
+"==========================================================
