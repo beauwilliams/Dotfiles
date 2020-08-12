@@ -1,39 +1,51 @@
-"============================START MY PLUGINS===============================
+" ===========================START MY PLUGINS===============================
 "
 "
 if &compatible
-  set nocompatible               " Using vim-plug
+  set nocompatible " Using vim-plug we must set not compatible with old vim
 endif
+
+
 " Plugins will be downloaded under the specified directory.
 call plug#begin('~/.vim/plugged')
-" Gruvbox Theme
+
+"THEME/UX
 Plug 'gruvbox-community/gruvbox'
-Plug 'https://github.com/noscript/cSyntaxAfter' "UNDER TESTING
-" Use release branch (Recommend)
+Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
+Plug 'ryanoasis/vim-devicons'
+Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
+Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
+Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
+
 " COC PLUGS
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 "END COC PLUGS -- Note as of 8/20 - COC supports installing extensions via
 "plugs -- we will migrate to this over time easier for automation this way
-Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
-Plug 'w0rp/ale'
+"
+"
+"FILE NAV
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'laher/fuzzymenu.vim'
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+Plug 'junegunn/fzf.vim' "FUZZY FINDER
+Plug 'laher/fuzzymenu.vim' "HELP MENU FOR FF
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
 Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
+
+"LANG PLUGS
 Plug 'rust-lang/rust.vim'
 Plug 'uiiaoo/java-syntax.vim'
-Plug 'ryanoasis/vim-devicons'
-Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
-"Replaced with coc-highlight Plug 'ap/vim-css-color' "shows colours when editing css files
-" List ends here. Plugins become visible to Vim after this call.
-Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
-let g:airline_theme='gruvbox' "copies vim colours
-Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
-Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set the theme, e.g. :AirlineTheme simple CURRENTLY USING
+Plug 'sbdchd/neoformat'
+Plug 'w0rp/ale' "provides errors in the gutter and linting
+
+
+"GIT PLUGINS
 Plug 'airblade/vim-gitgutter' "Git diff gutter
 Plug 'rhysd/git-messenger.vim' "leader-gm to GIT BLAME i.e who wrote that code commit info
+Plug 'tpope/vim-fugitive'
+
+"OTHER
+Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
 call plug#end()
 
 "============================START MY CONFIGS===============================
@@ -42,7 +54,6 @@ call plug#end()
 "BEAU CONFIGS
 set autoindent "enable auto-indentation"
 set smartindent  " smart  autoindent (e.g. add indent after '{')
-"syntax on  "enable syntax highlighting
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting tab to 4 spaces"
@@ -71,17 +82,14 @@ set wildmode=list,full
 " delays and poor user experience.
 set updatetime=50
 
-
 "THEME CONFIG
-syntax enable
 set background=dark
 let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark="soft" " lightens up gruvbox, too dark otherwise
 set termguicolors "enabling terminal color support
 set t_Co=256 "enabling 256 color support
 colorscheme gruvbox
-"let g:solarized_termcolors=256
-"let g:rehash256 = 1 "enabling 256 support for molokai
+let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 
 
 "==========================CONFIGS UNDER TESTING=============================
@@ -99,41 +107,31 @@ endfun
 
 autocmd BufWritePre * :call TrimWhitespace()
 
-let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout reverse --margin=1,4 --preview 'bat --color=always --style=header,grid --line-range :300 {}'"
-"FZF CONFIGS
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
-"Enabling :find to search entire current directory of project you are working in using recursion
-set path+=**
-"Shows file preview in files search etc
-let g:fzf_files_options =
-  \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
-"Allows us to ignore files with fzf
-let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden -g "!{.git,node_modules,vendor}/*"'
-command! -bang -nargs=? -complete=dir Files
-     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
 
 
 " share system clipboard but also retain nvim clipboard (see += compared
 "to just =) essentially instead of overwriting we are appending to a list of
 "copied things to the clipboard
 set clipboard+=unnamed
+
+
+
+"SET RELATIVE LINE NUMBERS IN RULER
 set relativenumber
 
-"RIPGREP CONFIG - Prevent :Rg searching files, we want to search within files
-"only. We have FXF :Files to search for files
-command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
-"This replaces grep with Ripgrep, so we can do better search and replace.
-"Otherwise we would have to search recursively each time like so :grep \"test" . -R
-"Now we can just do :grep \"test" and we get a recursive search
-set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-"SEARCH AND REPLACE IN MULTIPLE FILES -- All we have to do is be in a file with the string to
-"replace and do this
-":grep \"string" -- if we arent in file with string to replace yet
-":cfdo %s/test/success/g | update -- all we need to do is pipe the result of
-"the first find and replace to :update and it will save the file for us then
-"ripgrep recursively does the rest automatically as we have set it up to work
-"that way
-"NOTE - We can also F&R multiple open files only using buffers like so -- :bufdo %s/pizza/donut/g | update
+"ENABLE BUFFERS TO HIDE - PREVENTS ERROR:
+"E37: No write since last change (add ! to override)
+"When opening a new buffer before saving current one
+"set hidden
+
+
+
+
+
+
+
+
 "TESTING https://github.com/ycm-core/YouCompleteMe/issues/560
 "let g:ycm_collect_identifiers_from_tags_files = 1
 
@@ -143,8 +141,53 @@ set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 
 "NETRW CONFIGS
 "SET NETRW SIZE
-let g:netrw_winsize=22
+"let g:netrw_winsize=22
 "NETRW commands :Lex :Vex: Sex
+"
+"------AUTO RESIZING WINDOWS----------
+"
+"UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
+" From https://github.com/knubie/dotfiles/blob/fe7967f875945e54d49fc672f575c47691a1e4cc/.vimrc#L136
+augroup ReduceNoise
+    autocmd!
+    " Automatically resize active split to 85 width
+    autocmd WinEnter * :call ResizeSplits()
+
+    autocmd WinEnter * setlocal cursorline
+    autocmd WinEnter * setlocal signcolumn=auto
+
+    autocmd WinLeave * setlocal nocursorline
+    autocmd WinLeave * setlocal signcolumn=no
+
+augroup END
+
+function! ResizeSplits()
+    if &ft == 'nerdtree'
+        return
+    elseif &ft == 'qf'
+        " Always set quickfix list to a height of 10
+        resize 10
+        return
+    else
+        set winwidth=120
+        wincmd =
+    endif
+endfunction
+
+"-----------------------------------------
+
+"UNDER TESTING -- FZF PREVIEW VIM AS REPLACEMENT FOR FZF VIM, ITS S SUPER UP
+"VERSION, BASICALLY A PREMADE CONFIG OF FZF WITH DEV ICONS ETC.
+let g:fzf_preview_use_dev_icons = 1
+let g:fzf_preview_command = 'bat --color=always --plain {-1}'
+" https://github.com/yuki-ycino/fzf-preview.vim/blob/master/README.md
+
+"############UNDER TESTING############
+"SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
+"COLOURS
+autocmd! FileType c,cpp,java,php call CSyntaxAfter()
+
+
 
 "==============================END CONFIGS=======================================
 "
@@ -154,20 +197,19 @@ let g:netrw_winsize=22
 "
 "=============================START REMAPS========================================
 
-"LEADER KEY
+"LEADER KEY IS THE SPACE BAR
 let mapleader = "\<Space>"
 
+
+"
 "Go to start and end of line quick!
 "nmap e $ use shift+A and shift+S instead :)
 "nmap s 0
 "nmap ; : RETIRING - when I used the f and t commands - we can cycle through
 "with , and ; so we need to remove out semi colon mapping
 "NO MORE SHIFT KEY :D
-"Using this will give you an error, user defnd cmds in vim must start with
-"capital letter command fzf execute "FZF"
-"The below works beautifully!
-cnoreabbrev fzf FZF
-"
+
+
 "Speeding up auto correction toggle for my uni lectures
 "Note plgn is Vim-you-autocorrect
 cnoreabbrev spellon EnableAutocorrect
@@ -176,17 +218,24 @@ cnoreabbrev spelloff  DisableAutocorrect
 
 "Clear highlights quick!
 nnoremap <silent><leader>c :nohlsearch<cr>
-"Replace/Delete words quick!
+
+"Remove indents from code! (a simple code formatter)
+nnoremap <silent><leader>f gg=G
+
+"Replace/Delete words quick! ONE BY ONE
 "nnoremap ,x *``cgn
 nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
 nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
 nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
+
+"jj to escape quick yo
 imap jj <ESC>
 
-"Remove superfluous whitespaces with leader W
-nnoremap <leader>w :let _save_pos=getpos(".") <Bar>
+"Remove superfluous whitespaces with leader W (as in the shift-w big W)
+"We user <leader>w elsewhere to move between windows quick
+nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
     \ :let _s=@/ <Bar>
     \ :%s/\s\+$//e <Bar>
     \ :let @/=_s <Bar>
@@ -199,8 +248,21 @@ nnoremap <leader>w :let _save_pos=getpos(".") <Bar>
 "already there
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-nmap <silent><Leader>p :Files<cr>
-vmap <silent><Leader>p :Files<cr>
+nnoremap <silent><Leader>p :Files<cr>
+nnoremap <silent> <Leader>h :History<CR>
+
+"Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
+"FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
+"leader-s for SEARCH
+nnoremap <silent> <Leader>s :RG<CR>
+
+"leader-b for BUFFER LIST (shoq buffers)
+"leader-s for SPLIT CYCLING (cycle current windows)
+nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <leader>w <C-w>w
+
+
+
 "Fuzzymenu Mappings
 nmap <silent><Leader><Leader> <Plug>Fzm
 vmap <silent><Leader><Leader> <Plug>FzmVisual
@@ -213,20 +275,24 @@ nmap <Leader>n :NERDTreeToggle<cr>
 "function is not working with netrw it seems to load not as a split?
 
 
-"Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
-nnoremap <silent> <Leader>f :Rg<CR>
+"Resize our splits with <leader> +/- easily
+nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <leader>. :vertical resize -10<CR>
+nnoremap <silent> <leader>, :vertical resize +10<CR>
 
+
+"Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
+"NOW WE CAN INCLUDE OUR VIM ;)
 
 "==========================MAPPINGS UNDER TESING=============================
 
 "Lets see what all this hype is about.. the CHAD of file tree viewers, CHADtree
+"Get out of here NERDS
 nnoremap <silent><leader>v <cmd>CHADopen<cr>
 nmap <silent><leader>e :CocCommand explorer<CR>
 
 
-"Show git commit that introduced line after cursor, bit like GIT BLAME
-nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
-"
 
 " Copy to clipboard -- RETIRED, just remember "+y
 "vnoremap  <leader>y  "+y
@@ -244,9 +310,17 @@ nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git
 "
 "
 "============================BEGIN FUNCTIONS CONFIG=======================
-"
+
+
+"ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
+if !exists("g:syntax_on")
+    syntax enable
+endif
+
+
 "self descriptive -- highlights yanked text for a little extra visual feedback
 "so we don't need to rely on visual mode as much, try yip or y4y
+"NOTE REQUIRES NVIM V5
 augroup highlight_yank
     autocmd!
     autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
@@ -261,6 +335,9 @@ function! MyOnBattery()
   return 0
 endfunction
 
+""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""EASY WINDOW MANAGEMENT""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""
 "default move between splits with ctrl h j k l
 "IF no split to move to, create a new split
 function! WinMove(key)
@@ -276,21 +353,23 @@ function! WinMove(key)
     endif
 endfunction
 
-nnoremap <silent> <leader>h :call WinMove('h')<CR>
-nnoremap <silent> <leader>j :call WinMove('j')<CR>
-nnoremap <silent> <leader>k :call WinMove('k')<CR>
-nnoremap <silent> <leader>l :call WinMove('l')<CR>
 
+"MOVE BETWEEN WINDOWS SUPER QUICK
+"OPEN NEW WINDOWS IF NO WINDOWS EXIST,
+"SORTA LIKE WE HAVE OVERLOADED IT :P
+"Just space-hjkl
+nnoremap <silent><leader>h :call WinMove('h')<CR>
+nnoremap <silent><leader>j :call WinMove('j')<CR>
+nnoremap <silent><leader>k :call WinMove('k')<CR>
+nnoremap <silent><leader>l :call WinMove('l')<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""
+
+"retired for now
 "if MyOnBattery()
   "call neomake#configure#automake('w')
 "else
   "call neomake#configure#automake('nw', 1000)
 "endif
-"
-"
-"############UNDER TESTING############
-autocmd! FileType c,cpp,java,php call CSyntaxAfter()
-
 "
 "
 "============================END FUNCTIONS CONFIG=======================
@@ -392,7 +471,7 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-" Symbol renaming.
+" Symbol renaming - RENAME / REFACTOR FILES QUICK.
 nmap <leader>rn <Plug>(coc-rename)
 
 
@@ -400,24 +479,107 @@ nmap <leader>rn <Plug>(coc-rename)
 "
 "================================END COC CONFIG=========================
 "
+"
+"
+"
+"
 "================================START PRETTIER CONFIG=========================
 "
-"
+"Part of prettier recommended configs
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
-vmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
+"FORMAT WITH <leader>F easily
+"I.E space+CAPTITAL F (we have a normal code formatter elsewhere for java etc)
+"vmap <leader>F  :Prettier<CR>
+"nmap <leader>F  :Prettier<CR>
 "
 "NOTE -- SET Prettier languages with :CocConfig
+"Prettier seems to format java okay which is neat :)
 "
 "
 "================================END PRETTIER CONFIG=========================
 "
-"UNDER TESTING
-let g:fzf_preview_use_dev_icons = 1
-let g:fzf_preview_command = 'bat --color=always --plain {-1}'
-" https://github.com/yuki-ycino/fzf-preview.vim/blob/master/README.md
 "
+"
+"==========================START FZF CONFIGS=============================
+"
+"WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
+let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
+"FZF CONFIGS
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
+let g:fzf_preview_window = 'right:60%'
+let g:fzf_history_dir = '~/.local/share/fzf-history'
+"let g:fzf_layout = "reverse"
+"Enabling :find to search entire current directory of project you are working in using recursion
+set path+=**
+"Shows file preview in files search etc
+let g:fzf_files_options =
+  \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+"Allows us to ignore files with fzf
+"WE HAVE SET RIPGREP AS OUR GREP PROVIDER - FASTEST GREP IN THE WEST
+let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor}/*"'
+"command! -bang -nargs=? -complete=dir Files
+ ""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+ command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline', '--layout=reverse']}), <bang>0)
+
+ " The query history for this command will be stored as 'ls' inside g:fzf_history_dir.
+" The name is ignored if g:fzf_history_dir is not defined.
+command! -bang -complete=dir -nargs=* LS
+    \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
+
+"capital letter command fzf execute "FZF"
+"The below works beautifully!
+cnoreabbrev fzf FZF
+
+"==========================END FZF CONFIGS=============================
+"
+"
+"
+"
+"==========================START RIPGREP CONFIGS=============================
+"
+"
+"
+"This fn replaces grep with Ripgrep, so we can do better search and replace.
+"Also prevents searching .git files and some other sane defaults
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --smart-case\ --follow
+endif
+
+  "let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
+
+"RIPGREP CONFIG - Prevent :Rg searching files, we want to search within files
+"only. We have FZF :Files to search for files
+"
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+"NOTE NEED TO MAP TO NEW COMMAND "RG" instead of "Rg"
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
+"
+"
+"HOW TO SEARCH AND REPLACE IN MULTIPLE FILES --
+"All we have to do is be in a file with the string to replace and do this
+":grep \"string" -- if we arent in file with string to replace yet
+":cfdo %s/test/success/g | update -- all we need to do is pipe the result of
+"the first find and replace to :update and it will save the file for us then
+"ripgrep recursively does the rest automatically as we have set it up to work
+"that way
+"NOTE - We can also F&R multiple open files only using buffers like so -- :bufdo %s/pizza/donut/g | update
+
+"WHY RIPGREP MAKES OUR LIFE EASIER
+"Otherwise we would have to search recursively each time like so :grep \"test" . -R
+"Now we can just do :grep \"test" and we get a recursive search
+"
+"
+"==========================END RIPGREP CONFIGS=============================
+map <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(systemlist("cd " . shellescape(fnamemodify(resolve(expand('%:p')), ":h")) . " && git log --no-merges -n 1 -L " . shellescape(line("v") . "," . line(".") . ":" . resolve(expand("%:p")))), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
 "
 "===============================END VIM CONFIG=================================
 "
