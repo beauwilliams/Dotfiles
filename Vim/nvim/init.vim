@@ -74,6 +74,7 @@ set wildmode=list,full "Displays a handy list of commands we can tab thru"
 set updatetime=50 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience. - some dude on the internet (not my idea)
 
+try
 "THEME CONFIG
 set background=dark
 let g:gruvbox_italic=1
@@ -83,6 +84,9 @@ set t_Co=256 "enabling 256 color support
 colorscheme gruvbox
 let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 
+catch
+  echo 'Gruvbox not installed. It should work after running :PlugInstall'
+endtry
 
 "==========================CONFIGS UNDER TESTING=============================
 "
@@ -158,6 +162,8 @@ endfunction
 autocmd! FileType c,cpp,java,php call CSyntaxAfter()
 
 
+
+command! -range GB echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
 "==============================END CONFIGS=======================================
 "
 "
@@ -212,12 +218,11 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
                         \ :call setpos('.', _save_pos)<Bar>
                         \ :unlet _save_pos<CR><CR>
 
-"NOTE: Mapped iTERM2 CMD+/ to ++ so we can overload the vim + function
-"already there
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
 nnoremap <silent><Leader>p :Files<cr>
 nnoremap <silent> <Leader>h :History<CR>
+nnoremap <silent> <Leader>gg :GitFiles<CR>
 
 "Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
 "FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
@@ -235,6 +240,7 @@ nnoremap <silent> <leader>w <C-w>w
 nmap <silent><Leader><Leader> <Plug>Fzm
 vmap <silent><Leader><Leader> <Plug>FzmVisual
 
+"File Tree Mappings
 nmap <Leader>n :NERDTreeToggle<cr>
 
 
@@ -247,7 +253,8 @@ nnoremap <silent> <leader>, :vertical resize +10<CR>
 
 
 "Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
-"NOW WE CAN INCLUDE OUR VIM ;)
+"NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
+nnoremap <silent><leader>gb :GitMessenger<CR>
 
 "==========================MAPPINGS UNDER TESING=============================
 
@@ -316,7 +323,11 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "
 "
 "============================BEGIN STATUSLINE CONFIG=======================
-"
+" Wrap in try/catch to avoid errors on initial install before plugin is available
+try
+
+
+
 " Abbreviating INSERT NORMAL etc to just the first character
 let airline_mode_map = {
                         \ '__'      : '_',
@@ -342,7 +353,16 @@ let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'c
 let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
 let g:airline#extensions#wordcount#format = '%d w'
 let g:airline#extensions#wordcount#enabled = 1
+" Enable caching of syntax highlighting groups
+let g:airline_highlighting_cache = 1
+let g:airline_powerline_fonts = 1
+"let g:airline_extensions = ['branch', 'hunks', 'coc']
+" Smartly uniquify buffers names with similar filename, suppressing common parts of paths.
+"let g:airline#extensions#tabline#formatter = 'unique_tail'
 
+catch
+  echo 'Airline not installed. It should work after running :PlugInstall'
+endtry
 "=============================END STATUSLINE CONFIG=================================
 "
 "================================BEGIN COC CONFIG=========================
@@ -437,6 +457,11 @@ command! -nargs=0 Prettier :CocCommand prettier.formatFile
 "
 "
 "==========================START FZF CONFIGS=============================
+
+" Wrap in try/catch to avoid errors on initial install before plugin is available
+try
+"
+"
 "
 "WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
 "let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
@@ -467,6 +492,11 @@ command! -bang -complete=dir -nargs=* LS
 "capital letter command fzf execute "FZF"
 "The below works beautifully!
 cnoreabbrev fzf FZF
+
+
+catch
+  echo 'FZF not installed. It should work after running :PlugInstall'
+endtry
 
 "==========================END FZF CONFIGS=============================
 "
