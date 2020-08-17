@@ -135,11 +135,6 @@ set relativenumber
 "When opening a new buffer before saving current one
 set hidden
 
-
-"Testing to see if it helps speed up sshfs editing
-"WHY IS NEO NOT FULLY ASYNC YET :(
-set noshowcmd
-
 "
 "------AUTO RESIZING WINDOWS----------
 "
