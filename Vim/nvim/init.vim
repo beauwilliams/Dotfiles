@@ -1,5 +1,8 @@
 " ===========================START MY PLUGINS===============================
 "
+let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
+"have tested that I get better performance over sshfs with this on
+"We need to set it before we load our plugins
 "
 if &compatible
         set nocompatible " Using vim-plug we must set not compatible with old vim
@@ -11,17 +14,25 @@ call plug#begin('~/.vim/plugged')
 
 "THEME/UX
 Plug 'gruvbox-community/gruvbox'
-Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
-Plug 'ryanoasis/vim-devicons'
 Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
 Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
+Plug 'ryanoasis/vim-devicons' "NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
+"Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
+
+"LANG PLUGS
+Plug 'rust-lang/rust.vim'
+Plug 'uiiaoo/java-syntax.vim'
+Plug 'sbdchd/neoformat'
+Plug 'w0rp/ale' "provides errors in the gutter and linting
+Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
 
 " COC PLUGS
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
 "END COC PLUGS -- Note as of 8/20 - COC supports installing extensions via
 "plugs -- we will migrate to this over time easier for automation this way
+"Although we lose :CocUpdate functionality.. hmm..
 "
 "
 "FILE NAV
@@ -29,13 +40,9 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' "FUZZY FINDER
 Plug 'laher/fuzzymenu.vim' "HELP MENU FOR FF
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
-Plug 'ms-jpq/chadtree', {'branch': 'chad', 'do': ':UpdateRemotePlugins'}
 
-"LANG PLUGS
-Plug 'rust-lang/rust.vim'
-Plug 'uiiaoo/java-syntax.vim'
-Plug 'sbdchd/neoformat'
-Plug 'w0rp/ale' "provides errors in the gutter and linting
+"WORKFLOW MGMT
+Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
 
 
 "GIT PLUGINS
@@ -46,19 +53,23 @@ Plug 'tpope/vim-fugitive'
 "OTHER
 Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
+Plug 'Yggdroot/indentLine' "Code indentations marks
+Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
+
 call plug#end()
 
 "============================START MY CONFIGS===============================
 "
 "
 "BEAU CONFIGS
-set autoindent "enable auto-indentation"
-set smartindent  " smart  autoindent (e.g. add indent after '{')
+filetype plugin indent on "Indent and stuff based on ft
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
-set tabstop=4 "setting tab to 4 spaces"
+set tabstop=4 "setting auto indent to 4 spaces"
+set shiftwidth=4 "when we hit tab it moves 4 spaces
 set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
 set cursorline "enable line under cursor"
+set shortmess=a "shorten message lengths in cmd bar
 set incsearch "search as characters are entered"
 set hlsearch "highlight matches"
 set ignorecase "ignore cases when searching
@@ -68,6 +79,9 @@ set scrolloff=5 "Set the cursor 5 lines down instead of at the top
 set undofile "Keeps undo history even after we close a file
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
 set showmatch "match opening and closing braces
+set noshowmode "turns of the INSERT.. etc mode text at very bottom
+set shortmess+=F  " to get rid of the file name displayed in the command line bar
+set history=200 "keep 200 hungy commands in the stash
 set lazyredraw "hopefully this speeds up vim!
 set wildmenu "enhanced tab completion for vim command bar
 set wildmode=list,full "Displays a handy list of commands we can tab thru"
@@ -82,7 +96,6 @@ let g:gruvbox_contrast_dark="soft" " lightens up gruvbox, too dark otherwise
 set termguicolors "enabling terminal color support
 set t_Co=256 "enabling 256 color support
 colorscheme gruvbox
-let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 
 catch
   echo 'Gruvbox not installed. It should work after running :PlugInstall'
@@ -90,7 +103,8 @@ endtry
 
 "==========================CONFIGS UNDER TESTING=============================
 "
-"
+
+
 "set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 "This kind of makes workflows annoying where it screws up fzf if i enter a
 "file within a tree, I cant get back to files at the root
@@ -121,6 +135,10 @@ set relativenumber
 "When opening a new buffer before saving current one
 set hidden
 
+
+"Testing to see if it helps speed up sshfs editing
+"WHY IS NEO NOT FULLY ASYNC YET :(
+set noshowcmd
 
 "
 "------AUTO RESIZING WINDOWS----------
@@ -153,17 +171,87 @@ function! ResizeSplits()
         endif
 endfunction
 
+
+"AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
+"We will set $MYVIMRC later on..
+autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+
+"Auto make out C files on save
+"autocmd BufWrite *.c make
+
 "-----------------------------------------
 
 
 "############UNDER TESTING############
 "SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
 "COLOURS
-autocmd! FileType c,cpp,java,php call CSyntaxAfter()
+"autocmd! FileType .c,.cpp,.java,.php call CSyntaxAfter()
+
+"if exists("*CSyntaxAfter")
+        "call CSyntaxAfter()
+     "endif
 
 
-
+"LEAN GIT BLAME OUTPUT IN COMMAND BAR
 command! -range GB echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
+
+
+"##########SOMETIMES WE GET SPECS IN PDF FORM FOR CLASS############
+"##### I LIKE TO KEEP THE SPECS FILE WITH MY CODE#################
+"######WE HAVE AN AUTOFUNC HERE SO THAT WE CAN QUICKLY OPEN######
+"######PDF's ETC IN DEFUALT APPLICATION INSTEAD OF OPENING ########
+"########## THE FILE AND GIVING A GARBLED OUTPUT###################
+"
+augroup nonvim
+   au!
+   au BufRead *.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft
+augroup end
+
+
+"INDENTATION TESTING
+"Ref here: https://www.reddit.com/r/vim/wiki/vimrctips#wiki_do_not_use_smartindent
+"Decided to turn of 'smartindent' which I had set up for ages
+"As it seems might not be a good default nowadays
+set autoindent "enable auto-indentation"
+"set smartindent  " smart  autoindent (e.g. add indent after '{')
+"
+"INDENT GUIDES
+try
+    let g:indentLine_char = '│'
+catch
+    echo "indentline not installed"
+endtry
+"
+"
+"
+"AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
+"SAVES A LOT OF MKDIR COMMANDS :)
+function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            call mkdir(dir, 'p')
+        endif
+    endif
+endfunction
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
+
+
+"ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <M-[> <Esc>
+  tnoremap <C-v><Esc> <Esc>
+endif
+
+
+
+
+"
+"
 "==============================END CONFIGS=======================================
 "
 "
@@ -186,7 +274,7 @@ cnoreabbrev spelloff  DisableAutocorrect
 
 
 "Clear highlights quick!
-nnoremap <silent><leader>c :nohlsearch<cr>
+noremap <silent><leader>c :nohlsearch<cr>
 
 "FORMATTERS
 "Remove indents from code! (a simple code formatter)
@@ -205,6 +293,11 @@ nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
 
 "jj to escape quick yo
+"turns out there arent many words with jj in them
+"so its okay if we steal it
+"if you really need to type a word with jj in it
+"just type it slowly
+"this also has a bonus side effect of keeping ur hands on hjkl
 imap jj <ESC>
 
 "Remove superfluous whitespaces with leader W (as in the shift-w big W)
@@ -221,7 +314,8 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
 nnoremap <silent><Leader>p :Files<cr>
-nnoremap <silent> <Leader>h :History<CR>
+"SHIFT-P for file history
+nnoremap <silent> <Leader>P :History<CR>
 nnoremap <silent> <Leader>gg :GitFiles<CR>
 
 "Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
@@ -231,17 +325,20 @@ nnoremap <silent> <Leader>f :RG<CR>
 
 "leader-b for BUFFER LIST (show buffers)
 "leader-s for SPLIT CYCLING (cycle current windows)
-nnoremap <silent> <Leader>b :Buffers<CR>
+nnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
 nnoremap <silent> <leader>w <C-w>w
 
 
 
 "Fuzzymenu Mappings
-nmap <silent><Leader><Leader> <Plug>Fzm
-vmap <silent><Leader><Leader> <Plug>FzmVisual
+nmap <silent><Leader>C :Commands<CR>
+vmap <silent><Leader>C :Commands<CR>
 
 "File Tree Mappings
-nmap <Leader>n :NERDTreeToggle<cr>
+nmap <silent><Leader>n :NERDTreeToggle<cr>
+
+"Terminal Window Mappings
+nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
 
 
 
@@ -252,16 +349,21 @@ nnoremap <silent> <leader>. :vertical resize -10<CR>
 nnoremap <silent> <leader>, :vertical resize +10<CR>
 
 
+"SHOW GIT COMMIT / GIT BLAME POPUP
 "Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
 "NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
 nnoremap <silent><leader>gb :GitMessenger<CR>
 
+"QUICK COMMENTING
+"NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
+"already there
+"Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
+nmap <silent> ++ <plug>NERDCommenterToggle
+vmap <silent> ++ <plug>NERDCommenterToggle
+
+
 "==========================MAPPINGS UNDER TESING=============================
 
-"Lets see what all this hype is about.. the CHAD of file tree viewers, CHADtree
-"Get out of here NERDS
-nnoremap <silent><leader>v <cmd>CHADopen<cr>
-nmap <silent><leader>e :CocCommand explorer<CR>
 
 
 
@@ -308,14 +410,41 @@ function! WinMove(key)
 endfunction
 
 
-"MOVE BETWEEN WINDOWS SUPER QUICK
-"OPEN NEW WINDOWS IF NO WINDOWS EXIST,
+"MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
+"OPEN NEW SPLIT IF NO SPLITS EXIST IN THAT POSITION,
 "SORTA LIKE WE HAVE OVERLOADED IT :P
 "Just space-hjkl
 nnoremap <silent><leader>h :call WinMove('h')<CR>
 nnoremap <silent><leader>j :call WinMove('j')<CR>
 nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
+
+"ANOTHER SPLIT MOVEMENT METHOD, USING ALT, NOT SURE WHICH I LIKE MORE
+"This one won't create splits for us though
+"if has('nvim')
+  " Terminal mode:
+  "tnoremap <Leader>h <c-\><c-n><c-w>h
+  "tnoremap <Leader>j <c-\><c-n><c-w>j
+  "tnoremap <Leader>k <c-\><c-n><c-w>k
+  "tnoremap <Leader>l <c-\><c-n><c-w>l
+  "" Insert mode:
+  "inoremap <leader>h <Esc><c-w>h
+  "inoremap <leader>j <Esc><c-w>j
+  "inoremap <leader>k <Esc><c-w>k
+  "inoremap <leader>l <Esc><c-w>l
+  "" Visual mode:
+  "vnoremap <leader>h <Esc><c-w>h
+  "vnoremap <leader>j <Esc><c-w>j
+  "vnoremap <leader>k <Esc><c-w>k
+  "vnoremap <leader>l <Esc><c-w>l
+  "" Normal mode:
+  "nnoremap <leader>h <c-w>h
+  "nnoremap <leader>j <c-w>j
+  "nnoremap <leader>k <c-w>k
+  "nnoremap <leader>l <c-w>l
+"endif
+
+
 """""""""""""""""""""""""""""""""""""""""""""""""
 
 "
@@ -323,10 +452,12 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "
 "
 "============================BEGIN STATUSLINE CONFIG=======================
-" Wrap in try/catch to avoid errors on initial install before plugin is available
+"I wrap these configs in try/catch to avoid errors on initial install before plugin is available
+"Mostly for anyone who uses my dockerfile thats sets up a working nvim env
 try
 
 
+let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 
 " Abbreviating INSERT NORMAL etc to just the first character
 let airline_mode_map = {
@@ -355,10 +486,9 @@ let g:airline#extensions#wordcount#format = '%d w'
 let g:airline#extensions#wordcount#enabled = 1
 " Enable caching of syntax highlighting groups
 let g:airline_highlighting_cache = 1
-let g:airline_powerline_fonts = 1
-"let g:airline_extensions = ['branch', 'hunks', 'coc']
-" Smartly uniquify buffers names with similar filename, suppressing common parts of paths.
-"let g:airline#extensions#tabline#formatter = 'unique_tail'
+
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
 
 catch
   echo 'Airline not installed. It should work after running :PlugInstall'
@@ -366,6 +496,7 @@ endtry
 "=============================END STATUSLINE CONFIG=================================
 "
 "================================BEGIN COC CONFIG=========================
+try
 "
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -434,7 +565,9 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " Symbol renaming - RENAME / REFACTOR FILES QUICK.
 nmap <leader>rn <Plug>(coc-rename)
 
-
+catch
+    echo "COC Not installed"
+endtry
 "
 "
 "================================END COC CONFIG=========================
@@ -477,7 +610,10 @@ let g:fzf_files_options =
                         \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
 "Allows us to ignore files with fzf
 "WE HAVE SET RIPGREP AS OUR GREP PROVIDER - FASTEST GREP IN THE WEST
-let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor}/*"'
+"Note, can only figure out how to ignore folders for now. tried **.classes for
+"java classes sended up blocking the classes folder itself.
+let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"'
+
 "command! -bang -nargs=? -complete=dir Files
 ""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 

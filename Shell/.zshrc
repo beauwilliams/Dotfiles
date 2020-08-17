@@ -130,6 +130,24 @@ prompt_context(){}
 #. /Library/Python/2.7/site-packages/powerline/bindings/zsh/powerline.zsh
 
 
+
+#THEME CONFIG - COLOR LS -- switching back to plain old ls as more portable.
+export CLICOLOR=1
+export CLICOLOR_FORCE=true
+export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+#export LSCOLORS=GxFxCxDxBxegedabagaced
+#export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+#export LSCOLORS=exfxcxdxbxegedabagacad
+
+# Ignore pointless files in filename completion
+export FIGNORE="DS_Store:$FIGNORE"
+export FIGNORE="$FIGNORE:.DS_Store"
+
+# Ignore pointless files when we ls
+#function ll { ls -la $@ | rg -v .DS_Store; }
+
+
+
 #==================END USER CONFIG=======================================
 #
 #
@@ -146,11 +164,11 @@ prompt_context(){}
 alias git-create="hub create"
 
 ###CONFIGS###
-alias vimconfig="vi ~/.vimrc"
-alias zshconfig="vi ~/.zshrc"
+alias vimconfig="nvim ~/.vimrc"
+alias zshconfig="nvim ~/.zshrc"
 alias powerlineconfig="p10k configure"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
-alias sshconfig="vi ~/.ssh/config"
+alias sshconfig="nvim ~/.ssh/config"
 
 
 ###ZSH ###
@@ -159,8 +177,10 @@ alias ohmyzshplugins="cd ~/.oh-my-zsh/custom/plugins"
 alias zghthemeconfig='vi ~/.p10k.zsh' #https://github.com/romkatv/powerlevel10k#oh-my-zsh
 alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not working
 #BEAU Below alias enables colourful ls
-alias ls="lsd -la"
-alias lt="lsd --tree"
+#alias ls="exa -G -a --git-ignore --icons"
+alias ls=" ls -a"
+alias lst="exa -T -a --git-ignore --icons"
+alias lsl="exa --long -a -u -h --icons"
 #fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
 alias ff="vim -c 'FZF'"
 alias vs="vim -c 'FZF'"
@@ -208,6 +228,15 @@ alias mdreader='mdless'
 #alias python="~/opt/miniconda3/bin/python"
 #alias pip="/usr/local/bin/pip3"
 #NO LONGER NEEDED USED PIP3 COMMAND FOR NOW #alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
+
+#######VIM ALIASES##########
+
+
+
+#####UNI######
+alias mountIceberg='sshfs -o default_permissions mqserver2:/home/45456070/ ~/SSHFS/Iceberg/ && cd ~/SSHFS/Iceberg/'
+alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
+
 
 #==================================END ALIASES===================================
 #
