@@ -4,9 +4,10 @@ let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc h
 "have tested that I get better performance over sshfs with this on
 "We need to set it before we load our plugins
 "
-if &compatible
-        set nocompatible " Using vim-plug we must set not compatible with old vim
-endif
+"if &compatible
+"        set nocompatible " Using vim-plug we must set not compatible with old vim
+"endif "NOTE: According to vim manual, if we use .vimrc it will auto set
+"nocompatible - no need to specify manually
 
 
 " Plugins will be downloaded under the specified directory.
@@ -40,7 +41,7 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim' "FUZZY FINDER
 Plug 'laher/fuzzymenu.vim' "HELP MENU FOR FF
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
-
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 "WORKFLOW MGMT
 Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
 
@@ -55,6 +56,14 @@ Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
 Plug 'Yggdroot/indentLine' "Code indentations marks
 Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
+
+"TESTING
+Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them
+Plug 'airblade/vim-rooter' "sets cwd automatically if we have git folder etc
+Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex
+Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
+cnoreabbrev man Man
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
 call plug#end()
 
@@ -173,6 +182,20 @@ autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
 "Auto make out C files on save
 "autocmd BufWrite *.c make
+"
+"ALE
+" Shorten error/warning flags
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+" I have some custom icons for errors and warnings but feel free to change them.
+"let g:ale_sign_error = '✘'
+"let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+
+let g:ale_lint_on_enter = 0
+
+
 
 "-----------------------------------------
 
@@ -319,9 +342,11 @@ nnoremap <silent> <Leader>gg :GitFiles<CR>
 nnoremap <silent> <Leader>f :RG<CR>
 
 "leader-b for BUFFER LIST (show buffers)
-"leader-s for SPLIT CYCLING (cycle current windows)
+"leader-w for SPLIT CYCLING (cycle current windows)
+"leader-W takes us anticlockwise
 nnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
 nnoremap <silent> <leader>w <C-w>w
+nnoremap <silent> <leader>W <C-w>W
 
 
 
@@ -340,8 +365,10 @@ nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
 "Resize our splits with <leader> +/- easily
 nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-nnoremap <silent> <leader>. :vertical resize -10<CR>
-nnoremap <silent> <leader>, :vertical resize +10<CR>
+"NOTE: DUE TO LIMITATION IN VIM, its going to go left when you think it will
+"go right due to it simply being +/- pixels and not dependenent on direction
+nnoremap <silent> <leader>, :vertical resize -10<CR>
+nnoremap <silent> <leader>. :vertical resize +10<CR>
 
 
 "SHOW GIT COMMIT / GIT BLAME POPUP

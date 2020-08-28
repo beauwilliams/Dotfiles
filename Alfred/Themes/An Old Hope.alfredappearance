@@ -1,0 +1,61 @@
+{
+  "alfredtheme" : {
+    "result" : {
+      "textSpacing" : 5,
+      "subtext" : {
+        "size" : 12,
+        "colorSelected" : "#50B3D7FF",
+        "font" : "System",
+        "color" : "#50B3D7B1"
+      },
+      "shortcut" : {
+        "size" : 16,
+        "colorSelected" : "#EA3D53FF",
+        "font" : "System",
+        "color" : "#FEFFFF66"
+      },
+      "backgroundSelected" : "#FEFFFE1E",
+      "text" : {
+        "size" : 18,
+        "colorSelected" : "#77BC65FF",
+        "font" : "System",
+        "color" : "#77BC65FF"
+      },
+      "iconPaddingHorizontal" : 6,
+      "paddingVertical" : 6,
+      "iconSize" : 40
+    },
+    "search" : {
+      "paddingVertical" : 4,
+      "background" : "#FFFFFF00",
+      "spacing" : 4,
+      "text" : {
+        "size" : 34,
+        "colorSelected" : "#000000FF",
+        "font" : "System",
+        "color" : "#EE7C2AFF"
+      },
+      "backgroundSelected" : "#FFDFB3FF"
+    },
+    "window" : {
+      "color" : "#000000FF",
+      "paddingHorizontal" : 0,
+      "width" : 559,
+      "borderPadding" : 0,
+      "borderColor" : "#0000007F",
+      "blur" : 29,
+      "roundness" : 3,
+      "paddingVertical" : 4
+    },
+    "credit" : "Hsiang Lee",
+    "separator" : {
+      "color" : "#CBCBCBF3",
+      "thickness" : 0
+    },
+    "scrollbar" : {
+      "color" : "#F7FFFA7F",
+      "thickness" : 2
+    },
+    "name" : "An Old Hope"
+  }
+}
