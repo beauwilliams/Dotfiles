@@ -92,6 +92,7 @@ set noshowmode "turns of the INSERT.. etc mode text at very bottom
 set shortmess+=F  " to get rid of the file name displayed in the command line bar
 set history=200 "keep 200 hungy commands in the stash
 set lazyredraw "hopefully this speeds up vim!
+set autoread "loads file as soon as there are changes on disk
 set wildmenu "enhanced tab completion for vim command bar
 set wildmode=list,full "Displays a handy list of commands we can tab thru"
 set updatetime=50 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
@@ -112,7 +113,27 @@ endtry
 
 "==========================CONFIGS UNDER TESTING=============================
 "
+"Stolen from sensible vim
+if &history < 1000
+  set history=1000
+endif
+if &tabpagemax < 50
+  set tabpagemax=50
+endif
+if !empty(&viminfo)
+  set viminfo^=!
+endif
 
+set inccommand=nosplit
+
+
+
+ augroup every
+  autocmd!
+  au InsertEnter * set norelativenumber
+  au InsertLeave * set relativenumber
+augroup END
+"This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
 
 "set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 "This kind of makes workflows annoying where it screws up fzf if i enter a
@@ -281,6 +302,9 @@ endif
 "LEADER KEY IS THE SPACE BAR
 let mapleader = "\<Space>"
 
+"i've been using the shift key w my pinky so much lately its getting sore
+"realised leader leader is free so its now an easy way to enter cmd mode
+map <leader><leader> :
 
 "
 
@@ -702,6 +726,75 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "
 "
 "==========================END RIPGREP CONFIGS=============================
+"
+"
+"==========================START STARTIFY CONFIGS=============================
+"
+"
+"let g:startify_custom_header = [
+        "\ '   ███╗   ██╗███████╗ ██████╗     ██╗   ██╗██╗███╗   ███╗',
+        "\ '   ████╗  ██║██╔════╝██╔═══██╗    ██║   ██║██║████╗ ████║',
+        "\ '   ██╔██╗ ██║█████╗  ██║   ██║    ██║   ██║██║██╔████╔██║',
+        "\ '   ██║╚██╗██║██╔══╝  ██║   ██║    ╚██╗ ██╔╝██║██║╚██╔╝██║',
+        "\ '   ██║ ╚████║███████╗╚██████╔╝     ╚████╔╝ ██║██║ ╚═╝ ██║',
+        "\ '   ╚═╝  ╚═══╝╚══════╝ ╚═════╝       ╚═══╝  ╚═╝╚═╝     ╚═╝',
+        "\]
+
+"let g:startify_custom_header = [
+"\ '    ███████╗██╗   ██╗██████╗     ███╗   ███╗ █████╗ ███╗   ██╗ ██████╗ ',
+"\ '    ██╔════╝██║   ██║██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝ ',
+"\ '    ███████╗██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║██║  ███╗',
+"\ '    ╚════██║██║   ██║██╔═══╝     ██║╚██╔╝██║██╔══██║██║╚██╗██║██║   ██║',
+"\ '    ███████║╚██████╔╝██║         ██║ ╚═╝ ██║██║  ██║██║ ╚████║╚██████╔╝',
+"\ '    ╚══════╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ',
+"\]
+
+
+let g:startify_custom_header = [
+\ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗',
+\ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝',
+\ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ',
+\ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ',
+\ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ',
+\ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ',
+\]
+
+
+
+let g:startify_session_dir = '~/.config/nvim/session'
+
+
+let g:startify_lists = [
+          \ { 'type': 'files',     'header': ['   Recent Files']                 },
+          \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+          \ { 'type': 'sessions',  'header': ['   Sessions']                     },
+          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
+          \ ]
+
+
+"let g:startify_session_autoload = 1
+"let g:startify_session_delete_buffers = 1
+"let g:startify_change_to_vcs_root = 1
+"let g:startify_fortune_use_unicode = 1
+"let g:startify_session_persistence = 1
+"let g:startify_enable_special = 1
+
+"let g:webdevicons_enable_startify = 1
+
+"function! StartifyEntryFormat()
+        "return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+    "endfunction
+
+let g:startify_bookmarks = [
+            \ { 'v': '~/.config/nvim/init.vim' },
+            \ { 'z': '~/.zshrc' },
+            \ { 's': '~/.ssh/config' }
+            \ ]
+
+
+
+"===============================END STARIFY CONFIG=================================
+"
 "
 "
 "

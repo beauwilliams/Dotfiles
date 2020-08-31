@@ -7,6 +7,19 @@ prompt_context(){}
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 
+export iterm2_hostname=`hostname -f` #download with scp not working..
+
+###SOURCES###
+[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
+source ~/.iterm2_shell_integration.zsh
+[ -f ~/.zsh/.fzf.zsh ] && source ~/.zsh/.fzf.zsh
+source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
+source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh
 #AUTOSUGGESTION HISTORY
 HISTFILE=~/.zsh/.zsh_history
 HISTSIZE=10000
@@ -17,6 +30,14 @@ setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS
 setopt share_history
 
+#OTHER CONFIGS
+setopt AUTO_PUSHD               #allow for cd -1 -2 -3 and so on
+setopt auto_cd                  # if command is a path, cd into it
+unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
+setopt print_exit_value         # print return value if non-zero
+setopt chase_links              # resolve symlinks
+setopt auto_remove_slash        # self explicit
+
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' insert-unambiguous true
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -24,7 +45,7 @@ zstyle ':completion:*' original true
 zstyle :compinstall filename '/Users/admin/.zshrc'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-unsetopt completealiases #note, setting this on for now disables z completion
+#setopt completealiases #note, setting this on for now disables z completion
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 #avoids lag pasting large chunks of text into the shell
@@ -48,11 +69,6 @@ export FIGNORE="$FIGNORE:.DS_Store"
 # Ignore pointless files when we ls
 #function ll { ls -la $@ | rg -v .DS_Store; }
 
-setopt auto_cd                  # if command is a path, cd into it
-unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
-setopt print_exit_value         # print return value if non-zero
-setopt chase_links              # resolve symlinks
-setopt auto_remove_slash        # self explicit
 EDITOR=nvim
 
 #==================END USER CONFIG=======================================
@@ -154,19 +170,6 @@ export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
 
 
-###SOURCES###
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh
-#BEAU - adding source for iTERM shell integration see here https://iterm2.com/documentation-shell-integration.html
-#source ~/.iterm2_shell_integration.zsh " disabled because it leaves a mark I dont like
-[ -f ~/.zsh/.fzf.zsh ] && source ~/.zsh/.fzf.zsh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
-source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
-source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
-source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
 
 #HASKELL GHC
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
