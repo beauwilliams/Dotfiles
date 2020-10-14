@@ -78,7 +78,7 @@ EDITOR=nvim
 #====================BEGIN ALIASES=======================================
 
 ###GIT ALIASES
-alias git create="hub create"
+alias gitcreate="hub create"
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"

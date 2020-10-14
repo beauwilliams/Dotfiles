@@ -15,6 +15,7 @@ call plug#begin('~/.vim/plugged')
 
 "THEME/UX
 Plug 'gruvbox-community/gruvbox'
+Plug 'habamax/vim-gruvbit'
 Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
 Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
@@ -58,10 +59,12 @@ Plug 'Yggdroot/indentLine' "Code indentations marks
 Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
 
 "TESTING
+Plug 'michaelb/vim-tips' "Display vim tip at startup
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them
 Plug 'airblade/vim-rooter' "sets cwd automatically if we have git folder etc
 Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
 cnoreabbrev man Man
 let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
 
@@ -112,6 +115,12 @@ catch
 endtry
 
 "==========================CONFIGS UNDER TESTING=============================
+"
+"DITCH THOSE ARROW KEYS
+inoremap <c-j> <esc>ji
+inoremap <c-k> <esc>ki
+inoremap <c-h> <esc>i
+inoremap <c-l> <esc>la
 "
 "Stolen from sensible vim
 if &history < 1000
@@ -465,6 +474,10 @@ nnoremap <silent><leader>j :call WinMove('j')<CR>
 nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
 
+"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+nnoremap <silent><leader>H <c-w>H
+nnoremap <silent><leader>K <c-w>K
+
 "ANOTHER SPLIT MOVEMENT METHOD, USING ALT, NOT SURE WHICH I LIKE MORE
 "This one won't create splits for us though
 "if has('nvim')
@@ -750,23 +763,23 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "\]
 "
 
-let g:startify_custom_header = [
-\ '   ███╗   ███╗ █████╗  ██████╗███████╗██╗',
-\ '   ████╗ ████║██╔══██╗██╔════╝██╔════╝██║',
-\ '   ██╔████╔██║███████║██║     ███████╗██║',
-\ '   ██║╚██╔╝██║██╔══██║██║     ╚════██║╚═╝',
-\ '   ██║ ╚═╝ ██║██║  ██║╚██████╗███████║██╗',
-\ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
-\]
-
 "let g:startify_custom_header = [
-"\ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
-"\ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
-"\ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ██║',
-"\ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝',
-"\ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗',
-"\ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝',
+"\ '   ███╗   ███╗ █████╗  ██████╗███████╗██╗',
+"\ '   ████╗ ████║██╔══██╗██╔════╝██╔════╝██║',
+"\ '   ██╔████╔██║███████║██║     ███████╗██║',
+"\ '   ██║╚██╔╝██║██╔══██║██║     ╚════██║╚═╝',
+"\ '   ██║ ╚═╝ ██║██║  ██║╚██████╗███████║██╗',
+"\ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
 "\]
+
+let g:startify_custom_header = [
+\ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
+\ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
+\ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ██║',
+\ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝',
+\ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗',
+\ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝',
+\]
 
 
 
