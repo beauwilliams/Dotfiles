@@ -2,7 +2,7 @@
 "
 let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
 "have tested that I get better performance over sshfs with this on
-"We need to set it before we load our plugins
+"We need to set ale off it before we load our plugins
 "
 "if &compatible
 "        set nocompatible " Using vim-plug we must set not compatible with old vim
@@ -23,11 +23,14 @@ Plug 'ryanoasis/vim-devicons' "NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGIN
 "Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
 
 "LANG PLUGS
-Plug 'rust-lang/rust.vim'
-Plug 'uiiaoo/java-syntax.vim'
-Plug 'sbdchd/neoformat'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
+Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
+let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+Plug 'sbdchd/neoformat' "Code formatting plugin
 Plug 'w0rp/ale' "provides errors in the gutter and linting
 Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
+"Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
+"Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
 " COC PLUGS
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -43,7 +46,9 @@ Plug 'junegunn/fzf.vim' "FUZZY FINDER
 Plug 'laher/fuzzymenu.vim' "HELP MENU FOR FF
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-"WORKFLOW MGMT
+
+
+"WORKSPACE MGMT
 Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
 
 
@@ -53,22 +58,27 @@ Plug 'rhysd/git-messenger.vim' "leader-gm to GIT BLAME i.e who wrote that code c
 Plug 'tpope/vim-fugitive'
 
 "OTHER
-Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+"Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
 Plug 'Yggdroot/indentLine' "Code indentations marks
 Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
 
 "TESTING
-Plug 'michaelb/vim-tips' "Display vim tip at startup
-Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them
+"Plug 'michaelb/vim-tips' "Display vim tip at startup
 Plug 'airblade/vim-rooter' "sets cwd automatically if we have git folder etc
 Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
-Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
 cnoreabbrev man Man
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
+
+
 
 call plug#end()
+
+
+"===========================END MY PLUGINS===============================
+
+
 
 "============================START MY CONFIGS===============================
 "
@@ -114,14 +124,54 @@ catch
   echo 'Gruvbox not installed. It should work after running :PlugInstall'
 endtry
 
-"==========================CONFIGS UNDER TESTING=============================
+"============================END MY CONFIGS===============================
+
+
+
+
+"=======================START CONFIGS UNDER TESTING=============================
 "
-"DITCH THOSE ARROW KEYS
+"
+"
+""""""""""""TREE-SITTER BASED SYNTAX HIGHLIGHTING --> CONFIGURATION""""""""""
+"Enable treesitter syntax highlight
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    custom_captures = {
+      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
+      ["foo.bar"] = "Identifier",
+    },
+  },
+}
+EOF
+
+"Disable bracket, delimiter highlighting with treesitter --> so regex based luochen1990/rainbow
+"can provide us rainbow brackets instead. great for c based langs
+lua <<EOF
+require "nvim-treesitter.highlight"
+    local hlmap = vim.treesitter.highlighter.hl_map
+
+    --Misc
+    hlmap.error = nil
+    hlmap["punctuation.delimiter"] = "Delimiter"
+    hlmap["punctuation.bracket"] = nil
+EOF
+""""""""""""""""""""""""""""END TREESITTER SCRIPTS"""""""""""""""""""""""""""""""""""""
+"
+"
+"
+"
+"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
 inoremap <c-j> <esc>ji
 inoremap <c-k> <esc>ki
 inoremap <c-h> <esc>i
 inoremap <c-l> <esc>la
-"
+
+
+
+
 "Stolen from sensible vim
 if &history < 1000
   set history=1000
@@ -133,23 +183,33 @@ if !empty(&viminfo)
   set viminfo^=!
 endif
 
+
+
+
+"This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
 set inccommand=nosplit
 
 
 
+
+"TURN OFF RELATIVE LINE NUMBERING WHEN WE ENTER INSERT MODE AND ENABLE OTHERWISE
  augroup every
   autocmd!
   au InsertEnter * set norelativenumber
   au InsertLeave * set relativenumber
 augroup END
-"This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+
+
+
 
 "set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 "This kind of makes workflows annoying where it screws up fzf if i enter a
 "file within a tree, I cant get back to files at the root
 "Seems like our completion is g anyways -- review later
 "
-"FROM https://github.com/erkrnt/awesome-streamerrc/blob/master/ThePrimeagen/.vimrc
+
+
+
 "Auto Whitspace trimming!!
 fun! TrimWhitespace()
         let l:save = winsaveview()
@@ -204,16 +264,21 @@ function! ResizeSplits()
                 wincmd =
         endif
 endfunction
+""""""""""""""END AUTO RESIZING WINDOW CONFIG"""""""""""""""
 
 
 "AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
-"We will set $MYVIMRC later on..
+"We can set $MYVIMRC later on in our path but this serves just fine for now
 autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 
-"Auto make out C files on save
+
+
+"Auto make our C files on save
 "autocmd BufWrite *.c make
-"
-"ALE
+
+
+
+"ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
 " Shorten error/warning flags
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
@@ -222,22 +287,24 @@ let g:ale_echo_msg_warning_str = 'W'
 "let g:ale_sign_warning = '⚠'
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
-
-let g:ale_lint_on_enter = 0
+let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
 
 
 
 "-----------------------------------------
 
 
-"############UNDER TESTING############
+"############COLOUR BRACES############
 "SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
-"COLOURS
+"COLOURS --> 4/12/20 DEPRECATED BUT KEEPING FOR REFERENCE FOR NOW
 "autocmd! FileType .c,.cpp,.java,.php call CSyntaxAfter()
 
 "if exists("*CSyntaxAfter")
         "call CSyntaxAfter()
      "endif
+
+
+
 
 
 "LEAN GIT BLAME OUTPUT IN COMMAND BAR
@@ -249,7 +316,6 @@ command! -range GB echo join(systemlist("git -C " . shellescape(expand('%:p:h'))
 "######WE HAVE AN AUTOFUNC HERE SO THAT WE CAN QUICKLY OPEN######
 "######PDF's ETC IN DEFUALT APPLICATION INSTEAD OF OPENING ########
 "########## THE FILE AND GIVING A GARBLED OUTPUT###################
-"
 augroup nonvim
    au!
    au BufRead *.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft
@@ -262,16 +328,20 @@ augroup end
 "As it seems might not be a good default nowadays
 set autoindent "enable auto-indentation"
 "set smartindent  " smart  autoindent (e.g. add indent after '{')
-"
-"INDENT GUIDES
+
+
+
+"INDENT GUIDES --> COMPANION CONFIG TO Yggdroot/indentLine plugin
 try
     let g:indentLine_char = '│'
 catch
     echo "indentline not installed"
 endtry
-"
-"
-"
+
+
+
+
+
 "AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
 "SAVES A LOT OF MKDIR COMMANDS :)
 function s:MkNonExDir(file, buf)
@@ -288,6 +358,9 @@ augroup BWCCreateDir
 augroup END
 
 
+
+
+
 "ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -296,16 +369,12 @@ if has('nvim')
 endif
 
 
+"=======================END CONFIGS UNDER TESTING=============================
 
 
-"
-"
-"==============================END CONFIGS=======================================
-"
-"
-"
-"
-"
+
+
+
 "=============================START REMAPS========================================
 
 "LEADER KEY IS THE SPACE BAR
@@ -417,15 +486,27 @@ nmap <silent> ++ <plug>NERDCommenterToggle
 vmap <silent> ++ <plug>NERDCommenterToggle
 
 
-"==========================MAPPINGS UNDER TESING=============================
+
+"=============================END REMAPS========================================
 
 
 
 
-"
-"=============================END REMAPPINGS===============================
-"
-"
+
+"==========================START MAPPINGS UNDER TESING=============================
+
+
+
+
+
+"==========================END MAPPINGS UNDER TESING=============================
+
+
+
+
+
+
+
 "============================BEGIN FUNCTIONS CONFIG=======================
 
 
@@ -478,6 +559,8 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 nnoremap <silent><leader>H <c-w>H
 nnoremap <silent><leader>K <c-w>K
 
+
+"""""""""""""""""""""""""""""""""""""""""""""
 "ANOTHER SPLIT MOVEMENT METHOD, USING ALT, NOT SURE WHICH I LIKE MORE
 "This one won't create splits for us though
 "if has('nvim')
@@ -502,14 +585,16 @@ nnoremap <silent><leader>K <c-w>K
   "nnoremap <leader>k <c-w>k
   "nnoremap <leader>l <c-w>l
 "endif
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""
 
 "
 "============================END FUNCTIONS CONFIG=======================
-"
-"
+
+
+
+
+
+
 "============================BEGIN STATUSLINE CONFIG=======================
 "I wrap these configs in try/catch to avoid errors on initial install before plugin is available
 "Mostly for anyone who uses my dockerfile thats sets up a working nvim env
@@ -925,3 +1010,4 @@ let g:startify_bookmarks = [
   "call neomake#configure#automake('nw', 1000)
 "endif
 "==========================================================
+
