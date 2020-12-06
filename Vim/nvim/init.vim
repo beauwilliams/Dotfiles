@@ -303,8 +303,9 @@ let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prev
 
 """"""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
 let g:floaterm_keymap_toggle = '<Leader>t'
-let g:floaterm_wintype = 'floating'
 let g:floaterm_width = 0.7
+"let g:floaterm_winblend = 5 "Transparency
+"let g:floaterm_wintype = 'floating' "neovim must have floating windows
 
 
 
@@ -659,6 +660,26 @@ endtry
 
 
 try
+
+
+let g:coc_global_extensions = [
+            \ 'coc-json',
+            \ 'coc-tsserver',
+            \ 'coc-html',
+            \ 'coc-css',
+            \ 'coc-eslint',
+            \ 'coc-fzf-preview',
+            \ 'coc-highlight',
+            \ 'coc-java',
+            \ 'coc-python',
+            \ 'coc-dictionary',
+            \ 'coc-pairs',
+            \ 'coc-rust-analyzer',
+            \ 'coc-snippets',
+            \ 'coc-prettier',
+            \ 'coc-xml',
+            \ ]
+
 "
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -732,7 +753,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 
 catch
-    echo "COC Not installed"
+    echo "COC Not installed. Run :CocUpdate after installing the extension"
 endtry
 
 
