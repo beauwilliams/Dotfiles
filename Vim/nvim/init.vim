@@ -667,8 +667,6 @@ let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-html',
             \ 'coc-css',
-            \ 'coc-eslint',
-            \ 'coc-fzf-preview',
             \ 'coc-highlight',
             \ 'coc-java',
             \ 'coc-python',
@@ -753,7 +751,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 
 catch
-    echo "COC Not installed. Run :CocUpdate after installing the extension"
+    echo "COC Not installed."
 endtry
 
 
