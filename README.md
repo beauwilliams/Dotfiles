@@ -22,7 +22,8 @@ _Thank you_ :smile:
 
 #### Now featuring a parser based treesitter for syntax highlighting and other goodies.
 
-![treesitter](https://i.ibb.co/Vtv8kWQ/treesitter-compared-to-regex.png)
+Demonstrated here with a minified CSS file. We can see easily the limits of regex based syntax. Treesitter has numerous other benefits too, such as speed.
+![treesitter](https://i.ibb.co/1vN6MvD/treesitter-compared-to-regex-copy.png)
 
 ### Sneak Peak of Vim Config
 
