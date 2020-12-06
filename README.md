@@ -16,9 +16,13 @@ _Thank you_ :smile:
 
 #### Open files quick!! FZF and Ripgrep - Easy Window Splitting. All a couple of keystrokes away. Who needs file explorers.
 
-#### Excellent and fast LSP with COC.nvim. Java support is fantastic, despite often being a struggle without a heavy IDE
+#### Excellent and fast LSP with COC.nvim. Java support is fantastic, despite often being a struggle without a heavy IDE. Easy to install languages on the fly.
 
 #### Plus gnarly Git integrations, start screen, minimal UX and soft UI and more!
+
+#### Now featuring a parser based treesitter for syntax highlighting and other goodies.
+
+![treesitter](https://i.ibb.co/Vtv8kWQ/treesitter-compared-to-regex.png)
 
 ### Sneak Peak of Vim Config
 
