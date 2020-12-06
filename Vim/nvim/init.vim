@@ -32,7 +32,7 @@ Plug 'w0rp/ale' "provides errors in the gutter and linting
 Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
-let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 1 "set to 0 if you want to enable rainbow later via :RainbowToggle
 "Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 "Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
@@ -59,7 +59,7 @@ Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
 
 "GIT PLUGINS
 Plug 'airblade/vim-gitgutter' "Git diff gutter
-Plug 'rhysd/git-messenger.vim' "leader-gm to GIT BLAME i.e who wrote that code commit info
+Plug 'rhysd/git-messenger.vim' "leader-gb to GIT BLAME i.e who wrote that code commit info
 Plug 'tpope/vim-fugitive' "Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
 
 
@@ -74,10 +74,12 @@ Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for 
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
 cnoreabbrev man Man
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
-Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount
+Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
 let g:beacon_size = 90
 let g:beacon_minimal_jump = 25
 let g:beacon_shrink = 0
+Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
+let g:blamer_enabled = 1
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 
@@ -319,8 +321,8 @@ let g:floaterm_width = 0.7
 
 
 
-"LEAN GIT BLAME OUTPUT IN COMMAND BAR
-command! -range GB echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
+"LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GitBlame to see who wrote the commit
+command! -range GitBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
 
 
 "##########SOMETIMES WE GET SPECS IN PDF FORM FOR CLASS############
