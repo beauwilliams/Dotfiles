@@ -66,6 +66,7 @@ Plug 'tpope/vim-fugitive' "Adds 'native' git commands to vim. silent commands. e
 "OTHER
 Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
 Plug 'airblade/vim-rooter' "sets cwd automatically if are in say a git folder etc
+Plug 'voldikss/vim-floaterm' "Floating terminal popups for neovim - Toggle with <leader>t
 
 
 "TESTING
@@ -73,6 +74,10 @@ Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for 
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
 cnoreabbrev man Man
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
+Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount
+let g:beacon_size = 90
+let g:beacon_minimal_jump = 25
+let g:beacon_shrink = 0
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 
@@ -294,11 +299,19 @@ let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prev
 
 
 
+
+
+""""""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
+let g:floaterm_keymap_toggle = '<Leader>t'
+let g:floaterm_wintype = 'floating'
+let g:floaterm_width = 0.7
+
+
+
 "############COLOUR BRACES############
 "SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
 "COLOURS --> 4/12/20 DEPRECATED BUT KEEPING FOR REFERENCE FOR NOW
 "autocmd! FileType .c,.cpp,.java,.php call CSyntaxAfter()
-
 "if exists("*CSyntaxAfter")
         "call CSyntaxAfter()
      "endif
@@ -466,8 +479,6 @@ nmap <silent><Leader>n :NERDTreeToggle<cr>
 
 
 
-"Terminal Window Mappings
-nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
 
 
 
@@ -715,6 +726,10 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming - RENAME / REFACTOR FILES QUICK.
 nmap <leader>rn <Plug>(coc-rename)
+
+"Terminal Window Mappings --> 8/12/20 RETIRED FOR TERMINAL POPUPS
+"nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
+
 
 catch
     echo "COC Not installed"
