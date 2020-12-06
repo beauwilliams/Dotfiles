@@ -115,6 +115,7 @@ alias ....='cd ../../..'
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
 alias mergenvim="cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim"
+alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
 
 function acp() {
 git add .
