@@ -1,5 +1,141 @@
-" ===========================START MY PLUGINS===============================
+" ===========================KEY MAPPINGS===============================
+
+
+
+"+++++++BASIC NAVIGATION+++++++
 "
+"LEADER <leader> key is SPACE
+"
+"ENTER COMMAND MODE QUICKLY
+"Mapping -> <leader><leader> (Hit Space Twice)
+"
+"ENTER NORMAL MODE QUICKLY
+"Mapping -> jj (hit j twice)
+"
+"VIM COMMANDS CHEATSHEET / HELP MENU
+"<leader>?
+"
+"VIM CONTROL P LIKE MENU (FUZZYMENU)
+"<leader>p
+"
+"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN *IN INSERT MODE* WITH HJKL BY SIMPLY HOLDING CONTROL
+"Mapping -> <c-h> --> move left
+"Mapping -> <c-j> --> move down
+"Mapping -> <c-k> --> move up
+"Mapping -> <c-l> --> move right
+
+
+
+
+"++++++++WINDOW NAVIGATION+++++++
+"
+"Open new splits, use leader + hjkl to specify which direction you want to create the
+"split (up, down, let, right)
+"Mapping -> <leader>h <leader>j .. etc
+"
+"Cycle between spilts in a clockwise motion, *hold shift key for anticlockwise
+"Mapping -> <leader>w
+"
+"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+"Mapping -> <leader>[ & <leader>]
+
+
+
+
+"++++++++FILE NAVIGATION AND FUZZY SEARCH++++++++
+"
+"Open file tree to browse files
+"Mapping -> <leader>n
+"
+"Search for files by filename in the current working directory
+"Mapping -> <leader>s
+"
+"Search for content/strings within files in the current directory
+"Mapping -> <leader>f
+"
+"List current buffers and search by buffer filenames
+"Mapping -> <leader>b
+"
+"List preiously visited file history and search by filename
+"Mapping -> <leader>S
+"
+"List ALL Possible Command Mode Commands, Search and Execute Them
+"Mapping -> <leader>c
+
+
+
+
+"++++++++CODE NAVIGATION AND RELATED TOOLS++++++++
+"
+"DIAGNOSTICS NAVIGATION
+"Mapping -> [g
+"Mapping -> ]g
+"Use Command `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+
+"GO TO CODE NAVIGATION.
+"Mapping -> gd --> Go to Definition
+"Mapping -> gy --> Got to Type Definition
+"Mapping -> gi --> Go to Implementation
+"Mapping -> gr --> Go to References
+
+"DOCUMENTATION VIEIWING
+"Use K to show documentation in preview window.
+
+
+
+
+"++++++++CODE REFACTORING AND RELATED TOOLS++++++++
+"
+"FIND AND REPLACE
+"Replace/Delete words quick! ONE BY ONE.
+"*NOTE* You must first search for a string and have it highlighted first before we can change and delete based on that pattern
+"after searching for a word, use c for CHANGE & d for DELETE. We use , . to move back and forth between matches respectively
+"Mapping -> c.
+"Mapping -> c,
+"Mapping -> d.
+"Mapping -> d,
+"
+"QUICK COMMENTING
+"NOTE: It is actually ++ but I used a trick for my mac to map that key to ++ in iterm
+"Mapping -> cmd+/
+
+
+
+
+"++++++++CODE FORMATTING AND RELATED TOOLS++++++++
+"
+"Remove indents from code! (a simple code formatter)
+"Mapping -> <leader>i
+"
+"Format code
+"Mapping -> <leader>f
+"
+"Remove superfluous whitespaces at the end of lines
+"Mapping -> <leader>W
+
+
+
+
+"++++++++HANDY COMMANDS++++++++
+"
+"Speeding up auto correction toggle for my uni lectures
+"Note plgn is Vim-you-autocorrect
+"Command -> spellon
+"Command -> spelloff
+
+
+
+
+" ===========================END MAPPINGS===============================
+
+
+
+
+
+" ===========================START MY PLUGINS===============================
+
+
+
 let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
 "have tested that I get better performance over sshfs with this on
 "We need to set ale off it before we load our plugins
@@ -70,7 +206,7 @@ Plug 'voldikss/vim-floaterm' "Floating terminal popups for neovim - Toggle with 
 
 
 "TESTING
-Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex
+Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
 cnoreabbrev man Man
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
@@ -80,6 +216,7 @@ let g:beacon_minimal_jump = 25
 let g:beacon_shrink = 0
 Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
 let g:blamer_enabled = 1
+Plug 'lifepillar/vim-cheat40' "Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 
@@ -145,9 +282,9 @@ endtry
 
 
 "=======================START CONFIGS UNDER TESTING=============================
-"
-"
-"
+
+
+
 """"""""""""TREE-SITTER BASED SYNTAX HIGHLIGHTING --> CONFIGURATION""""""""""
 "Enable treesitter syntax highlight
 lua <<EOF
@@ -300,7 +437,9 @@ let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
 
 
-
+"FUZZYMENU POPUP WINDOW CONFIG
+let g:fuzzymenu_position =  'window'
+let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
 
 
 """"""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
@@ -407,7 +546,7 @@ cnoreabbrev spelloff  DisableAutocorrect
 
 
 "Clear highlights quick!
-noremap <silent><leader>c :nohlsearch<cr>
+noremap <silent><leader>/ :nohlsearch<cr>
 
 
 "FORMATTERS
@@ -417,8 +556,10 @@ nnoremap <silent><leader>i gg=G
 nnoremap <silent><leader>F :Neoformat<CR>
 
 
+
 "FIND AND REPLACE
-"Replace/Delete words quick! ONE BY ONE
+"Replace/Delete words quick! ONE BY ONE.
+"c. c, d. d,
 "nnoremap ,x *``cgn
 nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
 nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
@@ -449,10 +590,13 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-nnoremap <silent><Leader>p :Files<cr>
+nnoremap <silent><Leader>s :Files<cr>
+vnoremap <silent><Leader>s :Files<cr>
 "SHIFT-P for file history
-nnoremap <silent> <Leader>P :History<CR>
-nnoremap <silent> <Leader>gg :GitFiles<CR>
+nnoremap <silent> <Leader>S :History<CR>
+vnoremap <silent> <Leader>S :History<CR>
+nnoremap <silent> <Leader>gf :GitFiles<CR>
+vnoremap <silent> <Leader>gf :GitFiles<CR>
 
 
 
@@ -460,25 +604,33 @@ nnoremap <silent> <Leader>gg :GitFiles<CR>
 "FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
 "leader-f for search-FILES
 nnoremap <silent> <Leader>f :RG<CR>
+vnoremap <silent> <Leader>f :RG<CR>
 
 
 "leader-b for BUFFER LIST (show buffers)
 "leader-w for SPLIT CYCLING (cycle current windows)
 "leader-W takes us anticlockwise
 nnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
+vnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
 nnoremap <silent> <leader>w <C-w>w
+vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
+vnoremap <silent> <leader>W <C-w>W
 
 
 
-"Fuzzymenu Mappings
-nmap <silent><Leader>C :Commands<CR>
-vmap <silent><Leader>C :Commands<CR>
+"COMMANDS MENU/SEARCH Mappings
+nnoremap <silent><Leader>c :Commands<CR>
+vnoremap <silent><Leader>c :Commands<CR>
 
+"Fuzzymenu Mappings (ctrl+p)
+nmap <silent><leader>p <Plug>(Fzm)
+vmap <silent> <leader>p <Plug>(FzmVisual)
 
 
 "File Tree Mappings
-nmap <silent><Leader>n :NERDTreeToggle<cr>
+nnoremap <silent><Leader>n :NERDTreeToggle<cr>
+vnoremap <silent><Leader>n :NERDTreeToggle<cr>
 
 
 
@@ -486,13 +638,17 @@ nmap <silent><Leader>n :NERDTreeToggle<cr>
 
 
 "Resize our splits with <leader> +/- easily
-nnoremap <silent> <Leader>= :exe "resize " . (winheight(0) * 3/2)<CR>
-nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
+nnoremap <silent> <Leader>; :exe "resize " . (winheight(0) * 3/4)<CR>
 "NOTE: DUE TO LIMITATION IN VIM, its going to go left when you think it will
 "go right due to it simply being +/- pixels and not dependenent on direction
 nnoremap <silent> <leader>, :vertical resize -10<CR>
 nnoremap <silent> <leader>. :vertical resize +10<CR>
 
+"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+"<leader>H K
+nnoremap <silent><leader>[ <c-w>H
+nnoremap <silent><leader>] <c-w>K
 
 
 "SHOW GIT COMMIT / GIT BLAME POPUP
@@ -506,8 +662,8 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
 "already there
 "Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
-nmap <silent> ++ <plug>NERDCommenterToggle
-vmap <silent> ++ <plug>NERDCommenterToggle
+nnoremap <silent> ++ <plug>NERDCommenterToggle
+vnoremap <silent> ++ <plug>NERDCommenterToggle
 
 
 
@@ -586,9 +742,6 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 
 
 
-"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-nnoremap <silent><leader>H <c-w>H
-nnoremap <silent><leader>K <c-w>K
 
 
 
