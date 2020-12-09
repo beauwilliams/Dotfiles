@@ -171,7 +171,9 @@ Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get so
 Plug 'sbdchd/neoformat' "Code formatting plugin
 Plug 'w0rp/ale' "provides errors in the gutter and linting
 Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
+if has("nvim-0.5") "nerdtree requires most recent nvim 0.5 nightly as of dec 2020
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
+endif
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
 "Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 "Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
@@ -310,7 +312,7 @@ require "nvim-treesitter.highlight"
     hlmap["punctuation.bracket"] = nil
 EOF
 catch
-    echo 'Treesitter not installed. It should work after running :PlugInstall'
+    echo 'Treesitter not installed. It should work after running :PlugInstall or updating to the latest neovim 0.5 nightly with treesitter support'
 endtry
 """"""""""""""""""""""""""""END TREESITTER SCRIPTS"""""""""""""""""""""""""""""""""""""
 
