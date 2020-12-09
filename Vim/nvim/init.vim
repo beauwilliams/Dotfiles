@@ -957,8 +957,10 @@ function! s:show_documentation()
         endif
 endfunction
 
+try
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+endtry
 
 " Symbol renaming - RENAME / REFACTOR FILES QUICK.
 nmap <leader>rn <Plug>(coc-rename)
