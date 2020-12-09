@@ -33,7 +33,7 @@
 "split (up, down, let, right)
 "Mapping -> <leader>h <leader>j .. etc
 "
-"Cycle between spilts in a clockwise motion, *hold shift key for anticlockwise
+"Cycle between spilts/[w]indows in a clockwise motion, *hold shift key for anticlockwise
 "Mapping -> <leader>w
 "
 "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
@@ -44,22 +44,23 @@
 
 "++++++++FILE NAVIGATION AND FUZZY SEARCH++++++++
 "
-"Open file tree to browse files
+"Open file tree to [n]avigate files
 "Mapping -> <leader>n
 "
-"Search for files by filename in the current working directory
+"[s]earch for files by filename in the current working directory
 "Mapping -> <leader>s
 "
-"Search for content/strings within files in the current directory
+"Search for content/strings within [f]iles in the current directory
 "Mapping -> <leader>f
 "
-"List current buffers and search by buffer filenames
+"List current [b]uffers and search by buffer filenames
 "Mapping -> <leader>b
 "
-"List preiously visited file history and search by filename
+"List previously visited file history and [S]earch by filename
+"Think s to search files, and shift+s to search file history
 "Mapping -> <leader>S
 "
-"List ALL Possible Command Mode Commands, Search and Execute Them
+"List ALL Possible [c]ommand Mode Commands, Search and Execute Them
 "Mapping -> <leader>c
 
 
@@ -107,10 +108,10 @@
 "Remove indents from code! (a simple code formatter)
 "Mapping -> <leader>i
 "
-"Format code
+"[f]ormat code
 "Mapping -> <leader>f
 "
-"Remove superfluous whitespaces at the end of lines
+"Remove superfluous [w]hitespaces at the end of lines
 "Mapping -> <leader>W
 
 
@@ -135,8 +136,12 @@
 " ===========================START MY PLUGINS===============================
 
 
-
+try
 let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
+catch
+    echo 'Ale not installed. It should work after running :PlugInstall'
+endtry
+
 "have tested that I get better performance over sshfs with this on
 "We need to set ale off it before we load our plugins
 "
@@ -168,7 +173,6 @@ Plug 'w0rp/ale' "provides errors in the gutter and linting
 Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
-let g:rainbow_active = 1 "set to 0 if you want to enable rainbow later via :RainbowToggle
 "Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 "Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
@@ -211,16 +215,10 @@ Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
 cnoreabbrev man Man
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
 Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
-let g:beacon_size = 90
-let g:beacon_minimal_jump = 25
-let g:beacon_shrink = 0
 Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
-let g:blamer_enabled = 1
 Plug 'lifepillar/vim-cheat40' "Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
-
-
 
 call plug#end()
 
@@ -424,32 +422,6 @@ autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
 "autocmd BufWrite *.c make
 
 
-
-"ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
-" Shorten error/warning flags
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-" I have some custom icons for errors and warnings but feel free to change them.
-"let g:ale_sign_error = '✘'
-"let g:ale_sign_warning = '⚠'
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
-
-
-"FUZZYMENU POPUP WINDOW CONFIG
-let g:fuzzymenu_position =  'window'
-let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
-
-
-""""""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
-let g:floaterm_keymap_toggle = '<Leader>t'
-let g:floaterm_width = 0.7
-"let g:floaterm_winblend = 5 "Transparency
-"let g:floaterm_wintype = 'floating' "neovim must have floating windows
-
-
-
 "############COLOUR BRACES############
 "SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
 "COLOURS --> 4/12/20 DEPRECATED BUT KEEPING FOR REFERENCE FOR NOW
@@ -485,13 +457,6 @@ set autoindent "enable auto-indentation"
 
 
 
-"INDENT GUIDES --> COMPANION CONFIG TO Yggdroot/indentLine plugin
-try
-    let g:indentLine_char = '│'
-catch
-    echo "indentline not installed"
-endtry
-
 
 
 "AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
@@ -521,8 +486,6 @@ endif
 
 
 "=======================END CONFIGS UNDER TESTING=============================
-
-
 
 
 
@@ -704,8 +667,10 @@ endif
 "so we don't need to rely on visual mode as much, try yip or y4y
 "NOTE REQUIRES NVIM V5
 augroup highlight_yank
+    if has("nvim-0.5")
         autocmd!
         autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+    endif
 augroup END
 
 
@@ -749,6 +714,99 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "============================END FUNCTIONS CONFIG=======================
 
 
+
+
+"=======================START EXTENSION CONFIGS=============================
+
+
+"CURSOR FLASH --> COMPANION CONFIG TO Ydanilamihailov/beacon.nvim plugin
+
+try
+let g:beacon_size = 90
+let g:beacon_minimal_jump = 25
+let g:beacon_shrink = 0
+catch
+    echo 'Beacon not installed. It should work after running :PlugInstall'
+endtry
+
+"GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
+try
+let g:blamer_enabled = 1
+catch
+    echo 'Blamer not installed. It should work after running :PlugInstall'
+endtry
+
+
+
+"INDENT GUIDES --> COMPANION CONFIG TO Yggdroot/indentLine plugin
+try
+    let g:indentLine_char = '│'
+catch
+    echo 'Indentline not installed. It should work after running :PlugInstall'
+endtry
+
+"RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
+try
+let g:rainbow_active = 1 "set to 0 if you want to enable rainbow later via :RainbowToggle
+catch
+    echo 'Rainbow not installed. It should work after running :PlugInstall'
+endtry
+
+
+"ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
+" Shorten error/warning flags
+try
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+" I have some custom icons for errors and warnings but feel free to change them.
+"let g:ale_sign_error = '✘'
+"let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '●'
+let g:ale_sign_warning = '.'
+let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
+catch
+    echo 'Ale not installed. It should work after running :PlugInstall'
+endtry
+
+
+"FUZZYMENU POPUP WINDOW CONFIG
+try
+let g:fuzzymenu_position =  'window'
+let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
+catch
+    echo 'Fuzzymenu not installed. It should work after running :PlugInstall'
+endtry
+
+
+""""""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
+try
+let g:floaterm_keymap_toggle = '<Leader>t'
+let g:floaterm_width = 0.7
+"let g:floaterm_winblend = 5 "Transparency
+"let g:floaterm_wintype = 'floating' "neovim must have floating windows
+catch
+    echo 'Floaterm not installed. It should work after running :PlugInstall'
+endtry
+
+
+
+"PRETTIER FORMATTER --> COMPANION CONFIG TO neoclide/coc.nvim
+try
+"Part of prettier recommended configs
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+
+"NOTE -- SET Prettier languages with :CocConfig
+"Prettier seems to format java okay which is neat :)
+
+catch
+    echo 'Prettier not installed. It should work after running :PlugInstall'
+endtry
+
+
+
+
+
+"=======================END EXTENSION CONFIGS=============================
 
 
 
@@ -916,22 +974,6 @@ endtry
 
 
 
-
-
-"================================START PRETTIER CONFIG=========================
-
-
-
-"Part of prettier recommended configs
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-"NOTE -- SET Prettier languages with :CocConfig
-"Prettier seems to format java okay which is neat :)
-
-
-
-
-"================================END PRETTIER CONFIG=========================
 
 
 
