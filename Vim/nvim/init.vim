@@ -957,12 +957,8 @@ function! s:show_documentation()
         endif
 endfunction
 
-try
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-catch
-    echo 'COC not installed. It should work after running :PlugInstall'
-endtry
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 
 " Symbol renaming - RENAME / REFACTOR FILES QUICK.
 nmap <leader>rn <Plug>(coc-rename)
