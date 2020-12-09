@@ -285,6 +285,7 @@ endtry
 
 """"""""""""TREE-SITTER BASED SYNTAX HIGHLIGHTING --> CONFIGURATION""""""""""
 "Enable treesitter syntax highlight
+try
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
@@ -308,6 +309,9 @@ require "nvim-treesitter.highlight"
     hlmap["punctuation.delimiter"] = "Delimiter"
     hlmap["punctuation.bracket"] = nil
 EOF
+catch
+    echo 'Treesitter not installed. It should work after running :PlugInstall'
+endtry
 """"""""""""""""""""""""""""END TREESITTER SCRIPTS"""""""""""""""""""""""""""""""""""""
 
 
