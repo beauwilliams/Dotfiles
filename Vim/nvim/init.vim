@@ -957,8 +957,7 @@ function! s:show_documentation()
         endif
 endfunction
 
-
-if PlugLoaded('coc')
+if has_key(plugs, 'coc.nvim')
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 endif
