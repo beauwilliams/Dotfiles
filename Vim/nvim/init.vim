@@ -203,14 +203,17 @@ Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
 
 "GIT PLUGINS
 Plug 'airblade/vim-gitgutter' "Git diff gutter
-Plug 'rhysd/git-messenger.vim' "leader-gb to GIT BLAME i.e who wrote that code commit info
+Plug 'rhysd/git-messenger.vim' "leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
 Plug 'tpope/vim-fugitive' "Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
+Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
 
 
 "OTHER
 Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
 Plug 'airblade/vim-rooter' "sets cwd automatically if are in say a git folder etc
 Plug 'voldikss/vim-floaterm' "Floating terminal popups for neovim - Toggle with <leader>t
+Plug 'unblevable/quick-scope' "Adds a colour effect to letters to help you use the f key to move on a line left and right faster
+Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
 
 
 "TESTING
@@ -218,8 +221,6 @@ Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for 
 Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
 cnoreabbrev man Man
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
-Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
-Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
 Plug 'lifepillar/vim-cheat40' "Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
@@ -229,9 +230,6 @@ call plug#end()
 
 "===========================END MY PLUGINS===============================
 
-
-
-"============================START MY CONFIGS===============================
 
 
 
@@ -282,6 +280,8 @@ endtry
 "============================END MY CONFIGS===============================
 
 
+
+"============================START MY CONFIGS===============================
 
 
 "=======================START CONFIGS UNDER TESTING=============================
@@ -808,6 +808,23 @@ endtry
 
 
 
+"VIM QUICKSCOPE --> COMPANION CONFIG TO unblevable/quick-scope
+try
+highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
+
+let g:qs_buftype_blacklist = ['terminal', 'nofile']
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+let g:qs_lazy_highlight = 1
+catch
+    :PlugInstall
+    echo 'Quickscope not installed.'
+endtry
 
 
 
