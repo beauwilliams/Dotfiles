@@ -139,7 +139,8 @@
 try
 let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
 catch
-    echo 'Ale not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Ale not installed.'
 endtry
 
 "have tested that I get better performance over sshfs with this on
@@ -175,6 +176,7 @@ if has("nvim-0.5") "nerdtree requires most recent nvim 0.5 nightly as of dec 202
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
 endif
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
+"Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "Adds RGB/Color visualisations next to colors i.e CSS such as ... #f14b59 NOT WORKING WITHOUT GO
 "Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 "Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
@@ -274,7 +276,7 @@ colorscheme gruvbox
 
 catch
     :PlugInstall
-    echo 'Gruvbox not installed. It should work after running :PlugInstall'
+    echo 'Gruvbox not installed.'
 endtry
 
 "============================END MY CONFIGS===============================
@@ -733,14 +735,16 @@ let g:beacon_size = 90
 let g:beacon_minimal_jump = 25
 let g:beacon_shrink = 0
 catch
-    echo 'Beacon not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Beacon not installed.'
 endtry
 
 "GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
 try
 let g:blamer_enabled = 1
 catch
-    echo 'Blamer not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Blamer not installed.'
 endtry
 
 
@@ -749,14 +753,16 @@ endtry
 try
     let g:indentLine_char = '│'
 catch
-    echo 'Indentline not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Indentline not installed.'
 endtry
 
 "RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
 try
 let g:rainbow_active = 1 "set to 0 if you want to enable rainbow later via :RainbowToggle
 catch
-    echo 'Rainbow not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Rainbow not installed.'
 endtry
 
 
@@ -772,7 +778,8 @@ let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
 let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
 catch
-    echo 'Ale not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Ale not installed.'
 endtry
 
 
@@ -781,7 +788,8 @@ try
 let g:fuzzymenu_position =  'window'
 let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
 catch
-    echo 'Fuzzymenu not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Fuzzymenu not installed.'
 endtry
 
 
@@ -792,22 +800,12 @@ let g:floaterm_width = 0.7
 "let g:floaterm_winblend = 5 "Transparency
 "let g:floaterm_wintype = 'floating' "neovim must have floating windows
 catch
-    echo 'Floaterm not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Floaterm not installed.'
 endtry
 
 
 
-"PRETTIER FORMATTER --> COMPANION CONFIG TO neoclide/coc.nvim
-try
-"Part of prettier recommended configs
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-
-"NOTE -- SET Prettier languages with :CocConfig
-"Prettier seems to format java okay which is neat :)
-
-catch
-    echo 'Prettier not installed. It should work after running :PlugInstall'
-endtry
 
 
 
@@ -861,7 +859,8 @@ let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 
 catch
-  echo 'Airline not installed. It should work after running :PlugInstall'
+    :PlugInstall
+  echo 'Airline not installed.'
 endtry
 
 
@@ -887,18 +886,29 @@ let g:coc_global_extensions = [
             \ 'coc-tsserver',
             \ 'coc-html',
             \ 'coc-css',
-            \ 'coc-highlight',
             \ 'coc-java',
             \ 'coc-python',
             \ 'coc-dictionary',
             \ 'coc-pairs',
+            \ 'coc-highlight',
             \ 'coc-rust-analyzer',
             \ 'coc-snippets',
             \ 'coc-prettier',
             \ 'coc-xml',
             \ ]
 
-"
+"PRETTIER FORMATTER --> COMPANION CONFIG TO neoclide/coc.nvim
+try
+"Part of prettier recommended configs
+command! -nargs=0 Prettier :CocCommand prettier.formatFile
+"NOTE -- SET Prettier languages with :CocConfig
+"Prettier seems to format java okay which is neat :)
+catch
+    :PlugInstall
+    echo 'Prettier not installed.'
+endtry
+
+
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
 if has("patch-8.1.1564")
@@ -973,6 +983,7 @@ nmap <leader>rn <Plug>(coc-rename)
 
 
 catch
+    :PlugInstall
     echo "COC Not installed."
 endtry
 
@@ -1031,7 +1042,8 @@ cnoreabbrev fzf FZF
 
 
 catch
-  echo 'FZF not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'FZF not installed.'
 endtry
 
 
