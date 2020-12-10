@@ -176,7 +176,7 @@ if has("nvim-0.5") "nerdtree requires most recent nvim 0.5 nightly as of dec 202
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
 endif
 Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
-"Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "Adds RGB/Color visualisations next to colors i.e CSS such as ... #f14b59 NOT WORKING WITHOUT GO
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "Adds RGB/Color visualisations next to colors i.e CSS such as ... #f14b59 NOT WORKING WITHOUT GO
 "Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 "Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
