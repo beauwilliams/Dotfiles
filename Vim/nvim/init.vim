@@ -273,7 +273,8 @@ set t_Co=256 "enabling 256 color support
 colorscheme gruvbox
 
 catch
-  echo 'Gruvbox not installed. It should work after running :PlugInstall'
+    :PlugInstall
+    echo 'Gruvbox not installed. It should work after running :PlugInstall'
 endtry
 
 "============================END MY CONFIGS===============================
