@@ -157,13 +157,15 @@ call plug#begin('~/.vim/plugged')
 
 
 "THEME/UX
-Plug 'gruvbox-community/gruvbox' "Seemingly the most complete and best GB theme out there. Easy on the eyes.
+Plug 'tjdevries/colorbuddy.nvim' "REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
+Plug 'npxbr/gruvbox.nvim' "lua port of gruvbox community with treesitter support
 Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
 Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
 Plug 'ryanoasis/vim-devicons' "NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
 Plug 'Yggdroot/indentLine' "Code indentations marks
 Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
+"Plug 'gruvbox-community/gruvbox' "Seemingly the most complete and best GB theme out there. Easy on the eyes. RETIRED DEC 20 for lua port
 "Plug 'habamax/vim-gruvbit' Another gruvbox alternative
 "Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
 
@@ -270,7 +272,8 @@ let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark="soft" " lightens up gruvbox, too dark otherwise
 set termguicolors "enabling terminal color support
 set t_Co=256 "enabling 256 color support
-colorscheme gruvbox
+"colorscheme gruvbox
+lua require("colorbuddy").colorscheme("gruvbox")
 
 catch
     :PlugInstall
