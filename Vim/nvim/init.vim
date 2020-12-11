@@ -185,7 +185,9 @@ Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "Adds RGB/Color visual
 
 " COC {Language Server} PLUGS
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+if has("nvim-0.5") "Only the 0.5 nightly version can issue the :UpdateRemotePlugins command
 Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+endif
 "END COC PLUGS -- Note as of 8/20 - COC supports installing extensions via
 "plugs -- we will migrate to this over time easier for automation this way
 "Although we lose :CocUpdate functionality.. hmm..
@@ -759,6 +761,8 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "=======================START EXTENSION CONFIGS=============================
 
 
+
+
 "Enhanced Sessions --> COMPANION CONFIG TO vim-session
 try
 "keep all sessions in one location
@@ -890,8 +894,6 @@ endtry
 "I wrap these configs in try/catch to avoid errors on initial install before plugin is available
 "Mostly for anyone who uses my dockerfile thats sets up a working nvim env
 try
-
-
 let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
 
 " Abbreviating INSERT NORMAL etc to just the first character
@@ -946,8 +948,6 @@ endtry
 
 
 try
-
-
 let g:coc_global_extensions = [
             \ 'coc-json',
             \ 'coc-tsserver',
@@ -1128,6 +1128,7 @@ endtry
 
 "This fn replaces grep with Ripgrep, so we can do better search and replace.
 "Also prevents searching .git files and some other sane defaults
+try
 if executable('rg')
         set grepprg=rg\ --vimgrep\ --smart-case\ --follow
 endif
@@ -1161,6 +1162,10 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "Otherwise we would have to search recursively each time like so :grep \"test" . -R
 "Now we can just do :grep \"test" and we get a recursive search
 
+catch
+    :PlugInstall
+    echo 'RipGrep not installed.'
+endtry
 
 
 "==========================END RIPGREP CONFIGS=============================
@@ -1169,6 +1174,7 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 
 
 "==========================START STARTIFY CONFIGS=============================
+
 
 
 
@@ -1201,6 +1207,7 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "\ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
 "\]
 
+try
 let g:startify_custom_header = [
 \ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
 \ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
@@ -1214,7 +1221,6 @@ let g:startify_custom_header = [
 
 let g:startify_session_dir = '~/.config/nvim/.session'
 
-
 let g:startify_lists = [
           \ { 'type': 'files',     'header': ['   Recent Files']                 },
           \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
@@ -1222,6 +1228,11 @@ let g:startify_lists = [
           \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
           \ ]
 
+let g:startify_bookmarks = [
+            \ { 'v': '~/.config/nvim/init.vim' },
+            \ { 'z': '~/.zshrc' },
+            \ { 's': '~/.ssh/config' }
+            \ ]
 
 "let g:startify_session_autoload = 1
 "let g:startify_session_delete_buffers = 1
@@ -1236,12 +1247,10 @@ let g:startify_lists = [
         "return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
     "endfunction
 
-let g:startify_bookmarks = [
-            \ { 'v': '~/.config/nvim/init.vim' },
-            \ { 'z': '~/.zshrc' },
-            \ { 's': '~/.ssh/config' }
-            \ ]
-
+catch
+    :PlugInstall
+    echo 'Startify not installed.'
+endtry
 
 
 "===============================END STARIFY CONFIG=================================
