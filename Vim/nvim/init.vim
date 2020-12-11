@@ -157,17 +157,17 @@ call plug#begin('~/.vim/plugged')
 
 
 "THEME/UX
-Plug 'tjdevries/colorbuddy.nvim' "REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
-Plug 'npxbr/gruvbox.nvim' "lua port of gruvbox community with treesitter support
+Plug 'gruvbox-community/gruvbox' "Seemingly the most complete and best GB theme out there. Easy on the eyes. RETIRED DEC 20 for lua port
 Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
 Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
 Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
 Plug 'ryanoasis/vim-devicons' "NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
 Plug 'Yggdroot/indentLine' "Code indentations marks
 Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
-"Plug 'gruvbox-community/gruvbox' "Seemingly the most complete and best GB theme out there. Easy on the eyes. RETIRED DEC 20 for lua port
 "Plug 'habamax/vim-gruvbit' Another gruvbox alternative
 "Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
+"Plug 'tjdevries/colorbuddy.nvim' "REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
+"Plug 'npxbr/gruvbox.nvim' "lua port of gruvbox community with treesitter support
 
 
 "LANG PLUGS
@@ -199,8 +199,11 @@ Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 
-"WORKSPACE MGMT
-Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess
+"SESSION/WORKSPACE MGMT -> :SaveSession :DeleteSession :ViewSession --> sessions saved
+"to .config/nvim/.session and display in startify launch menu when booting nvim
+Plug 'xolox/vim-misc' "Dependeny for vim session
+Plug 'xolox/vim-session' "Centralise sessions to a .sessions folder and easily save sessions with :SaveSession <name>
+"Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
 
 
 "GIT PLUGINS
@@ -216,6 +219,7 @@ Plug 'airblade/vim-rooter' "sets cwd automatically if are in say a git folder et
 Plug 'voldikss/vim-floaterm' "Floating terminal popups for neovim - Toggle with <leader>t
 Plug 'unblevable/quick-scope' "Adds a colour effect to letters to help you use the f key to move on a line left and right faster
 Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
+Plug 'psliwka/vim-smoothie' " some very smooth ass scrolling
 
 
 "TESTING
@@ -272,13 +276,37 @@ let g:gruvbox_italic=1
 let g:gruvbox_contrast_dark="soft" " lightens up gruvbox, too dark otherwise
 set termguicolors "enabling terminal color support
 set t_Co=256 "enabling 256 color support
-"colorscheme gruvbox
-lua require("colorbuddy").colorscheme("gruvbox")
+colorscheme gruvbox
+"lua require("colorbuddy").colorscheme("gruvbox")
 
 catch
     :PlugInstall
     echo 'Gruvbox not installed.'
 endtry
+
+" Backup Directories
+if !isdirectory($HOME . "/.config/nvim/.backup")
+    call mkdir($HOME . "/.config/nvim/.backup", "p", 0700)
+endif
+if !isdirectory($HOME . "/.config/nvim/.undo")
+    call mkdir($HOME . "/.config/nvim/.undo", "p", 0700)
+endif
+if !isdirectory($HOME . "/.config/nvim/.swap")
+    call mkdir($HOME . "/.config/nvim/.swap", "p", 0700)
+endif
+if !isdirectory($HOME . "/.config/nvim/.session")
+    call mkdir($HOME . "/.config/nvim/.session", "p", 0700)
+endif
+set backupdir=~/.config/nvim/.backup//
+set directory=~/.config/nvim/.swap//
+if exists('&undodir')
+  set undodir=~/.config/nvim/.undo//
+endif
+
+
+
+
+
 
 "============================END MY CONFIGS===============================
 
@@ -731,6 +759,22 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "=======================START EXTENSION CONFIGS=============================
 
 
+"Enhanced Sessions --> COMPANION CONFIG TO vim-session
+try
+"keep all sessions in one location
+let g:session_directory='~/.config/nvim/.session'
+"remove .vim from end of files so it looks nicer in startify
+let g:session_extension=''
+"Remove pop-up each time we close to ask to save session
+let g:session_autosave = 'no'
+cnoreabbrev mks SaveSession
+cnoreabbrev mksession SaveSession
+catch
+    :PlugInstall
+    echo 'Vim-Session not installed.'
+endtry
+
+
 "CURSOR FLASH --> COMPANION CONFIG TO Ydanilamihailov/beacon.nvim plugin
 
 try
@@ -1165,7 +1209,7 @@ let g:startify_custom_header = [
 
 
 
-let g:startify_session_dir = '~/.config/nvim/session'
+let g:startify_session_dir = '~/.config/nvim/.session'
 
 
 let g:startify_lists = [
