@@ -767,6 +767,9 @@ let g:session_directory='~/.config/nvim/.session'
 let g:session_extension=''
 "Remove pop-up each time we close to ask to save session
 let g:session_autosave = 'no'
+"If I want to load a session I will specify it. We also have a start page
+"which displays recent sessions too so not need to auto load them
+let g:session_autoload = 'no'
 cnoreabbrev mks SaveSession
 cnoreabbrev mksession SaveSession
 catch
