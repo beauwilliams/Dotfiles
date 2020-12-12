@@ -3,5 +3,6 @@
 "prettier.onlyUseLocalVersion":true,
 "python.pythonPath": "python3",
 "python.jediEnabled": false,
-"coc.preferences.colorSupport": false
+"coc.preferences.colorSupport": false,
+"diagnostic.enable": false
 }
