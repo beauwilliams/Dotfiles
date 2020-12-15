@@ -173,6 +173,7 @@ Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get so
 "LANG PLUGS
 Plug 'sbdchd/neoformat' "Code formatting plugin
 Plug 'w0rp/ale' "provides errors in the gutter and linting
+"NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
 Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
 if has("nvim-0.5") "nerdtree requires most recent nvim 0.5 nightly as of dec 2020
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
@@ -232,6 +233,7 @@ Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerato
 Plug 'lifepillar/vim-cheat40' "Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 "Plug 'michaelb/vim-tips' "Display vim tip at startup
 "Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
+
 
 call plug#end()
 
@@ -307,8 +309,11 @@ endif
 
 
 
+"============================START LUA TEST===============================
+"lua require'init'
 
-
+"============================END LUA TEST===============================
+"
 
 "============================END MY CONFIGS===============================
 
@@ -319,6 +324,9 @@ endif
 
 "=======================START CONFIGS UNDER TESTING=============================
 
+
+"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 
 """"""""""""TREE-SITTER BASED SYNTAX HIGHLIGHTING --> CONFIGURATION""""""""""
@@ -556,7 +564,7 @@ noremap <silent><leader>/ :nohlsearch<cr>
 
 "FORMATTERS
 "Remove indents from code! (a simple code formatter)
-nnoremap <silent><leader>i gg=G
+nnoremap <silent><leader>i gg=G<c-o>
 "Run Neoformat
 nnoremap <silent><leader>F :Neoformat<CR>
 
@@ -830,7 +838,9 @@ let g:ale_echo_msg_warning_str = 'W'
 "let g:ale_sign_warning = '⚠'
 let g:ale_sign_error = '●'
 let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
+let g:ale_lint_on_enter = 1 "Don't lint on enter hope this speeds things up/prevents lag
+
+
 catch
     :PlugInstall
     echo 'Ale not installed.'
@@ -954,6 +964,7 @@ let g:coc_global_extensions = [
             \ 'coc-html',
             \ 'coc-css',
             \ 'coc-java',
+            \ 'coc-java-debug',
             \ 'coc-python',
             \ 'coc-dictionary',
             \ 'coc-pairs',
@@ -1163,7 +1174,6 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
 "Now we can just do :grep \"test" and we get a recursive search
 
 catch
-    :PlugInstall
     echo 'RipGrep not installed.'
 endtry
 
@@ -1387,4 +1397,3 @@ endtry
 
 
 "=========================END OF FILE=================================
-
