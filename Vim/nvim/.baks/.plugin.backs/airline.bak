@@ -1,0 +1,42 @@
+"=============================START AIRLINE CONFIG=================================
+
+"I wrap these configs in try/catch to avoid errors on initial install before plugin is available
+"Mostly for anyone who uses my dockerfile thats sets up a working nvim env
+let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
+
+" Abbreviating INSERT NORMAL etc to just the first character
+let airline_mode_map = {
+                        \ '__'      : '_',
+                        \ 'c'       : 'C',
+                        \ 'i'       : 'I',
+                        \ 'v'       : 'V',
+                        \ 'n'      : 'N',
+                        \ }
+
+" remove the filetype part - now it just displays the icon
+let g:airline_section_x =''
+" remove separators for empty sections
+let g:airline_skip_empty_sections = 1
+"Abbreviate section z, it has percentage of way down doc, line count, line
+"length
+"let g:airline_section_z = '%3p%% %3l/%L:%3v'
+let g:airline_section_z = "%p%%  \ue0a1 %l/%L  \ue0a3 %c"
+"Remove the filetype encoding section, I dont need to specifically know this
+"most of the time!
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'conflicts' ]
+"Shorten 'words' to 'w' for wordcount
+let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
+let g:airline#extensions#wordcount#format = '%d w'
+let g:airline#extensions#wordcount#enabled = 1
+" Enable caching of syntax highlighting groups
+let g:airline_highlighting_cache = 1
+
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+
+
+
+
+
+"=============================END AIRLINE CONFIG=================================

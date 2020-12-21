@@ -1,5 +1,80 @@
-" ===========================KEY MAPPINGS===============================
+" statusline git tracker/lsp diagnostics, dev icons
+" " SETUP LSP / ALE / LINTING --> move away from CoC: DONE
+" Set Up LSP Status progress in statusline using lsp status as inspo
+" inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
 
+
+"NOTE: THIS CURRENTLY ALLOWS FOR AUTO-MAGIC TAB OVERLOADING
+"WE CAN USE TAB TO BOTH MOVE THROUGH OUR COMPLETION LIST AND TAB THROUGH OUR
+"SNIPPETS. I TRIED LOADING THESE MAPS IN PACKER BUT TAB STOPPED WORKING FOR
+"COMPLETION ITEMS SO IT NEEDS TO BE BEFORE WE SRC INIT.LUA
+imap <expr> <tab>   vsnip#jumpable(1)   ? '<plug>(vsnip-jump-next)'      : '<tab>'
+smap <expr> <tab>   vsnip#jumpable(1)   ? '<plug>(vsnip-jump-next)'      : '<tab>'
+imap <expr> <s-tab> vsnip#jumpable(-1)  ? '<plug>(vsnip-jump-prev)'      : '<s-tab>'
+smap <expr> <s-tab> vsnip#jumpable(-1)  ? '<plug>(vsnip-jump-prev)'      : '<s-tab>'
+
+
+function! Test()
+   return "test"
+endfunction
+
+function! StatuslineLsp() abort
+  return luaeval("require('lsp-status').status()")
+endfunction
+
+" Statusline
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
+
+  return ''
+endfunction
+
+
+" jump to the last non-whitespace char on line, or eol if already there
+"map <End> :call LineEnd()<CR>:echo<CR>
+"imap <End> <C-R>=LineEnd()<CR>
+"function! LineEnd()
+  "let x = col('.')
+    "execute "normal g_"
+  "if x == col('.')
+    "execute "normal $"
+  "endif
+ "return ""
+"endfunction
+"jump to first non-whitespace on line, jump to begining of line if already at first non-whitespace
+"map <Home> :call LineHome()<CR>:echo<CR>
+"imap <Home> <C-R>=LineHome()<CR>
+"map ^[[1~ :call LineHome()<CR>:echo<CR>
+"imap ^[[1~ <C-R>=LineHome()<CR>
+"function! LineHome()
+  "let x = col('.')
+  "execute "normal ^"
+  "if x == col('.')
+    "execute "normal 0"
+  "endif
+  "return ""
+"endfunction
+
+
+
+"set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+"set statusline+=%{StatuslineLsp()}
+"set statusline+=%{LspStatus()}
+
+"lua << EOF
+"EOF
+
+"autocmd WinEnter,BufEnter * set swapfile
+"autocmd WinLeave,BufLEave * set swapfile
+
+"===========================KEY MAPPINGS===============================
+   "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
+  "/ __ \  / / / /   /  _/  / ____/   / //_/         / ____/  / / / /   /  _/   / __ \   / ____/
+ "/ / / / / / / /    / /   / /       / ,<           / / __   / / / /    / /    / / / /  / __/
+"/ /_/ / / /_/ /   _/ /   / /___    / /| |         / /_/ /  / /_/ /   _/ /    / /_/ /  / /___
+"\___\_\ \____/   /___/   \____/   /_/ |_|         \____/   \____/   /___/   /_____/  /_____/
 
 
 "+++++++BASIC NAVIGATION+++++++
@@ -108,8 +183,8 @@
 "Remove indents from code! (a simple code formatter)
 "Mapping -> <leader>i
 "
-"[f]ormat code
-"Mapping -> <leader>f
+"[F]ormat code
+"Mapping -> <leader>F
 "
 "Remove superfluous [w]hitespaces at the end of lines
 "Mapping -> <leader>W
@@ -120,9 +195,16 @@
 "++++++++HANDY COMMANDS++++++++
 "
 "Speeding up auto correction toggle for my uni lectures
+"Also spellchecking using native neovim
 "Note plgn is Vim-you-autocorrect
 "Command -> spellon
 "Command -> spelloff
+"Command -> spellcheck
+"[s  -> go to previous spell error
+"]s  -> go to next spell error
+"zg  -> add word to dictionary
+"z=  -> pop up list of word corrections/suggestions
+"1z= -> correct spelling using first given suggestion
 
 
 
@@ -135,112 +217,55 @@
 
 " ===========================START MY PLUGINS===============================
 
+    "____    _   __    ____  ______   _____
+   "/  _/   / | / /   /  _/ /_  __/  / ___/
+   "/ /    /  |/ /    / /    / /     \__ \
+ "_/ /    / /|  /   _/ /    / /     ___/ /
+"/___/   /_/ |_/   /___/   /_/     /____/
 
-try
-let g:ale_disable_lsp = 1 "Required for ale so we dont double up lsp given coc has one
-catch
-    :PlugInstall
-    echo 'Ale not installed.'
-endtry
+    "lua require("init")
 
 "have tested that I get better performance over sshfs with this on
 "We need to set ale off it before we load our plugins
-"
-"if &compatible
-"        set nocompatible " Using vim-plug we must set not compatible with old vim
-"endif "NOTE: According to vim manual, if we use .vimrc it will auto set
-"nocompatible - no need to specify manually
+
+"NOTE: DEC 2020 --> Moved to packer, moving to lua gradually.
+"TODO: ENSURE COMPATIBILITY WITH VSC && NVIM < 0.5
 
 
-" Plugins will be downloaded under the specified directory.
-call plug#begin('~/.vim/plugged')
+" Determine whether or not we're inside vscode
+let g:using_vscode = exists('g:vscode')
 
-
-"THEME/UX
-Plug 'gruvbox-community/gruvbox' "Seemingly the most complete and best GB theme out there. Easy on the eyes. RETIRED DEC 20 for lua port
-Plug 'mhinz/vim-startify' "startup screen for vim allowing you to open recent files and stuff
-Plug 'vim-airline/vim-airline' "FROM HERE https://oracleyue.github.io/2019/11/07/vim-powerline/
-Plug 'vim-airline/vim-airline-themes' "FROM HERE https://github.com/vim-airline/vim-airline-themes Once installed, use :AirlineTheme <theme> to set theme
-Plug 'ryanoasis/vim-devicons' "NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
-Plug 'Yggdroot/indentLine' "Code indentations marks
-Plug 'lukas-reineke/indent-blankline.nvim' "an addition to indentline, we get solid lines now even between methods etc
-"Plug 'habamax/vim-gruvbit' Another gruvbox alternative
-"Plug 'https://github.com/noscript/cSyntaxAfter' "Adds a little visual bling to () etc for semantic langs like c
-"Plug 'tjdevries/colorbuddy.nvim' "REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
-"Plug 'npxbr/gruvbox.nvim' "lua port of gruvbox community with treesitter support
-
-
-"LANG PLUGS
-Plug 'sbdchd/neoformat' "Code formatting plugin
-Plug 'w0rp/ale' "provides errors in the gutter and linting
-"NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
-Plug 'preservim/nerdcommenter' "quick and easy commenting- setup to cmd+/ using iterm binding
-if has("nvim-0.5") "nerdtree requires most recent nvim 0.5 nightly as of dec 2020
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  "PARSER-BASED SYNTAX SERVICE --> INSTALL LANGS WITH CMD :tsinstall <lang>
+ "Determine whether or not to use the built-in LSP.
+if !exists('g:using_nvim_lsp')
+    let g:using_nvim_lsp = has('nvim-0.5') && !g:using_vscode
 endif
-Plug 'luochen1990/rainbow' "colorises our brackets and braces to help identifying them | 4/12/20 disabled treesitter gihlighting of brackets to pave way for rainbow brakets plugin
-Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' } "Adds RGB/Color visualisations next to colors i.e CSS such as ... #f14b59 NOT WORKING WITHOUT GO
-"Plug 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
-"Plug 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
 
-
-" COC {Language Server} PLUGS
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-if has("nvim-0.5") "Only the 0.5 nightly version can issue the :UpdateRemotePlugins command
-Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release', 'do': ':UpdateRemotePlugins' }
+if has('nvim-0.5')
+    lua require("init")
+    "lua require("init")
+    "lua require 'init' -- Source packer.nvim configuration
+    "if &loadplugins
+        "lua require("init")
+        "lua require 'init/plugins'  -- Load conditional plugins
+    "elseif !g:using_vscode
+        "packadd nvim-highlite
+    "endif
+"endif
+else
+    runtime init_pre_0.5.vim " Source Vim-Plug configuration
 endif
-"END COC PLUGS -- Note as of 8/20 - COC supports installing extensions via
-"plugs -- we will migrate to this over time easier for automation this way
-"Although we lose :CocUpdate functionality.. hmm..
 
-
-"FILE NAV
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim' "FUZZY FINDER
-Plug 'laher/fuzzymenu.vim' "HELP MENU FOR FF
-Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } "FILE BROWSER
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-
-"SESSION/WORKSPACE MGMT -> :SaveSession :DeleteSession :ViewSession --> sessions saved
-"to .config/nvim/.session and display in startify launch menu when booting nvim
-Plug 'xolox/vim-misc' "Dependeny for vim session
-Plug 'xolox/vim-session' "Centralise sessions to a .sessions folder and easily save sessions with :SaveSession <name>
-"Plug 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
-
-
-"GIT PLUGINS
-Plug 'airblade/vim-gitgutter' "Git diff gutter
-Plug 'rhysd/git-messenger.vim' "leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
-Plug 'tpope/vim-fugitive' "Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
-Plug 'APZelos/blamer.nvim' "Adds a VSCode GitLens Style Git Blame feature. Display who commited what line automatically
-
-
-"OTHER
-Plug 'tpope/vim-eunuch' "Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
-Plug 'airblade/vim-rooter' "sets cwd automatically if are in say a git folder etc
-Plug 'voldikss/vim-floaterm' "Floating terminal popups for neovim - Toggle with <leader>t
-Plug 'unblevable/quick-scope' "Adds a colour effect to letters to help you use the f key to move on a line left and right faster
-Plug 'danilamihailov/beacon.nvim' "Adds a flash to the cursor when we move it a large amount. Helps to keep focus.
-Plug 'psliwka/vim-smoothie' " some very smooth ass scrolling
-
-
-"TESTING
-Plug 'tpope/vim-surround' "all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
-Plug 'jez/vim-superman' "Read man pages in vim easily with vman or :Man
-cnoreabbrev man Man
-Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } } "DOcumentation GEnerator
-Plug 'lifepillar/vim-cheat40' "Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
-"Plug 'michaelb/vim-tips' "Display vim tip at startup
-"Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
-
-
-call plug#end()
+"runtime init/config.vim   " Source misc configurations
+"runtime init/mappings.vim " Source mappings
 
 
 "===========================END MY PLUGINS===============================
 
-
+    "__  _____  __          ______   ____     _   __    ______    ____   ______   _____
+   "/  |/  /\ \/ /         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
+  "/ /|_/ /  \  /         / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
+ "/ /  / /   / /         / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
+"/_/  /_/   /_/          \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
 
 
 "BEAU CONFIGS
@@ -268,25 +293,18 @@ set lazyredraw "hopefully this speeds up vim!
 set autoread "loads file as soon as there are changes on disk
 set wildmenu "enhanced tab completion for vim command bar
 set wildmode=list,full "Displays a handy list of commands we can tab thru"
-set updatetime=50 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience. - some dude on the internet (not my idea)
+set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
 
-"Wrapping theme in try catch block to help with fresh installs. Helpful errors
-"on first boot
-try
-"THEME CONFIG
-set background=dark
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_dark="soft" " lightens up gruvbox, too dark otherwise
-set termguicolors "enabling terminal color support
-set t_Co=256 "enabling 256 color support
-colorscheme gruvbox
-"lua require("colorbuddy").colorscheme("gruvbox")
+if has('nvim')
+set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
+set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
+"to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
+endif
 
-catch
-    :PlugInstall
-    echo 'Gruvbox not installed.'
-endtry
+
 
 " Backup Directories
 if !isdirectory($HOME . "/.config/nvim/.backup")
@@ -306,70 +324,7 @@ set directory=~/.config/nvim/.swap//
 if exists('&undodir')
   set undodir=~/.config/nvim/.undo//
 endif
-
-
-
-"============================START LUA TEST===============================
-"lua require'init'
-
-"============================END LUA TEST===============================
-"
-
-"============================END MY CONFIGS===============================
-
-
-
-"============================START MY CONFIGS===============================
-
-
-"=======================START CONFIGS UNDER TESTING=============================
-
-
-"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-
-""""""""""""TREE-SITTER BASED SYNTAX HIGHLIGHTING --> CONFIGURATION""""""""""
-"Enable treesitter syntax highlight
-try
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    custom_captures = {
-      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-      ["foo.bar"] = "Identifier",
-    },
-  },
-}
-EOF
-
-"Disable bracket, delimiter highlighting with treesitter --> so regex based luochen1990/rainbow
-"can provide us rainbow brackets instead. great for c based langs
-lua <<EOF
-require "nvim-treesitter.highlight"
-    local hlmap = vim.treesitter.highlighter.hl_map
-
-    --Misc
-    hlmap.error = nil
-    hlmap["punctuation.delimiter"] = "Delimiter"
-    hlmap["punctuation.bracket"] = nil
-EOF
-catch
-    echo 'Treesitter not installed. It should work after running :PlugInstall or updating to the latest neovim 0.5 nightly with treesitter support'
-endtry
-""""""""""""""""""""""""""""END TREESITTER SCRIPTS"""""""""""""""""""""""""""""""""""""
-
-
-
-"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
-inoremap <c-j> <esc>ji
-inoremap <c-k> <esc>ki
-inoremap <c-h> <esc>i
-inoremap <c-l> <esc>la
-
-
-
+set swapfile
 
 "Stolen from sensible vim
 if &history < 1000
@@ -382,19 +337,53 @@ if !empty(&viminfo)
   set viminfo^=!
 endif
 
-
-
-"This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
-set inccommand=nosplit
-
-
-
 "TURN OFF RELATIVE LINE NUMBERING WHEN WE ENTER INSERT MODE AND ENABLE OTHERWISE
  augroup every
   autocmd!
   au InsertEnter * set norelativenumber
   au InsertLeave * set relativenumber
 augroup END
+
+
+
+"============================END MY CONFIGS===============================
+
+
+
+"============================START MY CONFIGS===============================
+
+
+"=======================START CONFIGS UNDER TESTING=============================
+
+  "______    ______   _____  ______          ______   ____     _   __    ______    ____   ______   _____
+ "/_  __/   / ____/  / ___/ /_  __/         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
+  "/ /     / __/     \__ \   / /           / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
+ "/ /     / /___    ___/ /  / /           / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
+"/_/     /_____/   /____/  /_/            \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
+
+highlight LuatreeFolderName ctermfg=none guifg=none
+
+"STOLEN FROM --> https://github.com/haorenW1025/dotfiles/blob/master/nvim/plugin/plugin-setting.vim
+"function! s:check_back_space() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]  =~ '\s'
+"endfunction
+
+"inoremap <silent><expr> <TAB>
+  "\ pumvisible() ? "\<C-n>" :
+  "\ <SID>check_back_space() ? "\<TAB>" :
+  "\ completion#trigger_completion()
+"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
+
+"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
+inoremap <c-j> <esc>ji
+inoremap <c-k> <esc>ki
+inoremap <c-h> <esc>i
+inoremap <c-l> <esc>la
 
 
 
@@ -415,21 +404,6 @@ autocmd BufWritePre * :call TrimWhitespace()
 
 
 
-set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
-"to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
-
-
-
-"SET RELATIVE LINE NUMBERS IN RULER
-set relativenumber
-
-
-"ENABLE BUFFERS TO HIDE - PREVENTS ERROR:
-"E37: No write since last change (add ! to override)
-"When opening a new buffer before saving current one
-set hidden
-
-
 
 "------AUTO RESIZING WINDOWS----------
 "UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
@@ -444,11 +418,10 @@ augroup ReduceNoise
 
         autocmd WinLeave * setlocal nocursorline
         autocmd WinLeave * setlocal signcolumn=no
-
 augroup END
 
 function! ResizeSplits()
-        if &ft == 'nerdtree'
+        if &ft == 'LuaTree'
                 return
         elseif &ft == 'qf'
                 " Always set quickfix list to a height of 10
@@ -527,13 +500,17 @@ augroup END
 
 
 "ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
-if has('nvim')
-  tnoremap <Esc> <C-\><C-n>
-  tnoremap <M-[> <Esc>
-  tnoremap <C-v><Esc> <Esc>
+if has("nvim")
+  au TermOpen * tnoremap <Esc> <c-\><c-n>
+  au FileType fzf tunmap <Esc>
 endif
 
-
+"NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
+"if has('nvim')
+  "tnoremap <Esc> <C-\><C-n>
+  "tnoremap <M-[> <Esc>
+  "tnoremap <C-v><Esc> <Esc>
+"endif
 
 "=======================END CONFIGS UNDER TESTING=============================
 
@@ -541,6 +518,11 @@ endif
 
 "=============================START REMAPS========================================
 
+    "____     ______    __  ___    ___     ____    _____
+   "/ __ \   / ____/   /  |/  /   /   |   / __ \  / ___/
+  "/ /_/ /  / __/     / /|_/ /   / /| |  / /_/ /  \__ \
+ "/ _, _/  / /___    / /  / /   / ___ | / ____/  ___/ /
+"/_/ |_|  /_____/   /_/  /_/   /_/  |_|/_/      /____/
 
 
 "LEADER KEY IS THE SPACE BAR
@@ -553,8 +535,10 @@ map <leader><leader> :
 
 
 "Speeding up auto correction toggle for my uni lectures
-"Note plgn is Vim-you-autocorrect
-cnoreabbrev spellon EnableAutocorrect
+"NOTE: plgn is vim-you/autocorrect
+"Note we are using neovims built in spellcheck and dictionary
+cnoreabbrev <silent>spellcheck :set spell!<cr>
+cnoreabbrev spellon :EnableAutocorrect
 cnoreabbrev spelloff  DisableAutocorrect
 
 
@@ -587,6 +571,14 @@ nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 "just type it slowly
 "this also has a bonus side effect of keeping ur hands on hjkl
 imap jj <ESC>
+
+
+
+"CLOSE FLOATING TERMINAL ON ESCAPE
+"autocmd FileType floaterm tnoremap <buffer> <Esc> <plug>floaterm#toggle
+
+
+
 
 
 "Remove superfluous whitespaces with leader W (as in the shift-w big W)
@@ -623,8 +615,9 @@ vnoremap <silent> <Leader>f :RG<CR>
 "leader-b for BUFFER LIST (show buffers)
 "leader-w for SPLIT CYCLING (cycle current windows)
 "leader-W takes us anticlockwise
-nnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
-vnoremap <silent> <Leader>b :FzfPreviewAllBuffers<CR>
+"WAS BEFORE UPGRADE TO packer :FzfPreviewAllBuffers<CR>
+nnoremap <silent> <Leader>b :Buffers<CR>
+vnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <leader>w <C-w>w
 vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
@@ -642,8 +635,8 @@ vmap <silent> <leader>p <Plug>(FzmVisual)
 
 
 "File Tree Mappings
-nnoremap <silent><Leader>n :NERDTreeToggle<cr>
-vnoremap <silent><Leader>n :NERDTreeToggle<cr>
+nnoremap <silent><Leader>n :LuaTreeToggle<cr>
+vnoremap <silent><Leader>n :LuaTreeToggle<cr>
 
 
 
@@ -675,8 +668,11 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
 "already there
 "Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
-nnoremap <silent> ++ <plug>NERDCommenterToggle
-vnoremap <silent> ++ <plug>NERDCommenterToggle
+nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+"vnoremap <silent>++ <PLUG>NERDCommenterToggle
+"vnoremap <silent>++ <PLUG>NERDCommenterToggle
+
 
 
 
@@ -687,7 +683,7 @@ vnoremap <silent> ++ <plug>NERDCommenterToggle
 
 
 
-"==========================START MAPPINGS UNDER TESING=============================
+"==========================START REMAPS UNDER TESING=============================
 
 
 
@@ -703,7 +699,15 @@ vnoremap <silent> ++ <plug>NERDCommenterToggle
 
 "============================BEGIN FUNCTIONS CONFIG=======================
 
+    "________  ___   ______________________  _   _______
+   "/ ____/ / / / | / / ____/_  __/  _/ __ \/ | / / ___/
+  "/ /_  / / / /  |/ / /     / /  / // / / /  |/ /\__ \
+ "/ __/ / /_/ / /|  / /___  / / _/ // /_/ / /|  /___/ /
+"/_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
 
+
+"autocmd InsertLeave,WinEnter * set cursorline
+"autocmd InsertEnter,WinLeave * set nocursorline
 
 
 "ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
@@ -756,520 +760,17 @@ nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
 
 
-
-
-
-
-
 "============================END FUNCTIONS CONFIG=======================
 
 
 
 
-"=======================START EXTENSION CONFIGS=============================
-
-
-
-
-"Enhanced Sessions --> COMPANION CONFIG TO vim-session
-try
-"keep all sessions in one location
-let g:session_directory='~/.config/nvim/.session'
-"remove .vim from end of files so it looks nicer in startify
-let g:session_extension=''
-"Remove pop-up each time we close to ask to save session
-let g:session_autosave = 'no'
-"If I want to load a session I will specify it. We also have a start page
-"which displays recent sessions too so not need to auto load them
-let g:session_autoload = 'no'
-cnoreabbrev mks SaveSession
-cnoreabbrev mksession SaveSession
-catch
-    :PlugInstall
-    echo 'Vim-Session not installed.'
-endtry
-
-
-"CURSOR FLASH --> COMPANION CONFIG TO Ydanilamihailov/beacon.nvim plugin
-
-try
-let g:beacon_size = 90
-let g:beacon_minimal_jump = 25
-let g:beacon_shrink = 0
-catch
-    :PlugInstall
-    echo 'Beacon not installed.'
-endtry
-
-"GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
-try
-let g:blamer_enabled = 1
-catch
-    :PlugInstall
-    echo 'Blamer not installed.'
-endtry
-
-
-
-"INDENT GUIDES --> COMPANION CONFIG TO Yggdroot/indentLine plugin
-try
-    let g:indentLine_char = '│'
-catch
-    :PlugInstall
-    echo 'Indentline not installed.'
-endtry
-
-"RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
-try
-let g:rainbow_active = 1 "set to 0 if you want to enable rainbow later via :RainbowToggle
-catch
-    :PlugInstall
-    echo 'Rainbow not installed.'
-endtry
-
-
-"ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
-" Shorten error/warning flags
-try
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-" I have some custom icons for errors and warnings but feel free to change them.
-"let g:ale_sign_error = '✘'
-"let g:ale_sign_warning = '⚠'
-let g:ale_sign_error = '●'
-let g:ale_sign_warning = '.'
-let g:ale_lint_on_enter = 1 "Don't lint on enter hope this speeds things up/prevents lag
-
-
-catch
-    :PlugInstall
-    echo 'Ale not installed.'
-endtry
-
-
-"FUZZYMENU POPUP WINDOW CONFIG
-try
-let g:fuzzymenu_position =  'window'
-let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
-catch
-    :PlugInstall
-    echo 'Fuzzymenu not installed.'
-endtry
-
-
-""""""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
-try
-let g:floaterm_keymap_toggle = '<Leader>t'
-let g:floaterm_width = 0.7
-"let g:floaterm_winblend = 5 "Transparency
-"let g:floaterm_wintype = 'floating' "neovim must have floating windows
-catch
-    :PlugInstall
-    echo 'Floaterm not installed.'
-endtry
-
-
-
-
-
-"VIM QUICKSCOPE --> COMPANION CONFIG TO unblevable/quick-scope
-try
-highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-augroup qs_colors
-  autocmd!
-  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-augroup END
-
-let g:qs_buftype_blacklist = ['terminal', 'nofile']
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-let g:qs_lazy_highlight = 1
-catch
-    :PlugInstall
-    echo 'Quickscope not installed.'
-endtry
-
-
-
-"=======================END EXTENSION CONFIGS=============================
-
-
-
-
-"============================BEGIN STATUSLINE CONFIG=======================
-
-
-
-"I wrap these configs in try/catch to avoid errors on initial install before plugin is available
-"Mostly for anyone who uses my dockerfile thats sets up a working nvim env
-try
-let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
-
-" Abbreviating INSERT NORMAL etc to just the first character
-let airline_mode_map = {
-                        \ '__'      : '_',
-                        \ 'c'       : 'C',
-                        \ 'i'       : 'I',
-                        \ 'v'       : 'V',
-                        \ 'n'      : 'N',
-                        \ }
-
-" remove the filetype part - now it just displays the icon
-let g:airline_section_x =''
-" remove separators for empty sections
-let g:airline_skip_empty_sections = 1
-"Abbreviate section z, it has percentage of way down doc, line count, line
-"length
-"let g:airline_section_z = '%3p%% %3l/%L:%3v'
-let g:airline_section_z = "%p%%  \ue0a1 %l/%L  \ue0a3 %c"
-"Remove the filetype encoding section, I dont need to specifically know this
-"most of the time!
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'conflicts' ]
-"Shorten 'words' to 'w' for wordcount
-let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
-let g:airline#extensions#wordcount#format = '%d w'
-let g:airline#extensions#wordcount#enabled = 1
-" Enable caching of syntax highlighting groups
-let g:airline_highlighting_cache = 1
-
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-
-
-catch
-    :PlugInstall
-  echo 'Airline not installed.'
-endtry
-
-
-
-
-"=============================END STATUSLINE CONFIG=================================
-
-
-
-
-
-
-
-"================================BEGIN COC CONFIG=========================
-
-
-
-try
-let g:coc_global_extensions = [
-            \ 'coc-json',
-            \ 'coc-tsserver',
-            \ 'coc-html',
-            \ 'coc-css',
-            \ 'coc-java',
-            \ 'coc-java-debug',
-            \ 'coc-python',
-            \ 'coc-dictionary',
-            \ 'coc-pairs',
-            \ 'coc-highlight',
-            \ 'coc-rust-analyzer',
-            \ 'coc-snippets',
-            \ 'coc-prettier',
-            \ 'coc-xml',
-            \ ]
-
-"PRETTIER FORMATTER --> COMPANION CONFIG TO neoclide/coc.nvim
-try
-"Part of prettier recommended configs
-command! -nargs=0 Prettier :CocCommand prettier.formatFile
-"NOTE -- SET Prettier languages with :CocConfig
-"Prettier seems to format java okay which is neat :)
-catch
-    :PlugInstall
-    echo 'Prettier not installed.'
-endtry
-
-
-" Always show the signcolumn, otherwise it would shift the text each time
-" diagnostics appear/become resolved.
-if has("patch-8.1.1564")
-        " Recently vim can merge signcolumn and number column into one
-        set signcolumn=number
-else
-        set signcolumn=yes
-endif
-
-" Use tab for trigger completion with characters ahead and navigate.
-" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
-" other plugin before putting this into your config.
-inoremap <silent><expr> <TAB>
-                        \ pumvisible() ? "\<C-n>" :
-                        \ <SID>check_back_space() ? "\<TAB>" :
-                        \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-        inoremap <silent><expr> <c-space> coc#refresh()
-else
-        inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-" position. Coc only does snippet and additional edit on confirm.
-" <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
-if exists('*complete_info')
-        inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-        inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-" Use `[g` and `]g` to navigate diagnostics
-" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-        if (index(['vim','help'], &filetype) >= 0)
-                execute 'h '.expand('<cword>')
-        else
-                call CocAction('doHover')
-        endif
-endfunction
-
-if has_key(plugs, 'coc.nvim')
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-endif
-
-" Symbol renaming - RENAME / REFACTOR FILES QUICK.
-nmap <leader>rn <Plug>(coc-rename)
-
-"Terminal Window Mappings --> 8/12/20 RETIRED FOR TERMINAL POPUPS
-"nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
-
-
-catch
-    :PlugInstall
-    echo "COC Not installed."
-endtry
-
-
-
-
-"================================END COC CONFIG=========================
-
-
-
-
-
-
-
-"==========================START FZF CONFIGS=============================
-
-
-
-" Wrap in try/catch to avoid errors on initial install before plugin is available
-try
-"
-"
-"
-"WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
-"let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
-let $FZF_DEFAULT_OPTS="--layout=reverse --margin=1,4 --preview-window 'right:60%'"
-"FZF CONFIGS
-let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
-"let g:fzf_preview_window = 'right:60%'
-let g:fzf_history_dir = '~/.local/share/fzf-history'
-"Enabling :find to search entire current directory of project you are working in using recursion
-set path+=**
-"Shows file preview in files search etc
-let g:fzf_files_options =
-                        \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
-"Allows us to ignore files with fzf
-"WE HAVE SET RIPGREP AS OUR GREP PROVIDER - FASTEST GREP IN THE WEST
-"Note, can only figure out how to ignore folders for now. tried **.classes for
-"java classes sended up blocking the classes folder itself.
-let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"'
-
-"command! -bang -nargs=? -complete=dir Files
-""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=? -complete=dir Files
-                        \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline', '--layout=reverse']}), <bang>0)
-
-" The query history for this command will be stored as 'ls' inside g:fzf_history_dir.
-" The name is ignored if g:fzf_history_dir is not defined.
-command! -bang -complete=dir -nargs=* LS
-                        \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
-
-"capital letter command fzf execute "FZF"
-"The below works beautifully!
-cnoreabbrev fzf FZF
-
-
-catch
-    :PlugInstall
-    echo 'FZF not installed.'
-endtry
-
-
-
-
-"==========================END FZF CONFIGS=============================
-
-
-
-
-"==========================START RIPGREP CONFIGS=============================
-
-
-
-
-"This fn replaces grep with Ripgrep, so we can do better search and replace.
-"Also prevents searching .git files and some other sane defaults
-try
-if executable('rg')
-        set grepprg=rg\ --vimgrep\ --smart-case\ --follow
-endif
-
-"let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-
-"RIPGREP CONFIG - Prevent :Rg searching files, we want to search within files
-"only. We have FZF :Files to search for files
-"
-function! RipgrepFzf(query, fullscreen)
-        let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
-        let initial_command = printf(command_fmt, shellescape(a:query))
-        let reload_command = printf(command_fmt, '{q}')
-        let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
-        call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
-endfunction
-"NOTE NEED TO MAP TO NEW COMMAND "RG" instead of "Rg"
-command! -nargs=* -bang RG call RipgrepFzf(<q-args>,<bang>0)
-"
-"
-"HOW TO SEARCH AND REPLACE IN MULTIPLE FILES --
-"All we have to do is be in a file with the string to replace and do this
-":grep \"string" -- if we arent in file with string to replace yet
-":cfdo %s/test/success/g | update -- all we need to do is pipe the result of
-"the first find and replace to :update and it will save the file for us then
-"ripgrep recursively does the rest automatically as we have set it up to work
-"that way
-"NOTE - We can also F&R multiple open files only using buffers like so -- :bufdo %s/pizza/donut/g | update
-
-"WHY RIPGREP MAKES OUR LIFE EASIER
-"Otherwise we would have to search recursively each time like so :grep \"test" . -R
-"Now we can just do :grep \"test" and we get a recursive search
-
-catch
-    echo 'RipGrep not installed.'
-endtry
-
-
-"==========================END RIPGREP CONFIGS=============================
-
-
-
-
-"==========================START STARTIFY CONFIGS=============================
-
-
-
-
-
-"let g:startify_custom_header = [
-        "\ '   ███╗   ██╗███████╗ ██████╗     ██╗   ██╗██╗███╗   ███╗',
-        "\ '   ████╗  ██║██╔════╝██╔═══██╗    ██║   ██║██║████╗ ████║',
-        "\ '   ██╔██╗ ██║█████╗  ██║   ██║    ██║   ██║██║██╔████╔██║',
-        "\ '   ██║╚██╗██║██╔══╝  ██║   ██║    ╚██╗ ██╔╝██║██║╚██╔╝██║',
-        "\ '   ██║ ╚████║███████╗╚██████╔╝     ╚████╔╝ ██║██║ ╚═╝ ██║',
-        "\ '   ╚═╝  ╚═══╝╚══════╝ ╚═════╝       ╚═══╝  ╚═╝╚═╝     ╚═╝',
-        "\]
-
-"let g:startify_custom_header = [
-"\ '    ███████╗██╗   ██╗██████╗     ███╗   ███╗ █████╗ ███╗   ██╗ ██████╗ ',
-"\ '    ██╔════╝██║   ██║██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝ ',
-"\ '    ███████╗██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║██║  ███╗',
-"\ '    ╚════██║██║   ██║██╔═══╝     ██║╚██╔╝██║██╔══██║██║╚██╗██║██║   ██║',
-"\ '    ███████║╚██████╔╝██║         ██║ ╚═╝ ██║██║  ██║██║ ╚████║╚██████╔╝',
-"\ '    ╚══════╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ',
-"\]
-"
-
-"let g:startify_custom_header = [
-"\ '   ███╗   ███╗ █████╗  ██████╗███████╗██╗',
-"\ '   ████╗ ████║██╔══██╗██╔════╝██╔════╝██║',
-"\ '   ██╔████╔██║███████║██║     ███████╗██║',
-"\ '   ██║╚██╔╝██║██╔══██║██║     ╚════██║╚═╝',
-"\ '   ██║ ╚═╝ ██║██║  ██║╚██████╗███████║██╗',
-"\ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
-"\]
-
-try
-let g:startify_custom_header = [
-\ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
-\ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
-\ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ██║',
-\ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝',
-\ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗',
-\ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝',
-\]
-
-
-
-let g:startify_session_dir = '~/.config/nvim/.session'
-
-let g:startify_lists = [
-          \ { 'type': 'files',     'header': ['   Recent Files']                 },
-          \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
-          \ { 'type': 'sessions',  'header': ['   Sessions']                     },
-          \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
-          \ ]
-
-let g:startify_bookmarks = [
-            \ { 'v': '~/.config/nvim/init.vim' },
-            \ { 'z': '~/.zshrc' },
-            \ { 's': '~/.ssh/config' }
-            \ ]
-
-"let g:startify_session_autoload = 1
-"let g:startify_session_delete_buffers = 1
-"let g:startify_change_to_vcs_root = 1
-"let g:startify_fortune_use_unicode = 1
-"let g:startify_session_persistence = 1
-"let g:startify_enable_special = 1
-
-"let g:webdevicons_enable_startify = 1
-
-"function! StartifyEntryFormat()
-        "return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
-    "endfunction
-
-catch
-    :PlugInstall
-    echo 'Startify not installed.'
-endtry
-
-
-"===============================END STARIFY CONFIG=================================
-
-
-
-
-"===============================END VIM CONFIG=================================
-
+"===============================END NEOVIM CONFIG=================================
+    "______    _   __    ____           ______   ____     _   __    ______    ____   ______   _____
+   "/ ____/   / | / /   / __ \         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
+  "/ __/     /  |/ /   / / / /        / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
+ "/ /___    / /|  /   / /_/ /        / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
+"/_____/   /_/ |_/   /_____/         \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
 
 
 
@@ -1277,7 +778,11 @@ endtry
 
 "===============================DEPRECATED CODE==================================
 
-
+    "____     ______    ____     ____     ______   ______    ___   ______    ______    ____
+   "/ __ \   / ____/   / __ \   / __ \   / ____/  / ____/   /   | /_  __/   / ____/   / __ \
+  "/ / / /  / __/     / /_/ /  / /_/ /  / __/    / /       / /| |  / /     / __/     / / / /
+ "/ /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
+"/_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
 
 
 "Removed because I ended up just configuring fzf myself before I even got into
@@ -1392,8 +897,6 @@ endtry
 "else
   "call neomake#configure#automake('nw', 1000)
 "endif
-
-
 
 
 "=========================END OF FILE=================================

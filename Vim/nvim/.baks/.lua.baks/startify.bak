@@ -1,0 +1,95 @@
+-- CURRENTLY NOT USING --> TODO: IMPLEMENT STARTIFY ENTRRY FORMAT FN TO LUA
+-- update session on exit
+vim.g.startify_session_persistence = true
+
+--vim.g.startify_custom_header = {
+    --'   ╻ ╻   ╻   ┏┳┓',
+    --'   ┃┏┛   ┃   ┃┃┃',
+    --'   ┗┛    ╹   ╹ ╹'
+--}
+
+ --show only recent files and sessions
+--vim.g.startify_lists = {
+    --{ type = 'sessions', header = { '  Saved Sessions' }},
+    --{ type = 'dir',      header = { '  Recent Files' }}
+--}
+
+
+
+
+
+
+-- let g:startify_custom_header = [
+-- \ '   ███╗   ██╗███████╗ ██████╗     ██╗   ██╗██╗███╗   ███╗',
+-- \ '   ████╗  ██║██╔════╝██╔═══██╗    ██║   ██║██║████╗ ████║',
+-- \ '   ██╔██╗ ██║█████╗  ██║   ██║    ██║   ██║██║██╔████╔██║',
+-- \ '   ██║╚██╗██║██╔══╝  ██║   ██║    ╚██╗ ██╔╝██║██║╚██╔╝██║',
+-- \ '   ██║ ╚████║███████╗╚██████╔╝     ╚████╔╝ ██║██║ ╚═╝ ██║',
+-- \ '   ╚═╝  ╚═══╝╚══════╝ ╚═════╝       ╚═══╝  ╚═╝╚═╝     ╚═╝',
+-- \]
+
+-- let g:startify_custom_header = [
+-- \ '    ███████╗██╗   ██╗██████╗     ███╗   ███╗ █████╗ ███╗   ██╗ ██████╗ ',
+-- \ '    ██╔════╝██║   ██║██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝ ',
+-- \ '    ███████╗██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║██║  ███╗',
+-- \ '    ╚════██║██║   ██║██╔═══╝     ██║╚██╔╝██║██╔══██║██║╚██╗██║██║   ██║',
+-- \ '    ███████║╚██████╔╝██║         ██║ ╚═╝ ██║██║  ██║██║ ╚████║╚██████╔╝',
+-- \ '    ╚══════╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ',
+-- \]
+--
+
+-- let g:startify_custom_header = [
+-- \ '   ███╗   ███╗ █████╗  ██████╗███████╗██╗',
+-- \ '   ████╗ ████║██╔══██╗██╔════╝██╔════╝██║',
+-- \ '   ██╔████╔██║███████║██║     ███████╗██║',
+-- \ '   ██║╚██╔╝██║██╔══██║██║     ╚════██║╚═╝',
+-- \ '   ██║ ╚═╝ ██║██║  ██║╚██████╗███████║██╗',
+-- \ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
+-- \]
+
+vim.g.startify_custom_header = {
+ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
+ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
+ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ██║',
+ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝',
+ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗',
+ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝',
+}
+
+
+
+vim.g.startify_session_dir = '~/.config/nvim/.session'
+
+
+--vim.g.startify_lists = {
+  --{ type = 'sessions', header = { '  Saved Sessions' }},
+  --{ type = 'dir',      header = { '  Recent Files' }}
+--}
+
+vim.g.startify_lists = {
+ { type = 'files',     header = {'   Recent Files'}                 },
+ { type = 'dir',       header = {'   Current Directory '} },
+ { type = 'sessions',  header = {'   Sessions'}                     },
+ { type = 'bookmarks', header = {'   Bookmarks'}                    },
+ }
+
+vim.g.startify_bookmarks = {
+ { v = '~/.config/nvim/init.vim' },
+ { z = '~/.zshrc' },
+ { s = '~/.ssh/config' }
+ }
+
+-- vim.g.startify_session_autoload = 1
+-- vim.g.startify_session_delete_buffers = 1
+-- vim.g.startify_change_to_vcs_root = 1
+-- vim.g.startify_fortune_use_unicode = 1
+-- vim.g.startify_session_persistence = 1
+-- vim.g.startify_enable_special = 1
+
+vim.g.webdevicons_enable_startify = 1
+
+--TODO: convert to lua
+-- function! StartifyEntryFormat()
+-- return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+-- endfunction
+

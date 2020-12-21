@@ -1,0 +1,94 @@
+
+-- Utils
+local util = require('beauwilliams.utils')
+
+--local config_dir = os.getenv('HOME') .. '/.config/nvim-nightly'
+--local local_dir = os.getenv('HOME') .. '/.local/share/nvim-nightly'
+
+-- Returns the vim mode
+function CursorMode()
+    local mode_map = {
+        ['n'] = 'N',
+        ['v'] = 'V',
+        ['V'] = 'V-LINE',
+        [''] = 'V-BLOCK',
+        ['i'] = 'I',
+        ['R'] = 'REPLACE',
+        ['Rv'] = 'V-REPLACE',
+        ['c'] = 'COMMAND',
+    }
+    local current_mode = mode_map[vim.fn.mode()]
+
+    return current_mode
+end
+
+-- Check for the git repo and return the
+-- branch name if it exists
+function GitBranch()
+    local cmd = 'git branch --show-current'
+
+    local is_dir = util.is_dir(vim.fn.getcwd() .. '/.git')
+    if not is_dir then
+        return ''
+    end
+
+    local fp = io.popen(cmd)
+    local branch = fp:read('*a')
+
+    -- TODO:
+    -- Will need to check if the '^@' chars are at the end
+    -- instead of implicitly removing the last 2 chars
+    branch = string.sub(branch, 0, -2)
+    return [[ ]] .. branch
+end
+
+ --nvim-lsp status diagnostics
+--function LSPStatus()
+    --local diagnostics = require('lsp-status').diagnostics()
+    --if diagnostics.errors > 0 or diagnostics.warnings > 0 then
+        --return string.format('LSP %d 🔴 %d 🟡 ', diagnostics.errors, diagnostics.warnings)
+    --end
+
+    --return ''
+--end
+
+
+ --Add color to the whole statusline
+function StatusLineColor(mode)
+    if mode == 'INSERT' then
+        return '%#GruvboxBlueBg#'
+    elseif mode == 'VISUAL' or mode == 'V-LINE' or mode == 'V-BLOCK' then
+        return '%#GruvboxOrangeBg#'
+    elseif mode == 'COMMAND' then
+        return '%#GruvboxPurpleBg#'
+    else
+        return '%1*'
+    end
+end
+
+function StatusLine()
+    local status = ''
+
+     --left side
+    status = status .. StatusLineColor(CursorMode())
+    status = status .. [[ %-{luaeval("CursorMode()")}]]
+    status = status .. [[ %-{luaeval("GitBranch()")}]]
+    status = status .. [[ %-t %-m %-r ]]
+
+     --right side
+    status = status .. [[ %= %y LN %l/%L]]
+    --status = status .. [[ %{luaeval("LSPStatus()")}]]
+
+    return status
+end
+
+ --Status line
+vim.o.showmode = false
+vim.o.laststatus = 2
+vim.wo.statusline = '%!luaeval("StatusLine()")'
+
+
+
+
+
+

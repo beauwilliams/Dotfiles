@@ -1,0 +1,676 @@
+local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
+
+if not packer_exists then
+  -- TODO: Maybe handle windows better?
+  if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
+    return
+  end
+
+  local directory = string.format(
+    '%s/site/pack/packer/opt/',
+    vim.fn.stdpath('data')
+  )
+
+  vim.fn.mkdir(directory, 'p')
+
+  local out = vim.fn.system(string.format(
+    'git clone %s %s',
+    'https://github.com/wbthomason/packer.nvim',
+    directory .. '/packer.nvim'
+  ))
+
+  print(out)
+  print("Downloading packer.nvim...")
+
+  return
+end
+require("packer").startup {
+    function(use)
+        use {"wbthomason/packer.nvim", opt = true}
+        -- use "svermeulen/vimpeccable"
+
+-- Theming
+    use 'gruvbox-community/gruvbox'
+
+
+
+        use {
+            "xolox/vim-session", -- Centralise sessions to a .sessions folder and easily save sessions with :SaveSession <name>
+            requires = "xolox/vim-misc",
+            config = function()
+                vim.api.nvim_exec(
+                [[
+                "keep all sessions in one location
+                let g:session_directory='~/.config/nvim/.session'
+                "remove .vim from end of files so it looks nicer in startify
+                let g:session_extension=''
+                "Remove pop-up each time we close to ask to save session
+                let g:session_autosave = 'no'
+                "If I want to load a session I will specify it. We also have a start page
+                "which displays recent sessions too so not need to auto load them
+                let g:session_autoload = 'no'
+                cnoreabbrev mks SaveSession
+                cnoreabbrev mksession SaveSession
+                ]],
+                false
+                )
+            end
+
+        }
+        use {
+            "vim-airline/vim-airline",
+            requires = "vim-airline/vim-airline-themes",
+            config = function()
+                vim.g.airline_symbols = {
+                    branch = "",
+                    readonly = ""
+                }
+
+                vim.api.nvim_exec(
+                [[
+                "============================BEGIN STATUSLINE CONFIG=======================
+
+
+
+                "TODO convert to lua
+                "I wrap these configs in try/catch to avoid errors on initial install before plugin is available
+                "Mostly for anyone who uses my dockerfile thats sets up a working nvim env
+                let g:airline_theme='gruvbox' "SET GRUVBOX AS STATUS BAR THEME
+
+                " Abbreviating INSERT NORMAL etc to just the first character
+                let airline_mode_map = {
+                    \ '__'      : '_',
+                    \ 'c'       : 'C',
+                    \ 'i'       : 'I',
+                    \ 'v'       : 'V',
+                    \ 'n'      : 'N',
+                    \ }
+
+                    " remove the filetype part - now it just displays the icon
+                    let g:airline_section_x =''
+                    " remove separators for empty sections
+                    let g:airline_skip_empty_sections = 1
+                    "Abbreviate section z, it has percentage of way down doc, line count, line
+                    "length
+                    "let g:airline_section_z = '%3p%% %3l/%L:%3v'
+                    let g:airline_section_z = "%p%%  \ue0a1 %l/%L  \ue0a3 %c"
+                    "Remove the filetype encoding section, I dont need to specifically know this
+                    "most of the time!
+                    let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+                    let g:airline#extensions#whitespace#checks = [ 'indent', 'mixed-indent-file', 'conflicts' ]
+                    "Shorten 'words' to 'w' for wordcount
+                    let g:airline#extensions#wordcount#formatter#default#fmt = '%d w'
+                    let g:airline#extensions#wordcount#format = '%d w'
+                    let g:airline#extensions#wordcount#enabled = 1
+                    " Enable caching of syntax highlighting groups
+                    let g:airline_highlighting_cache = 1
+
+                    let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+
+                    let g:airline_mode_map = {
+                        \ '__'      : '_',
+                        \ 'c'       : 'C',
+                        \ 'i'       : 'I',
+                        \ 'v'       : 'V',
+                        \ 'n'      : 'N',
+                        \ }
+                        ]],
+                        false
+                        )
+                    end
+
+                }
+
+                use {
+                    -- CURSOR FLASH --> COMPANION CONFIG TO Ydanilamihailov/beacon.nvim plugin
+                    "Ydanilamihailov/beacon.nvim",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:beacon_size = 90
+                        let g:beacon_minimal_jump = 25
+                        let g:beacon_shrink = 0
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+
+
+                use {
+                    -- GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
+                    "APZelos/blamer.nvim",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:blamer_enabled = 1
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+                use {
+                    -- RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
+                    "luochen1990/rainbow",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:rainbow_active = 1
+                        "set to 0 if you want to enable rainbow later via :RainbowToggle
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+
+                use {
+                    -- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
+                    --  Shorten error/warning flags
+                    "w0rp/ale",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:ale_echo_msg_error_str = 'E'
+                        let g:ale_echo_msg_warning_str = 'W'
+                        " I have some custom icons for errors and warnings but feel free to change them.
+                        "let g:ale_sign_error = '✘'
+                        "let g:ale_sign_warning = '⚠'
+                        let g:ale_sign_error = '●'
+                        let g:ale_sign_warning = '.'
+                        let g:ale_lint_on_enter = 1 "Don't lint on enter hope this speeds things up/prevents lag
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+
+
+                use {
+                    --HELP MENU FOR FF
+                    "laher/fuzzymenu.vim",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:fuzzymenu_position =  'window'
+                        let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+
+
+
+
+                use {
+                    -- """"""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
+                    "voldikss/vim-floaterm",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:floaterm_keymap_toggle = '<Leader>t'
+                        let g:floaterm_width = 0.7
+                        "let g:floaterm_winblend = 5 "Transparency
+                        "let g:floaterm_wintype = 'floating' "neovim must have floating windows
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+                use {
+                    -- VIM QUICKSCOPE --> COMPANION CONFIG TO unblevable/quick-scope
+                    "unblevable/quick-scope",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                        highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+                        augroup qs_colors
+                        autocmd!
+                        autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                        autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+                        augroup END
+
+                        let g:qs_buftype_blacklist = ['terminal', 'nofile']
+                        let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+                        let g:qs_lazy_highlight = 1
+                        ]],
+                        false
+                        )
+                    end
+                }
+
+                use {
+                    "neoclide/coc.nvim",
+                    config = function()
+                        vim.api.nvim_exec(
+                        [[
+                        let g:coc_global_extensions = [
+                        \ 'coc-json',
+                        \ 'coc-tsserver',
+                        \ 'coc-html',
+                        \ 'coc-css',
+                        \ 'coc-java',
+                        \ 'coc-java-debug',
+                        \ 'coc-python',
+                        \ 'coc-dictionary',
+                        \ 'coc-pairs',
+                        \ 'coc-highlight',
+                        \ 'coc-rust-analyzer',
+                        \ 'coc-snippets',
+                        \ 'coc-prettier',
+                        \ 'coc-xml',
+                        \ ]
+
+                        "PRETTIER FORMATTER --> COMPANION CONFIG TO neoclide/coc.nvim
+                        "Part of prettier recommended configs
+                        command! -nargs=0 Prettier :CocCommand prettier.formatFile
+                        "NOTE -- SET Prettier languages with :CocConfig
+                        "Prettier seems to format java okay which is neat :)
+
+
+                        " Always show the signcolumn, otherwise it would shift the text each time
+                        " diagnostics appear/become resolved.
+                        if has("patch-8.1.1564")
+                            " Recently vim can merge signcolumn and number column into one
+                            set signcolumn=number
+                        else
+                            set signcolumn=yes
+                            endif
+
+                            " Use tab for trigger completion with characters ahead and navigate.
+                            " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+                            " other plugin before putting this into your config.
+                            inoremap <silent><expr> <TAB>
+                            \ pumvisible() ? "\<C-n>" :
+                            \ <SID>check_back_space() ? "\<TAB>" :
+                            \ coc#refresh()
+                            inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+                            function! s:check_back_space() abort
+                            let col = col('.') - 1
+                            return !col || getline('.')[col - 1]  =~# '\s'
+                            endfunction
+
+                            " Use <c-space> to trigger completion.
+                            if has('nvim')
+                                inoremap <silent><expr> <c-space> coc#refresh()
+                            else
+                                inoremap <silent><expr> <c-@> coc#refresh()
+                                endif
+
+                                " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+                                " position. Coc only does snippet and additional edit on confirm.
+                                " <cr> could be remapped by other vim plugin, try `:verbose imap <CR>`.
+                                if exists('*complete_info')
+                                    inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+                                else
+                                    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+                                    endif
+
+                                    " Use `[g` and `]g` to navigate diagnostics
+                                    " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+                                    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+                                    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+                                    " GoTo code navigation.
+                                    nmap <silent> gd <Plug>(coc-definition)
+                                    nmap <silent> gy <Plug>(coc-type-definition)
+                                    nmap <silent> gi <Plug>(coc-implementation)
+                                    nmap <silent> gr <Plug>(coc-references)
+
+                                    " Use K to show documentation in preview window.
+                                    nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+                                    function! s:show_documentation()
+                                    if (index(['vim','help'], &filetype) >= 0)
+                                        execute 'h '.expand('<cword>')
+                                    else
+                                        call CocAction('doHover')
+                                        endif
+                                        endfunction
+
+                                        if has_key(plugs, 'coc.nvim')
+                                            " Highlight the symbol and its references when holding the cursor.
+                                            autocmd CursorHold * silent call CocActionAsync('highlight')
+                                            endif
+
+                                            " Symbol renaming - RENAME / REFACTOR FILES QUICK.
+                                            nmap <leader>rn <Plug>(coc-rename)
+
+                                            "Terminal Window Mappings --> 8/12/20 RETIRED FOR TERMINAL POPUPS
+                                            "nnoremap <silent><leader>t :CocCommand terminal.Toggle<CR>
+
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+
+                                    use {
+                                        "mhinz/vim-startify",
+                                        config = function()
+                                            vim.api.nvim_exec(
+                                            [[
+                                            "==========================START STARTIFY CONFIGS=============================
+
+
+
+
+
+                                            "let g:startify_custom_header = [
+                                            "\ '   ███╗   ██╗███████╗ ██████╗     ██╗   ██╗██╗███╗   ███╗',
+                                            "\ '   ████╗  ██║██╔════╝██╔═══██╗    ██║   ██║██║████╗ ████║',
+                                            "\ '   ██╔██╗ ██║█████╗  ██║   ██║    ██║   ██║██║██╔████╔██║',
+                                            "\ '   ██║╚██╗██║██╔══╝  ██║   ██║    ╚██╗ ██╔╝██║██║╚██╔╝██║',
+                                            "\ '   ██║ ╚████║███████╗╚██████╔╝     ╚████╔╝ ██║██║ ╚═╝ ██║',
+                                            "\ '   ╚═╝  ╚═══╝╚══════╝ ╚═════╝       ╚═══╝  ╚═╝╚═╝     ╚═╝',
+                                            "\]
+
+                                            "let g:startify_custom_header = [
+                                            "\ '    ███████╗██╗   ██╗██████╗     ███╗   ███╗ █████╗ ███╗   ██╗ ██████╗ ',
+                                            "\ '    ██╔════╝██║   ██║██╔══██╗    ████╗ ████║██╔══██╗████╗  ██║██╔════╝ ',
+                                            "\ '    ███████╗██║   ██║██████╔╝    ██╔████╔██║███████║██╔██╗ ██║██║  ███╗',
+                                            "\ '    ╚════██║██║   ██║██╔═══╝     ██║╚██╔╝██║██╔══██║██║╚██╗██║██║   ██║',
+                                            "\ '    ███████║╚██████╔╝██║         ██║ ╚═╝ ██║██║  ██║██║ ╚████║╚██████╔╝',
+                                            "\ '    ╚══════╝ ╚═════╝ ╚═╝         ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ',
+                                            "\]
+                                            --
+
+                                            "let g:startify_custom_header = [
+                                            "\ '   ███╗   ███╗ █████╗  ██████╗███████╗██╗',
+                                            "\ '   ████╗ ████║██╔══██╗██╔════╝██╔════╝██║',
+                                            "\ '   ██╔████╔██║███████║██║     ███████╗██║',
+                                            "\ '   ██║╚██╔╝██║██╔══██║██║     ╚════██║╚═╝',
+                                            "\ '   ██║ ╚═╝ ██║██║  ██║╚██████╗███████║██╗',
+                                            "\ '   ╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝',
+                                            "\]
+
+                                            try
+                                            let g:startify_custom_header = [
+                                            \ '   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗',
+                                            \ '   ██║     ██╔════╝╚══██╔══╝██╔════╝    ██╔════╝ ██╔════╝╚══██╔══╝    ██║╚══██╔══╝██║',
+                                            \ '   ██║     █████╗     ██║   ███████╗    ██║  ███╗█████╗     ██║       ██║   ██║   ██║',
+                                            \ '   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝',
+                                            \ '   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗',
+                                            \ '   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝',
+                                            \]
+
+
+
+                                            let g:startify_session_dir = '~/.config/nvim/.session'
+
+                                            let g:startify_lists = [
+                                            \ { 'type': 'files',     'header': ['   Recent Files']                 },
+                                            \ { 'type': 'dir',       'header': ['   Current Directory '. getcwd()] },
+                                            \ { 'type': 'sessions',  'header': ['   Sessions']                     },
+                                            \ { 'type': 'bookmarks', 'header': ['   Bookmarks']                    },
+                                            \ ]
+
+                                            let g:startify_bookmarks = [
+                                            \ { 'v': '~/.config/nvim/init.vim' },
+                                            \ { 'z': '~/.zshrc' },
+                                            \ { 's': '~/.ssh/config' }
+                                            \ ]
+
+                                            "let g:startify_session_autoload = 1
+                                            "let g:startify_session_delete_buffers = 1
+                                            "let g:startify_change_to_vcs_root = 1
+                                            "let g:startify_fortune_use_unicode = 1
+                                            "let g:startify_session_persistence = 1
+                                            "let g:startify_enable_special = 1
+
+                                            "let g:webdevicons_enable_startify = 1
+
+                                            "function! StartifyEntryFormat()
+                                            "return 'WebDevIconsGetFileTypeSymbol(absolute_path) ." ". entry_path'
+                                            "endfunction
+
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+
+                                    use {
+                                        -- ==========================START FZF CONFIGS=============================
+                                        "junegunn/fzf.vim",
+                                        requires = "/usr/local/opt/fzf",
+                                        opt = true,
+                                        event = "VimEnter *",
+                                        config = function()
+                                            -- vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
+                                            -- TODO: Convert to lua?
+                                            vim.api.nvim_exec(
+                                            [[
+                                            "WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
+                                            "let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
+                                            let $FZF_DEFAULT_OPTS="--layout=reverse --margin=1,4 --preview-window 'right:60%'"
+                                            "FZF CONFIGS
+                                            let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
+                                            "let g:fzf_preview_window = 'right:60%'
+                                            let g:fzf_history_dir = '~/.local/share/fzf-history'
+                                            "Enabling :find to search entire current directory of project you are working in using recursion
+                                            set path+=**
+                                            "Shows file preview in files search etc
+                                            let g:fzf_files_options =
+                                            \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+                                            "Allows us to ignore files with fzf
+                                            "WE HAVE SET RIPGREP AS OUR GREP PROVIDER - FASTEST GREP IN THE WEST
+                                            "Note, can only figure out how to ignore folders for now. tried **.classes for
+                                            "java classes sended up blocking the classes folder itself.
+                                            let $FZF_DEFAULT_COMMAND = 'rg --files --ignore-case --hidden --follow -g "!{.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"'
+
+                                            "command! -bang -nargs=? -complete=dir Files
+                                            ""    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+                                            command! -bang -nargs=? -complete=dir Files
+                                            \ call fzf#vim#files(<q-args>, fzf#vim#with_preview({'options': ['--info=inline', '--layout=reverse']}), <bang>0)
+
+                                            " The query history for this command will be stored as 'ls' inside g:fzf_history_dir.
+                                            " The name is ignored if g:fzf_history_dir is not defined.
+                                            command! -bang -complete=dir -nargs=* LS
+                                            \ call fzf#run(fzf#wrap('ls', {'source': 'ls', 'dir': <q-args>}, <bang>0))
+
+                                            "capital letter command fzf execute "FZF"
+                                            "The below works beautifully!
+                                            cnoreabbrev fzf FZF
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+
+
+
+
+
+
+                                    use {
+                                        "Yggdroot/indentLine",
+                                        config = function()
+                                            vim.g.indentLine_char = "│"
+                                            vim.g.indentLine_bufTypeExclude = {"help", "terminal"}
+                                            vim.g.indentLine_fileTypeExclude = {"text", "markdown"}
+                                        end
+                                    }
+
+                                    use {
+                                        "neovim/nvim-lspconfig",
+                                        run = {":LspInstall jdtls", ":LspInstall sumneko_lua", "LspInstall pyls"},
+                                        config = function()
+                                            require("lsp")
+                                            vim.api.nvim_exec(
+                                            [[
+                                            nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+                                            " nnoremap <silent> gd <cmd>lua vim.lsp.buf.declaration()<CR>
+                                            " nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+                                            nnoremap <silent> <leader>k <cmd>lua vim.lsp.buf.hover()<CR>
+                                            " nnoremap <silent> gD <cmd>lua vim.lsp.buf.implementation()<CR>
+                                            " nnoremap <silent> <leader>K <cmd>lua vim.lsp.buf.signature_help()<CR>
+                                            nnoremap <silent> 1gD <cmd>lua vim.lsp.buf.type_definition()<CR>
+                                            nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>
+                                            nnoremap <silent> g0 <cmd>lua vim.lsp.buf.document_symbol()<CR>
+                                            nnoremap <silent> gf <cmd>lua vim.lsp.buf.formatting()<CR>
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+                                    use {
+                                        "nvim-lua/completion-nvim",
+                                        config = function()
+                                            vim.g.completion_enable_auto_signature = 0 -- crazy slow
+                                            vim.g.completion_chain_complete_list = {
+                                                {
+                                                    complete_items = {
+                                                        "lsp"
+                                                        -- "snippet",
+                                                        -- "path"
+                                                    }
+                                                },
+                                                {mode = "<c-p>"},
+                                                {mode = "<c-n>"}
+                                            }
+                                            function _G.check_behind()
+                                                local col = vim.fn.col(".") - 1
+                                                local is_empty = function(col)
+                                                    return col <= 0 or vim.fn.getline("."):sub(col, col):match("%s")
+                                                end
+                                                return is_empty(col) and is_empty(col - 1) and true or false
+                                            end
+                                            -- TODO: Convert to lua
+                                            vim.api.nvim_exec(
+                                            [[
+                                            " <TAB>/<S-TAB> through completeopts
+                                            inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : v:lua.check_behind() ? "\<TAB>" : completion#trigger_completion()
+                                            inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+                                            " prevent completion-nvim from conflicting with auto-pairs
+                                            let g:completion_confirm_key = ""
+                                            inoremap <expr> <CR> pumvisible() ? "\<Plug>(completion_confirm_completion)" : "\<CR>"
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+
+                                    use {
+                                        "nvim-treesitter/nvim-treesitter",
+                                        run = ":TSInstall all",
+                                        config = function()
+                                            require("treesitter")
+                                            -- TODO: Still a bit buggy
+                                            -- vim.api.nvim_exec(
+                                            --   [[
+                                            --     set foldmethod=expr
+                                            --     set foldexpr=nvim_treesitter#foldexpr()
+                                            --   ]],
+                                            --   false
+                                            -- )
+                                        end
+                                    }
+                                    -- use {  -- This is rad, but stupid slow right now.
+                                    --   "romgrk/nvim-treesitter-context",
+                                    --   requires = "nvim-treesitter/nvim-treesitter"
+                                    -- }
+                                    -- use "nvim-treesitter/nvim-treesitter-refactor"
+                                    -- use {"nvim-treesitter/completion-treesitter", opt = true}
+                                    -- use {
+                                    --   "nvim-treesitter/playground",
+                                    --   requires = "nvim-treesitter/nvim-treesitter"
+                                    -- }
+
+                                    -- use {
+                                    --   "nvim-telescope/telescope.nvim",
+                                    --   requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
+                                    --   config = function()
+                                    --     vim.api.nvim_exec(
+                                    --       [[
+                                    --         nnoremap <C-p> <cmd>lua require'telescope.builtin'.git_files{}<CR>
+                                    --       ]],
+                                    --       false
+                                    --     )
+                                    --   end
+                                    -- }
+
+use {'rrethy/vim-hexokinase', run = 'make hexokinase' } -- preview hex colors
+
+                                    use {
+                                      "kyazdani42/nvim-tree.lua",
+                                      requires = {"kyazdani42/nvim-web-devicons", opt = true},
+                                    }
+
+
+-- THEME/UX
+use { 'ryanoasis/vim-devicons'} -- NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
+use { 'lukas-reineke/indent-blankline.nvim'} -- an addition to indentline, we get solid lines now even between methods etc
+-- use { 'habamax/vim-gruvbit' Another gruvbox alternative
+-- use { 'https://github.com/noscript/cSyntaxAfter' -- Adds a little visual bling to () etc for semantic langs like c
+-- use { 'tjdevries/colorbuddy.nvim' -- REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
+-- use { 'npxbr/gruvbox.nvim' -- lua port of gruvbox community with treesitter support
+
+
+-- LANG PLUGS
+use { 'sbdchd/neoformat'} -- Code formatting plugin
+-- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
+use { 'preservim/nerdcommenter'} -- quick and easy commenting- setup to cmd+/ using iterm binding
+-- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
+-- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
+
+
+use { 'yuki-ycino/fzf-preview.vim', run = ':UpdateRemotePlugins' }
+
+
+-- FILE NAV
+
+--use { 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } -- FILE BROWSER
+--use { 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+
+-- use { 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
+
+
+-- GIT PLUGINS
+use { 'airblade/vim-gitgutter'} -- Git diff gutter
+use { 'rhysd/git-messenger.vim'} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
+use { 'tpope/vim-fugitive'} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
+
+
+-- OTHER
+use { 'tpope/vim-eunuch'} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
+use { 'airblade/vim-rooter'} -- sets cwd automatically if are in say a git folder etc
+use { 'psliwka/vim-smoothie'} --  some very smooth ass scrolling
+
+
+-- TESTING
+use { 'tpope/vim-surround'} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
+use { 'jez/vim-superman'} -- Read man pages in vim easily with vman or :Man
+-- TODO cnoreabbrev man Man
+use { 'kkoomen/vim-doge', run = 'doge#install()' } -- DOcumentation GEnerator
+use { 'lifepillar/vim-cheat40'} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
+-- use { 'michaelb/vim-tips' "Display vim tip at startup
+-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
+
+
+                                    use {
+                                        "sheerun/vim-polyglot",
+                                        opt = true,
+                                        event = "VimEnter *",
+                                        setup = function()
+                                            vim.g.polyglot_disabled = {"helm"}
+                                        end,
+                                        config = function()
+                                            vim.g.javascript_plugin_jsdoc = 1
+                                            vim.g.vim_markdown_new_list_item_indent = 2
+                                        end
+                                    }
+
+                                end
+                            }

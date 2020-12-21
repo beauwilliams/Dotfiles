@@ -1,0 +1,150 @@
+
+
+
+--- Setting up a minimal statusline using Lua
+---
+
+-- Requires
+--
+local vim = vim
+local api = vim.api
+local fn = vim.fn
+local bo = vim.bo
+local wo = vim.wo
+
+-- Theme for statusline
+--
+local gruvbox = {
+	black1 = '#282828' ,
+	black2 = '#928374',
+	black3 = '#1D2021',
+	white1 = '#A89984',
+	white2 = '#EBDBB2',
+	red1 = '#CC241D',
+	red2 = '#FB4934',
+	blue1 = '#458588',
+	blue2 = '#83A598'	,
+	green1 = '#98971A',
+	green2 = '#B8BB26' ,
+	yellow1 = '#D79921',
+	yellow2 = '#FABD2F',
+	magenta1 = '#B16286',
+	magenta2 = '#D3869B',
+	cyan1 = '#689D6A',
+	cyan2 = '#8EC07C'
+}
+
+-- Highlight function
+--
+
+function set_colors(fg, bg)
+	return 'guifg=' .. fg .. ' guibg=' .. bg
+end
+
+-- Highlight Variables
+-- We have to define them here
+--
+
+-- Gruvbox
+api.nvim_command('hi StatusDefault ' .. set_colors(gruvbox.white2, gruvbox.black1))
+api.nvim_command('hi StatusDefaultAlt ' .. set_colors(gruvbox.black3, gruvbox.white1))
+api.nvim_command('hi StatusVimNormal ' .. set_colors(gruvbox.black3, gruvbox.white2))
+api.nvim_command('hi StatusVimInsert ' .. set_colors(gruvbox.white2, gruvbox.blue2))
+api.nvim_command('hi StatusVimVisual ' .. set_colors(gruvbox.black3, gruvbox.yellow1))
+api.nvim_command('hi StatusVimReplace ' .. set_colors(gruvbox.black3, gruvbox.red1))
+api.nvim_command('hi StatusVimEnter ' .. set_colors(gruvbox.black3, gruvbox.green2))
+api.nvim_command('hi StatusVimMore ' .. set_colors(gruvbox.white1, gruvbox.black1))
+api.nvim_command('hi StatusVimSelect ' .. set_colors(gruvbox.white2, gruvbox.green1))
+api.nvim_command('hi StatusVimCmd ' .. set_colors(gruvbox.white2, gruvbox.magenta1))
+api.nvim_command('hi StatusVimShell ' .. set_colors(gruvbox.white2, gruvbox.blue1))
+api.nvim_command('hi StatusVimTerm ' .. set_colors(gruvbox.white2, gruvbox.cyan1))
+api.nvim_command('hi StatusModified ' .. set_colors(gruvbox.red2, gruvbox.black1))
+api.nvim_command('hi StatusLineNumber ' .. set_colors(gruvbox.yellow2, gruvbox.black1))
+api.nvim_command('hi StatusColumnNumber ' .. set_colors(gruvbox.magenta2, gruvbox.black1))
+
+-- Functions for statusline
+--
+
+function cursor_mode()
+  local alias = {
+  	n = 'NORMAL',
+  	no = 'OP',
+  	nov = 'OP',
+  	['noCTRL-V'] = 'OP',
+  	niI = 'NORMAL',
+  	niR = 'NORMAL',
+  	niV = 'NORMAL',
+  	i = 'INSERT',
+  	ic = 'INSERT',
+  	ix = 'INSERT',
+  	v = 'VISUAL',
+  	V = 'VISUAL',
+  	r = 'ENTER',
+  	rm = 'MORE',
+  	['r?'] = 'CONFIRM',
+  	R = 'REPLACE',
+  	Rc = 'REPLACE',
+  	Rv = 'V-REPLACE',
+  	s = 'SELECT',
+  	S = 'SELECT',
+  	['CTRL-V'] = 'BLOCK',
+  	['CTRL-S'] = 'BLOCK',
+  	c = 'COMMAND',
+  	cv = 'COMMAND',
+  	ce = 'COMMAND',
+  	['!'] = 'SHELL',
+  	t = 'TERM',
+  	['null'] = 'NONE',
+  }
+	return alias[fn.mode()]
+end
+
+function mode_color(m)
+	if m == 'NORMAL' or m == 'OP' then
+		return '%#StatusVimNormal#'
+	elseif m == 'Insert' then
+		return '%#StatusVimInsert#'
+	elseif m == 'VISUAL' then
+		return '%#StatusVimVisual#'
+	elseif m == 'REPLACE' or m == 'V-REPLACE' then
+		return '%#StatusVimReplace#'
+	elseif m == 'ENTER' then
+		return '%#StatusVimEnter#'
+	elseif m == 'MORE' then
+		return '%#StatusVimMore#'
+	elseif m == 'SELECT' then
+		return '%#StatusVimSelect#'
+	elseif m == 'COMMAND' then
+		return '%#StatusVimCmd#'
+	elseif m == 'SHELL' then
+		return '%#StatusVimShell#'
+	elseif m == 'TERM' then
+		return '%#StatusVimTerm#'
+	else
+		return '%#StatusDefaultAlt#'
+	end
+end
+
+function is_modified()
+	if bo.modified then
+		return ' %#StatusModified#'
+	else
+		return ''
+	end
+end
+
+function status_line()
+	local status = ''
+	status = status .. mode_color(cursor_mode())
+	status = status .. [[%{luaeval("cursor_mode()")}]]
+	status = status .. [[ %{luaeval('is_modified()')} ]]
+	status = status .. '%<%F '
+	status = status .. ' %#StatusLineNumber#%l%#StatusDefault#:%#StatusColumnNumber#%c'
+	status = status .. '%#StatusDefault#%=%y'
+	status = status .. ' %r'
+	return status
+end
+
+-- Then we set it here
+--
+wo.statusline = '%!luaeval("status_line()")'

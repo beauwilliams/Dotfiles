@@ -1,0 +1,184 @@
+
+                    use {
+                        "timbedard/vim-envelop",
+                        run = ":EnvCreate",
+                        config = function()
+                            vim.g.envelop_enabled = {"node", "python3"}
+                            vim.g.envelop_node_link = {
+                                "node_modules/.bin/luafmt",
+                                "node_modules/.bin/pyright",
+                                "node_modules/.bin/pyright-langserver"
+                            }
+                            vim.g.envelop_node_packages = {
+                                "lua-fmt",
+                                "pyright"
+                            }
+                            vim.g.envelop_python3_link = {
+                                "bin/black",
+                                "bin/flake8",
+                                "bin/isort",
+                                "bin/mypy",
+                                "bin/pip3",
+                                "bin/pyls",
+                                "bin/python3",
+                                "bin/sqlformat",
+                                "bin/vint"
+                            }
+                            vim.g.envelop_python3_packages = {
+                                "black",
+                                "flake8",
+                                "flake8-bugbear",
+                                "isort",
+                                "pep8-naming",
+                                "pip",
+                                "pyls-black",
+                                "pyls-isort",
+                                "git+https://github.com/tomv564/pyls-mypy.git@master#egg=pyls_mypy",
+                                "pynvim",
+                                "python-language-server[all]",
+                                "sqlparse",
+                                "vim-vint"
+                            }
+                        end
+                    }
+
+                                    use "pierreglaser/folding-nvim"
+
+                                    use {
+                                        "mhartington/formatter.nvim",
+                                        config = function()
+                                            require("formatter").setup {
+                                                filetype = {
+                                                    javascript = {
+                                                        function()
+                                                            return {
+                                                                exe = "prettier",
+                                                                args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), "--single-quote"},
+                                                                stdin = true
+                                                            }
+                                                        end
+                                                    },
+                                                    lua = {
+                                                        function()
+                                                            return {
+                                                                exe = "luafmt",
+                                                                args = {"--indent-count", 2, "--stdin"},
+                                                                stdin = true
+                                                            }
+                                                        end
+                                                    }
+                                                }
+                                            }
+                                        end
+                                    }
+
+
+
+                                    use "wellle/targets.vim"
+                                    use "michaeljsmith/vim-indent-object"
+                                    use "kana/vim-textobj-user"
+                                    use "kana/vim-textobj-line"
+                                    use "AndrewRadev/splitjoin.vim"
+                                    use {
+                                        "mhinz/vim-signify",
+                                        config = function()
+                                            vim.g.signify_priority = 0
+                                            vim.g.signify_sign_add = ""
+                                            vim.g.signify_sign_delete = ""
+                                            vim.g.signify_sign_delete_first_line = ""
+                                            vim.g.signify_sign_change = ""
+                                            vim.api.nvim_exec(
+                                            [[
+                                            set signcolumn=yes
+                                            highlight! link SignifySignChange GruvboxBlueSign
+
+                                            " nifty hunk motions
+                                            omap ic <Plug>(signify-motion-inner-pending)
+                                            xmap ic <Plug>(signify-motion-inner-visual)
+                                            omap ac <Plug>(signify-motion-outer-pending)
+                                            xmap ac <Plug>(signify-motion-outer-visual)
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+                                    use {
+                                        "APZelos/blamer.nvim",
+                                        config = function()
+                                            vim.g.blamer_delay = 0
+                                            vim.g.blamer_template = "<author>, <committer-time> • <summary>"
+                                            vim.api.nvim_exec(
+                                            [[
+                                            nnoremap <Leader>b :BlamerToggle<CR>
+                                            vnoremap <Leader>b :BlamerToggle<CR>
+                                            ]],
+                                            false
+                                            )
+                                        end
+                                    }
+
+
+
+                                    use "janko-m/vim-test"
+                                    -- use "hkupty/iron.nvim"
+
+
+                                            use {
+            "romgrk/barbar.nvim",
+            requires = "kyazdani42/nvim-web-devicons"
+        }
+
+                                    -- TODO: Switch?
+                                    -- use {
+                                    --   "glepnir/galaxyline.nvim",
+                                    --   branch = "main",
+                                    --   config = function()
+                                    --     require "statusline"
+                                    --   end, -- TODO: Configure
+                                    --   requires = {"kyazdani42/nvim-web-devicons", opt = true},
+                                    --   disable = true
+                                    -- }
+                                    use {"norcalli/nvim-colorizer.lua", opt = true, ft = {"html", "css"}}
+
+                                    -- use {"ludovicchabant/vim-gutentags", opt = true}
+                                    -- use {"majutsushi/tagbar", opt = true, ft = {"c", "cpp", "typescript", "typescriptreact"}}
+                                    use "liuchengxu/vista.vim"
+
+                                    use "romainl/vim-cool"
+                                    use "justinmk/vim-dirvish"
+                                    use "sunaku/tmux-navigate"
+
+                                    use {"iamcco/markdown-preview.nvim", run = ":call mkdp#util#install()", cmd = "MarkdownPreview"}
+                                    use {
+                                        "kshenoy/vim-signature",
+                                        config = function()
+                                            vim.g.SignatureMarkTextHLDynamic = 1
+                                        end
+                                    }
+                                    use "tpope/vim-unimpaired"
+
+                                    use {
+                                        "unblevable/quick-scope",
+                                        config = function()
+                                            vim.g.qs_highlight_on_keys = {"f", "F", "t", "T"}
+                                        end
+                                    }
+                                    use "farmergreg/vim-lastplace"
+                                    use "tpope/vim-commentary"
+                                    use "tpope/vim-surround"
+                                    use "tpope/vim-repeat"
+                                    use "tpope/vim-eunuch"
+                                    use "tpope/vim-abolish"
+                                    use "tpope/vim-fugitive"
+
+                                    use "rhysd/git-messenger.vim"
+
+                                    use "andymass/vim-matchup"
+                                    use {
+                                        "tmsvg/pear-tree",
+                                        config = function()
+                                            vim.g.pear_tree_repeatable_expand = 0
+                                        end
+                                    }
+:w
+
