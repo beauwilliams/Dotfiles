@@ -13,7 +13,6 @@
 #    * ci               Change to CI pipeline/workflow
 #    * chore            General tooling/config/min refactor
 # ----------------------------------------------------------
-<type header here>
 
 
 # ----------------------------------------------------------
@@ -22,7 +21,6 @@
 #    * Motivation behind changes, more detail into how
 #      functionality might be affected, etc.
 # ----------------------------------------------------------
-<type body here>
 
 
 # ----------------------------------------------------------
@@ -30,4 +28,3 @@
 # ----------------------------------------------------------
 #    * Ex: Resolves Issue #207, see PR #15, etc.
 # ----------------------------------------------------------
-<type footer here>
