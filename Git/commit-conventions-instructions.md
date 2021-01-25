@@ -24,7 +24,7 @@ Closes #9
 
 ```
 # Neovim
-git config --global core.editor=nvim +16 -c 'startinsert'
+git config --global core.editor "nvim +16 +startinsert"
 
 # Vim
 git config --global core.editor "vim +16 +startinsert"
