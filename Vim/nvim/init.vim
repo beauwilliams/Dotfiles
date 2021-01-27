@@ -163,13 +163,16 @@ endfunction
 "++++++++CODE REFACTORING AND RELATED TOOLS++++++++
 "
 "FIND AND REPLACE
+"REPLACE ALL WORDS QUICKLY WITH SHIFT+R
+"OR........
 "Replace/Delete words quick! ONE BY ONE.
-"*NOTE* You must first search for a string and have it highlighted first before we can change and delete based on that pattern
+"*NOTE* You must first search for a string and have it highlighted first [can use SHIFT+R as above] before we can change and delete based on that pattern
 "after searching for a word, use c for CHANGE & d for DELETE. We use , . to move back and forth between matches respectively
 "Mapping -> c.
 "Mapping -> c,
 "Mapping -> d.
 "Mapping -> d,
+"NOTE: CLEAR HIGHLIGHTS WITH <leader>/
 "
 "QUICK COMMENTING
 "NOTE: It is actually ++ but I used a trick for my mac to map that key to ++ in iterm
@@ -296,6 +299,7 @@ set wildmode=list,full "Displays a handy list of commands we can tab thru"
 set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
 set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
 set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
+set shiftround "Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
 
 if has('nvim')
 set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
@@ -548,6 +552,14 @@ let mapleader = "\<Space>"
 "realised leader leader is free so its now an easy way to enter cmd mode
 map <leader><leader> :
 
+"Explanation: The 0 (Zero) register is special because it only stores the last item you yank
+"and only if you yank it, not if you delete it with any of d,x,c,s.
+"We use this because we have the vim register synced with the system
+"clipboard. Meaning we can't do simple text replacement easily as deleting
+"text will overwrite yanked text in the register.
+nnoremap yp "0p
+nnoremap yP "0P
+
 
 "Speeding up auto correction toggle for my uni lectures
 "NOTE: plgn is vim-you/autocorrect
@@ -570,6 +582,7 @@ nnoremap <silent><leader>F :Neoformat<CR>
 
 
 "FIND AND REPLACE
+nnoremap R :%s/\<<C-r><C-w>\>//g<Left><Left><C-r><C-w>
 "Replace/Delete words quick! ONE BY ONE.
 "c. c, d. d,
 "nnoremap ,x *``cgn

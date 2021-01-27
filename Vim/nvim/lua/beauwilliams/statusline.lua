@@ -182,6 +182,21 @@ end
 --local function sleep(sec)
     --socket.sleep(sec)
 --end
+-- TODO: IMPLEMENT ASYNC FOR GIT STATUS
+--https://www.lua.org/pil/9.1.html
+--https://github.com/ms-jpq/neovim-async-tutorial
+local co = coroutine.create(function ()
+           print("hi")
+           local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git status --porcelain -b 2>/dev/null')[1]
+--local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git rev-parse --abbrev-ref HEAD')[1] --> Same async issue
+      if not branch or #branch == 0 then
+         return ''
+      end
+      branch = branch:gsub([[^## No commits yet on (%w+)$]], '%1')
+      branch = branch:gsub([[^##%s+(%w+).*$]], '%1')
+      return branch
+         end)
+
 
 local function getGitBranch() --> NOTE: THIS FN HAS AN ASYNC ISSUE
 local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git status --porcelain -b 2>/dev/null')[1]
@@ -246,6 +261,7 @@ function M.activeLine()
   -- Component: git branch name -> requires FUGITIVE
   statusline = statusline..vim.call('GetGitBranchName')
   --statusline = statusline..getGitBranch()
+  --statusline = statusline..co
 
   --LEAVING FOR REF DEC 2020
   --statusline = statusline..[[%{MyStatusline()}]]

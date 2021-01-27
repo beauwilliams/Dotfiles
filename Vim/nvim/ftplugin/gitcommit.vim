@@ -1,0 +1,2 @@
+set spell
+:EnableAutocorrect
