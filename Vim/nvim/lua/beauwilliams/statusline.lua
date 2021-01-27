@@ -262,6 +262,10 @@ function M.activeLine()
     statusline = statusline.."%#StatuslineLSPFunc# "..lsp_function..blank
   end
 
+    --statusline = statusline..vim.call('StatusLSPNative')
+    --statusline = statusline..vim.b.lsp
+
+
 
     -- RIGHT SIDE INFO
     statusline = statusline.."%#Line#"..vim.call('FileIsModified') --."%#Line#" ..[[%M]].

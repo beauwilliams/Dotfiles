@@ -104,11 +104,12 @@ end
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
-    __   _____ ____     __________  _   _______________________
-   / /  / ___// __ \   / ____/ __ \/ | / / ____/  _/ ____/ ___/
-  / /   \__ \/ /_/ /  / /   / / / /  |/ / /_   / // / __ \__ \
- / /______/ / ____/  / /___/ /_/ / /|  / __/ _/ // /_/ /___/ /
-/_____/____/_/       \____/\____/_/ |_/_/   /___/\____//____/
+    __    _____    ____           ______                   ____    _
+   / /   / ___/   / __ \         / ____/  ____    ____    / __/   (_)   ____ _   _____
+  / /    \__ \   / /_/ /        / /      / __ \  / __ \  / /_    / /   / __ `/  / ___/
+ / /___ ___/ /  / ____/        / /___   / /_/ / / / / / / __/   / /   / /_/ /  (__  )
+/_____//____/  /_/             \____/   \____/ /_/ /_/ /_/     /_/    \__, /  /____/
+                                                                     /____/
 --]]
 
 -- async formatting
@@ -172,6 +173,7 @@ local custom_attach = function(client,bufnr) --> Added client,bufnr works also w
             --matcher = {'exact', 'fuzzy'}
         --})
     --end
+  require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
   completion.on_attach(client,bufnr)
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar
   vim.lsp.set_log_level('debug') --> ENABLE LOGGING
@@ -204,17 +206,34 @@ end
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
-    __                                                ______            _____
-   / /   ____ _____  ____ ___  ______ _____ ____     / ____/___  ____  / __(_)___ ______
-  / /   / __ `/ __ \/ __ `/ / / / __ `/ __ `/ _ \   / /   / __ \/ __ \/ /_/ / __ `/ ___/
- / /___/ /_/ / / / / /_/ / /_/ / /_/ / /_/ /  __/  / /___/ /_/ / / / / __/ / /_/ (__  )
-/_____/\__,_/_/ /_/\__, /\__,_/\__,_/\__, /\___/   \____/\____/_/ /_/_/ /_/\__, /____/
-                  /____/            /____/                                /____/
+    __                                                                   ______                   ____    _
+   / /   ____ _   ____    ____ _  __  __  ____ _   ____ _  ___          / ____/  ____    ____    / __/   (_)   ____ _   _____
+  / /   / __ `/  / __ \  / __ `/ / / / / / __ `/  / __ `/ / _ \        / /      / __ \  / __ \  / /_    / /   / __ `/  / ___/
+ / /___/ /_/ /  / / / / / /_/ / / /_/ / / /_/ /  / /_/ / /  __/       / /___   / /_/ / / / / / / __/   / /   / /_/ /  (__  )
+/_____/\__,_/  /_/ /_/  \__, /  \__,_/  \__,_/   \__, /  \___/        \____/   \____/ /_/ /_/ /_/     /_/    \__, /  /____/
+                       /____/                   /____/                                                      /____/
 --]]
 --NOTE: The rest of this file deals with language specific configurations
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
+
+
+
+---------------------------------------------------------------------------------------
 --[[
+    ____                     __
+   / __ )  ____ _   _____   / /_
+  / __  | / __ `/  / ___/  / __ \
+ / /_/ / / /_/ /  (__  )  / / / /
+/_____/  \__,_/  /____/  /_/ /_/
+--]]
+--BASHLS REQUIRES BASHLS INSTALLED using `npm i -g bash-language-server` -- SEE: bash-lsp/bash-language-server
+lsp.bashls.setup{on_attach=custom_attach}
+--[[
+
+
+
+---------------------------------------------------------------------------------------
  _    ___                          _       __
 | |  / (_)___ ___  _______________(_)___  / /_
 | | / / / __ `__ \/ ___/ ___/ ___/ / __ \/ __/
@@ -223,6 +242,9 @@ end
                                 /_/
 --]]
 lsp.vimls.setup {on_attach = custom_attach, root_dir = cwd}
+
+
+
 
 ---------------------------------------------------------------------------------------
 --[[
@@ -266,6 +288,9 @@ lsp.tsserver.setup {on_attach = custom_attach,
     --return 	 util.root_pattern('package.json', 'tsconfig.json', '.git') or cwd
 --end
 
+
+
+
 ---------------------------------------------------------------------------------------
 --[[
        __
@@ -274,6 +299,8 @@ lsp.tsserver.setup {on_attach = custom_attach,
 / /_/ / /_/ /| |/ / /_/ /
 \____/\__,_/ |___/\__,_/
 --]]
+
+
 --NOTE: NOT WORKING
 --require'lspconfig'.jdtls.setup{}
 --lsp.jdtls.setup {on_attach = custom_attach,
@@ -291,17 +318,58 @@ lsp.tsserver.setup {on_attach = custom_attach,
 
 		--root_dir = lsp.util.root_pattern('.git', 'pom.xml', 'build.xml')
 
+--local root_pattern = lsp.util.root_pattern
+
+--lsp.jdtls.setup{
+	--root_dir = root_pattern(".git"),
+	--on_attach = custom_attach,
+	--capabilities = capabilities,
+--}
+
+--local function root_patterns(...)
+	--local searchers = {}
+
+	--for _, patterns in ipairs({...}) do
+		--local searcher = root_pattern(unpack(patterns))
+		--searchers[#searchers + 1] = searcher
+	--end
+
+	--return function(startpath)
+		--for _, searcher in ipairs(searchers) do
+			--local root = searcher(startpath)
+			--if root then return root end
+		--end
+	--end
+--end
+
+
 
 ---------------------------------------------------------------------------------------
 --[[
     __
-   / /   __  ______ _
-  / /   / / / / __ `/
- / /___/ /_/ / /_/ /
-/_____/\__,_/\__,_/
+   / /   __  __  ____ _
+  / /   / / / / / __ `/
+ / /___/ /_/ / / /_/ /
+/_____/\__,_/  \__,_/
 --]]
+--
+local system_name
+if vim.fn.has("mac") == 1 then
+  system_name = "macOS"
+elseif vim.fn.has("unix") == 1 then
+  system_name = "Linux"
+elseif vim.fn.has('win32') == 1 then
+  system_name = "Windows"
+else
+  print("Unsupported system for sumneko")
+end
+
+-- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
+local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
+local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
 lsp.sumneko_lua.setup {
+  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
   on_attach = custom_attach,
   root_dir = function(fname)
     return util.find_git_ancestor(fname) or
@@ -344,6 +412,22 @@ lsp.sumneko_lua.setup {
 
 
 
+
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+--[[
+    ______               __          ____     ____           ______    _     __
+   / ____/   ____   ____/ /         / __ \   / __/          / ____/   (_)   / /  ___
+  / __/     / __ \ / __  /         / / / /  / /_           / /_      / /   / /  / _ \
+ / /___    / / / // /_/ /         / /_/ /  / __/          / __/     / /   / /  /  __/
+/_____/   /_/ /_/ \__,_/          \____/  /_/            /_/       /_/   /_/   \___/
+--]]
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+-- NOTE: Below is just some stuff I will keep for review later / found interesting
 --local configs = require('lspconfig/configs')
 
 		--root_dir = vim.loop.cwd

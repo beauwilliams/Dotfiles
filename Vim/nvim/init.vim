@@ -338,7 +338,7 @@ if !empty(&viminfo)
 endif
 
 "TURN OFF RELATIVE LINE NUMBERING WHEN WE ENTER INSERT MODE AND ENABLE OTHERWISE
- augroup every
+augroup AutoRelativeLineNums
   autocmd!
   au InsertEnter * set norelativenumber
   au InsertLeave * set relativenumber
@@ -361,8 +361,23 @@ augroup END
  "/ /     / /___    ___/ /  / /           / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
 "/_/     /_____/   /____/  /_/            \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
 
-highlight LuatreeFolderName ctermfg=none guifg=none
+highlight NvimTreeFolderName ctermfg=none guifg=none
+"Setting nvim tree folders to not have any guibg
+"hi Cursorline guibg=#424040 guifg=none
 
+
+"augroup illuminate_augroup
+    "autocmd!
+    "autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
+"augroup END
+augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
+    autocmd!
+    autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
+    autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
+augroup END
+
+
+"Setting curstom cursorline colour for the vim-illuminate plugin
 "STOLEN FROM --> https://github.com/haorenW1025/dotfiles/blob/master/nvim/plugin/plugin-setting.vim
 "function! s:check_back_space() abort
     "let col = col('.') - 1
@@ -421,7 +436,7 @@ augroup ReduceNoise
 augroup END
 
 function! ResizeSplits()
-        if &ft == 'LuaTree'
+        if &ft == 'NvimTree'
                 return
         elseif &ft == 'qf'
                 " Always set quickfix list to a height of 10
@@ -635,8 +650,13 @@ vmap <silent> <leader>p <Plug>(FzmVisual)
 
 
 "File Tree Mappings
-nnoremap <silent><Leader>n :LuaTreeToggle<cr>
-vnoremap <silent><Leader>n :LuaTreeToggle<cr>
+nnoremap <silent><Leader>n :NvimTreeToggle<cr>
+vnoremap <silent><Leader>n :NvimTreeToggle<cr>
+
+"Documentation Generator Mappings
+nnoremap <Leader>D :DogeGenerate
+vnoremap <Leader>D :DogeGenerate
+cnoreabbrev docgen DogeGenerate
 
 
 

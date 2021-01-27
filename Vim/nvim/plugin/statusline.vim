@@ -12,6 +12,11 @@
 
 
 
+function! StatusLSPNative() abort
+" let status = luaeval('require("lsp-status").status()')
+"let status = luaeval("require'beauwilliams.statusline'.status()")
+"return trim(status)
+endfunction
 
 function! InactiveLine()
     return luaeval("require'beauwilliams.statusline'.inActiveLine()")

@@ -209,7 +209,7 @@ require("packer").startup {
                     "let g:ale_sign_warning = '⚠'
                     let g:ale_sign_error = '●'
                     let g:ale_sign_warning = '.'
-                    let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
+                    "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
                     ]],
                     false
                 )
@@ -247,6 +247,7 @@ require("packer").startup {
         --   requires = "nvim-treesitter/nvim-treesitter"
         -- }
 
+        use {"axvr/zepl.vim.git"} -- A REPL Plugin to start / manage REPL
         use {"sbdchd/neoformat"} -- Code formatting plugin
         -- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
         use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding
@@ -262,13 +263,14 @@ require("packer").startup {
         use  'nvim-lua/completion-nvim'
         use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         --use  'nvim-lua/lsp-status.nvim'
-          use { --> USE FZF FOR LSP NAVIGATION
+        use 'RRethy/vim-illuminate'
+        use { --> USE FZF FOR LSP NAVIGATION
             'ojroques/nvim-lspfuzzy',
             --requires = {
               --{'junegunn/fzf'},
               --{'junegunn/fzf.vim'},  -- to enable preview (optional)
             --},
-          }
+        }
 
 
 
@@ -376,7 +378,7 @@ require("packer").startup {
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
-        use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
+        --use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
         --use {
             --"APZelos/blamer.nvim",
             --config = function()
@@ -419,7 +421,7 @@ require("packer").startup {
             end
         } -- Read man pages in vim easily with vman or :Man
 
-        --use {"kkoomen/vim-doge", run = "doge#install()"} -- DOcumentation GEnerator
+        use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
