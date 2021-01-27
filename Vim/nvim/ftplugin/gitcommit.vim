@@ -1,2 +1,2 @@
-set spell
 :EnableAutocorrect
+set spell
