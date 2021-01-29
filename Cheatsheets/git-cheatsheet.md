@@ -300,7 +300,21 @@ git config --global commit.gpgsign true
 -----END PCP PUBLIC KEY BLOCK-----
 
 
+# Error: secret key not available
 
+    Well, would have been too easy if it worked at first try… unfortunately I had to deal with the following weird error message, that appeared always when I tried to commit using the -s flag:
+
+git commit -am "a message" -s
+gpg: skipped "26A64778F76A7911": secret key not available
+gpg: signing failed: secret key not available
+error: gpg failed to sign the data
+fatal: failed to write commit object
+
+    After some research, I found, that I had to tell Git the path to the GPG executable (for whatever reason) using the git config pgp.program setting:
+
+git config --global gpg.program "C:\Program Files (x86)\gnupg\bin\gpg.exe"
+
+    Note that the path may be a different one on your system.
 
 
 
