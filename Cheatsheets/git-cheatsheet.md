@@ -1,3 +1,6 @@
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 # **CREATE**
 
 # From existing data,
@@ -23,8 +26,8 @@ git init --bare[--shared=group]
 
 
 
-
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **UPDATE**
 
@@ -43,7 +46,8 @@ git am --resolve
 
 
 
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **PUBLISH**
 
@@ -72,6 +76,8 @@ git tag <version_name>
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **STASH**
 
@@ -87,6 +93,8 @@ git stash pop
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **BRANCH**
 
@@ -114,6 +122,8 @@ git branch -d <branch>
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **REBASE**
 
@@ -133,6 +143,8 @@ git rebase -i HEAD~2
 
 
 
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # **REVERT**
 
@@ -156,7 +168,19 @@ git commit -a --amend (after editing the broken files)
 
 git checkout <ID><file>
 
-# **SHOW**
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# **CHANGES**
 
 # Files changed in working directory
 
@@ -202,6 +226,86 @@ git grep<pattern>[path]
 
 
 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# **CONFIG**
+
+    Define author name to be used for all commits in current repo. Developers commonly use --global flag to set config options for current user.
+
+git config user.name <name>
+
+    Define the author name to be used for all commits by the current user
+
+git config --global user.name <name>
+
+    Define the author email to be used for all commits by the current user.
+
+git config --global user.email <email>
+
+    Create shortcut for a Git command.
+
+git config --global alias. <alias-name> <git-command>
+
+    Set text editor used by commands for all users on the machine. <editor> arg should be the command that launches the desired editor (e.g. vi).
+
+git config --system core.editor <editor>
+
+    Open the global configuration file in a text editor for manual editing.
+
+git config --global --edit
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# **PGP SIGNATURE FOR COMMITS**
+
+## Set up GPG
+
+    First you have to install GPG, if you don’t already have it. You can verify your installation (i.e. with Windows Power Shell) like this:
+
+gpg --version
+gpg (GnuPG) 2.2.17
+libgcrypt 1.8.4
+
+    If your system doesn't know them yet, you have to import your public and private keys (I assume you have them stored in files called public.key and private.key). If you don’t have a key pair, you can generate a new one. In that case, you can skip the import and directly jump to Set up Git. It's also possible to use your Keybase GPG key, if you have one (Stephen Rees-Carter wrote a nice article about it).
+
+gpg --import public.key
+gpg --import private.key
+
+    Note: when importing the private key, a GUI window appears that asks for the corresponding passphrase you set when creating your key pair.
+
+# Set up Git
+
+    Now you can tell Git your signing key ID. It’s a 16-digit alphanumeric string that can be found with gpg --list-signatures (look for lines starting with “sig”).
+
+git config --global user.signingkey 26A64778F76A7911
+
+    If you want, you can tell Git to sign commits per default (since Git 2.0), so you don’t always have to add the -s flag in the command line:
+
+git config --global commit.gpgsign true
+
+    Note, that I use the --global flag here to apply these settings to all my local repositories. Of course you can apply these settings only to the current repository without it.
+
+# Set up GitHub
+
+    Now you have to give GitHub (or whatever Git server you’re using) your public key. You can print it with mpg --armor --export or get-content -path public.key (or open it with your favorite text editor) and copy it to your clipboard. Now go to GitHub, click on the top right menu, go to Settings > SSH and GPG keys > New GPG key and paste your key — it should look like this:
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+...a lot of characters...
+-----END PCP PUBLIC KEY BLOCK-----
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 # FYI
 
