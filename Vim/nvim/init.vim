@@ -456,8 +456,8 @@ endfunction
 
 "AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
 "We can set $MYVIMRC later on in our path but this serves just fine for now
-autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
-
+"autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+au BufWritePost ~/.config/nvim/*.{vim,lua} so $MYVIMRC "This version is better, works for all config files
 
 
 "Auto make our C files on save
@@ -701,10 +701,11 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
 "already there
 "Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
-nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-"vnoremap <silent>++ <PLUG>NERDCommenterToggle
-"vnoremap <silent>++ <PLUG>NERDCommenterToggle
+"NOTE: Replacing NERDComment with my own script, togglecomment.vim
+"nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+"vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+nnoremap <silent>++ :call ToggleComment()<CR>
+vnoremap <silent>++ :call ToggleComment()<CR>
 
 
 

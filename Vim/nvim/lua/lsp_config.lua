@@ -22,7 +22,8 @@
 
 --]]
 local lsp = require('lspconfig')
-local completion = require('completion') --> CAN US BUILT IN OMNIFUNC BUT WE USE THIS FOR NOW
+--local completion = require('completion') --> CAN US BUILT IN OMNIFUNC BUT WE USE THIS FOR NOW --> Replaced with compe, better fuzzy algo
+local compe = require('compe')
 local api = vim.api
 local configs = require('lspconfig/configs')
 local util = require 'lspconfig/util'
@@ -59,13 +60,17 @@ local exclude_patterns = {
                     /_/                                     /_/
 --]]
 --" Set completeopt to have a better completion experience
-api.nvim_command('set completeopt=longest,menuone,noinsert,noselect')
+api.nvim_command('set completeopt+=menu,longest,menuone,noinsert,noselect')
+-- The above mapping will change the behavior of the <Enter> key when the popup menu is visible. In that case the Enter key will simply select the highlighted menu item, just as <C-Y> does. Does not seem to be neccessary right now with my config
+--api.nvim_command('inoremap <expr> <CR> pumvisible() ? "\\<C-y>" : "\\<C-g>u\\<CR>"')
 --" Use <Tab> and <S-Tab> to navigate through popup menu
 api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
 api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
 --" Avoid showing message extra message when using completion
 api.nvim_command('set shortmess+=c')
 --api.nvim_command('')
+--
+
 
 
 
@@ -140,8 +145,9 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 --lsp_status.config({
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
-lsp_status.register_progress()
 
+--not sure what this is for i think for progresss bars on statusline
+--lsp_status.register_progress()
 
 
 
@@ -173,10 +179,33 @@ local custom_attach = function(client,bufnr) --> Added client,bufnr works also w
             --matcher = {'exact', 'fuzzy'}
         --})
     --end
+
+
   require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
-  completion.on_attach(client,bufnr)
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar
-  vim.lsp.set_log_level('debug') --> ENABLE LOGGING
+
+  --completion.on_attach(client,bufnr) --> Replace with compe, faster algos
+  compe.setup {
+    enabled = true;
+    debug = false;
+    min_length = 1;
+    preselect = 'enable';
+    throttle_time = 10;
+    --source_timeout = ... number ...;
+    --incomplete_delay = ... number ...;
+    allow_prefix_unmatch = false;
+
+    source = {
+      path = true;
+      buffer = true;
+      vsnip = true;
+      nvim_lsp = true;
+      --nvim_lua = { ... overwrite source configuration ... };
+    };
+  }
+
+
+  --vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
   -- Move cursor to the next and previous diagnostic
   mapper('n', '<leader>dn', 'vim.lsp.diagnostic.goto_next()')
   mapper('n', '<leader>dp', 'vim.lsp.diagnostic.goto_prev()')
@@ -255,6 +284,7 @@ lsp.vimls.setup {on_attach = custom_attach, root_dir = cwd}
 /_/    \__, /\__/_/ /_/\____/_/ /_/
       /____/
 --]]
+--NOTE: Must install pyls using `pip3 install 'python-language-server[all]'`
 lsp.pyls.setup{
   on_attach = custom_attach
 }
@@ -293,6 +323,77 @@ lsp.tsserver.setup {on_attach = custom_attach,
 
 ---------------------------------------------------------------------------------------
 --[[
+    __  __  ______    __  ___    __
+   / / / / /_  __/   /  |/  /   / /
+  / /_/ /   / /     / /|_/ /   / /
+ / __  /   / /     / /  / /   / /___
+/_/ /_/   /_/     /_/  /_/   /_____/
+--]]
+
+--Enable (broadcasting) snippet capability for completion, does not seem to be working..
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+-- NOTE: Install via npm `npm install -g vscode-html-languageserver-bin`
+lsp.html.setup{
+    on_attach = custom_attach,
+    capabilities = capabilities, --enable snippet support
+    cmd = { "html-languageserver", "--stdio" },
+    root_dir = vim.loop.cwd,
+    filetypes = { "html" },
+    init_options = {
+      configurationSection = { "html", "css", "javascript" },
+      embeddedLanguages = {
+        css = true,
+        javascript = true
+      }
+    }
+
+}
+
+
+
+
+---------------------------------------------------------------------------------------
+--[[
+   ______   _____   _____
+  / ____/  / ___/  / ___/
+ / /       \__ \   \__ \
+/ /___    ___/ /  ___/ /
+\____/   /____/  /____/
+--]]
+lsp.cssls.setup{on_attach = custom_attach}
+
+
+
+---------------------------------------------------------------------------------------
+--[[
+       __   _____   ____     _   __
+      / /  / ___/  / __ \   / | / /
+ __  / /   \__ \  / / / /  /  |/ /
+/ /_/ /   ___/ / / /_/ /  / /|  /
+\____/   /____/  \____/  /_/ |_/
+--]]
+lsp.jsonls.setup{on_attach = custom_attach, root_dir = cwd}
+
+
+
+
+---------------------------------------------------------------------------------------
+--[[
+    ____    __  __   _____  ______
+   / __ \  / / / /  / ___/ /_  __/
+  / /_/ / / / / /   \__ \   / /
+ / _, _/ / /_/ /   ___/ /  / /
+/_/ |_|  \____/   /____/  /_/
+--]]
+--NOTE: Must install rust-analyzer first and add it to your path
+--$ curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.local/bin/rust-analyzer
+--$ chmod +x ~/.local/bin/rust-analyzer
+--lsp.rust_analyzer.setup{on_attach = custom_attach}
+
+---------------------------------------------------------------------------------------
+--[[
        __
       / /___ __   ______ _
  __  / / __ `/ | / / __ `/
@@ -302,7 +403,7 @@ lsp.tsserver.setup {on_attach = custom_attach,
 
 
 --NOTE: NOT WORKING
---require'lspconfig'.jdtls.setup{}
+--lsp.jdtls.setup{}
 --lsp.jdtls.setup {on_attach = custom_attach,
                     --root_dir = cwd
 --}
@@ -485,7 +586,7 @@ lsp.sumneko_lua.setup {
 
 
 
---require'lspconfig'.sumneko_lua.setup{}
+--lsp.sumneko_lua.setup{}
 --lsp.sumneko_lua.setup{on_attach=custom_attach}
 
 

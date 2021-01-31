@@ -142,11 +142,18 @@ require("packer").startup {
             end
         }
         use {
-            "beauwilliams/FTerm.nvim",
-            branch = "patch-1",
+            "numToStr/FTerm.nvim",
             setup = function()
+                    require'FTerm'.setup({
+                            border = {
+                                vertical = '│',
+                            }
+                        })
+
                     vim.fn.nvim_set_keymap('n', '<leader>t', '<CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
                     vim.fn.nvim_set_keymap('t', '<leader>t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
+                    -- vim.fn.nvim_set_keymap('n', '<leader>t', '<CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
+                    -- vim.fn.nvim_set_keymap('t', '<leader>t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
             end
         }
         --use {
@@ -250,7 +257,8 @@ require("packer").startup {
         use {"axvr/zepl.vim.git"} -- A REPL Plugin to start / manage REPL
         use {"sbdchd/neoformat"} -- Code formatting plugin
         -- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
-        use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding
+        -- use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding. NOTE: REPLACED WITH MY OWN SCRIPT JAN2020
+        --use 'https://github.com/tomtom/tcomment_vim.git' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         --use 'SirVer/ultisnips' --> ultisnips is not great iwht neovim, vsnip is more modern and supports lsp
@@ -259,8 +267,11 @@ require("packer").startup {
         } --config=require'plugins.vim-vsnip'
         use {'hrsh7th/vim-vsnip-integ'}
         use  'neovim/nvim-lspconfig'
+        -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         use  'nvim-lua/lsp-status.nvim'
-        use  'nvim-lua/completion-nvim'
+        --use  'nvim-lua/completion-nvim'
+        use  'hrsh7th/nvim-compe'
+        use  'glepnir/lspsaga.nvim'
         use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         --use  'nvim-lua/lsp-status.nvim'
         use 'RRethy/vim-illuminate'
