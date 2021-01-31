@@ -21,17 +21,11 @@ lua << END
 
 _G.packer_plugins = {
   ["FTerm.nvim"] = {
-    loaded = false,
-    only_sequence = true,
-    only_setup = true,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/opt/FTerm.nvim"
-  },
-  ale = {
-    config = { "\27LJ\2\nÖ\4\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0¤\4                    let g:ale_echo_msg_error_str = 'E'\n                    let g:ale_echo_msg_warning_str = 'W'\n                    \" I have some custom icons for errors and warnings but feel free to change them.\n                    \"let g:ale_sign_error = 'âœ˜'\n                    \"let g:ale_sign_warning = 'âš '\n                    let g:ale_sign_error = 'â—'\n                    let g:ale_sign_warning = '.'\n                    \"let g:ale_lint_on_enter = 0 \"Don't lint on enter hope this speeds things up/prevents lag\n                    \14nvim_exec\bapi\bvim\0" },
+    config = { "\27LJ\2\nº\2\0\0\6\0\16\0\0256\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\6\0009\0\a\0009\0\b\0'\2\r\0'\3\n\0'\4\14\0005\5\15\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\0023<C-\\><C-n><CMD>lua require\"FTerm\".toggle()<CR>\6t\1\0\2\vsilent\2\fnoremap\2)<CMD>lua require\"FTerm\".toggle()<CR>\14<leader>t\6n\20nvim_set_keymap\afn\bvim\vborder\1\0\0\1\0\1\rvertical\bâ”‚\nsetup\nFTerm\frequire\0" },
     loaded = true,
     only_sequence = true,
     only_setup = false,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/ale"
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/FTerm.nvim"
   },
   ["auto-pairs"] = {
     loaded = true,
@@ -171,6 +165,12 @@ _G.packer_plugins = {
     only_setup = false,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/rainbow"
   },
+  tcomment_vim = {
+    loaded = true,
+    only_sequence = true,
+    only_setup = false,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/tcomment_vim"
+  },
   ["vim-cheat40"] = {
     loaded = true,
     only_sequence = true,
@@ -194,12 +194,6 @@ _G.packer_plugins = {
     only_sequence = true,
     only_setup = false,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-eunuch"
-  },
-  ["vim-fugitive"] = {
-    loaded = true,
-    only_sequence = true,
-    only_setup = false,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-fugitive"
   },
   ["vim-hexokinase"] = {
     loaded = true,
@@ -238,12 +232,6 @@ _G.packer_plugins = {
     only_sequence = true,
     only_setup = false,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-session"
-  },
-  ["vim-signify"] = {
-    loaded = true,
-    only_sequence = true,
-    only_setup = false,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-signify"
   },
   ["vim-smoothie"] = {
     loaded = true,
@@ -424,33 +412,30 @@ end
 -- Runtimepath customization
 
 -- Pre-load configuration
--- Setup for: vim-polyglot
-loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\2\0\0\thelm\22polyglot_disabled\6g\bvim\0")()
--- Setup for: FTerm.nvim
-loadstring("\27LJ\2\nº\2\0\0\6\0\16\0\0256\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\6\0009\0\a\0009\0\b\0'\2\r\0'\3\n\0'\4\14\0005\5\15\0B\0\5\1K\0\1\0\1\0\2\fnoremap\2\vsilent\0023<C-\\><C-n><CMD>lua require\"FTerm\".toggle()<CR>\6t\1\0\2\fnoremap\2\vsilent\2)<CMD>lua require\"FTerm\".toggle()<CR>\14<leader>t\6n\20nvim_set_keymap\afn\bvim\vborder\1\0\0\1\0\1\rvertical\bâ”‚\nsetup\nFTerm\frequire\0")()
-vim.cmd("packadd FTerm.nvim")
 -- Setup for: quick-scope
 loadstring("\27LJ\2\n„\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0Ò\4                    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline\n                    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline\n                    augroup qs_colors\n                    autocmd!\n                    autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline\n                    autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline\n                    augroup END\n                    \14nvim_exec\bapi\bvim\0")()
 vim.cmd("packadd quick-scope")
+-- Setup for: vim-polyglot
+loadstring("\27LJ\2\n<\0\0\2\0\4\0\0056\0\0\0009\0\1\0005\1\3\0=\1\2\0K\0\1\0\1\2\0\0\thelm\22polyglot_disabled\6g\bvim\0")()
 -- Post-load configuration
 -- Config for: beacon.nvim
 loadstring("\27LJ\2\no\0\0\2\0\5\0\r6\0\0\0009\0\1\0)\1Z\0=\1\2\0006\0\0\0009\0\1\0)\1\25\0=\1\3\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\18beacon_shrink\24beacon_minimal_jump\16beacon_size\6g\bvim\0")()
--- Config for: indentLine
-loadstring("\27LJ\2\n®\1\0\0\2\0\b\0\r6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0K\0\1\0\1\3\0\0\ttext\rmarkdown\31indentLine_fileTypeExclude\1\3\0\0\thelp\rterminal\30indentLine_bufTypeExclude\bâ”‚\20indentLine_char\6g\bvim\0")()
--- Config for: nvim-treesitter
-loadstring("\27LJ\2\n*\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\15treesitter\frequire\0")()
 -- Config for: fuzzymenu.vim
 loadstring("\27LJ\2\nÍ\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0›\1                    let g:fuzzymenu_position =  'window'\n                    let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}\n                    \14nvim_exec\bapi\bvim\0")()
--- Config for: rainbow
-loadstring("\27LJ\2\nÅ\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0“\1                let g:rainbow_active = 1\n                \"set to 0 if you want to enable rainbow later via :RainbowToggle\n                    \14nvim_exec\bapi\bvim\0")()
 -- Config for: vim-session
 loadstring("\27LJ\2\n“\6\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0á\5                    \"keep all sessions in one location\n                    let g:session_directory='~/.config/nvim/.session'\n                    \"remove .vim from end of files so it looks nicer in startify\n                    let g:session_extension=''\n                    \"Remove pop-up each time we close to ask to save session\n                    let g:session_autosave = 'no'\n                    \"If I want to load a session I will specify it. We also have a start page\n                    \"which displays recent sessions too so not need to auto load them\n                    let g:session_autoload = 'no'\n                    cnoreabbrev mks SaveSession\n                    cnoreabbrev mksession SaveSession\n                    \14nvim_exec\bapi\bvim\0")()
--- Config for: ale
-loadstring("\27LJ\2\nÖ\4\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0¤\4                    let g:ale_echo_msg_error_str = 'E'\n                    let g:ale_echo_msg_warning_str = 'W'\n                    \" I have some custom icons for errors and warnings but feel free to change them.\n                    \"let g:ale_sign_error = 'âœ˜'\n                    \"let g:ale_sign_warning = 'âš '\n                    let g:ale_sign_error = 'â—'\n                    let g:ale_sign_warning = '.'\n                    \"let g:ale_lint_on_enter = 0 \"Don't lint on enter hope this speeds things up/prevents lag\n                    \14nvim_exec\bapi\bvim\0")()
--- Config for: vim-superman
-loadstring("\27LJ\2\nr\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0A                    cnoreabbrev man Man\n                    \14nvim_exec\bapi\bvim\0")()
 -- Config for: quick-scope
 loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0")()
+-- Config for: rainbow
+loadstring("\27LJ\2\nÅ\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0“\1                let g:rainbow_active = 1\n                \"set to 0 if you want to enable rainbow later via :RainbowToggle\n                    \14nvim_exec\bapi\bvim\0")()
+-- Config for: vim-superman
+loadstring("\27LJ\2\nr\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0A                    cnoreabbrev man Man\n                    \14nvim_exec\bapi\bvim\0")()
+-- Config for: nvim-treesitter
+loadstring("\27LJ\2\n*\0\0\3\0\2\0\0046\0\0\0'\2\1\0B\0\2\1K\0\1\0\15treesitter\frequire\0")()
+-- Config for: FTerm.nvim
+loadstring("\27LJ\2\nº\2\0\0\6\0\16\0\0256\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\0016\0\6\0009\0\a\0009\0\b\0'\2\t\0'\3\n\0'\4\v\0005\5\f\0B\0\5\0016\0\6\0009\0\a\0009\0\b\0'\2\r\0'\3\n\0'\4\14\0005\5\15\0B\0\5\1K\0\1\0\1\0\2\vsilent\2\fnoremap\0023<C-\\><C-n><CMD>lua require\"FTerm\".toggle()<CR>\6t\1\0\2\vsilent\2\fnoremap\2)<CMD>lua require\"FTerm\".toggle()<CR>\14<leader>t\6n\20nvim_set_keymap\afn\bvim\vborder\1\0\0\1\0\1\rvertical\bâ”‚\nsetup\nFTerm\frequire\0")()
+-- Config for: indentLine
+loadstring("\27LJ\2\n®\1\0\0\2\0\b\0\r6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0K\0\1\0\1\3\0\0\ttext\rmarkdown\31indentLine_fileTypeExclude\1\3\0\0\thelp\rterminal\30indentLine_bufTypeExclude\bâ”‚\20indentLine_char\6g\bvim\0")()
 -- Conditional loads
 -- Load plugins in order defined by `after`
 END

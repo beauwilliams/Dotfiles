@@ -704,12 +704,10 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Replacing NERDComment with my own script, togglecomment.vim
 "nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
 "vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-nnoremap <silent>++ :call ToggleComment()<CR>
-vnoremap <silent>++ :call ToggleComment()<CR>
-
-
-
-
+" nnoremap <silent>++ :call ToggleComment()<CR>
+" vnoremap <silent>++ :call ToggleComment()<CR>
+nnoremap <silent>++ :TComment<CR>
+vnoremap <silent>++ :TComment<CR>
 
 "=============================END REMAPS========================================
 

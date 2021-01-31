@@ -25,8 +25,6 @@ let s:comment_map = {
     \   "ahk": ';',
     \   "vim": '"',
     \   "tex": '%',
-    \   "markdown": '<\!--',
-    \   "html": '<\!--',
     \ }
 
 
@@ -38,23 +36,12 @@ function! ToggleComment()
             " Skip empty line
             return
         endif
-        " Uncomment the line
         if getline('.') =~ '^\s*' . comment_leader
-            " Account for wrappers like HTML or MD. Quick hack around for now.
-            if &filetype=='markdown' || &filetype=='html'
-                    execute ":silent! normal :nohlsearch\<CR>:s/<!--//\<CR>=="
-                    execute ":silent! normal :nohlsearch\<CR>:s/-->//\<CR>=="
-            else
-                execute 'silent s/\v\s*\zs' . comment_leader . '\s*\ze//'
-            endif
-        " Comment the line
+            " Uncomment the line
+            execute 'silent s/\v\s*\zs' . comment_leader . '\s*\ze//'
         else
+            " Comment the line
             execute 'silent s/\v^(\s*)/\1' . comment_leader . ' /'
-            " Account for wrappers like HTML or MD. Quick hack around for now.
-            if &filetype=='markdown' || &filetype=='html'
-                execute "g/$/norm A -->"
-            endif
-
         endif
     else
         echo "No comment leader found for filetype"

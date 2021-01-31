@@ -54,6 +54,7 @@ set tabline=%!TabLine()
 
 
 function! LinterStatus() abort "REQUIRES ALE
+  try
    let l:counts = ale#statusline#Count(bufnr(''))
    let l:all_errors = l:counts.error + l:counts.style_error
    let l:all_non_errors = l:counts.total - l:all_errors
@@ -78,6 +79,9 @@ function! LinterStatus() abort "REQUIRES ALE
    \ l:all_non_errors,
    \ l:all_errors
    \)
+    catch
+            return ''
+ endtry
 endfunction
 
 
@@ -125,6 +129,7 @@ function! ReadOnly() abort
 endfunction
 
 function! GitStats() abort "REQUIRES SIGNIFY
+  try
     let [added, modified, removed] = sy#repo#get_stats()
     let symbols = ['', '', 'ﰣ']
     let stats = [added, removed, modified]  " reorder
@@ -141,31 +146,11 @@ function! GitStats() abort "REQUIRES SIGNIFY
     endif
 
   return statline
+  catch
+    return ''
+  endtry
 endfunction
 
-function! StatuslineGitBranch() "INSPO
-let b:gitbranch=""
-  if &modifiable
-    try
-      let l:dir=expand('%:p:h')
-      let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
-      if !v:shell_error
-        let b:gitbranch="(".substitute(l:gitrevparse, '\n', '', 'g').") "
-      endif
-    catch
-    endtry
-  endif
-  return b:gitbranch
-endfunction
-
-"augroup GetGitBranch
-  "autocmd!
-  "autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
-"augroup END
-
-function! GetGitBranchName2() abort
-  return StatuslineGitBranch()
-endfunction
 
 
 
@@ -174,6 +159,7 @@ endfunction
 " Section: Statusline
 " REQUIRES FUGITIVEStatuslineGitBranch
 function! GitBranchName(...) abort
+  try
   let dir = s:Dir(bufnr(''))
   if empty(dir)
     return ''
@@ -185,10 +171,17 @@ function! GitBranchName(...) abort
   endif
   let status .= FugitiveHead(7, dir) "'('.FugitiveHead(7, dir).')'
   return status
+  catch
+    return ''
+  endtry
 endfunction
 
 function! GetGitBranchName(...) abort
-  return GitBranchName()
+  try
+    return GitBranchName()
+  catch
+    return ''
+  endtry
 endfunction
 
 function! Head(...) abort
@@ -200,7 +193,11 @@ function! Head(...) abort
 endfunction
 
 function! s:Dir(...) abort
+    try
   return a:0 ? FugitiveGitDir(a:1) : FugitiveGitDir()
+    catch
+        return ''
+    endtry
 endfunction
 
 function! s:DirCommitFile(path) abort
@@ -219,6 +216,33 @@ function! s:Slash(path) abort
   endif
 endfunction
 
+
+
+" function! StatuslineGitBranch() "INSPO
+" let b:gitbranch=""
+"   if &modifiable
+"     try
+"       let l:dir=expand('%:p:h')
+"       let l:gitrevparse = system("git -C ".l:dir." rev-parse --abbrev-ref HEAD")
+"       if !v:shell_error
+"         let b:gitbranch="(".substitute(l:gitrevparse, '\n', '', 'g').") "
+"       endif
+"     catch
+"     endtry
+"   endif
+"   return b:gitbranch
+" endfunction
+"
+"
+" function! GetGitBranchTest() abort
+"   return StatuslineGitBranch()
+" endfunction
+
+"augroup GetGitBranch
+  "autocmd!
+  "autocmd VimEnter,WinEnter,BufEnter * call StatuslineGitBranch()
+"augroup END
+"
 "function! statusline#setGitBranchStatus(...) abort
   "let dir = s:Dir(bufnr(''))
   "if empty(dir)

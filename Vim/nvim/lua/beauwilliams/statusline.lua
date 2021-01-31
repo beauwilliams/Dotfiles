@@ -1,5 +1,6 @@
 local api = vim.api
 local icons = require 'devicon'
+local Utils = require 'beauwilliams.utils'
 local M = {}
 
 -- Different colors for mode
@@ -242,6 +243,17 @@ local function isModified() --> TODO: Remove the - icon when opening startify
 end
 
 
+-- neoclide/coc.nvim
+local function cocStatus()
+  local cocstatus = ''
+  local exists = Utils.Exists('coc#status')
+  if exists == 0 then
+    cocstatus = Utils.Call('coc#status', {})
+  end
+  return cocstatus
+end
+
+
 function M.activeLine()
   local statusline = ""
   -- Component: Mode
@@ -252,6 +264,7 @@ function M.activeLine()
   -- Component: Filetype and icons
   statusline = statusline.."%#Line#"..getBufferName()
   statusline = statusline..getFileIcon()
+  statusline = statusline..cocStatus()
 
   -- Component: errors and warnings -> requires ALE
   statusline = statusline..vim.call('LinterStatus')

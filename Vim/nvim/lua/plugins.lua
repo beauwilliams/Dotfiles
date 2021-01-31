@@ -142,8 +142,8 @@ require("packer").startup {
             end
         }
         use {
-            "numToStr/FTerm.nvim",
-            setup = function()
+            'numToStr/FTerm.nvim',
+            config = function()
                     require'FTerm'.setup({
                             border = {
                                 vertical = '│',
@@ -258,7 +258,7 @@ require("packer").startup {
         use {"sbdchd/neoformat"} -- Code formatting plugin
         -- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
         -- use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding. NOTE: REPLACED WITH MY OWN SCRIPT JAN2020
-        --use 'https://github.com/tomtom/tcomment_vim.git' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
+        use 'tomtom/tcomment_vim' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         --use 'SirVer/ultisnips' --> ultisnips is not great iwht neovim, vsnip is more modern and supports lsp

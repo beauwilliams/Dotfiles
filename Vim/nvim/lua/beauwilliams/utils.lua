@@ -1,14 +1,14 @@
 
-local vim = vim
+local api = vim.api
 
 local Utils = {}
 
 local function map(type, input, output)
-    vim.api.nvim_set_keymap(type, input, output, {})
+    api.nvim_set_keymap(type, input, output, {})
 end
 
 local function noremap(type, input, output)
-    vim.api.nvim_set_keymap(type, input, output, { noremap = true })
+    api.nvim_set_keymap(type, input, output, { noremap = true })
 end
 
 function nnoremap(input, output)
@@ -47,6 +47,20 @@ end
 function Utils.is_dir(filepath)
     local ok, _ = os.rename(filepath, filepath)
     return ok
+end
+
+
+Utils.Exists = function(variable)
+    local loaded = api.nvim_call_function('exists', {variable})
+    return loaded ~= 0
+end
+
+Utils.Call = function(arg0, arg1)
+    return api.nvim_call_function(arg0, arg1)
+end
+
+Utils.IsVersion5 = function()
+    return api.nvim_call_function('has', {'nvim-0.5'}) == 1
 end
 
 return Utils
