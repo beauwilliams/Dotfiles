@@ -1,3 +1,7 @@
+------------------------------------------------------------------------
+--                             Variables                              --
+------------------------------------------------------------------------
+
 local api = vim.api
 local icons = require 'devicon'
 local Utils = require 'beauwilliams.utils'
@@ -30,7 +34,7 @@ local minusIcon = ''
 local errorIcon =''
 
 ------------------------------------------------------------------------
---                             StatusLine                             --
+--                             Colours                                --
 ------------------------------------------------------------------------
 -- INIT
 
@@ -117,6 +121,8 @@ api.nvim_command('hi StatuslineLSPFunc guibg='..line_bg..' guifg='..green)
 
 
 
+
+
 -- Redraw different colors for different mode
 local RedrawColors = function(mode)
   if mode == 'n' then
@@ -141,6 +147,12 @@ local RedrawColors = function(mode)
   end
 end
 
+
+
+
+------------------------------------------------------------------------
+--                              Functions                             --
+------------------------------------------------------------------------
 local TrimmedDirectory = function(dir)
   local home = os.getenv("HOME")
   local _, index = string.find(dir, home, 1)
@@ -163,7 +175,7 @@ local function getFileIcon()
   end
   local icon = icons.deviconTable[file_name]
   if icon ~= nil then
-    return ' '..icon
+    return icon..blank
   else
     return ''
   end
@@ -179,53 +191,29 @@ end
 
 
 
---local socket = require("socket")
---local function sleep(sec)
-    --socket.sleep(sec)
---end
--- TODO: IMPLEMENT ASYNC FOR GIT STATUS
---https://www.lua.org/pil/9.1.html
---https://github.com/ms-jpq/neovim-async-tutorial
-local co = coroutine.create(function ()
-           print("hi")
-           local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git status --porcelain -b 2>/dev/null')[1]
---local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git rev-parse --abbrev-ref HEAD')[1] --> Same async issue
-      if not branch or #branch == 0 then
-         return ''
-      end
-      branch = branch:gsub([[^## No commits yet on (%w+)$]], '%1')
-      branch = branch:gsub([[^##%s+(%w+).*$]], '%1')
-      return branch
-         end)
-
-
-local function getGitBranch() --> NOTE: THIS FN HAS AN ASYNC ISSUE
+local function getGitBranch() --> NOTE: THIS FN HAS AN ASYNC ISSUE AND NEEDS TO BE DEALT WITH LATER
 local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git status --porcelain -b 2>/dev/null')[1]
 --local branch = vim.fn.systemlist('cd ' .. vim.fn.expand('%:p:h:S') .. ' 2>/dev/null && git rev-parse --abbrev-ref HEAD')[1] --> Same async issue
+--local data = vim.b.git_branch
       if not branch or #branch == 0 then
          return ''
       end
       branch = branch:gsub([[^## No commits yet on (%w+)$]], '%1')
       branch = branch:gsub([[^##%s+(%w+).*$]], '%1')
 --sleep(1)
---os.execute("sleep 2") --> DOES NOT WORK
+--os.execute("sleep 2") --> DOES NOT WORK ONLY HAD BRIEF CRACK AT THIS RETURN LATER
 
 return branch
 end
-
-      --local data = vim.b.git_branch
-   --if data ~= '' then
-      --data = vim.g.bubbly_symbols.branch:format(data)
-
 
 local function getBufferName() --> IF We are in a buffer such as terminal or startify with no filename just display the buffer 'type' i.e "startify"
   local filename = api.nvim_call_function('expand', {'%f'})
   local filetype = vim.bo.ft --> Get vim filetype using nvim api
   if filename ~= '' then --> IF filetype empty i.e in a terminal buffer etc, return name of buffer (filetype)
-    return blank..filename
+    return blank..filename..blank
   else
       if filetype ~= '' then
-          return blank..filetype
+          return blank..filetype..blank
       else
         return '' --> AFAIK buffers tested have types but just incase.
       end
@@ -246,14 +234,46 @@ end
 -- neoclide/coc.nvim
 local function cocStatus()
   local cocstatus = ''
-  local exists = Utils.Exists('coc#status')
-  if exists == 0 then
+  -- local exists = Utils.Exists('coc#status')
+  if vim.fn.exists('*coc#status') == 0 then return '' end
+  -- if exists == 0 then
     cocstatus = Utils.Call('coc#status', {})
-  end
+  -- end
   return cocstatus
 end
 
+local function signify()
+   if vim.fn.exists('*sy#repo#get_stats') == 0 then return '' end
+   local added, modified, removed = unpack(vim.fn['sy#repo#get_stats']())
+   if added == -1 then return '' end
+   local symbols = {
+     '+',
+     '-',
+     '~',
+   }
+   local result = {}
+   local data = {
+    added,
+    removed,
+    modified,
+   }
+   for range=1,3 do
+     if data[range] ~= nil and data[range] > 0
+       then table.insert(result,symbols[range]..data[range]..blank)
+     end
+   end
 
+   if result[1] ~= nil then
+       return table.concat(result, '')
+   else
+       return ''
+   end
+end
+
+
+------------------------------------------------------------------------
+--                              Statusline                            --
+------------------------------------------------------------------------
 function M.activeLine()
   local statusline = ""
   -- Component: Mode
@@ -270,7 +290,8 @@ function M.activeLine()
   statusline = statusline..vim.call('LinterStatus')
 
   -- Component: git commit stats -> REQUIRES SIGNIFY
-  statusline = statusline..vim.call('GitStats')
+  statusline = statusline..signify()
+  -- statusline = statusline..vim.call('GitStats')
   -- Component: git branch name -> requires FUGITIVE
   statusline = statusline..vim.call('GetGitBranchName')
   --statusline = statusline..getGitBranch()
@@ -311,33 +332,30 @@ function M.activeLine()
   local line = api.nvim_call_function('line', {"."})
   local col = vim.fn.col('.')
   while string.len(line) < 3 do
-    line = line..' '
+    line = line..blank
   end
   while string.len(col) < 3 do
-    col = col..' '
+    col = col..blank
   end
   statusline = statusline.."%#Line# ℓ "..line.." 𝚌 "..col
 --]]
   return statusline
 end
 
---api.nvim_command('autocmd BufEnter * :call SetStatusline()')
---api.nvim_command('autocmd WinEnter * :call SetStatusline()')
---api.nvim_command('autocmd BufLeave * :setlocal statusline=')
---api.nvim_command('autocmd WinLeave * :setlocal statusline=')
 
 
--- SET THE STATUS LINE
---local wo = vim.wo
---wo.statusline = '%!luaeval("activeLine()")'
 
 
+------------------------------------------------------------------------
+--                              Inactive                              --
+------------------------------------------------------------------------
+
+
+
+-- INACTIVE BUFFER Colours
 local InactiveLine_bg = '#1c1c1c'
 local InactiveLine_fg = white_fg
 api.nvim_command('hi InActive guibg='..InactiveLine_bg..' guifg='..InactiveLine_fg)
-
-
-
 
 
 -- INACTIVE FUNCTION DISPLAY
@@ -349,7 +367,6 @@ end
 
 
 ------------------------------------------------------------------------
---
 --                              TabLine                               --
 ------------------------------------------------------------------------
 
@@ -366,7 +383,7 @@ local getTabLabel = function(n)
   end
   local icon = icons.deviconTable[file_name]
   if icon ~= nil then
-    return icon..' '..file_name
+    return icon..blank..file_name
   end
   return file_name
 end
@@ -406,3 +423,10 @@ end
 return M
 
 
+-- SET THE STATUS LINE
+--local wo = vim.wo
+--wo.statusline = '%!luaeval("activeLine()")'
+--api.nvim_command('autocmd BufEnter * :call SetStatusline()')
+--api.nvim_command('autocmd WinEnter * :call SetStatusline()')
+--api.nvim_command('autocmd BufLeave * :setlocal statusline=')
+--api.nvim_command('autocmd WinLeave * :setlocal statusline=')

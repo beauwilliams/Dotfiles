@@ -61,7 +61,7 @@ function! LinterStatus() abort "REQUIRES ALE
    if (l:all_errors == 0 )
      if !(l:all_non_errors == 0)
        return printf(
-       \ '  %d',
+       \ ' %d ',
        \ l:all_non_errors,
        \)
     end
@@ -69,13 +69,13 @@ function! LinterStatus() abort "REQUIRES ALE
     if (l:all_non_errors == 0 )
      if !(l:all_errors == 0)
        return printf(
-       \ '  %d',
+       \ ' %d ',
        \ l:all_errors,
        \)
     end
   end
    return l:counts.total == 0 ? '' : printf(
-   \ '  %d  %d',
+   \ ' %d  %d ',
    \ l:all_non_errors,
    \ l:all_errors
    \)
@@ -164,7 +164,7 @@ function! GitBranchName(...) abort
   if empty(dir)
     return ''
   endif
-  let status = '  ' "NOTE: This git branch icon adds NERDFONT dependency
+  let status = ' ' "NOTE: This git branch icon adds NERDFONT dependency
   let commit = s:DirCommitFile(@%)[1]
   if len(commit)
     let status .= ':' . commit[0:6]
