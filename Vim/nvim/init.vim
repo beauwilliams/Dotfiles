@@ -657,6 +657,10 @@ vnoremap <silent> <leader>W <C-w>W
 nnoremap <silent><Leader>c :Commands<CR>
 vnoremap <silent><Leader>c :Commands<CR>
 
+"CODE ACTION (LSP) MENU/SEARCH Mappings
+nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
+vnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
+
 "Fuzzymenu Mappings (ctrl+p)
 nmap <silent><leader>p <Plug>(Fzm)
 vmap <silent> <leader>p <Plug>(FzmVisual)
@@ -704,10 +708,10 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Replacing NERDComment with my own script, togglecomment.vim
 "nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
 "vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-" nnoremap <silent>++ :call ToggleComment()<CR>
-" vnoremap <silent>++ :call ToggleComment()<CR>
-nnoremap <silent>++ :TComment<CR>
-vnoremap <silent>++ :TComment<CR>
+nnoremap <silent>++ :call ToggleComment()<CR>
+vnoremap <silent>++ :call ToggleComment()<CR>
+" nnoremap <silent>++ :TComment<CR>
+" vnoremap <silent>++ :TComment<CR>
 
 "=============================END REMAPS========================================
 

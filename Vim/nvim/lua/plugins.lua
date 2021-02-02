@@ -190,6 +190,10 @@ require("packer").startup {
         -- use { 'https://github.com/noscript/cSyntaxAfter' -- Adds a little visual bling to () etc for semantic langs like c
         -- use { 'tjdevries/colorbuddy.nvim' -- REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
         -- use { 'npxbr/gruvbox.nvim' -- lua port of gruvbox community with treesitter support
+            use {
+                'beauwilliams/statusline.lua',
+                requires = {'kyazdani42/nvim-web-devicons', opt = true}
+            }
 
 
 
@@ -258,7 +262,8 @@ require("packer").startup {
         use {"sbdchd/neoformat"} -- Code formatting plugin
         -- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
         -- use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding. NOTE: REPLACED WITH MY OWN SCRIPT JAN2020
-        use 'tomtom/tcomment_vim' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
+        -- use 'tomtom/tcomment_vim' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
+        use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         --use 'SirVer/ultisnips' --> ultisnips is not great iwht neovim, vsnip is more modern and supports lsp
@@ -271,7 +276,8 @@ require("packer").startup {
         use  'nvim-lua/lsp-status.nvim'
         --use  'nvim-lua/completion-nvim'
         use  'hrsh7th/nvim-compe'
-        use  'glepnir/lspsaga.nvim'
+        -- use  'glepnir/lspsaga.nvim'
+        use 'kosayoda/nvim-lightbulb'
         use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         --use  'nvim-lua/lsp-status.nvim'
         use 'RRethy/vim-illuminate'
