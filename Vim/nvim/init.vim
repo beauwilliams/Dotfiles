@@ -522,6 +522,8 @@ augroup END
 if has("nvim")
   au TermOpen * tnoremap <Esc> <c-\><c-n>
   au FileType fzf tunmap <Esc>
+"ENABLE TELESCOPE TO CLOSE ON ESC"
+  " au FileType * imap <Esc> <C-c>
 endif
 
 "NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
@@ -623,8 +625,8 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-nnoremap <silent><Leader>s :Files<cr>
-vnoremap <silent><Leader>s :Files<cr>
+nnoremap <silent><Leader>s :Telescope find_files<cr>
+vnoremap <silent><Leader>s :Telescope find_files<cr>
 "SHIFT-P for file history
 nnoremap <silent> <Leader>S :History<CR>
 vnoremap <silent> <Leader>S :History<CR>
