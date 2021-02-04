@@ -1,4 +1,5 @@
 local actions = require('telescope.actions')
+local utils = require('_utils')
 require('telescope').setup{
   defaults = {
     mappings = {i = {["<esc>"] = actions.close, }},
@@ -39,10 +40,15 @@ require('telescope').setup{
     qflist_previewer = require'telescope.previewers'.qflist.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_qflist.new`
 
     -- Developer configurations: Not meant for general override
-    buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
+    -- buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
   }
 }
 
 vim.cmd[[highlight TelescopeBorder guifg=#4c4c4c]]
 vim.cmd[[highlight TelescopeSelection guifg=#ffffff guibg=#393939 gui=bold]]
 vim.cmd[[highlight TelescopeSelectionCaret guifg=#749484 gui=bold]]
+
+    -- utils.nnoremap('<leader>z', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({}))")
+-- utils.nnoremap{"<C-p>", ":lua require'telescope'.files"}
+-- vim.api.nvim_set_keymap('n', '<leader>e', ":Telescope find_files", {noremap = true})
+-- utils.nnoremap("Test","Test")
