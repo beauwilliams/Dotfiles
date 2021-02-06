@@ -14,6 +14,9 @@ end
 
 
 local options = {
+  hlsearch = true, -- don't highlight matching search
+  cursorline = true, -- enable cursorline
+
 --[[
   -- Boolean value
   autoindent = true, -- enable autoindent

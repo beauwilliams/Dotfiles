@@ -209,10 +209,10 @@ set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting auto indent to 4 spaces"
 set shiftwidth=4 "when we hit tab it moves 4 spaces
 set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
-set cursorline "enable line under cursor"
+" set cursorline "enable line under cursor"
 set shortmess=a "shorten message lengths in cmd bar
 set incsearch "search as characters are entered"
-set hlsearch "highlight matches"
+" set hlsearch "highlight matches"
 set ignorecase "ignore cases when searching
 set smartcase "However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
 set backspace=indent,eol,start " this makes backspace work as normal
