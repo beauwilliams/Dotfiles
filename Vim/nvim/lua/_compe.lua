@@ -30,6 +30,10 @@ compe.setup {
 
 -- SET SNIPPETS PATH
 vim.g.vsnip_snippet_dir = vim.fn.stdpath("config").."/snippets"
+vim.g.vsnip_filetypes = {
+  javascriptreact = {'javascript', 'html'},
+  typescriptreact = {'typescript', 'html'}
+}
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = "menu,menuone,noselect"
@@ -39,19 +43,12 @@ vim.o.completeopt = "menu,menuone,noselect"
 --api.nvim_command('inoremap <expr> <CR> pumvisible() ? "\\<C-y>" : "\\<C-g>u\\<CR>"')
 
 
---" Use <Tab> and <S-Tab> to navigate through popup menu
-api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
-api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
 
 
 --" Avoid showing message extra message when using completion
 api.nvim_command('set shortmess+=c')
 
 
--- SET COMPE MAPPINGS --> DELIMITMATE COMPATIBLE FOR AUTO-CLOSING BRACES
-api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
-api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Plug>delimitMateCR', 'mode': '' })")
-api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 
 -- CONFIGURES ICONS NEXT TO COMPLETION ITEMS FOR LSP
 -- HOW CAN WE ADD BUFFER ICONS?

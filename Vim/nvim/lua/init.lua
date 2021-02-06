@@ -3,17 +3,20 @@ require('_plugins')
 require('_theme')
 require('_mappings')
 require('_options')
+
+--LIBRARIES
 require('_utils')
+
+--PLUGINS
 require('_quickscope')
 require('_hexokinase')
 require('_telescope')
 require('_treesitter')
-require('lsp._lsp_config')
---require("statusline")
---require("startify")
+require('_nvimtree')
 
---INITS
---require('_completion-nvim') --> SETTINGS FOR VSNIP
+--LSP
+require('lsp._lsp_config')
+
 
 
 

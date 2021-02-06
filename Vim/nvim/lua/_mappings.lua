@@ -1,5 +1,10 @@
 local leader = "<space>"
+local g = vim.g
 local utils = require('_utils')
+local api = vim.api
+
+--SET LEADER GLOBALLY
+g.mapleader = ' '
 
 --TELESCOPE MAPPINGS
 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({}))<cr>")
@@ -44,6 +49,50 @@ utils.nnoremap("'ca", ":lua vim.lsp.buf.code_action()<CR>")
 
 utils.nnoremap("'gt",':lua vim.lsp.buf.type_definition()<CR>')
 utils.nnoremap("'gi", ":lua vim.lsp.buf.implementation()<CR>")
+
+--TERMINAL MAPPINGS
+utils.nnoremap('<leader>t', '<CMD>lua require"FTerm".toggle()<CR>')
+utils.tnoremap('<leader>t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
+
+--COMPE MAPPINGS [COMPLETION]
+--" Use <Tab> and <S-Tab> to navigate through popup menu
+api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
+api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
+-- SET COMPE MAPPINGS --> DELIMITMATE COMPATIBLE FOR AUTO-CLOSING BRACES
+api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
+api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Plug>delimitMateCR', 'mode': '' })")
+api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
+
+
+
+
+--VSNIP, EXPAND, JUMP
+--[[ imap <expr> <C-j> vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"
+imap <expr> <C-k> vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)"      : "<C-k>"
+
+VSNIP DISPLAY SNIPPETS
+inoremap <silent> <C-s> <C-r>=SnippetsComplete()<CR>
+
+function! SnippetsComplete() abort
+    let wordToComplete = matchstr(strpart(getline('.'), 0, col('.') - 1), '\S\+$')
+    let fromWhere      = col('.') - len(wordToComplete)
+    let containWord    = "stridx(v:val.word, wordToComplete)>=0"
+    let candidates     = vsnip#get_complete_items(bufnr("%"))
+    let matches        = map(filter(candidates, containWord),
+                \  "{
+                \      'word': v:val.word,
+                \      'menu': v:val.kind,
+                \      'dup' : 1,
+                \   }")
+
+
+    if !empty(matches)
+        call complete(fromWhere, matches)
+    endif
+
+    return ""
+endfunction
+ ]]
 
 
 

@@ -298,10 +298,6 @@ augroup END
 
 
 
-highlight NvimTreeFolderName ctermfg=none guifg=none
-"Setting nvim tree folders to not have any guibg
-"hi Cursorline guibg=#424040 guifg=none
-
 
 "augroup illuminate_augroup
     "autocmd!

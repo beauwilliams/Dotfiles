@@ -24,9 +24,9 @@
  / ____/  / ___ |/ /___    / /| |   / /___    / _, _/         _/ /    / /|  /   _/ /    / /
 /_/      /_/  |_|\____/   /_/ |_|  /_____/   /_/ |_|         /___/   /_/ |_/   /___/   /_/
 
-	--/*
-	 --* INSTALL PACKER, LUA BASED PACKAGE MANAGER. USE/DEPENDENCY BASED PACKAGE MGMT
-	 --*/
+--/*
+--* INSTALL PACKER, LUA BASED PACKAGE MANAGER. USE/DEPENDENCY BASED PACKAGE MGMT
+--*/
 --]]
 --local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
 
@@ -86,7 +86,10 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
-        use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
+        use {
+            'beauwilliams/statusline.lua',
+            requires = {'kyazdani42/nvim-web-devicons', opt = true}
+        }
         --use {
             --"vim-airline/vim-airline",
             --requires = {'vim-airline/vim-airline-themes', 'ryanoasis/vim-devicons'},
@@ -97,10 +100,11 @@ require("packer").startup {
                 --}
             --end
         --}
-        --use {"ryanoasis/vim-devicons"} -- NOTE THIS MUST BE RUN AFTER AIRLINE THEMES PLUGINS
-        use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors
+        use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
+        use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors with litle square
+        use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
         use {
-            -- CURSOR FLASH --> COMPANION CONFIG TO danilamihailov/beacon.nvim plugin
+            -- CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
             "danilamihailov/beacon.nvim",
             config = function()
                 vim.g.beacon_size = 90
@@ -108,7 +112,7 @@ require("packer").startup {
                 vim.g.beacon_shrink = 0
             end
         }
-        use {
+        use { --> INDENT GUIDES/LINES
             "Yggdroot/indentLine",
             requires = "lukas-reineke/indent-blankline.nvim",
             config = function()
@@ -117,12 +121,12 @@ require("packer").startup {
                 vim.g.indentLine_fileTypeExclude = {"text", "markdown"}
             end
         }
-        use {
+        use { --> STARTPAGE
             "mhinz/vim-startify",
             requires = "ryanoasis/vim-devicons"
         }
         use {
-            -- VIM QUICKSCOPE --> COMPANION CONFIG TO unblevable/quick-scope
+            -- VIM QUICKSCOPE --> after press t and f this highlights chars to help you nav faster
             "unblevable/quick-scope",
             setup = function()
                 vim.api.nvim_exec(
@@ -142,18 +146,13 @@ require("packer").startup {
             end
         }
         use {
-            'numToStr/FTerm.nvim',
+            'numToStr/FTerm.nvim', --> Floating terminal window
             config = function()
                     require'FTerm'.setup({
                             border = {
                                 vertical = '│',
                             }
                         })
-
-                    vim.fn.nvim_set_keymap('n', '<leader>t', '<CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
-                    vim.fn.nvim_set_keymap('t', '<leader>t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
-                    -- vim.fn.nvim_set_keymap('n', '<leader>t', '<CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
-                    -- vim.fn.nvim_set_keymap('t', '<leader>t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>', { noremap = true, silent = true })
             end
         }
         --use {
@@ -171,30 +170,9 @@ require("packer").startup {
                 --)
             --end
         --}
-        use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
-        --[[use {
-            -- RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
-            "luochen1990/rainbow",
-            config = function()
-                vim.api.nvim_exec(
-                    [[
-                let g:rainbow_active = 1
-                "set to 0 if you want to enable rainbow later via :RainbowToggle
-                    ]]--[[,
-                    false
-                )
-            end
-        }--]]
-
-        --use {"lukas-reineke/indent-blankline.nvim"} -- an addition to indentline, we get solid lines now even between methods etc
         -- use { 'habamax/vim-gruvbit' Another gruvbox alternative
-        -- use { 'https://github.com/noscript/cSyntaxAfter' -- Adds a little visual bling to () etc for semantic langs like c
         -- use { 'tjdevries/colorbuddy.nvim' -- REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
         -- use { 'npxbr/gruvbox.nvim' -- lua port of gruvbox community with treesitter support
-            use {
-                'beauwilliams/statusline.lua',
-                requires = {'kyazdani42/nvim-web-devicons', opt = true}
-            }
 
 
 
@@ -227,26 +205,9 @@ require("packer").startup {
                 )
             end
         }
-        --use {
-        --"neoclide/coc.nvim",
-        --config = function()
-        --end
-        --}
-        --use { 'yuki-ycino/fzf-preview.vim', run = ':UpdateRemotePlugins' }
         use {
             "nvim-treesitter/nvim-treesitter",
-            run = ":TSInstall all",
-            config = function()
-                -- require("_treesitter")
-                -- TODO: Still a bit buggy
-                -- vim.api.nvim_exec(
-                --   [[
-                --     set foldmethod=expr
-                --     set foldexpr=nvim_treesitter#foldexpr()
-                --   ]],
-                --   false
-                -- )
-            end
+            run = ":TSInstall all"
         }
         -- use {  -- This is rad, but stupid slow right now.
         --   "romgrk/nvim-treesitter-context",
@@ -259,33 +220,45 @@ require("packer").startup {
         --   requires = "nvim-treesitter/nvim-treesitter"
         -- }
 
-        use {"axvr/zepl.vim.git"} -- A REPL Plugin to start / manage REPL
-        use {"sbdchd/neoformat"} -- Code formatting plugin
-        -- NOTE: we need to clone eclips jdtls and run ./mvnw clean verify to get it working
-        -- use {"preservim/nerdcommenter"} -- quick and easy commenting- setup to cmd+/ using iterm binding. NOTE: REPLACED WITH MY OWN SCRIPT JAN2020
-        -- use 'tomtom/tcomment_vim' -- USE NATIVE VIM MOTIONS ``gc`` to comment code, eg gcp to comment paragraph
-        use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-        -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
-        -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
-        use  'hrsh7th/vim-vsnip'
-        use  'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
-        use  'neovim/nvim-lspconfig'
-        -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
-        -- use  'nvim-lua/lsp-status.nvim'
-        --use  'nvim-lua/completion-nvim'
-        use  'hrsh7th/nvim-compe'
-        use  'glepnir/lspsaga.nvim'
-        use 'kosayoda/nvim-lightbulb'
-        use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
-        --use  'nvim-lua/lsp-status.nvim'
-        use 'RRethy/vim-illuminate'
-        use { --> USE FZF FOR LSP NAVIGATION
-            'ojroques/nvim-lspfuzzy',
-            --requires = {
-              --{'junegunn/fzf'},
-              --{'junegunn/fzf.vim'},  -- to enable preview (optional)
-            --},
+        use { --> A REPL Plugin to start / manage REPL
+            "axvr/zepl.vim",
+            config = function()
+                vim.api.nvim_exec(
+                    [[
+                    cnoreabbrev repl Repl
+                    ]],
+                    false
+                )
+            end
         }
+        use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
+        use  'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
+        use  'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
+        use  'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
+        use  'hrsh7th/nvim-compe' --> COMPLETION MENU
+        use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
+        use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
+        use 'RRethy/vim-illuminate' --> Highlight word under cursor
+        use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+
+        use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
+            "sheerun/vim-polyglot",
+            opt = true,
+            event = "VimEnter *",
+            setup = function()
+                vim.g.polyglot_disabled = {"helm"}
+            end,
+            config = function()
+                vim.g.javascript_plugin_jsdoc = 1
+                vim.g.vim_markdown_new_list_item_indent = 2
+            end
+        }
+        -- use {"sbdchd/neoformat"} -- Code formatting plugin
+        -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
+        -- use  'glepnir/lspsaga.nvim'
+        -- use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
+        -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
+        -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 
 
 
@@ -325,6 +298,7 @@ require("packer").startup {
                 )
             end
         }
+        -- use { 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
 
 
 
@@ -357,17 +331,6 @@ require("packer").startup {
         }
         use 'nvim-telescope/telescope-fzy-native.nvim'
         use 'nvim-telescope/telescope-symbols.nvim'
-
-        --use {
-        --"junegunn/fzf.vim",
-        --requires = "/usr/local/opt/fzf",
-        --opt = true,
-        --event = "VimEnter *",
-        --config = function()
-        --vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
-        --TODO: Convert to lua?
-        --end
-        --}
         use {
             --HELP MENU FOR FZF & VIM ctrl+p
             "laher/fuzzymenu.vim",
@@ -381,12 +344,20 @@ require("packer").startup {
                 )
             end
         }
+
+
         --use { 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } -- FILE BROWSER
         --use { 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-        -- use { 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
-
-
+        --use {
+        --"junegunn/fzf.vim",
+        --requires = "/usr/local/opt/fzf",
+        --opt = true,
+        --event = "VimEnter *",
+        --config = function()
+        --vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
+        --TODO: Convert to lua?
+        --end
+        --}
 
 
 --[[
@@ -396,17 +367,17 @@ require("packer").startup {
 / /_/ /   _/ /    / /            / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 \____/   /___/   /_/            /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
-        --use {"airblade/vim-gitgutter"} -- Git diff gutter. DEC 2020 REPLACED WITH SIGNIFY AS GIT GUTTER CAN SLOW THINGS DOWN
+        use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
-        --use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
         --use {
             --"APZelos/blamer.nvim",
             --config = function()
                 --vim.g.blamer_enabled = 1
             --end
         --} -- GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
+        --use {"airblade/vim-gitgutter"} -- Git diff gutter. DEC 2020 REPLACED WITH SIGNIFY AS GIT GUTTER CAN SLOW THINGS DOWN
 
 
 
@@ -421,8 +392,7 @@ require("packer").startup {
         use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
         use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
-        use {'ojroques/nvim-bufdel'}
-        -- use 'jiangmiao/auto-pairs'
+        use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults
         use 'Raimondi/delimitMate'
         use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
 
@@ -436,45 +406,21 @@ require("packer").startup {
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-        use {
+        use {-- Read man pages in vim easily with vman or :Man
             "jez/vim-superman",
             config = function()
                 vim.api.nvim_exec([[
                     cnoreabbrev man Man
                     ]], false)
             end
-        } -- Read man pages in vim easily with vman or :Man
+        }
 
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
+        -- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
 
-                --NOTE: Polyglot currently disables swapfiles I have sent PR
-        use {
-            "sheerun/vim-polyglot",
-            opt = true,
-            event = "VimEnter *",
-            setup = function()
-                vim.g.polyglot_disabled = {"helm"}
-            end,
-            config = function()
-                vim.g.javascript_plugin_jsdoc = 1
-                vim.g.vim_markdown_new_list_item_indent = 2
-            end
-        }
-        -- use {
-        --   "nvim-telescope/telescope.nvim",
-        --   requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'},
-        --   config = function()
-        --     vim.api.nvim_exec(
-        --       [[
-        --         nnoremap <C-p> <cmd>lua require'telescope.builtin'.git_files{}<CR>
-        --       ]]--,
-        --       false
-        --     )
-        --   end
-        -- }
     end
 }
 --[[
