@@ -15,6 +15,9 @@ require'nvim-treesitter.configs'.setup {
    indent = {
       enable = false
    },
+   rainbow = { --> VIA p00f/nvim-ts-rainbow
+    enable = true,
+  },
    refactor = {
       highlight_definitions = { enable = true },
       highlight_current_scope = { enable = false },

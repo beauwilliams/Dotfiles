@@ -171,7 +171,8 @@ require("packer").startup {
                 --)
             --end
         --}
-        use {
+        use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
+        --[[use {
             -- RAINBOW BRACES --> COMPANION CONFIG TO luochen1990/rainbow
             "luochen1990/rainbow",
             config = function()
@@ -179,11 +180,11 @@ require("packer").startup {
                     [[
                 let g:rainbow_active = 1
                 "set to 0 if you want to enable rainbow later via :RainbowToggle
-                    ]],
+                    ]]--[[,
                     false
                 )
             end
-        }
+        }--]]
 
         --use {"lukas-reineke/indent-blankline.nvim"} -- an addition to indentline, we get solid lines now even between methods etc
         -- use { 'habamax/vim-gruvbit' Another gruvbox alternative
@@ -266,17 +267,14 @@ require("packer").startup {
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
-        --use 'SirVer/ultisnips' --> ultisnips is not great iwht neovim, vsnip is more modern and supports lsp
-        use {
-            'hrsh7th/vim-vsnip'
-        } --config=require'plugins.vim-vsnip'
-        use {'hrsh7th/vim-vsnip-integ'}
+        use  'hrsh7th/vim-vsnip'
+        use  'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
         use  'neovim/nvim-lspconfig'
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
-        use  'nvim-lua/lsp-status.nvim'
+        -- use  'nvim-lua/lsp-status.nvim'
         --use  'nvim-lua/completion-nvim'
         use  'hrsh7th/nvim-compe'
-        -- use  'glepnir/lspsaga.nvim'
+        use  'glepnir/lspsaga.nvim'
         use 'kosayoda/nvim-lightbulb'
         use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         --use  'nvim-lua/lsp-status.nvim'
@@ -357,6 +355,8 @@ require("packer").startup {
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
         }
+        use 'nvim-telescope/telescope-fzy-native.nvim'
+        use 'nvim-telescope/telescope-symbols.nvim'
 
         --use {
         --"junegunn/fzf.vim",
@@ -421,6 +421,10 @@ require("packer").startup {
         use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
         use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
+        use {'ojroques/nvim-bufdel'}
+        -- use 'jiangmiao/auto-pairs'
+        use 'Raimondi/delimitMate'
+        use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
 
 
 
@@ -432,8 +436,6 @@ require("packer").startup {
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-        use 'jiangmiao/auto-pairs'
-        use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
         use {
             "jez/vim-superman",
             config = function()

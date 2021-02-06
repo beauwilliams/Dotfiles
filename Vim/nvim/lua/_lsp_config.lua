@@ -1,16 +1,5 @@
---INSPO
---https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
---https://github.com/lukas-reineke/dotfiles/blob/master/vim/lua/lsp.lua
---https://github.com/kuator/nvim/tree/master/lua/plugins
---https://github.com/jim-at-jibba/my-dots/blob/master/nvim/lua/my_lspconfig.lua#L146
---https://github.com/nathunsmitty/.config/blob/master/nvim/lua/lsp/init.lua
---https://gitlab.com/Iron_E/dotfiles/-/tree/master
---https://gitlab.com/Iron_E/dotfiles/-/raw/master/.config/nvim/lua/plugin/lspconfig.lua
---https://rishabhrd.github.io/jekyll/update/2020/09/19/nvim_lsp_config.html
---read more https://github.com/nvim-lua/completion-nvim
---https://vim.fandom.com/wiki/Make_Vim_completion_popup_menu_work_just_like_in_an_IDE
---https://gist.githubusercontent.com/emilienlemaire/eb506e52ee2c2082c1f848b59d39c66a/raw/460d04605f11ac2267916d7227d65cbdbf45af3c/lsp_config.lua
---https://github.com/terrortylor/neovim-environment/tree/master/lua/config/plugin
+
+
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
@@ -21,32 +10,28 @@
 /_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
 
 --]]
-local lsp = require('lspconfig')
---local completion = require('completion') --> CAN US BUILT IN OMNIFUNC BUT WE USE THIS FOR NOW --> Replaced with compe, better fuzzy algo
-local compe = require('compe')
 local api = vim.api
-local configs = require('lspconfig/configs')
-local util = require 'lspconfig/util'
 local cwd = vim.loop.cwd
-local lsp_status = require('lsp-status') --> LSP progress, errors etc in your statusline
+local has_lsp, lsp = pcall(require, 'lspconfig')
+local has_lsp_util, lsputil = pcall(require, 'lspconfig/util')
+-- local lsp_status = require('lsp-status') --> LSP progress, errors etc in your statusline..WROTE MY OWN
+-- local saga = require 'lspsaga'
 
 --ERROR HANDLING INSPO --> https://raw.githubusercontent.com/nymann/dotfiles/master/dots/nvim/lua/lsp.lua
---local has_lsp, lspconfig = pcall(require, 'lspconfig')
 --local has_completion, completion = pcall(require, 'completion')
 --local has_diagnostic, diagnostic = pcall(require, 'diagnostic')
-
 --if not has_lsp then
     --return
 --end
 
 --Configure the exclusion pattterns
+--[[
 local exclude_patterns = {
   '**/node_modules/**/*',
   '**/bin/**/*',
   '**/obj/**/*',
   '/tmp/**/*'
-}
-
+}]]
 
 
 ---------------------------------------------------------------------------------------
@@ -59,20 +44,7 @@ local exclude_patterns = {
 \____/\____/_/ /_/ /_/ .___/_/\___/\__/_/\____/_/ /_/   \____/ .___/\__/_/\____/_/ /_/____/
                     /_/                                     /_/
 --]]
---" Set completeopt to have a better completion experience
-api.nvim_command('set completeopt+=menu,longest,menuone,noinsert,noselect')
--- The above mapping will change the behavior of the <Enter> key when the popup menu is visible. In that case the Enter key will simply select the highlighted menu item, just as <C-Y> does. Does not seem to be neccessary right now with my config
---api.nvim_command('inoremap <expr> <CR> pumvisible() ? "\\<C-y>" : "\\<C-g>u\\<CR>"')
---" Use <Tab> and <S-Tab> to navigate through popup menu
-api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
-api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
---" Avoid showing message extra message when using completion
-api.nvim_command('set shortmess+=c')
---api.nvim_command('')
---
-
-
-
+require('_compe')
 
 
 ---------------------------------------------------------------------------------------
@@ -89,18 +61,6 @@ api.nvim_command('set shortmess+=c')
 --A custom mapper function to make mapping our lsp functions to vim key sequences less verbose
 local mapper = function(mode, key, result)
   api.nvim_buf_set_keymap(0, mode, key, "<cmd>lua "..result.."<cr>", {noremap = true, silent = true})
-end
-
--- stolen from https://github.com/fsouza/vimfiles
-local get_python_tool = function(bin_name)
-  local result = bin_name
-  if os.getenv('VIRTUAL_ENV') then
-    local venv_bin_name = os.getenv('VIRTUAL_ENV') .. '/bin/' .. bin_name
-    if vim.fn.executable(venv_bin_name) == 1 then
-      result = venv_bin_name
-    end
-  end
-  return result
 end
 
 
@@ -135,17 +95,29 @@ end
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
-    virtual_text = true,
+    -- virtual_text = false,
+    virtual_text = {
+      prefix = "»",
+      spacing = 4,
+    },
     signs = true,
     update_in_insert = false,
   }
 )
 
+--CAPABILITIES
+local custom_capabilities = function()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true;
+  return capabilities
+end
+
+
+
 -- Statusline
 --lsp_status.config({
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
-
 --not sure what this is for i think for progresss bars on statusline
 --lsp_status.register_progress()
 
@@ -181,59 +153,20 @@ local custom_attach = function(client,bufnr) --> Added client,bufnr works also w
     --end
 
 
+  -- INITS
   require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
-  lsp_status.on_attach(client) --> REQUIRED for lsp statusbar
+  require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
+  require('_lightbulb') --> CODE ACTION LIGHTBULB
+  -- lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
+  -- saga.init_lsp_saga() --> SETS UP SAGA ENHANCED LSP UX, REVISIT LATER
 
-  --completion.on_attach(client,bufnr) --> Replace with compe, faster algos
-  compe.setup {
-    enabled = true;
-    debug = false;
-    min_length = 1;
-    preselect = 'enable';
-    throttle_time = 10;
-    --source_timeout = ... number ...;
-    --incomplete_delay = ... number ...;
-    allow_prefix_unmatch = false;
 
-    source = {
-      path = true;
-      buffer = true;
-      vsnip = true;
-      nvim_lsp = true;
-      --nvim_lua = { ... overwrite source configuration ... };
-    };
-  }
-
-  --CODE ACTIONS SETUP VIA NVIM-LIGHTBULB
-vim.cmd [[autocmd CursorHold,CursorHoldI *  lua require'nvim-lightbulb'.update_lightbulb {
-  sign = {
-    enabled = false,
-    -- Priority of the gutter sign
-    priority = 10,
-  },
-  float = {
-    enabled = true,
-    -- Text to show in the popup float
-    text = "💡",
-    -- Available keys for window options:
-    -- - height     of floating window
-    -- - width      of floating window
-    -- - wrap_at    character to wrap at for computing height
-    -- - max_width  maximal width of floating window
-    -- - max_height maximal height of floating window
-    -- - pad_left   number of columns to pad contents at left
-    -- - pad_right  number of columns to pad contents at right
-    -- - pad_top    number of lines to pad contents at top
-    -- - pad_bottom number of lines to pad contents at bottom
-    -- - offset_x   x-axis offset of the floating window
-    -- - offset_y   y-axis offset of the floating window
-    -- - anchor     Corner of float to place at the cursor (NW, NE, SW, SE)
-    win_opts = {offset_x=40},
-  }
-}]]
--- vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-
+  -- DEBUGGING
   --vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
+
+
+
+  --MAPPINGS
   -- Move cursor to the next and previous diagnostic
   mapper('n', '<leader>dn', 'vim.lsp.diagnostic.goto_next()')
   mapper('n', '<leader>dp', 'vim.lsp.diagnostic.goto_prev()')
@@ -247,7 +180,6 @@ vim.cmd [[autocmd CursorHold,CursorHoldI *  lua require'nvim-lightbulb'.update_l
   mapper('n', 'gr', 'vim.lsp.buf.references()')
   mapper('n', 'g0', 'vim.lsp.buf.document_symbol()')
   mapper('n', 'gW', 'vim.lsp.buf.workspace_symbol()')
-  print("LSP Started.. Let's get this bread")
   --vim.fn.nvim_set_keymap("n", "<leader>ge", "<cmd>lua vim.lsp.buf.declaration()<CR>", {noremap = true, silent = true})
   --vim.fn.nvim_set_keymap("n", "<leader>gh", "<cmd>lua vim.lsp.buf.hover()<CR>", {noremap = true, silent = true})
   --vim.fn.nvim_set_keymap("n", "<leader>gf", "<cmd>lua vim.lsp.buf.formatting()<CR>", {noremap = true, silent = true})
@@ -258,6 +190,15 @@ vim.cmd [[autocmd CursorHold,CursorHoldI *  lua require'nvim-lightbulb'.update_l
   --vim.fn.nvim_set_keymap("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", {noremap = true, silent = true})
   --vim.fn.nvim_set_keymap("n", "<a-.>", "<cmd>lua vim.lsp.buf.code_action()<CR>", {noremap = true, silent = true})
   --vim.api.nvim_command('setlocal omnifunc=v:lua.vim.lsp.omnifunc')
+
+
+
+end
+
+
+local custom_init = function()
+  -- SWAG
+  print("LSP Started.. Let's get this bread")
 end
 
 ---------------------------------------------------------------------------------------
@@ -274,6 +215,18 @@ end
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
+-- Slowly moving to a better, cleaner config. Will fill this loop as we go on..
+local servers = {
+  'bashls','cssls','vimls','rust_analyzer'
+}
+
+for _,server in ipairs(servers) do
+  lsp[server].setup {
+    on_attach = custom_attach,
+    on_init = custom_init
+  }
+end
+
 
 
 ---------------------------------------------------------------------------------------
@@ -285,7 +238,7 @@ end
 /_____/  \__,_/  /____/  /_/ /_/
 --]]
 --BASHLS REQUIRES BASHLS INSTALLED using `npm i -g bash-language-server` -- SEE: bash-lsp/bash-language-server
-lsp.bashls.setup{on_attach=custom_attach}
+-- lsp.bashls.setup{on_attach=custom_attach}
 --[[
 
 
@@ -298,7 +251,7 @@ lsp.bashls.setup{on_attach=custom_attach}
 |___/_/_/ /_/ /_/____/\___/_/  /_/ .___/\__/
                                 /_/
 --]]
-lsp.vimls.setup {on_attach = custom_attach, root_dir = cwd}
+lsp.vimls.setup {on_init = custom_init, on_attach = custom_attach, root_dir = cwd}
 
 
 
@@ -314,6 +267,7 @@ lsp.vimls.setup {on_attach = custom_attach, root_dir = cwd}
 --]]
 --NOTE: Must install pyls using `pip3 install 'python-language-server[all]'`
 lsp.pyls.setup{
+  on_init = custom_init,
   on_attach = custom_attach
 }
 
@@ -327,10 +281,12 @@ lsp.pyls.setup{
 /_/  \__, / .___/\___/____/\___/_/  /_/ .___/\__/
     /____/_/                         /_/
 --]]
-lsp.tsserver.setup {on_attach = custom_attach,
+lsp.tsserver.setup {
+  on_attach = custom_attach,
+  on_init = custom_init,
   root_dir = function(fname)
-    return util.find_git_ancestor(fname) or
-      util.path.dirname(fname)
+    return lsputil.find_git_ancestor(fname) or
+      lsputil.path.dirname(fname)
   end,
 }
 			--root_dir = util.root_pattern('package.json', 'tsconfig.json', '.git') or cwd
@@ -358,14 +314,12 @@ lsp.tsserver.setup {on_attach = custom_attach,
 /_/ /_/   /_/     /_/  /_/   /_____/
 --]]
 
---Enable (broadcasting) snippet capability for completion, does not seem to be working..
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- NOTE: Install via npm `npm install -g vscode-html-languageserver-bin`
 lsp.html.setup{
     on_attach = custom_attach,
-    capabilities = capabilities, --enable snippet support
+    on_init = custom_init,
+    capabilities = custom_capabilities(), --enable snippet support
     cmd = { "html-languageserver", "--stdio" },
     root_dir = vim.loop.cwd,
     filetypes = { "html" },
@@ -390,7 +344,7 @@ lsp.html.setup{
 / /___    ___/ /  ___/ /
 \____/   /____/  /____/
 --]]
-lsp.cssls.setup{on_attach = custom_attach}
+-- lsp.cssls.setup{on_attach = custom_attach}
 
 
 
@@ -402,7 +356,7 @@ lsp.cssls.setup{on_attach = custom_attach}
 / /_/ /   ___/ / / /_/ /  / /|  /
 \____/   /____/  \____/  /_/ |_/
 --]]
-lsp.jsonls.setup{on_attach = custom_attach, root_dir = cwd}
+lsp.jsonls.setup{on_attach = custom_attach, on_init = custom_init, root_dir = cwd}
 
 
 
@@ -416,9 +370,8 @@ lsp.jsonls.setup{on_attach = custom_attach, root_dir = cwd}
 /_/ |_|  \____/   /____/  /_/
 --]]
 --NOTE: Must install rust-analyzer first and add it to your path
---$ curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-linux -o ~/.local/bin/rust-analyzer
+--$ curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
 --$ chmod +x ~/.local/bin/rust-analyzer
---lsp.rust_analyzer.setup{on_attach = custom_attach}
 
 ---------------------------------------------------------------------------------------
 --[[
@@ -471,74 +424,9 @@ lsp.jsonls.setup{on_attach = custom_attach, root_dir = cwd}
 	--end
 --end
 
-
-
----------------------------------------------------------------------------------------
---[[
-    __
-   / /   __  __  ____ _
-  / /   / / / / / __ `/
- / /___/ /_/ / / /_/ /
-/_____/\__,_/  \__,_/
---]]
---
-local system_name
-if vim.fn.has("mac") == 1 then
-  system_name = "macOS"
-elseif vim.fn.has("unix") == 1 then
-  system_name = "Linux"
-elseif vim.fn.has('win32') == 1 then
-  system_name = "Windows"
-else
-  print("Unsupported system for sumneko")
-end
-
--- set the path to the sumneko installation; if you previously installed via the now deprecated :LspInstall, use
-local sumneko_root_path = vim.fn.stdpath('cache')..'/lspconfig/sumneko_lua/lua-language-server'
-local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
-
-lsp.sumneko_lua.setup {
-  cmd = {sumneko_binary, "-E", sumneko_root_path .. "/main.lua"};
-  on_attach = custom_attach,
-  root_dir = function(fname)
-    return util.find_git_ancestor(fname) or
-      util.path.dirname(fname)
-  end,
-  --root_dir = vim.loop.cwd,
-  --root_dir = util.root_pattern('.git') or cwd, --Not working
-    capabilities = {
-            textDocument = {
-              completion = {
-               completionItem = {
-                 snippetSupport=true
-               }
-              }
-            }
-         },
-         lsp_status.capabilities, --> REQUIRED FOR LSP STATUS
-    settings = {
-        Lua = {
-            runtime = {
-                -- Tell the language server which version of Lua you're using (LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-                -- Setup your lua path
-                path = vim.split(package.path, ';'),
-            },
-            diagnostics = {
-                -- Get the language server to recognize the `vim` global
-                globals = {'vim'},
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = {
-                    [vim.fn.expand('$VIMRUNTIME/lua')] = true,
-                    [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-                },
-            },
-        },
-    },
-}
-
+-- LANG CONFS
+require("lsp._lua")
+-- require( 'lsp._lsp')
 
 
 

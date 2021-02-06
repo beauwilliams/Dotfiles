@@ -1,6 +1,7 @@
 -- MY CONFS
 require('_plugins')
 require('_theme')
+require('_mappings')
 require('_utils')
 require('_quickscope')
 require('_hexokinase')
@@ -11,8 +12,7 @@ require('_lsp_config')
 --require("startify")
 
 --INITS
-require('lspfuzzy').setup {}
---require('completion-nvim') --> SETTINGS FOR VSNIP
+--require('_completion-nvim') --> SETTINGS FOR VSNIP
 
 
 

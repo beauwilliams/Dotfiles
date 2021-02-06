@@ -1,3 +1,4 @@
+--NOTE: RETIRED FOR COMPE
 return function ()
 vim.g.completion_chain_complete_list = {
     {

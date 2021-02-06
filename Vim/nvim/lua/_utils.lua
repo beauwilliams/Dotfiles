@@ -8,7 +8,7 @@ function Utils.map(type, input, output)
 end
 
 function Utils.noremap(type, input, output)
-    api.nvim_set_keymap(type, input, output, { noremap = true })
+    api.nvim_set_keymap(type, input, output, { noremap = true, silent = true })
 end
 
 function Utils.nnoremap(input, output)
@@ -252,6 +252,28 @@ end
 
 function Utils.tprint(table)
   print(vim.inspect(table))
+end
+
+
+
+-- SET OPTS --> EG --> opt('b', 'expandtab', true)
+local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
+function Utils.opt(scope, key, value)
+  scopes[scope][key] = value
+  if scope ~= 'o' then scopes['o'][key] = value end
+end
+
+
+-- stolen from https://github.com/fsouza/vimfiles
+Utils.get_python_tool = function(bin_name)
+  local result = bin_name
+  if os.getenv('VIRTUAL_ENV') then
+    local venv_bin_name = os.getenv('VIRTUAL_ENV') .. '/bin/' .. bin_name
+    if vim.fn.executable(venv_bin_name) == 1 then
+      result = venv_bin_name
+    end
+  end
+  return result
 end
 
 

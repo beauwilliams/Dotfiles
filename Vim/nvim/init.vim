@@ -1,73 +1,17 @@
-" statusline git tracker/lsp diagnostics, dev icons
-" " SETUP LSP / ALE / LINTING --> move away from CoC: DONE
+" TODO
 " Set Up LSP Status progress in statusline using lsp status as inspo
 " inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
 
 
-"NOTE: THIS CURRENTLY ALLOWS FOR AUTO-MAGIC TAB OVERLOADING
-"WE CAN USE TAB TO BOTH MOVE THROUGH OUR COMPLETION LIST AND TAB THROUGH OUR
-"SNIPPETS. I TRIED LOADING THESE MAPS IN PACKER BUT TAB STOPPED WORKING FOR
-"COMPLETION ITEMS SO IT NEEDS TO BE BEFORE WE SRC INIT.LUA
-imap <expr> <tab>   vsnip#jumpable(1)   ? '<plug>(vsnip-jump-next)'      : '<tab>'
-smap <expr> <tab>   vsnip#jumpable(1)   ? '<plug>(vsnip-jump-next)'      : '<tab>'
-imap <expr> <s-tab> vsnip#jumpable(-1)  ? '<plug>(vsnip-jump-prev)'      : '<s-tab>'
-smap <expr> <s-tab> vsnip#jumpable(-1)  ? '<plug>(vsnip-jump-prev)'      : '<s-tab>'
 
-
+"DEBUG
 function! Test()
-   return "test"
-endfunction
-
-function! StatuslineLsp() abort
-  return luaeval("require('lsp-status').status()")
-endfunction
-
-" Statusline
-function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('lsp-status').status()")
-  endif
-
-  return ''
+    echo "test"
+    return "test"
 endfunction
 
 
-" jump to the last non-whitespace char on line, or eol if already there
-"map <End> :call LineEnd()<CR>:echo<CR>
-"imap <End> <C-R>=LineEnd()<CR>
-"function! LineEnd()
-  "let x = col('.')
-    "execute "normal g_"
-  "if x == col('.')
-    "execute "normal $"
-  "endif
- "return ""
-"endfunction
-"jump to first non-whitespace on line, jump to begining of line if already at first non-whitespace
-"map <Home> :call LineHome()<CR>:echo<CR>
-"imap <Home> <C-R>=LineHome()<CR>
-"map ^[[1~ :call LineHome()<CR>:echo<CR>
-"imap ^[[1~ <C-R>=LineHome()<CR>
-"function! LineHome()
-  "let x = col('.')
-  "execute "normal ^"
-  "if x == col('.')
-    "execute "normal 0"
-  "endif
-  "return ""
-"endfunction
 
-
-
-"set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-"set statusline+=%{StatuslineLsp()}
-"set statusline+=%{LspStatus()}
-
-"lua << EOF
-"EOF
-
-"autocmd WinEnter,BufEnter * set swapfile
-"autocmd WinLeave,BufLEave * set swapfile
 
 "===========================KEY MAPPINGS===============================
    "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
@@ -226,8 +170,6 @@ endfunction
  "_/ /    / /|  /   _/ /    / /     ___/ /
 "/___/   /_/ |_/   /___/   /_/     /____/
 
-    "lua require("init")
-
 "have tested that I get better performance over sshfs with this on
 "We need to set ale off it before we load our plugins
 
@@ -245,21 +187,10 @@ endif
 
 if has('nvim-0.5')
     lua require("init")
-    "lua require("init")
-    "lua require 'init' -- Source packer.nvim configuration
-    "if &loadplugins
-        "lua require("init")
-        "lua require 'init/plugins'  -- Load conditional plugins
-    "elseif !g:using_vscode
-        "packadd nvim-highlite
-    "endif
-"endif
 else
     runtime init_pre_0.5.vim " Source Vim-Plug configuration
 endif
 
-"runtime init/config.vim   " Source misc configurations
-"runtime init/mappings.vim " Source mappings
 
 
 "===========================END MY PLUGINS===============================
@@ -272,7 +203,7 @@ endif
 
 
 "BEAU CONFIGS
-filetype plugin indent on "Indent and stuff based on ft
+filetype plugin indent on "Indent and stuff based on ft NOTE: have polyglot installed providing ftplugins
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting auto indent to 4 spaces"
@@ -364,6 +295,8 @@ augroup END
   "/ /     / __/     \__ \   / /           / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
  "/ /     / /___    ___/ /  / /           / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
 "/_/     /_____/   /____/  /_/            \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
+
+
 
 highlight NvimTreeFolderName ctermfg=none guifg=none
 "Setting nvim tree folders to not have any guibg
@@ -457,7 +390,8 @@ endfunction
 "AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
 "We can set $MYVIMRC later on in our path but this serves just fine for now
 "autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
-au BufWritePost ~/.config/nvim/*.{vim,lua} so $MYVIMRC "This version is better, works for all config files
+au BufWritePost ~/.config/nvim/** so $MYVIMRC "This version is better, works for all config files
+" au BufWritePost ~/.config/nvim/*.{vim,lua} so $MYVIMRC "This version is better, works for all config files
 
 
 "Auto make our C files on save
@@ -494,7 +428,7 @@ augroup end
 "Ref here: https://www.reddit.com/r/vim/wiki/vimrctips#wiki_do_not_use_smartindent
 "Decided to turn of 'smartindent' which I had set up for ages
 "As it seems might not be a good default nowadays
-set autoindent "enable auto-indentation"
+" set autoindent enable auto-indentation"
 "set smartindent  " smart  autoindent (e.g. add indent after '{')
 
 
@@ -522,8 +456,6 @@ augroup END
 if has("nvim")
   au TermOpen * tnoremap <Esc> <c-\><c-n>
   au FileType fzf tunmap <Esc>
-"ENABLE TELESCOPE TO CLOSE ON ESC"
-  " au FileType * imap <Esc> <C-c>
 endif
 
 "NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
@@ -625,15 +557,14 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-nnoremap <silent><Leader>s :Telescope find_files<cr>
-vnoremap <silent><Leader>s :Telescope find_files<cr>
-nnoremap <silent><Leader>1 :Telescope builtin<cr>
-vnoremap <silent><Leader>1 :Telescope builtin<cr>
+" nnoremap <silent><Leader>s :Telescope find_files<cr>
+" vnoremap <silent><Leader>s :Telescope find_files<cr>
+
 "SHIFT-P for file history
-nnoremap <silent> <Leader>S :History<CR>
-vnoremap <silent> <Leader>S :History<CR>
-nnoremap <silent> <Leader>gf :GitFiles<CR>
-vnoremap <silent> <Leader>gf :GitFiles<CR>
+" nnoremap <silent> <Leader>S :History<CR>
+" vnoremap <silent> <Leader>S :History<CR>
+" nnoremap <silent> <Leader>gf :GitFiles<CR>
+" vnoremap <silent> <Leader>gf :GitFiles<CR>
 
 
 
@@ -648,8 +579,8 @@ vnoremap <silent> <Leader>f :RG<CR>
 "leader-w for SPLIT CYCLING (cycle current windows)
 "leader-W takes us anticlockwise
 "WAS BEFORE UPGRADE TO packer :FzfPreviewAllBuffers<CR>
-nnoremap <silent> <Leader>b :Buffers<CR>
-vnoremap <silent> <Leader>b :Buffers<CR>
+" nnoremap <silent> <Leader>b :Buffers<CR>
+" vnoremap <silent> <Leader>b :Buffers<CR>
 nnoremap <silent> <leader>w <C-w>w
 vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
@@ -658,8 +589,8 @@ vnoremap <silent> <leader>W <C-w>W
 
 
 "COMMANDS MENU/SEARCH Mappings
-nnoremap <silent><Leader>c :Commands<CR>
-vnoremap <silent><Leader>c :Commands<CR>
+" nnoremap <silent><Leader>c :Commands<CR>
+" vnoremap <silent><Leader>c :Commands<CR>
 
 "CODE ACTION (LSP) MENU/SEARCH Mappings
 nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
@@ -712,8 +643,8 @@ nnoremap <silent><leader>gb :GitMessenger<CR>
 "NOTE: Replacing NERDComment with my own script, togglecomment.vim
 "nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
 "vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-nnoremap <silent>++ :call ToggleComment()<CR>
-vnoremap <silent>++ :call ToggleComment()<CR>
+" nnoremap <silent>++ :call ToggleComment()<CR>
+" vnoremap <silent>++ :call ToggleComment()<CR>
 " nnoremap <silent>++ :TComment<CR>
 " vnoremap <silent>++ :TComment<CR>
 
@@ -798,6 +729,33 @@ nnoremap <silent><leader>h :call WinMove('h')<CR>
 nnoremap <silent><leader>j :call WinMove('j')<CR>
 nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
+
+
+" jump to the last non-whitespace char on line, or eol if already there
+"map <End> :call LineEnd()<CR>:echo<CR>
+"imap <End> <C-R>=LineEnd()<CR>
+"function! LineEnd()
+  "let x = col('.')
+    "execute "normal g_"
+  "if x == col('.')
+    "execute "normal $"
+  "endif
+ "return ""
+"endfunction
+"jump to first non-whitespace on line, jump to begining of line if already at first non-whitespace
+"map <Home> :call LineHome()<CR>:echo<CR>
+"imap <Home> <C-R>=LineHome()<CR>
+"map ^[[1~ :call LineHome()<CR>:echo<CR>
+"imap ^[[1~ <C-R>=LineHome()<CR>
+"function! LineHome()
+  "let x = col('.')
+  "execute "normal ^"
+  "if x == col('.')
+    "execute "normal 0"
+  "endif
+  "return ""
+"endfunction
+
 
 
 "============================END FUNCTIONS CONFIG=======================
@@ -924,7 +882,7 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "Great function to save power when on battery if needed
 "function! MyOnBattery()
 "        if has('macunix')
-"                return match(system('pmset -g batt'), "Now drawing from 'Battery Power'") != -1
+"                return match(system('pmset -g batt'), \"Now drawing from 'Battery Power'\") != -1
 "        elseif has('unix')
 "                return readfile('/sys/class/power_supply/AC/online') == ['0']
 "        endif
