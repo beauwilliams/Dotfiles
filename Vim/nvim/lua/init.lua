@@ -11,7 +11,7 @@ require('_utils')
 --PLUGINS
 require('_quickscope')
 require('_hexokinase')
--- require('_telescope')
+require('_telescope')
 require('_treesitter')
 require('_nvimtree')
 

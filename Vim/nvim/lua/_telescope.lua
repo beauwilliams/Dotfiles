@@ -1,6 +1,6 @@
 local actions = require('telescope.actions')
-local utils = require('_utils')
-require('telescope').setup{
+local telescope = require('telescope')
+telescope.setup{
   defaults = {
     mappings = {i = {["<esc>"] = actions.close, }},
     vimgrep_arguments = {
