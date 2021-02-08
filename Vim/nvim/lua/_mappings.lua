@@ -17,8 +17,8 @@ utils.nnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('te
 utils.vnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")
 utils.nnoremap(leader..'c', ":lua require'telescope.builtin'.commands(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'c', ":lua require'telescope.builtin'.commands(require('telescope.themes').get_dropdown({}))<cr>")
-utils.nnoremap(leader..'g', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'g', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
+utils.nnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
+utils.vnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
 
 utils.nnoremap(leader..'5', ":Startify<cr>")
 utils.vnoremap(leader..'5', ":Startify<cr>")

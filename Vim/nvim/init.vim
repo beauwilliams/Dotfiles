@@ -553,8 +553,8 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-nnoremap <silent><Leader>q :Telescope find_files<cr>
-vnoremap <silent><Leader>q :Telescope find_files<cr>
+" nnoremap <silent><Leader>q :Telescope find_files<cr>
+" vnoremap <silent><Leader>q :Telescope find_files<cr>
 
 "SHIFT-P for file history
 " nnoremap <silent> <Leader>S :History<CR>
@@ -567,8 +567,8 @@ vnoremap <silent><Leader>q :Telescope find_files<cr>
 "Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
 "FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
 "leader-f for search-FILES
-nnoremap <silent> <Leader>f :RG<CR>
-vnoremap <silent> <Leader>f :RG<CR>
+" nnoremap <silent> <Leader>f :RG<CR>
+" vnoremap <silent> <Leader>f :RG<CR>
 
 
 "leader-b for BUFFER LIST (show buffers)
@@ -628,7 +628,7 @@ nnoremap <silent><leader>] <c-w>K
 "SHOW GIT COMMIT / GIT BLAME POPUP
 "Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
 "NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
-nnoremap <silent><leader>gb :GitMessenger<CR>
+nnoremap <silent><leader>6 :GitMessenger<CR>
 
 
 
