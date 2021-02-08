@@ -1,29 +1,32 @@
-local cmd = vim.api.nvim_command
+--don't call globals unneccessarily
+local o = vim.o
+-- local bo = vim.bo --> buffer only use bo
+-- local wo = vim.wo --> window only use wo
 
-local apply_options = function(opts)
-  for k, v in pairs(opts) do
-    if v == true then
-      cmd('set ' .. k)
-    elseif v == false then
-      cmd(string.format('set no%s', k))
-    else
-      cmd(string.format('set %s=%s', k, v))
-    end
-  end
-end
-
---TODO --> DECIDE
-local set_options = function(options)
+-- no need for a global function
+local set_options = function(locality,options)
     for key, value in pairs(options) do
-        vim.o[key] = value
+        locality[key] = value
     end
 end
 
-
---TODO --> REFACTOR
-local options = {
+-- define our options
+local options_global = {
   hlsearch = true, -- don't highlight matching search
   cursorline = true, -- enable cursorline
+}
+
+--[[ local options_buffer = {
+} ]]
+
+--[[ local options_window = {
+} ]]
+
+--set locally. no need to call elsewhere
+set_options(o,options_global)
+-- set_options(bo,options_buffer)
+-- set_options(wo,options_window)
+
 
 --[[
   -- Boolean value
@@ -77,7 +80,22 @@ local options = {
   timeoutlen = 400, -- faster timeout wait time
   updatetime = 100, -- set faster update time
 ]]
-}
 
-apply_options(options)
 
+
+
+
+
+
+-- ANOTHER METHOD
+--[[ local apply_options = function(opts)
+  for k, v in pairs(opts) do
+    if v == true then
+      cmd('set ' .. k)
+    elseif v == false then
+      cmd(string.format('set no%s', k))
+    else
+      cmd(string.format('set %s=%s', k, v))
+    end
+  end
+end ]]

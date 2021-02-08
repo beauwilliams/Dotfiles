@@ -553,8 +553,8 @@ nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
-" nnoremap <silent><Leader>s :Telescope find_files<cr>
-" vnoremap <silent><Leader>s :Telescope find_files<cr>
+nnoremap <silent><Leader>q :Telescope find_files<cr>
+vnoremap <silent><Leader>q :Telescope find_files<cr>
 
 "SHIFT-P for file history
 " nnoremap <silent> <Leader>S :History<CR>
