@@ -12,7 +12,15 @@ local apply_options = function(opts)
   end
 end
 
+--TODO --> DECIDE
+local set_options = function(options)
+    for key, value in pairs(options) do
+        vim.o[key] = value
+    end
+end
 
+
+--TODO --> REFACTOR
 local options = {
   hlsearch = true, -- don't highlight matching search
   cursorline = true, -- enable cursorline
