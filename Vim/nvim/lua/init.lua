@@ -1,3 +1,4 @@
+local init = function()
 -- MY CONFS
 require('_plugins')
 require('_theme')
@@ -16,6 +17,9 @@ require('_nvimtree')
 
 --LSP
 require('lsp._lsp_config')
+end
+
+init()
 
 
 
