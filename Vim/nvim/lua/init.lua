@@ -19,7 +19,7 @@ require('_nvimtree')
 require('lsp._lsp_config')
 end
 
-init()
+init() --> Load our confs
 
 
 
