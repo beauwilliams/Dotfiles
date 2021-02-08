@@ -88,13 +88,13 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/nvim-ale-diagnostic"
   },
-  ["nvim-blamer.lua"] = {
-    loaded = true,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/nvim-blamer.lua"
-  },
   ["nvim-bufdel"] = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/nvim-bufdel"
+  },
+  ["nvim-commaround"] = {
+    loaded = true,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/nvim-commaround"
   },
   ["nvim-compe"] = {
     loaded = true,
@@ -254,22 +254,22 @@ try_loadstring("\27LJ\2\nÑ\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\
 vim.cmd [[packadd quick-scope]]
 -- Config for: vim-session
 try_loadstring("\27LJ\2\nì\6\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0·\5                    \"keep all sessions in one location\n                    let g:session_directory='~/.config/nvim/.session'\n                    \"remove .vim from end of files so it looks nicer in startify\n                    let g:session_extension=''\n                    \"Remove pop-up each time we close to ask to save session\n                    let g:session_autosave = 'no'\n                    \"If I want to load a session I will specify it. We also have a start page\n                    \"which displays recent sessions too so not need to auto load them\n                    let g:session_autoload = 'no'\n                    cnoreabbrev mks SaveSession\n                    cnoreabbrev mksession SaveSession\n                    \14nvim_exec\bapi\bvim\0", "config", "vim-session")
--- Config for: zepl.vim
-try_loadstring("\27LJ\2\nt\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0C                    cnoreabbrev repl Repl\n                    \14nvim_exec\bapi\bvim\0", "config", "zepl.vim")
+-- Config for: vim-superman
+try_loadstring("\27LJ\2\nr\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0A                    cnoreabbrev man Man\n                    \14nvim_exec\bapi\bvim\0", "config", "vim-superman")
+-- Config for: fuzzymenu.vim
+try_loadstring("\27LJ\2\nÕ\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0õ\1                    let g:fuzzymenu_position =  'window'\n                    let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}\n                    \14nvim_exec\bapi\bvim\0", "config", "fuzzymenu.vim")
+-- Config for: FTerm.nvim
+try_loadstring("\27LJ\2\nY\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\vborder\1\0\0\1\0\1\rvertical\b‚îÇ\nsetup\nFTerm\frequire\0", "config", "FTerm.nvim")
+-- Config for: indentLine
+try_loadstring("\27LJ\2\nÆ\1\0\0\2\0\b\0\r6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0K\0\1\0\1\3\0\0\ttext\rmarkdown\31indentLine_fileTypeExclude\1\3\0\0\thelp\rterminal\30indentLine_bufTypeExclude\b‚îÇ\20indentLine_char\6g\bvim\0", "config", "indentLine")
 -- Config for: ale
 try_loadstring("\27LJ\2\n÷\4\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0§\4                    let g:ale_echo_msg_error_str = 'E'\n                    let g:ale_echo_msg_warning_str = 'W'\n                    \" I have some custom icons for errors and warnings but feel free to change them.\n                    \"let g:ale_sign_error = '‚úò'\n                    \"let g:ale_sign_warning = '‚ö†'\n                    let g:ale_sign_error = '‚óè'\n                    let g:ale_sign_warning = '.'\n                    \"let g:ale_lint_on_enter = 0 \"Don't lint on enter hope this speeds things up/prevents lag\n                    \14nvim_exec\bapi\bvim\0", "config", "ale")
 -- Config for: beacon.nvim
 try_loadstring("\27LJ\2\no\0\0\2\0\5\0\r6\0\0\0009\0\1\0)\1Z\0=\1\2\0006\0\0\0009\0\1\0)\1\25\0=\1\3\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\18beacon_shrink\24beacon_minimal_jump\16beacon_size\6g\bvim\0", "config", "beacon.nvim")
--- Config for: fuzzymenu.vim
-try_loadstring("\27LJ\2\nÕ\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0õ\1                    let g:fuzzymenu_position =  'window'\n                    let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}\n                    \14nvim_exec\bapi\bvim\0", "config", "fuzzymenu.vim")
--- Config for: vim-superman
-try_loadstring("\27LJ\2\nr\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0A                    cnoreabbrev man Man\n                    \14nvim_exec\bapi\bvim\0", "config", "vim-superman")
 -- Config for: quick-scope
 try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "quick-scope")
--- Config for: indentLine
-try_loadstring("\27LJ\2\nÆ\1\0\0\2\0\b\0\r6\0\0\0009\0\1\0'\1\3\0=\1\2\0006\0\0\0009\0\1\0005\1\5\0=\1\4\0006\0\0\0009\0\1\0005\1\a\0=\1\6\0K\0\1\0\1\3\0\0\ttext\rmarkdown\31indentLine_fileTypeExclude\1\3\0\0\thelp\rterminal\30indentLine_bufTypeExclude\b‚îÇ\20indentLine_char\6g\bvim\0", "config", "indentLine")
--- Config for: FTerm.nvim
-try_loadstring("\27LJ\2\nY\0\0\4\0\6\0\t6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\4\0005\3\3\0=\3\5\2B\0\2\1K\0\1\0\vborder\1\0\0\1\0\1\rvertical\b‚îÇ\nsetup\nFTerm\frequire\0", "config", "FTerm.nvim")
+-- Config for: zepl.vim
+try_loadstring("\27LJ\2\nt\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0C                    cnoreabbrev repl Repl\n                    \14nvim_exec\bapi\bvim\0", "config", "zepl.vim")
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads

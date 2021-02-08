@@ -32,6 +32,7 @@ utils.noremap('',leader..'1', ":lua require'telescope.builtin'.builtin()<cr>")
 
 --KOMMENTARY MAPPINGS
 vim.api.nvim_set_keymap('n', '++', '<Plug>kommentary_line_default', { silent = true })
+vim.api.nvim_set_keymap('v', '++', '<Plug>kommentary_visual_default', { silent = true })
 
 --LSP MAPPINGS
 -- NOTE: Close quickfix with :cclose

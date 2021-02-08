@@ -207,7 +207,7 @@ require("packer").startup {
         }
         use {
             "nvim-treesitter/nvim-treesitter",
-            run = ":TSInstall all"
+            --run = ":TSInstall all"
         }
         -- use {  -- This is rad, but stupid slow right now.
         --   "romgrk/nvim-treesitter-context",
@@ -367,7 +367,7 @@ require("packer").startup {
 / /_/ /   _/ /    / /            / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 \____/   /___/   /_/            /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
-        use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
+        -- use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
