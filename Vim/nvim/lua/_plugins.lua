@@ -241,18 +241,18 @@ require("packer").startup {
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
         use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
 
-        use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
-            "sheerun/vim-polyglot",
+        -- use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
+            --[[ "sheerun/vim-polyglot",
             opt = true,
             event = "VimEnter *",
             setup = function()
                 vim.g.polyglot_disabled = {"helm"}
-            end,
-            config = function()
+            end, ]]
+            --[[ config = function()
                 vim.g.javascript_plugin_jsdoc = 1
                 vim.g.vim_markdown_new_list_item_indent = 2
             end
-        }
+        } ]]
         -- use {"sbdchd/neoformat"} -- Code formatting plugin
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         -- use  'glepnir/lspsaga.nvim'

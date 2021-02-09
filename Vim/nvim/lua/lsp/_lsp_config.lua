@@ -117,7 +117,7 @@ end
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
 --not sure what this is for i think for progresss bars on statusline
-lsp_status.register_progress()
+-- lsp_status.register_progress()
 
 
 
