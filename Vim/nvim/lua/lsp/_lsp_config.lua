@@ -12,6 +12,7 @@ local vim = vim
 local fn  = vim.fn
 local api = vim.api
 local cwd = vim.loop.cwd
+local lsp_status = require('lsp-status')
 local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
     return
@@ -116,7 +117,7 @@ end
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
 --not sure what this is for i think for progresss bars on statusline
---lsp_status.register_progress()
+lsp_status.register_progress()
 
 
 
@@ -142,7 +143,7 @@ custom_attach = function(client,bufnr) --> Added client,bufnr works also without
   require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
   require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
-  -- lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
+  lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
   -- saga.init_lsp_saga() --> SETS UP SAGA ENHANCED LSP UX, REVISIT LATER
 
 end

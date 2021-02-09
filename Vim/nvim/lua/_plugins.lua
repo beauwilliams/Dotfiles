@@ -256,7 +256,7 @@ require("packer").startup {
         -- use {"sbdchd/neoformat"} -- Code formatting plugin
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         -- use  'glepnir/lspsaga.nvim'
-        -- use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
+        use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
 
