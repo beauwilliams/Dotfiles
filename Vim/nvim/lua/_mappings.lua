@@ -64,6 +64,10 @@ api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
 api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Plug>delimitMateCR', 'mode': '' })")
 api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 
+--TREESITTER MAPPINGS
+--smart_rename = "'rn",
+
+
 
 
 

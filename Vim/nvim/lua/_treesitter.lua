@@ -20,17 +20,24 @@ tsconf.setup {
    rainbow = { --> VIA p00f/nvim-ts-rainbow
     enable = true,
   },
-   refactor = {
+  refactor = {
       highlight_definitions = { enable = true },
       highlight_current_scope = { enable = false },
       navigation = {
-         enable = true,
-         keymaps = {
-            goto_next_usage = "<A-*>",
-            goto_previous_usage = "<A-#>",
-         },
+          enable = true,
+          keymaps = {
+              goto_next_usage = "<A-*>",
+              goto_previous_usage = "<A-#>",
+          },
       },
-   },
+      smart_rename = {
+          enable = true,
+          keymaps = {
+              -- mapping to rename reference under cursor
+              -- smart_rename = "'wn",
+          },
+      },
+  },
 }
 
 
