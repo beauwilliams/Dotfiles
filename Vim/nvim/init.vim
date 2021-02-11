@@ -11,8 +11,6 @@ function! Test()
 endfunction
 
 
-
-
 "===========================KEY MAPPINGS===============================
    "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
   "/ __ \  / / / /   /  _/  / ____/   / //_/         / ____/  / / / /   /  _/   / __ \   / ____/
@@ -508,6 +506,11 @@ noremap <silent><leader>/ :nohlsearch<cr>
 nnoremap <silent><leader>i gg=G<c-o>
 "Run Neoformat
 nnoremap <silent><leader>F :Neoformat<CR>
+"AUGROUPS FOR FORMATTERS --> Wait until neovim implements augroup API
+augroup formatpython
+  autocmd!
+  autocmd BufWritePre *.py undojoin | Neoformat
+augroup END
 
 
 

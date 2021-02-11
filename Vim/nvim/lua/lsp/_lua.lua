@@ -8,10 +8,8 @@
 /_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
 
 --]]
-local api = vim.api
-local cwd = vim.loop.cwd
-local has_lsp, lsp = pcall(require, 'lspconfig')
-local has_lsp_util, lsputil = pcall(require, 'lspconfig/util')
+local lsp = require('lspconfig')
+local lsputil = require('lspconfig/util')
 ---------------------------------------------------------------------------------------
 --[[
     __
@@ -66,6 +64,7 @@ lsp.sumneko_lua.setup {
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
+                enable = true,
                 globals = {'vim'},
             },
             workspace = {

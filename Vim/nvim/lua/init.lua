@@ -4,6 +4,7 @@ require('_plugins')
 require('_theme')
 require('_mappings')
 require('_options')
+require('_autocmd')
 
 --LIBRARIES
 require('_utils')

@@ -86,10 +86,7 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
-        use {
-            'beauwilliams/statusline.lua',
-            requires = {'kyazdani42/nvim-web-devicons', opt = true}
-        }
+        use 'beauwilliams/statusline.lua'
         --use {
             --"vim-airline/vim-airline",
             --requires = {'vim-airline/vim-airline-themes', 'ryanoasis/vim-devicons'},
@@ -253,7 +250,7 @@ require("packer").startup {
                 vim.g.vim_markdown_new_list_item_indent = 2
             end
         } ]]
-        -- use {"sbdchd/neoformat"} -- Code formatting plugin
+        use {"sbdchd/neoformat"} -- Code formatting plugin
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         -- use  'glepnir/lspsaga.nvim'
         use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
