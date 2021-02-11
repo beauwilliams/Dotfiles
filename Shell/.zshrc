@@ -70,6 +70,31 @@ export FIGNORE="$FIGNORE:.DS_Store"
 #function ll { ls -la $@ | rg -v .DS_Store; }
 
 EDITOR=nvim
+#Setting nvim as our MANPAGER
+export MANPAGER='nvim +Man!'
+
+
+
+
+#############JAVA VERSION CHANGER#############
+#USE `setjdk <version>`
+#e.g --> setjdk 1.8
+# set and change java versions
+function setjdk() {
+  if [ $# -ne 0 ]; then
+    removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+    if [ -n "${JAVA_HOME+x}" ]; then
+      removeFromPath $JAVA_HOME
+    fi
+    export JAVA_HOME=`/usr/libexec/java_home -v $@`
+    export PATH=$JAVA_HOME/bin:$PATH
+  fi
+}
+#Helper function for java path changer
+removeFromPath () {
+    export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
+}
+
 
 #==================END USER CONFIG=======================================
 #
@@ -77,8 +102,12 @@ EDITOR=nvim
 #
 #====================BEGIN ALIASES=======================================
 
+###MISC ALIASES###
+eval $(thefuck --alias)
+
 ###GIT ALIASES
-alias gitcreate="hub create"
+# alias gitcreate="hub create"
+function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create;}
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
@@ -86,6 +115,11 @@ alias zshconfig="nvim ~/.zshrc"
 alias powerlineconfig="nvim ~/.zsh/.p10k.zsh"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
+
+###CHEATSHEETS###
+function cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
+#alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
+
 
 ###ZSH ###
 alias zshreload="source ~/.zshrc"
@@ -114,7 +148,9 @@ alias ....='cd ../../..'
 #Creating aliases for my dotfiles integration with github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
-alias mergenvim="cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim"
+export PATH=$PATH:/Users/admin/.config/nvim/bin
+alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
+alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
 
 function acp() {
@@ -165,10 +201,10 @@ alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
 
 ###INITS###
 #BEAU - config for z.lua directory jumper i.e z
-eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh)"
+eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced once fzf)"
 #Launches jenv, currently using to mng java vers
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
+#export PATH="$HOME/.jenv/bin:$PATH"
+#eval "$(jenv init -)"
 
 
 
@@ -177,14 +213,15 @@ eval "$(jenv init -)"
 
 
 ###PATHS###
+export PATH="Users/admin/.local/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 #Adding path for node installation, something happened during update and npm dissapeared!
 export PATH="/usr/local/bin/:$PATH"
 #export PATH="/usr/local/opt/qt/bin:$PATH"
-export JAVA_HOME=$(/usr/libexec/java_home -v 12)
 #setting adoptopenjdk8 as default
+#export JAVA_HOME=$(/usr/libexec/java_home -v 14) / DEC20 replace with setjdk fn
 export PATH="$HOME/tools/nvim:$PATH"
 export PATH=$HOME/Library/Haskell/bin:$PATH
 export PATH="$PATH:/Users/admin/Git_Downloads/SDK..Downloads/flutter/bin"
@@ -192,6 +229,13 @@ export PATH="$PATH:/Users/admin/Git_Downloads/SDK..Downloads/flutter/bin"
 export ANDROID_HOME=/Users/$USER/SDK/Android_Studio/
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
+###VIM PATHS###
+#Path for vim man pages extension https://github.com/jez/vim-superman
+export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
+compdef vman="man" #adds autocompletion for the command
+export PATH="$PATH:$HOME/.config/nvim/.langservers"
+
 
 
 ###CONDA PATHS###
@@ -220,9 +264,6 @@ fi
 
 #if [ -e /Users/admin/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/admin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-#Path for vim man pages extension https://github.com/jez/vim-superman
-export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
-compdef vman="man" #adds autocompletion for the command
 
 #
 #
@@ -327,3 +368,5 @@ compdef vman="man" #adds autocompletion for the command
 
 #===================END ZSH CONFIG===========================
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
