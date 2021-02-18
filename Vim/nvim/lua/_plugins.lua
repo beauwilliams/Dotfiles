@@ -87,6 +87,8 @@ require("packer").startup {
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
         use 'beauwilliams/statusline.lua'
+        use 'beauwilliams/focus.nvim'
+        -- use 'romgrk/barbar.nvim'
         --use {
             --"vim-airline/vim-airline",
             --requires = {'vim-airline/vim-airline-themes', 'ryanoasis/vim-devicons'},
@@ -288,6 +290,7 @@ require("packer").startup {
                     "If I want to load a session I will specify it. We also have a start page
                     "which displays recent sessions too so not need to auto load them
                     let g:session_autoload = 'no'
+                    cnoreabbrev restart RestartVim
                     cnoreabbrev mks SaveSession
                     cnoreabbrev mksession SaveSession
                     ]],

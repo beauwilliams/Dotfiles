@@ -10,10 +10,11 @@ telescope.setup{
             '--with-filename',
             '--line-number',
             '--column',
-            '--smart-case'
+            '--smart-case',
         },
+        -- find_command = { 'rg', '--files', '--hidden'},
         prompt_position = "top",
-        prompt_prefix = ">",
+        -- prompt_prefix = ">",
         initial_mode = "insert",
         selection_strategy = "reset",
         sorting_strategy = "ascending",
@@ -22,7 +23,7 @@ telescope.setup{
             -- TODO add builtin options.
         },
         file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-        file_ignore_patterns = {".backup",".swap",".langservers",".session",".undo","*.git","node_modules","vendor",".cache",".vscode-server",".Desktop",".Documents","classes"},
+        file_ignore_patterns = {"forks",".backup",".swap",".langservers",".session",".undo",".git/*","node_modules","vendor",".cache",".vscode-server",".Desktop",".Documents","classes"},
         generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
         shorten_path = true,
         winblend = 0,
@@ -56,4 +57,4 @@ vim.cmd[[highlight TelescopeSelection guifg=#ffffff guibg=#393939 gui=bold]]
 vim.cmd[[highlight TelescopeSelectionCaret guifg=#749484 gui=bold]]
 
 -- require('telescope').load_extension('fzy_native')
-pcall(require('telescope').load_extension, 'fzy_native')
+require('telescope').load_extension('fzy_native')

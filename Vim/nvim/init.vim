@@ -10,7 +10,6 @@ function! Test()
     return "test"
 endfunction
 
-
 "===========================KEY MAPPINGS===============================
    "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
   "/ __ \  / / / /   /  _/  / ____/   / //_/         / ____/  / / / /   /  _/   / __ \   / ____/
@@ -202,6 +201,7 @@ endif
 
 "BEAU CONFIGS
 filetype plugin indent on "Indent and stuff based on ft NOTE: have polyglot installed providing ftplugins
+" set cursorline "enable cursorline
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting auto indent to 4 spaces"
@@ -354,17 +354,17 @@ autocmd BufWritePre * :call TrimWhitespace()
 "------AUTO RESIZING WINDOWS----------
 "UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
 " From https://github.com/knubie/dotfiles/blob/fe7967f875945e54d49fc672f575c47691a1e4cc/.vimrc#L136
-augroup ReduceNoise
-        autocmd!
+" augroup ReduceNoise
+        " autocmd!
         " Automatically resize active split to 85 width
-        autocmd WinEnter * :call ResizeSplits()
+        " autocmd WinEnter * :call ResizeSplits()
 
-        autocmd WinEnter * setlocal cursorline
-        autocmd WinEnter * setlocal signcolumn=auto
+        " autocmd WinEnter * setlocal cursorline
+        " autocmd WinEnter * setlocal signcolumn=auto
 
-        autocmd WinLeave * setlocal nocursorline
-        autocmd WinLeave * setlocal signcolumn=no
-augroup END
+        " autocmd WinLeave * setlocal nocursorline
+        " autocmd WinLeave * setlocal signcolumn=no
+" augroup END
 
 function! ResizeSplits()
         if &ft == 'NvimTree'
@@ -375,7 +375,7 @@ function! ResizeSplits()
                 return
         else
                 set winwidth=120
-                wincmd =
+                " wincmd =
         endif
 endfunction
 """"""""""""""END AUTO RESIZING WINDOW CONFIG"""""""""""""""
@@ -590,6 +590,9 @@ vnoremap <silent> <leader>W <C-w>W
 "COMMANDS MENU/SEARCH Mappings
 " nnoremap <silent><Leader>c :Commands<CR>
 " vnoremap <silent><Leader>c :Commands<CR>
+
+" Saves the shift key I force quit a lot!
+cnoreabbrev qqq q!
 
 "CODE ACTION (LSP) MENU/SEARCH Mappings
 nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>

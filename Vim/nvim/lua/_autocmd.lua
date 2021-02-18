@@ -18,6 +18,11 @@ function autocmd.setup()
   local definitions = {
     wins = {
       { 'BufWritePre', '*.py', 'undojoin | Neoformat'},
+      { 'WinEnter', '*', ':call ResizeSplits()'},
+      { 'WinEnter', '*', 'setlocal cursorline'},
+      { 'WinEnter', '*', 'setlocal signcolumn=no'},
+      { 'WinLeave', '*', 'setlocal nocursorline'},
+      { 'WinLeave', '*', 'setlocal signcolumn=no'}
       -- { 'VimResized', '*', 'wincmd =' },
       -- { 'BufWinEnter', '*', 'highlight ExtraWhitespace guifg=#666666' },
       -- { 'BufWinEnter', '*', [[match ExtraWhitespace /\s\+$/]] },
@@ -29,15 +34,14 @@ function autocmd.setup()
       { 'FileType', 'go', 'set shiftwidth=4' },
       { 'FileType', 'go', 'set softtabstop=4' },
       { 'FileType', 'go', 'set tabstop=4' },}]]
-      { 'FileType', 'NvimTree', "lua vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>t', ':wincmd l | :Files<CR>', {})" },
+      -- { 'FileType', 'NvimTree', "lua vim.api.nvim_buf_set_keymap(0, 'n', '<Leader>t', ':wincmd l | :Files<CR>', {})" },
     };
   }
 
   autocmd.nvim_create_augroups(definitions)
 end
 
-local cmd = vim.cmd
-local api = vim.api
+-- local cmd = vim.cmd
 
 -- Auto save files when focus is lost
 -- cmd("au FocusLost * :wa")

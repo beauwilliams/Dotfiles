@@ -4,7 +4,6 @@ require('_plugins')
 require('_theme')
 require('_mappings')
 require('_options')
-require('_autocmd')
 
 --LIBRARIES
 require('_utils')
@@ -18,11 +17,21 @@ require('_nvimtree')
 
 --LSP
 require('lsp._lsp_config')
+
+--Statusline (My plugin :D)
+local statusline = require('statusline')
+statusline.tabline = false
+
+local focus = require('focus')
+focus.enable = true
+focus.width = 120
+focus.height = 40
+focus.cursorline = true
+focus.signcolumn = true
+focus.winhighlight = false
+
 end
 
 init() --> Load our confs
-
-
-
 
 
