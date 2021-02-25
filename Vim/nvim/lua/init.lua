@@ -20,7 +20,7 @@ require('lsp._lsp_config')
 
 --Statusline (My plugin :D)
 local statusline = require('statusline')
-statusline.tabline = false
+statusline.tabline = true
 
 local focus = require('focus')
 focus.enable = true

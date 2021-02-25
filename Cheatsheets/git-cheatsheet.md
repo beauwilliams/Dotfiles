@@ -1,6 +1,21 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+# LATEST
+
+For an easy revert if it's just a mistake (perhaps you forked a repo, then ended up pushing to the original instead of to a new one) here's another possibility:
+
+git reset --hard 71c27777543ccfcb0376dcdd8f6777df055ef479
+
+Obviously swap in that number for the number of the commit you want to return to.
+
+Everything since then will be deleted once you push again. To do that, the next step would be:
+
+git push --force
+
+
+
 # **CREATE**
 
 # From existing data,
@@ -216,7 +231,7 @@ git diff <ID>:<file>
 
 # All local branches
 
-git branch (star "*" marks the current branch)
+git branch (star "\*" marks the current branch)
 
 # Search for patterns
 
@@ -234,7 +249,6 @@ git grep<pattern>[path]
 # **CONFIG**
 
     Define author name to be used for all commits in current repo. Developers commonly use --global flag to set config options for current user.
-
 git config user.name <name>
 
     Define the author name to be used for all commits by the current user
@@ -320,6 +334,41 @@ git config --global gpg.program "C:\Program Files (x86)\gnupg\bin\gpg.exe"
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+# SECURITY
+
+## Remove sensitive files from GitHub from your commit history [e.g passwords or secrets]
+
+*precursor: it might just be easier to change the password!!! if you can.. just do that*
+
+    first thing you do is change the visibility of the repo. So, if it's a public repo, make it private. This way, you're sure no one else sees the file while you're working on deleting it.
+
+cd my-repo
+
+    then run the following command. You have to include the path to the file and not just the file name. replacing config/secretFile.json with the path to the file you want to be removed. In my case, secretFile.json is inside of a folder named config.
+
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch config/secretFile.json" \
+  --prune-empty --tag-name-filter cat -- --all
+
+    Note: The command above deletes the file from your local repository too, so ensure you have copied the content to a notepad or whatever you use before running the command.
+
+    Then create and add your file to .gitignore so you don't accidentally push it to GitHub again. You can do that with
+
+echo "name-of-your-file" >> .gitignore
+git add .gitignore
+git commit -m 'add file to .gitignore'
+
+    Once you are satisfied with your changes, you can then push them to GitHub
+git push origin --force --all
+    And that's it! Your repo history is clean without any trace of your sensitive file.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 # FYI
 

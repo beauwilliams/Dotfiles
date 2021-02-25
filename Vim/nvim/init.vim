@@ -10,6 +10,18 @@ function! Test()
     return "test"
 endfunction
 
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+endif
+  return ''
+endfunction
+
+" set statusline+=%{LspStatus()} --> Works
+
+
+
+
 "===========================KEY MAPPINGS===============================
    "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
   "/ __ \  / / / /   /  _/  / ____/   / //_/         / ____/  / / / /   /  _/   / __ \   / ____/
@@ -229,7 +241,6 @@ set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to
 set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
 set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
 set shiftround "Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
-
 if has('nvim')
 set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
 set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.

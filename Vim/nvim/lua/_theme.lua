@@ -25,6 +25,7 @@ vim.o.background = 'dark'
                 -- Note: must come after colorscheme gruvbox
                 --vim.cmd("highlight clear FoldColumn")
                 -- vim.cmd("highlight! link FoldColumn LineNr")
+                -- vim.cmd("hi! link CursorLineNr LineNr ") --REMOVES Cursor light grey block where cusorline is
 
                 -- treesitter highlights
                 vim.cmd("highlight! link TSConstBuiltin Constant") -- None

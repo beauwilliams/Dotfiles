@@ -64,7 +64,7 @@ lsp.sumneko_lua.setup {
             },
             diagnostics = {
                 -- Get the language server to recognize the `vim` global
-                enable = true,
+                -- enable = true,
                 globals = {'vim'},
             },
             workspace = {

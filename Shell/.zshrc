@@ -105,9 +105,6 @@ removeFromPath () {
 ###MISC ALIASES###
 eval $(thefuck --alias)
 
-###GIT ALIASES
-# alias gitcreate="hub create"
-function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create;}
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
@@ -145,6 +142,7 @@ alias ....='cd ../../..'
 #alias bd="cd .."
 
 ###GIT ALIASES####
+alias gp='git push -u origin HEAD'
 #Creating aliases for my dotfiles integration with github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
@@ -152,6 +150,9 @@ export PATH=$PATH:/Users/admin/.config/nvim/bin
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
+
+###GIT FUNCTIONS####
+function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch README.md && echo "# " $1 >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}
 
 function acp() {
 git add .

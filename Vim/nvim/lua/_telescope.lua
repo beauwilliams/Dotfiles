@@ -23,7 +23,7 @@ telescope.setup{
             -- TODO add builtin options.
         },
         file_sorter =  require'telescope.sorters'.get_fuzzy_file,
-        file_ignore_patterns = {"forks",".backup",".swap",".langservers",".session",".undo",".git/*","node_modules","vendor",".cache",".vscode-server",".Desktop",".Documents","classes"},
+        file_ignore_patterns = {"forks",".backup",".swap",".langservers",".session",".undo",".git/","node_modules","vendor",".cache",".vscode-server",".Desktop",".Documents","classes"},
         generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
         shorten_path = true,
         winblend = 0,

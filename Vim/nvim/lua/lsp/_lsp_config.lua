@@ -144,6 +144,16 @@ custom_attach = function(client,bufnr) --> Added client,bufnr works also without
   require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
+  --[[ lsp_status.config(
+        {
+            status_symbol = "LSP ",
+            indicator_errors = "E",
+            indicator_warnings = "W",
+            indicator_info = "I",
+            indicator_hint = "H",
+            indicator_ok = "ok"
+        }
+    ) ]]
   -- saga.init_lsp_saga() --> SETS UP SAGA ENHANCED LSP UX, REVISIT LATER
 
 end
@@ -151,7 +161,7 @@ end
 
 custom_init = function()
   -- DEBUGGING
-  --vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
+  vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
 
   -- SWAG
   print("LSP Started.. Let's get this bread")
@@ -204,7 +214,7 @@ for _,server in ipairs(servers) do
   lsp[server].setup {
     on_attach = custom_attach,
     on_init = custom_init,
-    capabilities = Custom_capabilities()
+    -- capabilities = Custom_capabilities()
   }
 end
 

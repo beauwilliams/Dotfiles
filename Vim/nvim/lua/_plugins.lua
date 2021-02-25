@@ -234,14 +234,18 @@ require("packer").startup {
         use  'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
         use  'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
         use  'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
+        use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
         use  'hrsh7th/nvim-compe' --> COMPLETION MENU
         use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
         use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
+        use {"sbdchd/neoformat"} -- Code formatting plugin
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
         use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+        -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
+        -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
         -- use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
-            --[[ "sheerun/vim-polyglot",
+            --[[ "sheerun/vim-polyglot", --> REMOVED FOR NOW BECAUSE THEY KEEP MESSING WITH SWAP FILES & DOING TOO MUCH
             opt = true,
             event = "VimEnter *",
             setup = function()
@@ -252,12 +256,11 @@ require("packer").startup {
                 vim.g.vim_markdown_new_list_item_indent = 2
             end
         } ]]
-        use {"sbdchd/neoformat"} -- Code formatting plugin
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         -- use  'glepnir/lspsaga.nvim'
-        use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
+        -- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
 
 
 
@@ -320,6 +323,8 @@ require("packer").startup {
             "kyazdani42/nvim-tree.lua",
             requires = {"kyazdani42/nvim-web-devicons", opt = true}
         }
+        use 'preservim/nerdtree'
+        use 'ms-jpq/chadtree'
         --==========================START FZF CONFIGS=============================
         use {"junegunn/fzf", run = function()
                 vim.fn["fzf#install"]()
@@ -368,6 +373,16 @@ require("packer").startup {
 \____/   /___/   /_/            /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
         -- use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
+        use {
+            'APZelos/blamer.nvim',
+            config = function()
+                -- vim.g.blamer_prefix = ' > '
+                vim.g.blamer_enabled = 1
+                vim.g.blamer_template = '<committer> │ <summary> │ <committer-time>'
+                vim.g.blamer_date_format = '%d/%m/%y'
+            end
+        }
+
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
@@ -420,6 +435,10 @@ require("packer").startup {
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
         -- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
+        -- use 'chaoren/vim-wordmotion' --> IMPROVED VIM WORD MOTIONS, now includes _ and camel case etc.
+
+        -- LUA DEVELOPMENT
+        -- notomo/lreload.nvim --> Hot reloading for lua development
 
     end
 }
