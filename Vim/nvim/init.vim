@@ -18,6 +18,8 @@ endif
 endfunction
 
 " set statusline+=%{LspStatus()} --> Works
+"
+
 
 
 

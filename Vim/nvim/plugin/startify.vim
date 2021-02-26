@@ -56,7 +56,8 @@ let g:startify_lists = [
 let g:startify_bookmarks = [
             \ { 'v': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
-            \ { 's': '~/.ssh/config' }
+            \ { 's': '~/.ssh/config' },
+            \ { 'vn' : '/Users/admin/Library/Caches/Homebrew/neovim--git'}
             \ ]
 
 "let g:startify_session_autoload = 1

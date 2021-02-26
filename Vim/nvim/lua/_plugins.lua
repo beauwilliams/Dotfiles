@@ -47,8 +47,8 @@ if not packer_exists then
     vim.fn.mkdir(directory, "p")
 
     local out =
-        vim.fn.system(
-        string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "/packer.nvim")
+    vim.fn.system(
+    string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "/packer.nvim")
     )
 
     print(out)
@@ -88,17 +88,17 @@ require("packer").startup {
         use "gruvbox-community/gruvbox"
         use 'beauwilliams/statusline.lua'
         use 'beauwilliams/focus.nvim'
-        -- use 'romgrk/barbar.nvim'
-        --use {
-            --"vim-airline/vim-airline",
-            --requires = {'vim-airline/vim-airline-themes', 'ryanoasis/vim-devicons'},
-            --config = function()
-                --vim.g.airline_symbols = {
-                    --branch = "",
-                    --readonly = ""
-                --}
-            --end
-        --}
+        -- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
+        --[[ use {
+            "vim-airline/vim-airline",
+            requires = {'vim-airline/vim-airline-themes', 'ryanoasis/vim-devicons'},
+            config = function()
+                vim.g.airline_symbols = {
+                    branch = "",
+                    readonly = ""
+                }
+            end
+        } ]]
         use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
         use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors with litle square
         use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
@@ -111,34 +111,44 @@ require("packer").startup {
                 vim.g.beacon_shrink = 0
             end
         }
-        use { --> INDENT GUIDES/LINES
-            "Yggdroot/indentLine",
-            requires = "lukas-reineke/indent-blankline.nvim",
-            config = function()
-                vim.g.indentLine_char = "│"
-                vim.g.indentLine_bufTypeExclude = {"help", "terminal"}
-                vim.g.indentLine_fileTypeExclude = {"text", "markdown"}
-            end
+        --[[ use { --> INDENT GUIDES/LINES
+        "Yggdroot/indentLine",
+        requires = "lukas-reineke/indent-blankline.nvim",
+        config = function()
+            vim.g.indentLine_char = "│"
+            vim.g.indentLine_bufTypeExclude = {"help", "terminal"}
+            vim.g.indentLine_fileTypeExclude = {"text", "markdown"}
+        end
+        } ]]
+        use {'lukas-reineke/indent-blankline.nvim', branch = 'lua', --> USING LUA BRANCH FOR NOW
+        config = function()
+            vim.g.indent_blankline_char = '│'
+        end,
+        setup = function()
+            vim.g.indent_blankline_buftype_exclude = {"help", "terminal"}
+            vim.g.indent_blankline_filetype_exclude = {"text", "markdown"}
+            vim.g.indent_blankline_bufname_exclude = 'startify'
+        end
         }
         use { --> STARTPAGE
-            "mhinz/vim-startify",
-            requires = "ryanoasis/vim-devicons"
+        "mhinz/vim-startify",
+        requires = "ryanoasis/vim-devicons"
         }
         use {
             -- VIM QUICKSCOPE --> after press t and f this highlights chars to help you nav faster
             "unblevable/quick-scope",
             setup = function()
                 vim.api.nvim_exec(
-                    [[
-                    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-                    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-                    augroup qs_colors
-                    autocmd!
-                    autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
-                    autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-                    augroup END
-                    ]],
-                    false
+                [[
+                highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+                augroup qs_colors
+                autocmd!
+                autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+                augroup END
+                ]],
+                false
                 )
             end,
             config = function()
@@ -147,28 +157,28 @@ require("packer").startup {
         use {
             'numToStr/FTerm.nvim', --> Floating terminal window
             config = function()
-                    require'FTerm'.setup({
-                            border = {
-                                vertical = '│',
-                            }
-                        })
+                require'FTerm'.setup({
+                    border = {
+                        vertical = '│',
+                    }
+                })
             end
         }
-        --use {
-             --""""""""""""""FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm
-            --"voldikss/vim-floaterm",
-            --config = function()
-                --vim.api.nvim_exec(
-                    --[[
-                    --let g:floaterm_keymap_toggle = '<Leader>t'
-                    --let g:floaterm_width = 0.7
-                    --"let g:floaterm_winblend = 5 "Transparency
-                    --"let g:floaterm_wintype = 'floating' "neovim must have floating windows
-                    --]]--,
-                    --false
-                --)
-            --end
-        --}
+        --[[ use {
+            --FLOATING TERMINAL CONFIG --> voldikss/vim-floaterm retired for fterm nvim
+            "voldikss/vim-floaterm",
+            config = function()
+                vim.api.nvim_exec(
+                [[
+                let g:floaterm_keymap_toggle = '<Leader>t'
+                let g:floaterm_width = 0.7
+                "let g:floaterm_winblend = 5 "Transparency
+                "let g:floaterm_wintype = 'floating' "neovim must have floating windows
+                ]\],
+                false
+                )
+            end
+        } ]]
         -- use { 'habamax/vim-gruvbit' Another gruvbox alternative
         -- use { 'tjdevries/colorbuddy.nvim' -- REQUIRED for npxbr/gruvbox.nvim lua port of community/gruvbox
         -- use { 'npxbr/gruvbox.nvim' -- lua port of gruvbox community with treesitter support
@@ -183,6 +193,7 @@ require("packer").startup {
  / ____/  / _, _/ / /_/ / / /_/ /   / _, _/  / ___ | / /  / /   / /  / /   _/ /    / /|  /  / /_/ /
 /_/      /_/ |_|  \____/  \____/   /_/ |_|  /_/  |_|/_/  /_/   /_/  /_/   /___/   /_/ |_/   \____/
 --]]
+
         --LANG PLUGS Language Servers / Linting / Snippets
         use {
             -- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
@@ -190,17 +201,17 @@ require("packer").startup {
             "w0rp/ale",
             config = function()
                 vim.api.nvim_exec(
-                    [[
-                    let g:ale_echo_msg_error_str = 'E'
-                    let g:ale_echo_msg_warning_str = 'W'
-                    " I have some custom icons for errors and warnings but feel free to change them.
-                    "let g:ale_sign_error = '✘'
-                    "let g:ale_sign_warning = '⚠'
-                    let g:ale_sign_error = '●'
-                    let g:ale_sign_warning = '.'
-                    "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
-                    ]],
-                    false
+                [[
+                let g:ale_echo_msg_error_str = 'E'
+                let g:ale_echo_msg_warning_str = 'W'
+                " I have some custom icons for errors and warnings but feel free to change them.
+                "let g:ale_sign_error = '✘'
+                "let g:ale_sign_warning = '⚠'
+                let g:ale_sign_error = '●'
+                let g:ale_sign_warning = '.'
+                "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
+                ]],
+                false
                 )
             end
         }
@@ -215,20 +226,20 @@ require("packer").startup {
         -- use "nvim-treesitter/nvim-treesitter-refactor"
         -- use {"nvim-treesitter/completion-treesitter", opt = true}
         -- use {
-        --   "nvim-treesitter/playground",
-        --   requires = "nvim-treesitter/nvim-treesitter"
-        -- }
+            --   "nvim-treesitter/playground",
+            --   requires = "nvim-treesitter/nvim-treesitter"
+            -- }
 
         use { --> A REPL Plugin to start / manage REPL
-            "axvr/zepl.vim",
-            config = function()
-                vim.api.nvim_exec(
-                    [[
-                    cnoreabbrev repl Repl
-                    ]],
-                    false
-                )
-            end
+        "axvr/zepl.vim",
+        config = function()
+            vim.api.nvim_exec(
+            [[
+            cnoreabbrev repl Repl
+            ]],
+            false
+            )
+        end
         }
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         use  'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
@@ -245,17 +256,17 @@ require("packer").startup {
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
         -- use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
-            --[[ "sheerun/vim-polyglot", --> REMOVED FOR NOW BECAUSE THEY KEEP MESSING WITH SWAP FILES & DOING TOO MUCH
-            opt = true,
-            event = "VimEnter *",
-            setup = function()
-                vim.g.polyglot_disabled = {"helm"}
-            end, ]]
-            --[[ config = function()
-                vim.g.javascript_plugin_jsdoc = 1
-                vim.g.vim_markdown_new_list_item_indent = 2
-            end
-        } ]]
+        --[[ "sheerun/vim-polyglot", --> REMOVED FOR NOW BECAUSE THEY KEEP MESSING WITH SWAP FILES & DOING TOO MUCH
+        opt = true,
+        event = "VimEnter *",
+        setup = function()
+            vim.g.polyglot_disabled = {"helm"}
+        end, ]]
+        --[[ config = function()
+            vim.g.javascript_plugin_jsdoc = 1
+            vim.g.vim_markdown_new_list_item_indent = 2
+        end
+                } ]]
         -- alexaandru/nvim-lspupdate USE THIS TO AUTO INSTALL LSP SERVERS
         -- use  'glepnir/lspsaga.nvim'
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
@@ -283,21 +294,21 @@ require("packer").startup {
             requires = "xolox/vim-misc",
             config = function()
                 vim.api.nvim_exec(
-                    [[
-                    "keep all sessions in one location
-                    let g:session_directory='~/.config/nvim/.session'
-                    "remove .vim from end of files so it looks nicer in startify
-                    let g:session_extension=''
-                    "Remove pop-up each time we close to ask to save session
-                    let g:session_autosave = 'no'
-                    "If I want to load a session I will specify it. We also have a start page
-                    "which displays recent sessions too so not need to auto load them
-                    let g:session_autoload = 'no'
-                    cnoreabbrev restart RestartVim
-                    cnoreabbrev mks SaveSession
-                    cnoreabbrev mksession SaveSession
-                    ]],
-                    false
+                [[
+                "keep all sessions in one location
+                let g:session_directory='~/.config/nvim/.session'
+                "remove .vim from end of files so it looks nicer in startify
+                let g:session_extension=''
+                "Remove pop-up each time we close to ask to save session
+                let g:session_autosave = 'no'
+                "If I want to load a session I will specify it. We also have a start page
+                "which displays recent sessions too so not need to auto load them
+                let g:session_autoload = 'no'
+                cnoreabbrev restart RestartVim
+                cnoreabbrev mks SaveSession
+                cnoreabbrev mksession SaveSession
+                ]],
+                false
                 )
             end
         }
@@ -319,6 +330,8 @@ require("packer").startup {
 / /_/  <         ___/ /  / /___    / ___ | / _, _/ / /___    / __  /
 \____/\/        /____/  /_____/   /_/  |_|/_/ |_|  \____/   /_/ /_/
 --]]
+
+
         use {
             "kyazdani42/nvim-tree.lua",
             requires = {"kyazdani42/nvim-web-devicons", opt = true}
@@ -327,8 +340,8 @@ require("packer").startup {
         use 'ms-jpq/chadtree'
         --==========================START FZF CONFIGS=============================
         use {"junegunn/fzf", run = function()
-                vim.fn["fzf#install"]()
-            end}
+            vim.fn["fzf#install"]()
+        end}
         use {"junegunn/fzf.vim"}
         use {
             'nvim-telescope/telescope.nvim',
@@ -341,11 +354,11 @@ require("packer").startup {
             "laher/fuzzymenu.vim",
             config = function()
                 vim.api.nvim_exec(
-                    [[
-                    let g:fuzzymenu_position =  'window'
-                    let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
-                    ]],
-                    false
+                [[
+                let g:fuzzymenu_position =  'window'
+                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
+                ]],
+                false
                 )
             end
         }
@@ -353,16 +366,16 @@ require("packer").startup {
 
         --use { 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } -- FILE BROWSER
         --use { 'tiagofumo/vim-nerdtree-syntax-highlight'
-        --use {
-        --"junegunn/fzf.vim",
-        --requires = "/usr/local/opt/fzf",
-        --opt = true,
-        --event = "VimEnter *",
-        --config = function()
-        --vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
-        --TODO: Convert to lua?
-        --end
-        --}
+        --[[ use { -- NO LONGER NEEDED, but keep for now
+            "junegunn/fzf.vim",
+            requires = "/usr/local/opt/fzf",
+            opt = true,
+            event = "VimEnter *",
+            config = function()
+                vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
+                --TODO: Convert to lua?
+            end
+        } ]]
 
 
 --[[
@@ -390,8 +403,8 @@ require("packer").startup {
             --"APZelos/blamer.nvim",
             --config = function()
                 --vim.g.blamer_enabled = 1
-            --end
-        --} -- GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
+                --end
+                --} -- GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
         --use {"airblade/vim-gitgutter"} -- Git diff gutter. DEC 2020 REPLACED WITH SIGNIFY AS GIT GUTTER CAN SLOW THINGS DOWN
 
 
@@ -404,6 +417,7 @@ require("packer").startup {
  / /  / /   _/ /    ___/ / / /___           / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 /_/  /_/   /___/   /____/  \____/          /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
+
         use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
         use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
@@ -421,14 +435,15 @@ require("packer").startup {
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-        use {-- Read man pages in vim easily with vman or :Man
-            "jez/vim-superman",
-            config = function()
-                vim.api.nvim_exec([[
-                    cnoreabbrev man Man
-                    ]], false)
-            end
-        }
+        --[[ use {-- Read man pages in vim easily with vman or :Man
+        --NOTE: NO LONGER NEEDED. JUST USE :Telescope man_pages
+        "jez/vim-superman",
+        config = function()
+            vim.api.nvim_exec([[
+            cnoreabbrev man Man
+            ]\], false)
+        end
+        } ]]
 
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
@@ -437,10 +452,12 @@ require("packer").startup {
         -- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
         -- use 'chaoren/vim-wordmotion' --> IMPROVED VIM WORD MOTIONS, now includes _ and camel case etc.
 
-        -- LUA DEVELOPMENT
-        -- notomo/lreload.nvim --> Hot reloading for lua development
+        -- LUA/VIM DEVELOPMENT
+        -- use 'notomo/lreload.nvim' --> Hot reloading for lua development
+        -- use 'wadackel/nvim-syntax-info' Display highlight links etc using :SyntaxInfo
 
-    end
+
+    end --> End of the packer(use) function
 }
 --[[
     ______    _   __    ____           ____     ______           ______    ____    __     ______
