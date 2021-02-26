@@ -52,6 +52,7 @@ api.nvim_command('set shortmess+=c')
 
 -- CONFIGURES ICONS NEXT TO COMPLETION ITEMS FOR LSP
 -- HOW CAN WE ADD BUFFER ICONS?
+-- inspo from onsails/lspkind-nvim
 protocol.CompletionItemKind = {
   ' Text';        -- = 1
   'ƒ Method';      -- = 2;
