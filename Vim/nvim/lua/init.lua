@@ -22,6 +22,7 @@ require('lsp._lsp_config')
 local statusline = require('statusline')
 statusline.tabline = true
 
+--Focus (My plugin :D)
 local focus = require('focus')
 focus.enable = true
 focus.width = 120
