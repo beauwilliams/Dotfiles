@@ -150,8 +150,6 @@ require("packer").startup {
                 ]],
                 false
                 )
-            end,
-            config = function()
             end
         }
         use {
