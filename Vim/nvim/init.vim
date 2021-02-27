@@ -510,6 +510,7 @@ cnoreabbrev spellon :EnableAutocorrect
 cnoreabbrev spelloff  DisableAutocorrect
 
 
+
 "Clear highlights quick!
 noremap <silent><leader>/ :nohlsearch<cr>
 
@@ -643,6 +644,9 @@ nnoremap <silent> <leader>. :vertical resize +10<CR>
 nnoremap <silent><leader>[ <c-w>H
 nnoremap <silent><leader>] <c-w>K
 
+
+"FUGITIVE/GIT
+cnoreabbrev <silent>gp :G push
 
 "SHOW GIT COMMIT / GIT BLAME POPUP
 "Show git commit that introduced line after cursor, bit like GIT BLAME, BUT

@@ -125,6 +125,7 @@ require("packer").startup {
             vim.g.indent_blankline_char = '│'
         end,
         setup = function()
+            vim.g.indent_blankline_char_highlight='Whitespace'
             vim.g.indent_blankline_buftype_exclude = {"help", "terminal"}
             vim.g.indent_blankline_filetype_exclude = {"text", "markdown"}
             vim.g.indent_blankline_bufname_exclude = 'startify'
@@ -192,6 +193,7 @@ require("packer").startup {
 /_/      /_/ |_|  \____/  \____/   /_/ |_|  /_/  |_|/_/  /_/   /_/  /_/   /___/   /_/ |_/   \____/
 --]]
 
+        use 'dbeniamine/cheat.sh-vim' --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
         --LANG PLUGS Language Servers / Linting / Snippets
         use {
             -- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
