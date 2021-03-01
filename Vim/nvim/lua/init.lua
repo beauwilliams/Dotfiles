@@ -14,6 +14,7 @@ require('_hexokinase')
 require('_telescope')
 require('_treesitter')
 require('_nvimtree')
+require('_discord')
 
 --LSP
 require('lsp._lsp_config')
@@ -34,5 +35,4 @@ focus.winhighlight = false
 end
 
 init() --> Load our confs
-
 

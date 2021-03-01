@@ -219,6 +219,7 @@ require("packer").startup {
             "nvim-treesitter/nvim-treesitter",
             --run = ":TSInstall all"
         }
+        -- romgrk/nvim-treesitter-context
         -- use {  -- This is rad, but stupid slow right now.
         --   "romgrk/nvim-treesitter-context",
         --   requires = "nvim-treesitter/nvim-treesitter"
@@ -445,6 +446,11 @@ require("packer").startup {
         end
         } ]]
 
+        -- use 'kevinhwang91/nvim-bqf' --> BETTER QF
+        -- use 'monaqa/dial.nvim' BETTER INCREMENTING IN VIM (TO BE TESTED)
+        -- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
+        -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
+        use 'andweeb/presence.nvim'
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
