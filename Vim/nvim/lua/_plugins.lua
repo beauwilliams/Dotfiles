@@ -450,6 +450,8 @@ require("packer").startup {
         -- use 'monaqa/dial.nvim' BETTER INCREMENTING IN VIM (TO BE TESTED)
         -- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
         -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
+        -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
+        use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
         use 'andweeb/presence.nvim'
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands

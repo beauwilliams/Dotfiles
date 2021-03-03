@@ -214,7 +214,7 @@ endif
 
 
 "BEAU CONFIGS
-filetype plugin indent on "Indent and stuff based on ft NOTE: have polyglot installed providing ftplugins
+" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft NOTE: have polyglot installed providing ftplugins
 " set cursorline "enable cursorline
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
@@ -508,6 +508,9 @@ nnoremap yP "0P
 cnoreabbrev <silent>spellcheck :set spell!<cr>
 cnoreabbrev spellon :EnableAutocorrect
 cnoreabbrev spelloff  DisableAutocorrect
+
+"MARKDOWN RENDERER [glow.nvim]
+cnoreabbrev mdreader Glow
 
 
 
