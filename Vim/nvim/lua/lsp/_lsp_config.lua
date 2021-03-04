@@ -90,6 +90,7 @@ vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
 end
 
 -- Diagnostics
+require("nvim-ale-diagnostic") --USING ALE TO DISPLAY DIAGS
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,

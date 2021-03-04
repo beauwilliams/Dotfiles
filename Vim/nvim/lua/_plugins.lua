@@ -202,13 +202,16 @@ require("packer").startup {
             config = function()
                 vim.api.nvim_exec(
                 [[
-                let g:ale_echo_msg_error_str = 'E'
-                let g:ale_echo_msg_warning_str = 'W'
+                "let g:ale_echo_msg_error_str = 'A'
+                "let g:ale_echo_msg_warning_str = 'B'
+                "let g:ale_echo_msg_hint_str = 'C'
                 " I have some custom icons for errors and warnings but feel free to change them.
-                "let g:ale_sign_error = '✘'
-                "let g:ale_sign_warning = '⚠'
-                let g:ale_sign_error = '●'
-                let g:ale_sign_warning = '.'
+                "⚠
+                let g:ale_sign_error = '✘'
+                let g:ale_sign_warning = ''
+                "let g:ale_sign_information = ''
+                "let g:ale_sign_error = '●'
+                "let g:ale_sign_warning = '.'
                 "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
                 ]],
                 false
@@ -243,14 +246,14 @@ require("packer").startup {
         end
         }
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-        use  'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
-        use  'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
-        use  'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
-        use  'nvim-lua/lsp-status.nvim' --> Lsp statusline
-        use  'hrsh7th/nvim-compe' --> COMPLETION MENU
+        use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
+        use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
+        use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
+        use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
+        use 'hrsh7th/nvim-compe' --> COMPLETION MENU
         use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
-        use  'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
-        use {"sbdchd/neoformat"} -- Code formatting plugin
+        use 'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
+        use 'sbdchd/neoformat' -- Code formatting plugin
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
         use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
