@@ -20,6 +20,7 @@ source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme
 source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
 source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh
+source ~/.zsh/downloaded_plugins/enhancd/init.sh
 #AUTOSUGGESTION HISTORY
 HISTFILE=~/.zsh/.zsh_history
 HISTSIZE=10000
@@ -157,7 +158,7 @@ function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch READ
 function acp() {
 git add .
 git commit -m "$1"
-git push
+git push -u origin HEAD
 }
 
 
@@ -176,7 +177,8 @@ alias activitymonitor="htop"
 #}
 #NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
 #Does not matter what reader we usem remember one command! mdreader
-alias mdreader='mdless'
+# alias mdreader='mdless'
+alias mdreader='glow'
 
 
 ###PYTHON ALIASES###
