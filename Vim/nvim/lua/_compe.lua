@@ -80,3 +80,4 @@ protocol.CompletionItemKind = {
   'Operator';      -- = 24;
   'TypeParameter'; -- = 25;
 }
+

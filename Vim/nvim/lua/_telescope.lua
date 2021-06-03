@@ -20,7 +20,7 @@ telescope.setup{
     prompt_position = "top",
     -- prompt_prefix = ">",
     initial_mode = "insert",
-    scroll_strategy ="limit",
+    -- scroll_strategy ="limit", CAUSING BUG [Jun2021]
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     layout_strategy = "horizontal",

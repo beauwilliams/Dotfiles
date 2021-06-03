@@ -94,15 +94,17 @@ require("nvim-ale-diagnostic") --USING ALE TO DISPLAY DIAGS
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
-    -- virtual_text = false,
-    virtual_text = {
+    virtual_text = false,
+    --[[ virtual_text = {
       prefix = "»",
       spacing = 4,
-    },
+    }, ]]
     signs = true,
     update_in_insert = false,
   }
 )
+-- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
+vim.cmd [[let g:ale_linters = {'python': []}]]
 
 --CAPABILITIES
 Custom_capabilities = function()
@@ -118,7 +120,7 @@ end
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
 --not sure what this is for i think for progresss bars on statusline
--- lsp_status.register_progress()
+lsp_status.register_progress()
 
 
 
@@ -200,15 +202,23 @@ end
 ---------------------------------------------------------------------------------------
 
 --SERVER INSTALLATION NOTES
---NOTE: BASHLS REQUIRES BASHLS INSTALLED using `npm i -g bash-language-server` -- SEE: bash-lsp/bash-language-server
---NOTE: VIMLS Installed by lspconfig, copy in .langservers
+--NOTE: VIMLS Installed by lspconfig, copy in .langservers, get it here https://github.com/iamcco/vim-language-server
 --NOTE: Must install rust-analyzer first and add it to your path --> kept in .langservers
 --curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
 --chmod +x ~/.local/bin/rust-analyzer
---NOTE: Must install pyls using `pip3 install 'python-language-server[all]'`
+-- INSTALL COMMANDS
+-- pip3 install 'python-language-server[all]'
+-- npm i -g typescript-language-server
+-- npm i -g bash-language-server
+-- npm install -g vim-language-server
+-- npm install -g vscode-html-languageserver-bin
+-- npm install -g vscode-json-languageserver
+-- npm install -g dockerfile-language-server-nodejs
+-- npm install -g vscode-css-languageserver-bin
+-- npm install -g vim-language-server
 
 local servers = {
-  'bashls','cssls','vimls','rust_analyzer','pyls'
+  'bashls','cssls','vimls','rust_analyzer','pyls','dockerls'
 }
 
 for _,server in ipairs(servers) do
@@ -236,7 +246,6 @@ end
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
-
 
 ---------------------------------------------------------------------------------------
 --[[

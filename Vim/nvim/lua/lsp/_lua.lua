@@ -31,6 +31,7 @@ else
 end
 
 -- STORED IN MY .config/nvim/.langservers/
+-- Build here https://github.com/sumneko/lua-language-server/wiki/Build-and-Run-(Standalone)
 local sumneko_root_path = vim.fn.stdpath('config')..'/.langservers/sumneko_lua/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 

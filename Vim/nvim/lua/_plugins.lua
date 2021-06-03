@@ -86,6 +86,7 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
+        use 'eddyekofo94/gruvbox-flat.nvim'
         use 'beauwilliams/statusline.lua'
         use 'beauwilliams/focus.nvim'
         -- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
@@ -251,11 +252,13 @@ require("packer").startup {
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
         use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
         use 'hrsh7th/nvim-compe' --> COMPLETION MENU
+        use 'Raimondi/delimitMate' --> Compatible with compe auto braces etc
         use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
         use 'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         use 'sbdchd/neoformat' -- Code formatting plugin
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
         use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+        -- use 'ahmedkhalf/lsp-rooter.nvim'
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
@@ -276,7 +279,17 @@ require("packer").startup {
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
-
+        use { --> Small list for navigating errors etc
+            "folke/trouble.nvim",
+            requires = "kyazdani42/nvim-web-devicons",
+            config = function()
+                require("trouble").setup {
+                    -- your configuration comes here
+                    -- or leave it empty to use the default settings
+                    -- refer to the configuration section below
+                }
+            end
+        }
 
 
 
@@ -426,8 +439,8 @@ require("packer").startup {
         use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
         use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults
-        use 'Raimondi/delimitMate'
         use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
+        use {'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' }} -- Open HTTP files - a curl wrapper
 
 
 
@@ -455,9 +468,10 @@ require("packer").startup {
         -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
-        use 'andweeb/presence.nvim'
+        use 'andweeb/presence.nvim' -- discord presence
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
+        use 'nanotee/zoxide.vim'
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
         -- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe

@@ -3,6 +3,7 @@
 " inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
 
 
+" let g:presence_log_level="debug"
 
 "DEBUG
 function! Test()
@@ -10,12 +11,12 @@ function! Test()
     return "test"
 endfunction
 
-function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('lsp-status').status()")
-endif
-  return ''
-endfunction
+" function! LspStatus() abort
+"   if luaeval('#vim.lsp.buf_get_clients() > 0')
+"     return luaeval("require('lsp-status').status()")
+" endif
+"   return ''
+" endfunction
 
 " set statusline+=%{LspStatus()} --> Works
 "
@@ -609,7 +610,11 @@ vnoremap <silent> <leader>W <C-w>W
 " vnoremap <silent><Leader>c :Commands<CR>
 
 " Saves the shift key I force quit a lot!
-cnoreabbrev qqq q!
+cnoreabbrev qq q!
+
+" zoxide vim and :y print command switching
+cnoreabbrev Z z
+cnoreabbrev z Z
 
 "CODE ACTION (LSP) MENU/SEARCH Mappings
 nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
