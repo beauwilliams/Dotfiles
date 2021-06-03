@@ -9,6 +9,7 @@ local lsputil = require 'lspconfig/util'
 /_/  \__, / .___/\___/____/\___/_/  /_/ .___/\__/
     /____/_/                         /_/
 --]]
+--INSTALL: -- npm i -g typescript typescript-language-server
 lsp.tsserver.setup {
   on_attach = custom_attach,
   on_init = custom_init,

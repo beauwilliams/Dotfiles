@@ -39,8 +39,8 @@ cmd("cnoreabbrev <silent>topts lua require'telescope.builtin'.options(require('t
 cmd("cnoreabbrev <silent>tcmds lua require'telescope.builtin'.autocommands(require('telescope.themes').get_dropdown({}))")
 cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('telescope.themes').get_dropdown({}))") ]]
 
-utils.nnoremap(leader..'5', ":Startify<cr>")
-utils.vnoremap(leader..'5', ":Startify<cr>")
+utils.nnoremap(leader..'5', ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
+utils.vnoremap(leader..'5', ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
 utils.nnoremap(leader..'4', ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'4', ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>")
 utils.nnoremap(leader..'3', ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>")

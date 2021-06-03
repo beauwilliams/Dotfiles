@@ -147,6 +147,7 @@ custom_attach = function(client,bufnr) --> Added client,bufnr works also without
   require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
+  require "lsp_signature".on_attach(client) --> Signature popups and info
   --[[ lsp_status.config(
         {
             status_symbol = "LSP ",
@@ -208,7 +209,7 @@ end
 --chmod +x ~/.local/bin/rust-analyzer
 -- INSTALL COMMANDS
 -- pip3 install 'python-language-server[all]'
--- npm i -g typescript-language-server
+-- npm i -g typescript typescript-language-server
 -- npm i -g bash-language-server
 -- npm install -g vim-language-server
 -- npm install -g vscode-html-languageserver-bin

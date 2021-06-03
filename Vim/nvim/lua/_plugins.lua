@@ -14,7 +14,7 @@
 -----------------------------------------------------------------
 
 
-
+-- TODO
 
 
 --[[
@@ -251,13 +251,27 @@ require("packer").startup {
         use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
         use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
+        use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+        use 'ray-x/lsp_signature.nvim' --> LSP SignatureInformation
         use 'hrsh7th/nvim-compe' --> COMPLETION MENU
         use 'Raimondi/delimitMate' --> Compatible with compe auto braces etc
         use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
         use 'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         use 'sbdchd/neoformat' -- Code formatting plugin
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
-        use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+        use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
+        use {
+            "folke/todo-comments.nvim", --> Highlight and navigate comments in code
+            requires = "nvim-lua/plenary.nvim",
+            config = function()
+                require("todo-comments").setup {
+                    -- your configuration comes here
+                    -- or leave it empty to use the default settings
+                    -- refer to the configuration section below
+                }
+            end
+        }
+        -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
         -- use 'ahmedkhalf/lsp-rooter.nvim'
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
@@ -436,7 +450,7 @@ require("packer").startup {
 --]]
 
         use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
-        use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
+        -- use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
         use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults
         use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
