@@ -165,7 +165,7 @@ end
 
 custom_init = function()
   -- DEBUGGING
-  vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
+  -- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
 
   -- SWAG
   print("LSP Started.. Let's get this bread")
@@ -198,7 +198,6 @@ end
                        /____/                   /____/                                                      /____/
 --]]
 --NOTE: The rest of this file deals with language specific configurations
--- Slowly moving to a better, cleaner config. Will fill this loop as we go on..
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
@@ -356,23 +355,6 @@ require("lsp._typescript")
 		--}
 	--}
 --}
-
---inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
---inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-
---set completeopt=menuone,noinsert,noselect
-
---" Avoid showing message extra message when using completion
---set shortmess+=c
---
---
-
-
-
-
-
-
-
 
 --lsp.sumneko_lua.setup{}
 --lsp.sumneko_lua.setup{on_attach=custom_attach}

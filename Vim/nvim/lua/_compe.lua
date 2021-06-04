@@ -17,7 +17,6 @@ compe.setup {
 
   source = {
     path = true;
-    -- buffer = true;
     buffer = {menu = '[BUF]'};
     vsnip = {menu = '[SPT]'};
     nvim_lsp = {menu = '[LSP]'};
@@ -40,12 +39,6 @@ vim.g.vsnip_filetypes = {
 vim.o.completeopt = "menu,menuone,noselect"
 -- api.nvim_command('set completeopt+=menu,longest,menuone,noinsert,noselect') --> This cuases small error with compe, might be noinsert
 
--- The above mapping will change the behavior of the <Enter> key when the popup menu is visible. In that case the Enter key will simply select the highlighted menu item, just as <C-Y> does. Does not seem to be neccessary right now with my config but leaving as inspo
---api.nvim_command('inoremap <expr> <CR> pumvisible() ? "\\<C-y>" : "\\<C-g>u\\<CR>"')
-
-
-
-
 --" Avoid showing message extra message when using completion
 api.nvim_command('set shortmess+=c')
 
@@ -57,11 +50,11 @@ api.nvim_command('set shortmess+=c')
 protocol.CompletionItemKind = {
   ' Text';        -- = 1
   'ƒ Method';      -- = 2;
-  ' Function';    -- = 3;
+  'ƒ Function';    -- = 3; or 
   ' Constructor'; -- = 4;
   'ƒ Field';         -- = 5;
   ' Variable';    -- = 6;
-  ' Class';       -- = 7;
+  ' Class';       -- = 7;
   'ﰮ Interface';   -- = 8;
   ' Module';      -- = 9;
   ' Property';    -- = 10;
@@ -72,12 +65,12 @@ protocol.CompletionItemKind = {
   '﬌ Snippet';     -- = 15;
   ' Color';       -- = 16;
   ' File';        -- = 17;
-  'Reference';     -- = 18;
+  ' Reference';     -- = 18;
   ' Folder';      -- = 19;
   ' EnumMember';  -- = 20;
   ' Constant';    -- = 21;
   ' Struct';      -- = 22;
-  'Event';         -- = 23;
-  'Operator';      -- = 24;
-  'TypeParameter'; -- = 25;
+  'ﯓ Event';         -- = 23;
+  ' Operator';      -- = 24;
+  ' TypeParameter'; -- = 25;
 }

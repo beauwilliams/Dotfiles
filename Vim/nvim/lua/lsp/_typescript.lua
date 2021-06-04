@@ -11,8 +11,8 @@ local lsputil = require 'lspconfig/util'
 --]]
 --INSTALL: -- npm i -g typescript typescript-language-server
 lsp.tsserver.setup {
-  on_attach = custom_attach,
-  on_init = custom_init,
+    on_attach = custom_attach,
+    on_init = custom_init,
   root_dir = function(fname)
     return lsputil.find_git_ancestor(fname) or
       lsputil.path.dirname(fname)
