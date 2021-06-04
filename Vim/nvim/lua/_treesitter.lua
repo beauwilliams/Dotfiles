@@ -8,6 +8,7 @@ tsconf.setup {
    ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
    highlight = {
       enable = true,
+      use_languagetree = true,
       -- disable = { "java" },  -- list of language that will be disabled
       custom_captures = {
          --Highlight the @.bar capture group with the "Identifier" highlight group.

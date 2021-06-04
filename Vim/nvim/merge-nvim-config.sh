@@ -10,3 +10,4 @@ cp -r ~/.config/nvim/vimspector-config ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/after ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/merge-nvim-config.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim
+cp ~/.config/nvim/cheatsheet.txt ~/Git_Downloads/Dotfiles/Vim/nvim

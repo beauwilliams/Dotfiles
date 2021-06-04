@@ -219,6 +219,7 @@ require("packer").startup {
                 )
             end
         }
+        use 'haringsrob/nvim_context_vt' --> Show treesitter context at end of functions etc
         use {
             "nvim-treesitter/nvim-treesitter",
             --run = ":TSInstall all"
@@ -378,6 +379,15 @@ require("packer").startup {
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
         }
+        use {
+            'sudormrfbin/cheatsheet.nvim', --> Telescope Based Cheatsheet
+            -- optional
+            requires = {
+                {'nvim-telescope/telescope.nvim'},
+                {'nvim-lua/popup.nvim'},
+                {'nvim-lua/plenary.nvim'},
+            }
+        }
         use 'nvim-telescope/telescope-fzy-native.nvim'
         use 'nvim-telescope/telescope-symbols.nvim'
         use {
@@ -484,7 +494,7 @@ require("packer").startup {
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
         use 'andweeb/presence.nvim' -- discord presence
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
-        use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
+        -- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
         use 'nanotee/zoxide.vim'
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
