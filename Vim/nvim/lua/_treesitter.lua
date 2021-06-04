@@ -4,8 +4,8 @@ if not tsconf then
    return
 end
 tsconf.setup {
-   --ensure_installed = "maintained", --> Installs ALL maintained packages, probably better than "all"
-   ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
+   ensure_installed = "maintained", --> Installs ALL maintained packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
+   -- ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
    highlight = {
       enable = true,
       use_languagetree = true,

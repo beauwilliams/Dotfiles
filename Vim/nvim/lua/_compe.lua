@@ -9,10 +9,11 @@ compe.setup {
   debug = false;
   min_length = 1;
   preselect = 'enable';
-  throttle_time = 10;
+  throttle_time = 80;
   --source_timeout = ... number ...;
   --incomplete_delay = ... number ...;
   allow_prefix_unmatch = false;
+  documentation = true; -- what does this do?
 
   source = {
     path = true;
@@ -21,7 +22,7 @@ compe.setup {
     vsnip = {menu = '[SPT]'};
     nvim_lsp = {menu = '[LSP]'};
     nvim_lua = {menu = '[LUA]'};
-    treesitter = true;
+    treesitter = {menu = '[TRS]'};
     -- spell = true;
     -- tags = true;
     -- snippets_nvim = true;
@@ -80,4 +81,3 @@ protocol.CompletionItemKind = {
   'Operator';      -- = 24;
   'TypeParameter'; -- = 25;
 }
-
