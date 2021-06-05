@@ -272,6 +272,7 @@ require("packer").startup {
         use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
         use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
+        use 'mfussenegger/nvim-jdtls' --> Better jdtls setup than lspconfig
         use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
         use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
         use 'ray-x/lsp_signature.nvim' --> LSP SignatureInformation

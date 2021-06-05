@@ -221,11 +221,12 @@ local servers = {
   'bashls','cssls','vimls','rust_analyzer','pyls','dockerls'
 }
 
+
 for _,server in ipairs(servers) do
   lsp[server].setup {
     on_attach = custom_attach,
     on_init = custom_init,
-    -- capabilities = Custom_capabilities()
+    capabilities = Custom_capabilities()
   }
 end
 
@@ -242,10 +243,15 @@ for _,server in ipairs(servers_rootcwd) do
   }
 end
 
+-- require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'}})
+
+
+
 -- LANG CONFS
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
+vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 
 ---------------------------------------------------------------------------------------
 --[[
@@ -256,6 +262,14 @@ require("lsp._typescript")
 \____/\__,_/ |___/\__,_/
 --]]
 
+
+--[[ require'lspconfig'.java_language_server.setup{
+    on_attach = custom_attach,
+    on_init = custom_init,
+    root_dir = cwd,
+    cmd = "~/.config/nvim/.langservers/java-language-server/dist/lang_server_mac.sh",
+    -- capabilities = Custom_capabilities()
+} ]]
 
 --NOTE: NOT WORKING
 --lsp.jdtls.setup{}

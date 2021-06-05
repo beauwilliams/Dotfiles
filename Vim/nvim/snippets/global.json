@@ -2,7 +2,7 @@
   "todo": {
     "prefix": ["todo"],
     "body": [
-      "TODO--> [beauwilliams] --> ${0:Summary}"
+      "TODO: [beauwilliams] --> ${0:Summary}"
     ],
     "description": "TODO reminder"
   },
@@ -17,7 +17,7 @@
   "fixme": {
     "prefix": ["fixme"],
     "body": [
-      "FIXME --> [beauwilliams]--> ${0:Summary}"
+      "FIXME: [beauwilliams]--> ${0:Summary}"
     ],
     "description": "FIXME reminder"
   }

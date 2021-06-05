@@ -2,6 +2,13 @@
 " Set Up LSP Status progress in statusline using lsp status as inspo
 " inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
 
+" if has('nvim-0.5')
+"   augroup lsp
+"     au!
+"     au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'}})
+"   augroup end
+" endif
+
 
 " let g:presence_log_level="debug"
 
