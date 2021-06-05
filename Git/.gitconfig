@@ -45,3 +45,5 @@
   untracked = cyan
 [hub]
 	protocol = https
+[commit]
+	template = /Users/admin/.config/git/commitconventions.txt
