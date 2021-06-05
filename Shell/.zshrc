@@ -158,7 +158,7 @@ alias ....='cd ../../..'
 alias gp='git push -u origin HEAD'
 #Creating aliases for my dotfiles integration with github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
-alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
+alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell && echo 'merging zshrc'"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
