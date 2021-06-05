@@ -124,6 +124,7 @@ alias zshconfig="nvim ~/.zshrc"
 alias powerlineconfig="nvim ~/.zsh/.p10k.zsh"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
+alias ignoreconfig="nvim ~/.config/git/.gitignore_global"
 
 ###CHEATSHEETS###
 function cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
