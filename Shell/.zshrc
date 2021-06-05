@@ -14,6 +14,9 @@ fi
 
 export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 
+# Plugins I want to try
+# https://github.com/yuki-yano/zeno.zsh Abbreviations for zsh and fzf
+
 ###SOURCES###
 [ -f ~/.zsh/.fzf.zsh ] && source ~/.zsh/.fzf.zsh
 [[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #theme config
