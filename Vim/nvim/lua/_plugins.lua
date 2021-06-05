@@ -14,9 +14,6 @@
 -----------------------------------------------------------------
 
 
--- TODO
-
-
 --[[
     ____     ___    ______    __ __    ______    ____            ____    _   __    ____  ______
    / __ \   /   |  / ____/   / //_/   / ____/   / __ \          /  _/   / | / /   /  _/ /_  __/
@@ -100,6 +97,30 @@ require("packer").startup {
                 }
             end
         } ]]
+
+        -- START: Toolwindow configs, includes diag list, todo list, terminal, qflist
+        use 'EthanJWright/toolwindow.nvim' -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
+        use { -- toolwindow compatible terminal
+            'akinsho/nvim-toggleterm.lua',
+            config = 'require("toggleterm").setup{}'
+        }
+        use { --> toolwindow compatible list for navigating errors etc
+            "folke/trouble.nvim",
+            requires = "kyazdani42/nvim-web-devicons",
+            config = function()
+                require("trouble").setup {
+                }
+            end
+        }
+        use {
+            "folke/todo-comments.nvim", --> TOOLWWINDOW COMPATIBLE, Highlight and navigate comments in code
+            requires = "nvim-lua/plenary.nvim",
+            config = function()
+                require("todo-comments").setup {
+                }
+            end
+        }
+        -- END: Tooolwindow configs
         use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
         use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors with litle square
         use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
@@ -261,17 +282,6 @@ require("packer").startup {
         use 'sbdchd/neoformat' -- Code formatting plugin
         use 'RRethy/vim-illuminate' --> Highlight word under cursor
         use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
-        use {
-            "folke/todo-comments.nvim", --> Highlight and navigate comments in code
-            requires = "nvim-lua/plenary.nvim",
-            config = function()
-                require("todo-comments").setup {
-                    -- your configuration comes here
-                    -- or leave it empty to use the default settings
-                    -- refer to the configuration section below
-                }
-            end
-        }
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
         -- use 'ahmedkhalf/lsp-rooter.nvim'
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
@@ -294,17 +304,6 @@ require("packer").startup {
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
-        use { --> Small list for navigating errors etc
-            "folke/trouble.nvim",
-            requires = "kyazdani42/nvim-web-devicons",
-            config = function()
-                require("trouble").setup {
-                    -- your configuration comes here
-                    -- or leave it empty to use the default settings
-                    -- refer to the configuration section below
-                }
-            end
-        }
 
 
 

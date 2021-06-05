@@ -88,8 +88,14 @@ api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 --TREESITTER MAPPINGS
 --smart_rename = "'rn",
 
---TROUBLE LIST MAPPINGS
-utils.nnoremap("<leader>q", "<cmd>Trouble<cr>")
+--TOOLWINDOW MAPPINGS
+-- utils.nnoremap("<leader>q", "<cmd>Trouble<cr>")
+utils.nnoremap('<leader>q', ':lua require("toolwindow").close()<cr>')
+utils.nnoremap('<leader>qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
+utils.nnoremap('<leader>qd', ':lua require("toolwindow").open_window("trouble", nil)<cr>')
+utils.nnoremap('<leader>qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
+utils.nnoremap('<leader>qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
+
 
 
 
