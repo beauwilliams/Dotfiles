@@ -1,0 +1,3 @@
+# To set me up, run.. git config --global core.excludesFile '~/.config/git/.gitignore_global'
+*~
+.DS_Store
