@@ -161,6 +161,7 @@ alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
+alias mergegit="~/.config/git/merge-git-config.sh"
 
 ###GIT FUNCTIONS####
 function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch README.md && echo "# " $1 >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}

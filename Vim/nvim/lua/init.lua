@@ -29,6 +29,7 @@ statusline.ale_diagnostics = true
 local focus = require('focus')
 focus.enable = true
 focus.width = 120
+-- focus.treewidth = 120
 focus.height = 40
 focus.cursorline = true
 focus.signcolumn = true
