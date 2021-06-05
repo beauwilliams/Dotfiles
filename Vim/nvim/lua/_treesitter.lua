@@ -1,3 +1,12 @@
+--[[ Cool github configs
+https://github.com/RRethy/nvim-treesitter-textsubjects
+https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+https://github.com/nvim-treesitter/nvim-treesitter-refactor
+https://github.com/haringsrob/nvim_context_vt
+https://github.com/windwp/nvim-ts-autotag
+https://github.com/lewis6991/spellsitter.nvim
+https://github.com/nvim-treesitter/nvim-tree-docs ]]
+
 local tsconf = require'nvim-treesitter.configs'
 if not tsconf then
    vim.cmd [[ echom 'Cannot load `nvim-treesitter.configs`' ]]
@@ -49,7 +58,6 @@ tsconf.setup {
       },
   },
 }
-
 
 
 
