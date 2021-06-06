@@ -116,15 +116,15 @@ endif
 
 "i've been using the shift key w my pinky so much lately its getting sore
 "realised leader leader is free so its now an easy way to enter cmd mode
-map <leader><leader> :
+" map <leader><leader> :
 
 "Explanation: The 0 (Zero) register is special because it only stores the last item you yank
 "and only if you yank it, not if you delete it with any of d,x,c,s.
 "We use this because we have the vim register synced with the system
 "clipboard. Meaning we can't do simple text replacement easily as deleting
 "text will overwrite yanked text in the register.
-nnoremap yp "0p
-nnoremap yP "0P
+" nnoremap yp "0p
+" nnoremap yP "0P
 
 
 "Speeding up auto correction toggle for my uni lectures
@@ -139,14 +139,14 @@ cnoreabbrev mdreader Glow
 
 
 "Clear highlights quick!
-noremap <silent><leader>/ :nohlsearch<cr>
+" noremap <silent><leader>/ :nohlsearch<cr>
 
 
 "FORMATTERS
 "Remove indents from code! (a simple code formatter)
-nnoremap <silent><leader>i gg=G<c-o>
+" nnoremap <silent><leader>i gg=G<c-o>
 "Run Neoformat
-nnoremap <silent><leader>F :Neoformat<CR>
+" nnoremap <silent><leader>F :Neoformat<CR>
 
 
 "FIND AND REPLACE
@@ -161,7 +161,7 @@ nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
 
 "jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
-imap jj <ESC>
+" imap jj <ESC>
 
 
 "Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
@@ -169,10 +169,10 @@ cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 
 "DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
-inoremap <c-j> <esc>ji
-inoremap <c-k> <esc>ki
-inoremap <c-h> <esc>i
-inoremap <c-l> <esc>la
+" inoremap <c-j> <esc>ji
+" inoremap <c-k> <esc>ki
+" inoremap <c-h> <esc>i
+" inoremap <c-l> <esc>la
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
@@ -210,30 +210,18 @@ cnoreabbrev Z z
 cnoreabbrev z Z
 
 "Fuzzymenu Mappings (ctrl+p)
-nmap <silent><leader>p <Plug>(Fzm)
-vmap <silent> <leader>p <Plug>(FzmVisual)
+" nmap <silent><leader>p <Plug>(Fzm)
+" vmap <silent> <leader>p <Plug>(FzmVisual)
 
 "File Tree Mappings
-nnoremap <silent><Leader>n :NvimTreeToggle<cr>
-vnoremap <silent><Leader>n :NvimTreeToggle<cr>
+" nnoremap <silent><Leader>n :NvimTreeToggle<cr>
+" vnoremap <silent><Leader>n :NvimTreeToggle<cr>
 
 "Documentation Generator Mappings
-nnoremap <Leader>D :DogeGenerate
-vnoremap <Leader>D :DogeGenerate
-cnoreabbrev docgen DogeGenerate
+" nnoremap <Leader>D :DogeGenerate
+" vnoremap <Leader>D :DogeGenerate
+" cnoreabbrev docgen DogeGenerate
 
-"Resize our splits with <leader> +/- easily
-nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
-nnoremap <silent> <Leader>; :exe "resize " . (winheight(0) * 3/4)<CR>
-"NOTE: DUE TO LIMITATION IN VIM, its going to go left when you think it will
-"go right due to it simply being +/- pixels and not dependenent on direction
-nnoremap <silent> <leader>, :vertical resize -10<CR>
-nnoremap <silent> <leader>. :vertical resize +10<CR>
-
-"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-"<leader>H K
-nnoremap <silent><leader>[ <c-w>H
-nnoremap <silent><leader>] <c-w>K
 
 
 "FUGITIVE/GIT
@@ -242,7 +230,7 @@ cnoreabbrev <silent>gp :G push
 "SHOW GIT COMMIT / GIT BLAME POPUP
 "Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
 "NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
-nnoremap <silent><leader>6 :GitMessenger<CR>
+" nnoremap <silent><leader>6 :GitMessenger<CR>
 
 
 "=============================END REMAPS========================================
@@ -327,7 +315,16 @@ nnoremap <silent> <leader>w <C-w>w
 vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
 vnoremap <silent> <leader>W <C-w>W
-
+"Resize our splits with <leader> +/- easily
+nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
+nnoremap <silent> <Leader>; :exe "resize " . (winheight(0) * 3/4)<CR>
+"NOTE: DUE TO LIMITATION IN VIM, its going to go left when you think it will go right due to it simply being +/- pixels and not dependenent on direction
+nnoremap <silent> <leader>, :vertical resize -10<CR>
+nnoremap <silent> <leader>. :vertical resize +10<CR>
+"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+"<leader>H K
+nnoremap <silent><leader>[ <c-w>H
+nnoremap <silent><leader>] <c-w>K
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""

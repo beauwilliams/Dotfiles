@@ -1,20 +1,58 @@
 local leader = "<space>"
+
 local g = vim.g
 local utils = require('_utils')
 local api = vim.api
 local cmd = vim.cmd
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: SET LEADER GLOBALLY
--- g.mapleader = ' '
+--SET LEADER GLOBALLY
+g.mapleader = ' '
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --VIM NAVIGATION MAPPINGS
---Toggle between 0 and ^ with JUST 0 =D
-vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
+--Toggle between 0 and ^ with JUST 0 =D. Does not work well with wrap off and side scrolling..
+-- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
+-- "i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
+utils.map("n", leader..leader, ":")
+-- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
+-- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
+utils.nnoremap("yp", "0p")
+utils.nnoremap("yP", "0P")
+-- Clear highlights quick!
+utils.nnoremap(leader.."/",":nohlsearch<cr>")
+-- jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
+utils.inoremap("jj", "<ESC>")
+-- DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
+utils.inoremap("<c-j>", "<esc>ji")
+utils.inoremap("<c-k>", "<esc>ki")
+utils.inoremap("<c-h>", "<esc>i" )
+utils.inoremap("<c-l>", "<esc>la")
+
+--Fuzzymenu Mappings (ctrl+p)
+utils.nmap(leader.."p", "<Plug>(Fzm)")
+utils.vmap(leader.."p", "<Plug>(FzmVisual)")
+
+--File Tree Mappings
+utils.nnoremap(leader.."n", ":NvimTreeToggle<cr>")
+utils.vnoremap(leader.."n", ":NvimTreeToggle<cr>")
+
+
+utils.nnoremap(leader.."D", ":DogeGenerate<cr>")
+utils.vnoremap(leader.."D", ":DogeGenerate<cr>")
+vim.cmd([[cnoreabbrev docgen DogeGenerate]])
+
+-- CODE FORMATTERS
+--Remove indents from code! (a simple code formatter)
+utils.nnoremap(leader.."i", "gg=G<c-o>")
+-- Run Neoformat
+utils.nnoremap(leader.."F", ":Neoformat<CR>")
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: TELESCOPE MAPPINGS
+--TELESCOPE MAPPINGS
 -- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
@@ -43,7 +81,7 @@ cmd("cnoreabbrev <silent>tcmds lua require'telescope.builtin'.autocommands(requi
 cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('telescope.themes').get_dropdown({}))") ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
--- NOTE: HOT KEYS
+-- HOT KEYS
 utils.nnoremap(leader..'1', ":lua require'telescope.builtin'.builtin()<cr>")
 utils.vnoremap(leader..'1', ":lua require'telescope.builtin'.builtin()<cr>")
 utils.nnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
@@ -54,14 +92,15 @@ utils.nnoremap(leader..'4', ":lua require'telescope.builtin'.man_pages(require('
 utils.vnoremap(leader..'4', ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>")
 utils.nnoremap(leader..'5', ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
 utils.vnoremap(leader..'5', ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
+utils.nnoremap(leader..'6', ':GitMessenger<CR>') -- "SHOW GIT COMMIT / GIT BLAME POPUP
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: KOMMENTARY MAPPINGS
-vim.api.nvim_set_keymap('n', '++', '<Plug>kommentary_line_default', { silent = true })
-vim.api.nvim_set_keymap('v', '++', '<Plug>kommentary_visual_default', { silent = true })
+--KOMMENTARY MAPPINGS
+utils.nmap('++', '<Plug>kommentary_line_default')
+utils.vmap('++', '<Plug>kommentary_visual_default')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: LSP MAPPINGS
+--LSP MAPPINGS
 utils.nnoremap("K", ":lua vim.lsp.buf.hover()<CR>")
 -- vim.cmd[[autocmd CursorHold * silent :lua vim.lsp.buf.hover()]] -- NOTE: Auto open on hover
 utils.nnoremap("'gd", ":lua vim.lsp.buf.definition()<CR>")
@@ -78,12 +117,12 @@ utils.nnoremap("'gt",':lua vim.lsp.buf.type_definition()<CR>')
 utils.nnoremap("'gi", ":lua vim.lsp.buf.implementation()<CR>")
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: TERMINAL MAPPINGS
+--TERMINAL MAPPINGS
 utils.nnoremap(leader..'t', '<CMD>lua require"FTerm".toggle()<CR>')
 utils.tnoremap(leader..'t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: COMPE MAPPINGS [COMPLETION]
+--COMPE MAPPINGS [COMPLETION]
 --" Use <Tab> and <S-Tab> to navigate through popup menu
 api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
 api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
@@ -93,11 +132,11 @@ api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Pl
 api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: TREESITTER MAPPINGS
+--TREESITTER MAPPINGS
 --smart_rename = "'rn",
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
+--TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
 utils.nnoremap(leader..'qq', ':TroubleToggle<cr>')
 utils.nnoremap(leader..'qd', ':Trouble lsp_workspace_diagnostics<cr>')
 utils.nnoremap(leader..'qr', ':Trouble lsp_references<cr>')

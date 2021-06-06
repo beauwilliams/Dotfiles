@@ -45,7 +45,7 @@ local options_o = {
     spelllang = "en", -- Set NEOVIMS NATIVE spell lang for spellchecker
     inccommand = "nosplit", -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
     clipboard = "unnamed", -- share system clipboard but also retain nvim clipboard (see += compared
-    mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
+    -- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
 
 }
 
@@ -118,22 +118,3 @@ set_options(g,options_g) --set global vars
   timeoutlen = 400, -- faster timeout wait time
   updatetime = 100, -- set faster update time
 ]]
-
-
-
-
-
-
-
--- ANOTHER METHOD
---[[ local apply_options = function(opts)
-  for k, v in pairs(opts) do
-    if v == true then
-      cmd('set ' .. k)
-    elseif v == false then
-      cmd(string.format('set no%s', k))
-    else
-      cmd(string.format('set %s=%s', k, v))
-    end
-  end
-end ]]

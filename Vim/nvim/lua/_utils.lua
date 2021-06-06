@@ -12,6 +12,10 @@ function Utils.noremap(type, input, output)
     api.nvim_set_keymap(type, input, output, { noremap = true, silent = true })
 end
 
+function Utils.remap(type, input, output)
+    api.nvim_set_keymap(type, input, output, { noremap = false, silent = true })
+end
+
 function Utils.nnoremap(input, output)
     Utils.noremap('n', input, output)
 end
@@ -29,19 +33,19 @@ function Utils.tnoremap(input, output)
 end
 
 function Utils.nmap(input, output)
-	Utils.map('n', input, output)
+	Utils.remap('n', input, output)
 end
 
 function Utils.imap(input, output)
-	Utils.map('i', input, output)
+	Utils.remap('i', input, output)
 end
 
 function Utils.vmap(input, output)
-	Utils.map('v', input, output)
+	Utils.remap('v', input, output)
 end
 
 function Utils.tmap(input, output)
-	Utils.map('t', input, output)
+	Utils.remap('t', input, output)
 end
 
 -- returns nil if not exists
