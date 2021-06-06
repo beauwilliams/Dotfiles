@@ -12,28 +12,35 @@ local set_options = function(locality,options)
 end
 
 local options_o = {
-  hlsearch = true, -- don't highlight matching search
+  hlsearch = true, -- highlight matching search
   cursorline = true, -- enable cursorline
   number = true, -- enable line numbers
-  expandtab = true,
-  ignorecase = true,
-  smartcase = true,
-  undofile = true,
-  showmatch = true,
-  -- noshowmode = true,
-  lazyredraw = true,
-  autoread = true,
-  wildmenu = true,
-  hidden = true,
+  expandtab = true, -- this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up
+  ignorecase = true, -- ignore cases when searching
+  smartcase = true, -- However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
+  undofile = true, -- Keeps undo history even after we close a file
+  showmatch = true, -- match opening and closing braces
+  showmode = false, -- turns off the --INSERT-- etc mode messages at very bottom
+  lazyredraw = true, -- hopefully this speeds up vim!
+  autoread = true, -- loads file as soon as there are changes on disk
+  wildmenu = true, -- enhanced tab completion for vim command bar
+  hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+  shiftround = true, -- Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
+
+
 }
 
 local options_g = {
     mapleader = " ", -- leader is the space key
     softtabstop = "4", --option so make backspace delete entire tab
-    tabstop = "4",
+    tabstop = "16",
     shiftwidth = "4",
-    shortmess = "a",
-    backspace = {"indent", "eol", "start"}
+    -- shortmess = "w",
+    backspace = {"indent", "eol", "start"},
+    scrolloff = "5",
+    encoding = "UTF-8",
+    -- shortmess
+
 
 }
 
@@ -44,8 +51,8 @@ local options_g = {
 } ]]
 
 --set locally. no need to call elsewhere
--- set_options(o,options_o) --set global options
--- set_options(g,options_g) --set global vars
+set_options(o,options_o) --set global options
+set_options(g,options_g) --set global vars
 -- set_options(bo,options_buffer)
 -- set_options(wo,options_window)
 

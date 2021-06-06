@@ -44,7 +44,7 @@ set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting auto indent to 4 spaces"
 set shiftwidth=4 "when we hit tab it moves 4 spaces
 set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
-set shortmess=a "shorten message lengths in cmd bar
+" set shortmess=a "shorten message lengths in cmd bar
 set incsearch "search as characters are entered"
 " set hlsearch "highlight matches
 set ignorecase "ignore cases when searching
@@ -55,7 +55,7 @@ set undofile "Keeps undo history even after we close a file
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
 set showmatch "match opening and closing braces
 " set noshowmode "turns off the --INSERT-- etc mode messages at very bottom
-set shortmess+=F  " to get rid of the file name displayed in the command line bar
+" set shortmess+=F  " to get rid of the file name displayed in the command line bar
 set history=200 "keep 200 hungy commands in the stash
 set lazyredraw "hopefully this speeds up vim!
 set autoread "loads file as soon as there are changes on disk
