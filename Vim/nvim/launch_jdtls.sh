@@ -19,7 +19,7 @@ GRADLE_HOME=$HOME/gradle /Library/Java/JavaVirtualMachines/jdk-14.0.1.jdk/Conten
   -Xmx2G \
   -jar $(echo "$JAR") \
   -configuration "$HOME/.config/nvim/.langservers/jdt-language-server-latest/config_mac" \
-  -data "${1:-$HOME/workspace}" \
+  -data "${1:-$HOME/.config/nvim/workspaces/eclipse-workspace}" \
   --add-modules=ALL-SYSTEM \
   --add-opens java.base/java.util=ALL-UNNAMED \
   --add-opens java.base/java.lang=ALL-UNNAMED

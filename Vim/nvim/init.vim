@@ -569,14 +569,14 @@ imap jj <ESC>
 
 "Remove superfluous whitespaces with leader W (as in the shift-w big W)
 "We user <leader>w elsewhere to move between windows quick
-nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
-                        \ :let _s=@/ <Bar>
-                        \ :%s/\s\+$//e <Bar>
-                        \ :let @/=_s <Bar>
-                        \ :nohl <Bar>
-                        \ :unlet _s<Bar>
-                        \ :call setpos('.', _save_pos)<Bar>
-                        \ :unlet _save_pos<CR><CR>
+" nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
+"                         \ :let _s=@/ <Bar>
+"                         \ :%s/\s\+$//e <Bar>
+"                         \ :let @/=_s <Bar>
+"                         \ :nohl <Bar>
+"                         \ :unlet _s<Bar>
+"                         \ :call setpos('.', _save_pos)<Bar>
+"                         \ :unlet _save_pos<CR><CR>
 
 
 
@@ -624,8 +624,8 @@ cnoreabbrev Z z
 cnoreabbrev z Z
 
 "CODE ACTION (LSP) MENU/SEARCH Mappings
-nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
-vnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
+" nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
+" vnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
 
 "Fuzzymenu Mappings (ctrl+p)
 nmap <silent><leader>p <Plug>(Fzm)

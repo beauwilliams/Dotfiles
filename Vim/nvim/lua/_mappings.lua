@@ -58,6 +58,7 @@ vim.api.nvim_set_keymap('v', '++', '<Plug>kommentary_visual_default', { silent =
 --LSP MAPPINGS
 -- NOTE: Close quickfix with :cclose
 utils.nnoremap("K", ":lua vim.lsp.buf.hover()<CR>")
+-- vim.cmd[[autocmd CursorHold * silent :lua vim.lsp.buf.hover()]] -- NOTE: Auto open on hover
 utils.nnoremap("'gd", ":lua vim.lsp.buf.definition()<CR>")
 utils.nnoremap("'gr", ":lua require'telescope.builtin'.lsp_references()<CR>")
 utils.nnoremap("'gs",':lua vim.lsp.buf.document_symbol()<CR>')
@@ -67,8 +68,7 @@ utils.nnoremap("'ft", ":lua vim.lsp.buf.formatting()<CR>")
 utils.nnoremap("'dn", ':lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.nnoremap("'dp", ':lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.nnoremap("'gh",':lua vim.lsp.buf.signature_help()<CR>')
-utils.nnoremap("'ca", ":lua vim.lsp.buf.code_action()<CR>")
-
+utils.nnoremap("'ca", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps find eg lua
 utils.nnoremap("'gt",':lua vim.lsp.buf.type_definition()<CR>')
 utils.nnoremap("'gi", ":lua vim.lsp.buf.implementation()<CR>")
 
@@ -88,13 +88,16 @@ api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 --TREESITTER MAPPINGS
 --smart_rename = "'rn",
 
---TOOLWINDOW MAPPINGS
--- utils.nnoremap("<leader>q", "<cmd>Trouble<cr>")
-utils.nnoremap('<leader>q', ':lua require("toolwindow").close()<cr>')
-utils.nnoremap('<leader>qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
-utils.nnoremap('<leader>qd', ':lua require("toolwindow").open_window("trouble", nil)<cr>')
-utils.nnoremap('<leader>qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
-utils.nnoremap('<leader>qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
+--TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
+utils.nnoremap('<leader>qq', ':TroubleToggle<cr>')
+utils.nnoremap('<leader>qd', ':Trouble lsp_workspace_diagnostics<cr>')
+utils.nnoremap('<leader>qr', ':Trouble lsp_references<cr>')
+utils.nnoremap('<leader>qf', ':Trouble quickfix<cr>')
+utils.nnoremap('<leader>ql', ':Trouble loclist<cr>')
+utils.nnoremap('<leader>qc', ':TodoTrouble<cr>')
+-- NOTE: Consider removing toolwindow, not needed
+--[[ utils.nnoremap('<leader>qq', ':lua require("toolwindow").close()<cr>')
+utils.nnoremap('<leader>qt', ':lua require("toolwindow").open_window("term", nil)<cr>') ]]
 
 
 

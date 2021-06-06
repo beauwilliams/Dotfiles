@@ -179,10 +179,7 @@ require("packer").startup {
             'numToStr/FTerm.nvim', --> Floating terminal window
             config = function()
                 require'FTerm'.setup({
-                    border = {
-                        vertical = '│',
-                    }
-                })
+                    border = 'double'})
             end
         }
         --[[ use {
@@ -270,11 +267,12 @@ require("packer").startup {
         }
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
-        use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH COMPE
+        use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH compe
+        use 'rafamadriz/friendly-snippets' --> Snippets library compatible with vim-vsnip
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
         use 'mfussenegger/nvim-jdtls' --> Better jdtls setup than lspconfig
         use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
-        use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION
+        -- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
         use 'ray-x/lsp_signature.nvim' --> LSP SignatureInformation
         use 'hrsh7th/nvim-compe' --> COMPLETION MENU
         use 'Raimondi/delimitMate' --> Compatible with compe auto braces etc

@@ -144,7 +144,7 @@ custom_attach = function(client,bufnr) --> Added client,bufnr works also without
 
   -- INITS
   require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
-  require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
+  -- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
   require "lsp_signature".on_attach(client) --> Signature popups and info
@@ -251,7 +251,8 @@ end
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
-vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
+vim.cmd[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'launch_jdtls.sh', '/Users/admin/.config/nvim/workspaces/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]] -- NOTE: sets workspace per project..
+-- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 
 ---------------------------------------------------------------------------------------
 --[[
@@ -280,7 +281,7 @@ vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_j
 	  --configs.jdtls.handlers == {
       --['client/registerCapability'] = function(_, _, _, _)
         --return {
-          --result = nil;
+          --result = nil
           --error = nil;
         --}
       --end
