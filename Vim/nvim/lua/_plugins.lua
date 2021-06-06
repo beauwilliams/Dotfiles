@@ -469,7 +469,8 @@ require("packer").startup {
 /_/  /_/   /___/   /____/  \____/          /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
 
-        use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :SudoWrite to write to read only files
+        use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
+        use 'lambdalisue/suda.vim' -- Neovim compatible :SudoWrite
         -- use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
         use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults

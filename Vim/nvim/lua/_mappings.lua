@@ -29,15 +29,16 @@ utils.inoremap("<c-k>", "<esc>ki")
 utils.inoremap("<c-h>", "<esc>i" )
 utils.inoremap("<c-l>", "<esc>la")
 
---Fuzzymenu Mappings (ctrl+p)
+--FUZZYMENU (ctrl+p)
 utils.nmap(leader.."p", "<Plug>(Fzm)")
 utils.vmap(leader.."p", "<Plug>(FzmVisual)")
 
---File Tree Mappings
+--FILE TREE
 utils.nnoremap(leader.."n", ":NvimTreeToggle<cr>")
 utils.vnoremap(leader.."n", ":NvimTreeToggle<cr>")
 
 
+-- DOCUMENTATION GENERATION
 utils.nnoremap(leader.."D", ":DogeGenerate<cr>")
 utils.vnoremap(leader.."D", ":DogeGenerate<cr>")
 vim.cmd([[cnoreabbrev docgen DogeGenerate]])
@@ -47,6 +48,20 @@ vim.cmd([[cnoreabbrev docgen DogeGenerate]])
 utils.nnoremap(leader.."i", "gg=G<c-o>")
 -- Run Neoformat
 utils.nnoremap(leader.."F", ":Neoformat<CR>")
+
+-- SEARCH AND REPLACE
+-- replace word under cursor
+utils.nnoremap("R",":%s/\\<<C-r><C-w>\\>//g<Left><Left><C-r><C-w>")
+-- Replace/Delete words quick! ONE BY ONE.
+-- c. c, d. d,
+utils.nnoremap("c.", "/\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgn")
+utils.nnoremap("c,", "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
+utils.nnoremap("d.", "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
+utils.nnoremap("d,", "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
+
+-- MISCELLANEOUS
+
+
 
 
 

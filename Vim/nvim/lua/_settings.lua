@@ -1,15 +1,12 @@
---don't call globals unneccessarily
-local o = vim.o
-local g = vim.g
---[[ local bo = vim.bo --> buffer only use bo
-local wo = vim.wo --> window only use wo ]]
-
 -- no need for a global function
+local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
 local set_options = function(locality,options)
+local scope = scopes[locality]
     for key, value in pairs(options) do
-        locality[key] = value
+        scope[key] = value
     end
 end
+
 
 local options_o = {
     hlsearch = true, -- highlight matching search
@@ -30,7 +27,7 @@ local options_o = {
     autoread = true, -- loads file as soon as there are changes on disk
     wildmenu = true, -- enhanced tab completion for vim command bar
     wildmode = "list,full", -- Displays a handy list of commands we can tab thru"
-    hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+    hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: E37: No write since last change (add ! to override) When opening a new buffer before saving current one
     relativenumber = true, -- Enable relative line numbers in ruler
     shiftround = true, -- Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
     shortmess = "aF", -- abreviates messages and prevents file name being echoed when opened
@@ -46,7 +43,6 @@ local options_o = {
     inccommand = "nosplit", -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
     clipboard = "unnamed", -- share system clipboard but also retain nvim clipboard (see += compared
     -- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
-
 }
 
 local options_g = {
@@ -60,8 +56,8 @@ local options_g = {
 } ]]
 
 --set locally. no need to call elsewhere
-set_options(o,options_o) --set global options
-set_options(g,options_g) --set global vars
+set_options("o",options_o) --set global options
+set_options("g",options_g) --set global vars
 -- set_options(bo,options_buffer)
 -- set_options(wo,options_window)
 

@@ -150,14 +150,13 @@ cnoreabbrev mdreader Glow
 
 
 "FIND AND REPLACE
-nnoremap R :%s/\<<C-r><C-w>\>//g<Left><Left><C-r><C-w>
+" nnoremap R :%s/\<<C-r><C-w>\>//g<Left><Left><C-r><C-w>
 "Replace/Delete words quick! ONE BY ONE.
 "c. c, d. d,
-"nnoremap ,x *``cgn
-nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
-nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
-nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
+" nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+" nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+" nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
+" nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
 
 "jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
@@ -165,7 +164,9 @@ nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
 
 "Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+cnoreabbrev w!! SudaWrite
+" cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+" cnoremap w!! SudoWrite<cr>
 
 
 "DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
