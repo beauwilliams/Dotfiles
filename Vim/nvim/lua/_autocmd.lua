@@ -17,12 +17,12 @@ end
 function autocmd.setup()
   local definitions = {
     wins = {
-      { 'BufWritePre', '*.py', 'undojoin | Neoformat'},
+      --[[ { 'BufWritePre', '*.py', 'undojoin | Neoformat'},
       { 'WinEnter', '*', ':call ResizeSplits()'},
       { 'WinEnter', '*', 'setlocal cursorline'},
       { 'WinEnter', '*', 'setlocal signcolumn=no'},
       { 'WinLeave', '*', 'setlocal nocursorline'},
-      { 'WinLeave', '*', 'setlocal signcolumn=no'}
+      { 'WinLeave', '*', 'setlocal signcolumn=no'} ]]
       -- { 'VimResized', '*', 'wincmd =' },
       -- { 'BufWinEnter', '*', 'highlight ExtraWhitespace guifg=#666666' },
       -- { 'BufWinEnter', '*', [[match ExtraWhitespace /\s\+$/]] },
