@@ -3,7 +3,8 @@ local init = function()
 require('_plugins')
 require('_theme')
 require('_mappings')
-require('_options')
+require('_settings')
+require('_autocmds')
 
 --LIBRARIES
 require('_utils')

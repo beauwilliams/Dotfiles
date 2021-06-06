@@ -1,201 +1,18 @@
-" TODO
-" Set Up LSP Status progress in statusline using lsp status as inspo
-" inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
-
-
-" if has('nvim-0.5')
-"   augroup lsp
-"     au!
-"     au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'}})
-"   augroup end
-" endif
-
-
-" let g:presence_log_level="debug"
-
 "DEBUG
 function! Test()
     echo "test"
     return "test"
 endfunction
 
-" function! LspStatus() abort
-"   if luaeval('#vim.lsp.buf_get_clients() > 0')
-"     return luaeval("require('lsp-status').status()")
-" endif
-"   return ''
-" endfunction
-
-" set statusline+=%{LspStatus()} --> Works
-"
-
-
-
-
-
-"===========================KEY MAPPINGS===============================
-   "____    __  __    ____   ______    __ __          ______   __  __    ____    ____     ______
-  "/ __ \  / / / /   /  _/  / ____/   / //_/         / ____/  / / / /   /  _/   / __ \   / ____/
- "/ / / / / / / /    / /   / /       / ,<           / / __   / / / /    / /    / / / /  / __/
-"/ /_/ / / /_/ /   _/ /   / /___    / /| |         / /_/ /  / /_/ /   _/ /    / /_/ /  / /___
-"\___\_\ \____/   /___/   \____/   /_/ |_|         \____/   \____/   /___/   /_____/  /_____/
-
-
-"+++++++BASIC NAVIGATION+++++++
-"
-"LEADER <leader> key is SPACE
-"
-"ENTER COMMAND MODE QUICKLY
-"Mapping -> <leader><leader> (Hit Space Twice)
-"
-"ENTER NORMAL MODE QUICKLY
-"Mapping -> jj (hit j twice)
-"
-"VIM COMMANDS CHEATSHEET / HELP MENU
-"<leader>?
-"
-"VIM CONTROL P LIKE MENU (FUZZYMENU)
-"<leader>p
-"
-"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN *IN INSERT MODE* WITH HJKL BY SIMPLY HOLDING CONTROL
-"Mapping -> <c-h> --> move left
-"Mapping -> <c-j> --> move down
-"Mapping -> <c-k> --> move up
-"Mapping -> <c-l> --> move right
-
-
-
-
-"++++++++WINDOW NAVIGATION+++++++
-"
-"Open new splits, use leader + hjkl to specify which direction you want to create the
-"split (up, down, let, right)
-"Mapping -> <leader>h <leader>j .. etc
-"
-"Cycle between spilts/[w]indows in a clockwise motion, *hold shift key for anticlockwise
-"Mapping -> <leader>w
-"
-"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-"Mapping -> <leader>[ & <leader>]
-
-
-
-
-"++++++++FILE NAVIGATION AND FUZZY SEARCH++++++++
-"
-"Open file tree to [n]avigate files
-"Mapping -> <leader>n
-"
-"[s]earch for files by filename in the current working directory
-"Mapping -> <leader>s
-"
-"Search for content/strings within [f]iles in the current directory
-"Mapping -> <leader>f
-"
-"List current [b]uffers and search by buffer filenames
-"Mapping -> <leader>b
-"
-"List previously visited file history and [S]earch by filename
-"Think s to search files, and shift+s to search file history
-"Mapping -> <leader>S
-"
-"List ALL Possible [c]ommand Mode Commands, Search and Execute Them
-"Mapping -> <leader>c
-
-
-
-
-"++++++++CODE NAVIGATION AND RELATED TOOLS++++++++
-"
-"DIAGNOSTICS NAVIGATION
-"Mapping -> [g
-"Mapping -> ]g
-"Use Command `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-
-"GO TO CODE NAVIGATION.
-"Mapping -> gd --> Go to Definition
-"Mapping -> gy --> Got to Type Definition
-"Mapping -> gi --> Go to Implementation
-"Mapping -> gr --> Go to References
-
-"DOCUMENTATION VIEIWING
-"Use K to show documentation in preview window.
-
-
-
-
-"++++++++CODE REFACTORING AND RELATED TOOLS++++++++
-"
-"FIND AND REPLACE
-"REPLACE ALL WORDS QUICKLY WITH SHIFT+R
-"OR........
-"Replace/Delete words quick! ONE BY ONE.
-"*NOTE* You must first search for a string and have it highlighted first [can use SHIFT+R as above] before we can change and delete based on that pattern
-"after searching for a word, use c for CHANGE & d for DELETE. We use , . to move back and forth between matches respectively
-"Mapping -> c.
-"Mapping -> c,
-"Mapping -> d.
-"Mapping -> d,
-"NOTE: CLEAR HIGHLIGHTS WITH <leader>/
-"
-"QUICK COMMENTING
-"NOTE: It is actually ++ but I used a trick for my mac to map that key to ++ in iterm
-"Mapping -> cmd+/
-
-
-
-
-"++++++++CODE FORMATTING AND RELATED TOOLS++++++++
-"
-"Remove indents from code! (a simple code formatter)
-"Mapping -> <leader>i
-"
-"[F]ormat code
-"Mapping -> <leader>F
-"
-"Remove superfluous [w]hitespaces at the end of lines
-"Mapping -> <leader>W
-
-
-
-
-"++++++++HANDY COMMANDS++++++++
-"
-"Speeding up auto correction toggle for my uni lectures
-"Also spellchecking using native neovim
-"Note plgn is Vim-you-autocorrect
-"Command -> spellon
-"Command -> spelloff
-"Command -> spellcheck
-"[s  -> go to previous spell error
-"]s  -> go to next spell error
-"zg  -> add word to dictionary
-"z=  -> pop up list of word corrections/suggestions
-"1z= -> correct spelling using first given suggestion
-
-
-
-
-" ===========================END MAPPINGS===============================
-
-
-
-
-
-" ===========================START MY PLUGINS===============================
-
+"============================START INITS===============================
     "____    _   __    ____  ______   _____
    "/  _/   / | / /   /  _/ /_  __/  / ___/
    "/ /    /  |/ /    / /    / /     \__ \
  "_/ /    / /|  /   _/ /    / /     ___/ /
 "/___/   /_/ |_/   /___/   /_/     /____/
 
-"have tested that I get better performance over sshfs with this on
-"We need to set ale off it before we load our plugins
-
 "NOTE: DEC 2020 --> Moved to packer, moving to lua gradually.
 "TODO: ENSURE COMPATIBILITY WITH VSC && NVIM < 0.5
-
 
 " Determine whether or not we're inside vscode
 let g:using_vscode = exists('g:vscode')
@@ -211,10 +28,7 @@ else
     runtime init_pre_0.5.vim " Source Vim-Plug configuration
 endif
 
-
-
-"===========================END MY PLUGINS===============================
-
+"============================START MY CONFIGS===============================
     "__  _____  __          ______   ____     _   __    ______    ____   ______   _____
    "/  |/  /\ \/ /         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
   "/ /|_/ /  \  /         / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
@@ -222,18 +36,17 @@ endif
 "/_/  /_/   /_/          \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
 
 
-"BEAU CONFIGS
-" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft NOTE: have polyglot installed providing ftplugins
-" set cursorline "enable cursorline
+" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft
+set hlsearch
+set cursorline "enable cursorline
 set number "enable line numbers"
 set softtabstop=4 "option so make backspace delete entire tab"
 set tabstop=4 "setting auto indent to 4 spaces"
 set shiftwidth=4 "when we hit tab it moves 4 spaces
 set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
-" set cursorline "enable line under cursor"
 set shortmess=a "shorten message lengths in cmd bar
 set incsearch "search as characters are entered"
-" set hlsearch "highlight matches"
+" set hlsearch "highlight matches
 set ignorecase "ignore cases when searching
 set smartcase "However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
 set backspace=indent,eol,start " this makes backspace work as normal
@@ -241,7 +54,7 @@ set scrolloff=5 "Set the cursor 5 lines down instead of at the top
 set undofile "Keeps undo history even after we close a file
 set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
 set showmatch "match opening and closing braces
-set noshowmode "turns of the INSERT.. etc mode text at very bottom
+" set noshowmode "turns off the --INSERT-- etc mode messages at very bottom
 set shortmess+=F  " to get rid of the file name displayed in the command line bar
 set history=200 "keep 200 hungy commands in the stash
 set lazyredraw "hopefully this speeds up vim!
@@ -258,6 +71,7 @@ set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime wh
 set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
 "to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
 endif
+"set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 
 
 
@@ -292,23 +106,10 @@ if !empty(&viminfo)
   set viminfo^=!
 endif
 
-"TURN OFF RELATIVE LINE NUMBERING WHEN WE ENTER INSERT MODE AND ENABLE OTHERWISE
-augroup AutoRelativeLineNums
-  autocmd!
-  au InsertEnter * set norelativenumber
-  au InsertLeave * set relativenumber
-augroup END
-
-
 
 "============================END MY CONFIGS===============================
-
-
-
-"============================START MY CONFIGS===============================
-
-
 "=======================START CONFIGS UNDER TESTING=============================
+
 
   "______    ______   _____  ______          ______   ____     _   __    ______    ____   ______   _____
  "/_  __/   / ____/  / ___/ /_  __/         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
@@ -319,11 +120,11 @@ augroup END
 
 
 "FIXME: Since recent update, illuminate uses default textDocument/documentHighlight. How to we change colours?
-augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
-    autocmd!
-    autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
-    autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
-augroup END
+" augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
+"     autocmd!
+"     autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
+"     autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
+" augroup END
 "hi LspReferenceRead guibg=#504648 guifg=Orange THis works..
 
 
@@ -334,128 +135,11 @@ augroup END
     "return !col || getline('.')[col - 1]  =~ '\s'
 "endfunction
 
-"inoremap <silent><expr> <TAB>
-  "\ pumvisible() ? "\<C-n>" :
-  "\ <SID>check_back_space() ? "\<TAB>" :
-  "\ completion#trigger_completion()
-"inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
-"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
-cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-
-
-"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
-inoremap <c-j> <esc>ji
-inoremap <c-k> <esc>ki
-inoremap <c-h> <esc>i
-inoremap <c-l> <esc>la
-
-
-
-"set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
-"This kind of makes workflows annoying where it screws up fzf if i enter a
-"file within a tree, I cant get back to files at the root
-"Seems like our completion is g anyways -- review later
-
-
-
-"Auto Whitspace trimming!!
-fun! TrimWhitespace()
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
-endfun
-autocmd BufWritePre * :call TrimWhitespace()
-
-
-
-
-
-
-"AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
-"We can set $MYVIMRC later on in our path but this serves just fine for now
-"autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
-au BufWritePost ~/.config/nvim/** so $MYVIMRC "This version is better, works for all config files
-" au BufWritePost ~/.config/nvim/*.{vim,lua} so $MYVIMRC "This version is better, works for all config files
-
-
-"Auto make our C files on save
-"autocmd BufWrite *.c make
-
-
-"############COLOUR BRACES############
-"SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
-"COLOURS --> 4/12/20 DEPRECATED BUT KEEPING FOR REFERENCE FOR NOW
-"autocmd! FileType .c,.cpp,.java,.php call CSyntaxAfter()
-"if exists("*CSyntaxAfter")
-        "call CSyntaxAfter()
-     "endif
-
-
-
-"LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GitBlame to see who wrote the commit
-command! -range GitBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
-
-
-"##########SOMETIMES WE GET SPECS IN PDF FORM FOR CLASS############
-"##### I LIKE TO KEEP THE SPECS FILE WITH MY CODE#################
-"######WE HAVE AN AUTOFUNC HERE SO THAT WE CAN QUICKLY OPEN######
-"######PDF's ETC IN DEFAULT APPLICATION INSTEAD OF OPENING ########
-"########## THE FILE IN VIM AND GIVING A GARBLED OUTPUT############
-augroup nonvim
-   au!
-   au BufRead *.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft
-augroup end
-
-
-
-"INDENTATION TESTING
-"Ref here: https://www.reddit.com/r/vim/wiki/vimrctips#wiki_do_not_use_smartindent
-"Decided to turn of 'smartindent' which I had set up for ages
-"As it seems might not be a good default nowadays
-" set autoindent enable auto-indentation"
-"set smartindent  " smart  autoindent (e.g. add indent after '{')
-
-
-
-
-
-"AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
-"SAVES A LOT OF MKDIR COMMANDS :)
-function s:MkNonExDir(file, buf)
-    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-        let dir=fnamemodify(a:file, ':h')
-        if !isdirectory(dir)
-            call mkdir(dir, 'p')
-        endif
-    endif
-endfunction
-augroup BWCCreateDir
-    autocmd!
-    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-augroup END
-
-
-
-"ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
-if has("nvim")
-  au TermOpen * tnoremap <Esc> <c-\><c-n>
-  au FileType fzf tunmap <Esc>
-endif
-
-"NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
-"if has('nvim')
-  "tnoremap <Esc> <C-\><C-n>
-  "tnoremap <M-[> <Esc>
-  "tnoremap <C-v><Esc> <Esc>
-"endif
-
-"=======================END CONFIGS UNDER TESTING=============================
-
+"======================END CONFIGS UNDER TESTING=============================
 
 
 "=============================START REMAPS========================================
-
     "____     ______    __  ___    ___     ____    _____
    "/ __ \   / ____/   /  |/  /   /   |   / __ \  / ___/
   "/ /_/ /  / __/     / /|_/ /   / /| |  / /_/ /  \__ \
@@ -464,7 +148,7 @@ endif
 
 
 "LEADER KEY IS THE SPACE BAR
-let mapleader = "\<Space>"
+" let mapleader = "\<Space>"
 
 
 "i've been using the shift key w my pinky so much lately its getting sore
@@ -491,7 +175,6 @@ cnoreabbrev spelloff  DisableAutocorrect
 cnoreabbrev mdreader Glow
 
 
-
 "Clear highlights quick!
 noremap <silent><leader>/ :nohlsearch<cr>
 
@@ -501,12 +184,6 @@ noremap <silent><leader>/ :nohlsearch<cr>
 nnoremap <silent><leader>i gg=G<c-o>
 "Run Neoformat
 nnoremap <silent><leader>F :Neoformat<CR>
-"AUGROUPS FOR FORMATTERS --> Wait until neovim implements augroup API
-augroup formatpython
-  autocmd!
-  autocmd BufWritePre *.py undojoin | Neoformat
-augroup END
-
 
 
 "FIND AND REPLACE
@@ -520,47 +197,31 @@ nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
 nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
 
 
-"jj to escape quick yo
-"turns out there arent many words with jj in them
-"so its okay if we steal it
-"if you really need to type a word with jj in it
-"just type it slowly
-"this also has a bonus side effect of keeping ur hands on hjkl
+"jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
 imap jj <ESC>
 
 
-
-"CLOSE FLOATING TERMINAL ON ESCAPE
-"autocmd FileType floaterm tnoremap <buffer> <Esc> <plug>floaterm#toggle
-
+"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
 
-
-
-"Remove superfluous whitespaces with leader W (as in the shift-w big W)
-"We user <leader>w elsewhere to move between windows quick
-" nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
-"                         \ :let _s=@/ <Bar>
-"                         \ :%s/\s\+$//e <Bar>
-"                         \ :let @/=_s <Bar>
-"                         \ :nohl <Bar>
-"                         \ :unlet _s<Bar>
-"                         \ :call setpos('.', _save_pos)<Bar>
-"                         \ :unlet _save_pos<CR><CR>
-
+"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
+inoremap <c-j> <esc>ji
+inoremap <c-k> <esc>ki
+inoremap <c-h> <esc>i
+inoremap <c-l> <esc>la
 
 
 "FuzzyFinderMappings AKA ctrl+p search like say vscode
 " nnoremap <silent><Leader>q :Telescope find_files<cr>
 " vnoremap <silent><Leader>q :Telescope find_files<cr>
 
+
 "SHIFT-P for file history
 " nnoremap <silent> <Leader>S :History<CR>
 " vnoremap <silent> <Leader>S :History<CR>
 " nnoremap <silent> <Leader>gf :GitFiles<CR>
 " vnoremap <silent> <Leader>gf :GitFiles<CR>
-
-
 
 "Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
 "FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
@@ -570,17 +231,9 @@ imap jj <ESC>
 
 
 "leader-b for BUFFER LIST (show buffers)
-"leader-w for SPLIT CYCLING (cycle current windows)
-"leader-W takes us anticlockwise
 "WAS BEFORE UPGRADE TO packer :FzfPreviewAllBuffers<CR>
 " nnoremap <silent> <Leader>b :Buffers<CR>
 " vnoremap <silent> <Leader>b :Buffers<CR>
-nnoremap <silent> <leader>w <C-w>w
-vnoremap <silent> <leader>w <C-w>w
-nnoremap <silent> <leader>W <C-w>W
-vnoremap <silent> <leader>W <C-w>W
-
-
 
 "COMMANDS MENU/SEARCH Mappings
 " nnoremap <silent><Leader>c :Commands<CR>
@@ -593,14 +246,9 @@ cnoreabbrev qq q!
 cnoreabbrev Z z
 cnoreabbrev z Z
 
-"CODE ACTION (LSP) MENU/SEARCH Mappings
-" nnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
-" vnoremap <silent><Leader>ca :lua vim.lsp.buf.code_action()<CR>
-
 "Fuzzymenu Mappings (ctrl+p)
 nmap <silent><leader>p <Plug>(Fzm)
 vmap <silent> <leader>p <Plug>(FzmVisual)
-
 
 "File Tree Mappings
 nnoremap <silent><Leader>n :NvimTreeToggle<cr>
@@ -610,11 +258,6 @@ vnoremap <silent><Leader>n :NvimTreeToggle<cr>
 nnoremap <Leader>D :DogeGenerate
 vnoremap <Leader>D :DogeGenerate
 cnoreabbrev docgen DogeGenerate
-
-
-
-
-
 
 "Resize our splits with <leader> +/- easily
 nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
@@ -639,41 +282,10 @@ cnoreabbrev <silent>gp :G push
 nnoremap <silent><leader>6 :GitMessenger<CR>
 
 
-
-"QUICK COMMENTING
-"NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
-"already there
-"Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
-"NOTE: Replacing NERDComment with my own script, togglecomment.vim
-"nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-"vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
-" nnoremap <silent>++ :call ToggleComment()<CR>
-" vnoremap <silent>++ :call ToggleComment()<CR>
-" nnoremap <silent>++ :TComment<CR>
-" vnoremap <silent>++ :TComment<CR>
-
 "=============================END REMAPS========================================
 
 
-
-
-
-"==========================START REMAPS UNDER TESING=============================
-
-
-
-
-
-"==========================END MAPPINGS UNDER TESING=============================
-
-
-
-
-
-
-
 "============================BEGIN FUNCTIONS CONFIG=======================
-
     "________  ___   ______________________  _   _______
    "/ ____/ / / / | / / ____/_  __/  _/ __ \/ | / / ___/
   "/ /_  / / / /  |/ / /     / /  / // / / /  |/ /\__ \
@@ -681,16 +293,13 @@ nnoremap <silent><leader>6 :GitMessenger<CR>
 "/_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
 
 
-"autocmd InsertLeave,WinEnter * set cursorline
-"autocmd InsertEnter,WinLeave * set nocursorline
 
-
-"ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
-if !exists("g:syntax_on")
-        syntax enable
-endif
-
-
+"Auto Whitspace trimming!!
+fun! TrimWhitespace()
+        let l:save = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:save)
+endfun
 
 "self descriptive -- highlights yanked text for a little extra visual feedback
 "so we don't need to rely on visual mode as much, try yip or y4y
@@ -702,7 +311,26 @@ augroup highlight_yank
     endif
 augroup END
 
+"LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GitBlame to see who wrote the commit
+command! -range GitBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
 
+"AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
+"SAVES A LOT OF MKDIR COMMANDS :)
+function s:MkNonExDir(file, buf)
+    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
+        let dir=fnamemodify(a:file, ':h')
+        if !isdirectory(dir)
+            let confirm = input('Parent folders not found. y/n to confirm: ')
+            if confirm=="y"
+                call mkdir(dir, 'p')
+            endif
+        endif
+    endif
+endfunction
+augroup BWCCreateDir
+    autocmd!
+    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
+augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -722,9 +350,6 @@ function! WinMove(key)
                 exec "wincmd ".a:key
         endif
 endfunction
-
-
-
 "MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
 "OPEN NEW SPLIT IF NO SPLITS EXIST IN THAT POSITION,
 "SORTA LIKE WE HAVE OVERLOADED IT :P
@@ -733,6 +358,16 @@ nnoremap <silent><leader>h :call WinMove('h')<CR>
 nnoremap <silent><leader>j :call WinMove('j')<CR>
 nnoremap <silent><leader>k :call WinMove('k')<CR>
 nnoremap <silent><leader>l :call WinMove('l')<CR>
+"leader-w for SPLIT CYCLING (cycle current windows)
+"leader-W takes us anticlockwise
+nnoremap <silent> <leader>w <C-w>w
+vnoremap <silent> <leader>w <C-w>w
+nnoremap <silent> <leader>W <C-w>W
+vnoremap <silent> <leader>W <C-w>W
+
+""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 " jump to the last non-whitespace char on line, or eol if already there
@@ -761,7 +396,6 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 "endfunction
 
 
-
 "============================END FUNCTIONS CONFIG=======================
 
 
@@ -779,12 +413,109 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
 
 
 "===============================DEPRECATED CODE==================================
-
     "____     ______    ____     ____     ______   ______    ___   ______    ______    ____
    "/ __ \   / ____/   / __ \   / __ \   / ____/  / ____/   /   | /_  __/   / ____/   / __ \
   "/ / / /  / __/     / /_/ /  / /_/ /  / __/    / /       / /| |  / /     / __/     / / / /
  "/ /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
 "/_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
+
+"ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
+" if !exists("g:syntax_on")
+"         syntax enable
+" endif
+
+
+"AUGROUPS FOR FORMATTERS --> Wait until neovim implements augroup API
+" augroup formatpython
+"   autocmd!
+"   autocmd BufWritePre *.py undojoin | Neoformat
+" augroup END
+
+
+"ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
+" if has("nvim")
+"   au TermOpen * tnoremap <Esc> <c-\><c-n>
+"   au FileType fzf tunmap <Esc>
+" endif
+
+"NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
+"if has('nvim')
+  "tnoremap <Esc> <C-\><C-n>
+  "tnoremap <M-[> <Esc>
+  "tnoremap <C-v><Esc> <Esc>
+"endif
+
+
+"AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
+"We can set $MYVIMRC later on in our path but this serves just fine for now
+"autocmd BufWritePost ~/.config/nvim/init.vim source ~/.config/nvim/init.vim
+" au BufWritePost ~/.config/nvim/** so $MYVIMRC "This version is better, works for all config files
+" au BufWritePost ~/.config/nvim/*.{vim,lua} so $MYVIMRC "This version is better, works for all config files
+
+
+"Auto make our C files on save
+"autocmd BufWrite *.c make
+
+
+"############COLOUR BRACES############
+"SORT OF LIKE A PRETTIFIER FOR OUR BRACES AND STUFF TO GIVE THEM DIFFERENT
+"COLOURS --> 4/12/20 DEPRECATED BUT KEEPING FOR REFERENCE FOR NOW
+"autocmd! FileType .c,.cpp,.java,.php call CSyntaxAfter()
+"if exists("*CSyntaxAfter")
+        "call CSyntaxAfter()
+     "endif
+
+
+"Remove superfluous whitespaces with leader W (as in the shift-w big W)
+"We user <leader>w elsewhere to move between windows quick
+" nnoremap <leader>W :let _save_pos=getpos(".") <Bar>
+"                         \ :let _s=@/ <Bar>
+"                         \ :%s/\s\+$//e <Bar>
+"                         \ :let @/=_s <Bar>
+"                         \ :nohl <Bar>
+"                         \ :unlet _s<Bar>
+"                         \ :call setpos('.', _save_pos)<Bar>
+"                         \ :unlet _save_pos<CR><CR>
+
+
+
+
+"CLOSE FLOATING TERMINAL ON ESCAPE
+" autocmd FileType floaterm tnoremap <buffer> <Esc> <plug>floaterm#toggle
+
+
+"##########SOMETIMES WE GET SPECS IN PDF FORM FOR CLASS############
+"##### I LIKE TO KEEP THE SPECS FILE WITH MY CODE#################
+"######WE HAVE AN AUTOFUNC HERE SO THAT WE CAN QUICKLY OPEN######
+"######PDF's ETC IN DEFAULT APPLICATION INSTEAD OF OPENING ########
+"########## THE FILE IN VIM AND GIVING A GARBLED OUTPUT############
+" augroup nonvim
+"    au!
+"    au BufRead *.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft
+" augroup end
+
+
+"QUICK COMMENTING
+"NOTE: Mapped iTERM2 CMD+/ to "++" so we can overload the vim + function
+"already there
+"Comment line of code in Nmode, even sections in Vmode too with just cmd-/ !!
+"NOTE: Replacing NERDComment with my own script, togglecomment.vim
+"nnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+"vnoremap <silent>++ :call NERDComment('n', "Invert")<CR>
+" nnoremap <silent>++ :call ToggleComment()<CR>
+" vnoremap <silent>++ :call ToggleComment()<CR>
+" nnoremap <silent>++ :TComment<CR>
+" vnoremap <silent>++ :TComment<CR>
+
+"INDENTATION TESTING
+"Ref here: https://www.reddit.com/r/vim/wiki/vimrctips#wiki_do_not_use_smartindent
+"Decided to turn of 'smartindent' which I had set up for ages
+"As it seems might not be a good default nowadays
+" set autoindent enable auto-indentation"
+"set smartindent  " smart  autoindent (e.g. add indent after '{')
+
+
+
 
 "------AUTO RESIZING WINDOWS----------
 "UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
