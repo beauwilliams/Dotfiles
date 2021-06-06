@@ -36,43 +36,6 @@ endif
 "/_/  /_/   /_/          \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
 
 
-" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft
-set hlsearch
-set cursorline "enable cursorline
-set number "enable line numbers"
-set softtabstop=4 "option so make backspace delete entire tab"
-set tabstop=4 "setting auto indent to 4 spaces"
-set shiftwidth=4 "when we hit tab it moves 4 spaces
-set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
-" set shortmess=a "shorten message lengths in cmd bar
-set incsearch "search as characters are entered"
-" set hlsearch "highlight matches
-set ignorecase "ignore cases when searching
-set smartcase "However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
-set backspace=indent,eol,start " this makes backspace work as normal
-set scrolloff=5 "Set the cursor 5 lines down instead of at the top
-set undofile "Keeps undo history even after we close a file
-set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
-set showmatch "match opening and closing braces
-" set noshowmode "turns off the --INSERT-- etc mode messages at very bottom
-" set shortmess+=F  " to get rid of the file name displayed in the command line bar
-set history=200 "keep 200 hungy commands in the stash
-set lazyredraw "hopefully this speeds up vim!
-set autoread "loads file as soon as there are changes on disk
-set wildmenu "enhanced tab completion for vim command bar
-set wildmode=list,full "Displays a handy list of commands we can tab thru"
-set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
-set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
-set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
-set shiftround "Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
-if has('nvim')
-set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
-set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
-set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
-"to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
-endif
-"set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
-
 
 
 " Backup Directories
@@ -419,6 +382,81 @@ vnoremap <silent> <leader>W <C-w>W
  "/ /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
 "/_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
 
+
+" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft
+" set hlsearch
+" set cursorline "enable cursorline
+" set number "enable line numbers"
+" set softtabstop=4 "option so make backspace delete entire tab"
+" " set tabstop=4 "setting auto indent to 4 spaces"
+" set shiftwidth=4 "when we hit tab it moves 4 spaces
+" set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
+" " set shortmess=aF "shorten message lengths in cmd bar
+" set incsearch "search as characters are entered"
+" " set hlsearch "highlight matches
+" set ignorecase "ignore cases when searching
+" set smartcase "However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
+" set backspace=indent,eol,start " this makes backspace work as normal
+" set scrolloff=5 "Set the cursor 5 lines down instead of at the top
+" set undofile "Keeps undo history even after we close a file
+" set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
+" set showmatch "match opening and closing braces
+" " set noshowmode "turns off the --INSERT-- etc mode messages at very bottom
+" " set shortmess+=F  " to get rid of the file name displayed in the command line bar
+" set history=200 "keep 200 hungy commands in the stash
+" set lazyredraw "hopefully this speeds up vim!
+" set autoread "loads file as soon as there are changes on disk
+" set wildmenu "enhanced tab completion for vim command bar
+" set wildmo
+" set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+" set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+" set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
+" set shiftround "Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
+" if has('nvim')
+" set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
+" set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+" set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
+" "to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
+" endif
+" "set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
+
+
+" DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft
+" set hlsearch
+" set cursorline "enable cursorline
+" set number "enable line numbers"
+" set softtabstop=4 "option so make backspace delete entire tab"
+" " set tabstop=4 "setting auto indent to 4 spaces"
+" set shiftwidth=4 "when we hit tab it moves 4 spaces
+" set expandtab "this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up"
+" " set shortmess=aF "shorten message lengths in cmd bar
+" set incsearch "search as characters are entered"
+" " set hlsearch "highlight matches
+" set ignorecase "ignore cases when searching
+" set smartcase "However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
+" set backspace=indent,eol,start " this makes backspace work as normal
+" set scrolloff=5 "Set the cursor 5 lines down instead of at the top
+" set undofile "Keeps undo history even after we close a file
+" set encoding=UTF-8 "REQUIRED BY DEV ICONS PLUGIN
+" set showmatch "match opening and closing braces
+" " set noshowmode "turns off the --INSERT-- etc mode messages at very bottom
+" " set shortmess+=F  " to get rid of the file name displayed in the command line bar
+" set history=200 "keep 200 hungy commands in the stash
+" set lazyredraw "hopefully this speeds up vim!
+" set autoread "loads file as soon as there are changes on disk
+" set wildmenu "enhanced tab completion for vim command bar
+" set wildmo
+" set updatetime=20 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+" set hidden "ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+" set relativenumber "SET RELATIVE LINE NUMBERS IN RULER
+" set shiftround "Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
+" if has('nvim')
+" set spelllang=en "Set NEOVIMS NATIVE spell lang for spellchecker
+" set inccommand=nosplit "This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+" set clipboard+=unnamed " share system clipboard but also retain nvim clipboard (see += compared
+" "to just =) essentially instead of overwriting we are appending to a list of copied things to the clipboard
+" endif
+" "set autochdir "sets the cwd to whatever file is in view. This allows better ommicompletion
 "ENABLE SYNTAX ONLY ONCE, TO PREVENT OVERWRITING
 " if !exists("g:syntax_on")
 "         syntax enable

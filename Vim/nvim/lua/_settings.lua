@@ -12,36 +12,45 @@ local set_options = function(locality,options)
 end
 
 local options_o = {
-  hlsearch = true, -- highlight matching search
-  cursorline = true, -- enable cursorline
-  number = true, -- enable line numbers
-  expandtab = true, -- this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up
-  ignorecase = true, -- ignore cases when searching
-  smartcase = true, -- However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
-  undofile = true, -- Keeps undo history even after we close a file
-  showmatch = true, -- match opening and closing braces
-  showmode = false, -- turns off the --INSERT-- etc mode messages at very bottom
-  lazyredraw = true, -- hopefully this speeds up vim!
-  autoread = true, -- loads file as soon as there are changes on disk
-  wildmenu = true, -- enhanced tab completion for vim command bar
-  hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
-  shiftround = true, -- Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
-
+    hlsearch = true, -- highlight matching search
+    cursorline = true, -- enable cursorline
+    number = true, -- enable line numbers
+    expandtab = true, -- this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up
+    shiftwidth = 4, -- when we hit tab it moves 4 spaces
+    tabstop = 4, -- setting auto indent to 4 spaces
+    softtabstop = 4, --option so make backspace delete entire tab
+    ignorecase = true, -- ignore cases when searching
+    smartcase = true, -- However if we use a capital in search string we then consider case-sensitivity, ignorecase is disabled
+    smartindent = true, -- smarter indentation
+    smarttab = true, -- make tab behaviour smarter
+    undofile = true, -- Keeps undo history even after we close a file
+    showmatch = true, -- match opening and closing braces
+    showmode = false, -- turns off the --INSERT-- etc mode messages at very bottom
+    lazyredraw = true, -- hopefully this speeds up vim!
+    autoread = true, -- loads file as soon as there are changes on disk
+    wildmenu = true, -- enhanced tab completion for vim command bar
+    wildmode = "list,full", -- Displays a handy list of commands we can tab thru"
+    hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: "E37: No write since last change (add ! to override) When opening a new buffer before saving current one
+    relativenumber = true, -- Enable relative line numbers in ruler
+    shiftround = true, -- Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
+    shortmess = "aF", -- abreviates messages and prevents file name being echoed when opened
+    backspace = "indent,eol,start", -- this makes backspace work as normal
+    scrolloff = 5, -- Set the cursor 5 lines down instead of at the top
+    sidescroll = 2, -- make scrolling better, instead of wrap we sroll horizontally with the cursor
+    wrap = false, -- dont wrap lines
+    encoding = "UTF-8", -- REQUIRED BY DEV ICONS PLUGIN
+    history = 200, -- keep 200 hungy commands in the stash
+    updatetime = 200, -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+    timeoutlen = 400, -- faster timeout wait time
+    spelllang = "en", -- Set NEOVIMS NATIVE spell lang for spellchecker
+    inccommand = "nosplit", -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+    clipboard = "unnamed", -- share system clipboard but also retain nvim clipboard (see += compared
+    mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
 
 }
 
 local options_g = {
     mapleader = " ", -- leader is the space key
-    softtabstop = "4", --option so make backspace delete entire tab
-    tabstop = "16",
-    shiftwidth = "4",
-    -- shortmess = "w",
-    backspace = {"indent", "eol", "start"},
-    scrolloff = "5",
-    encoding = "UTF-8",
-    -- shortmess
-
-
 }
 
 --[[ local options_buffer = {
