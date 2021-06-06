@@ -286,7 +286,12 @@ require("packer").startup {
         use 'kosayoda/nvim-lightbulb' --> CODE ACTION LIGHTBULB
         use 'nathunsmitty/nvim-ale-diagnostic' --> PIPE LSP DIAGS TO ALE
         use 'sbdchd/neoformat' -- Code formatting plugin
-        use 'RRethy/vim-illuminate' --> Highlight word under cursor
+        use {'RRethy/vim-illuminate',  --> Highlight word under cursor
+        config = function()
+            vim.cmd[[    autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]]
+            vim.cmd[[autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none]]
+        end,
+        }
         use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
         -- use 'ahmedkhalf/lsp-rooter.nvim'

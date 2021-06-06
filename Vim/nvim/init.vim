@@ -2,6 +2,7 @@
 " Set Up LSP Status progress in statusline using lsp status as inspo
 " inspo -> https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim & https://github.com/wbthomason/dotfiles/blob/linux/neovim/.config/nvim/plugin/statusline.vim
 
+
 " if has('nvim-0.5')
 "   augroup lsp
 "     au!
@@ -317,16 +318,13 @@ augroup END
 
 
 
-
-"augroup illuminate_augroup
-    "autocmd!
-    "autocmd VimEnter * hi illuminatedWord cterm=underline gui=underline
-"augroup END
+"FIXME: Since recent update, illuminate uses default textDocument/documentHighlight. How to we change colours?
 augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
     autocmd!
     autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
     autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
 augroup END
+"hi LspReferenceRead guibg=#504648 guifg=Orange THis works..
 
 
 "Setting curstom cursorline colour for the vim-illuminate plugin
@@ -372,34 +370,6 @@ autocmd BufWritePre * :call TrimWhitespace()
 
 
 
-"------AUTO RESIZING WINDOWS----------
-"UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
-" From https://github.com/knubie/dotfiles/blob/fe7967f875945e54d49fc672f575c47691a1e4cc/.vimrc#L136
-" augroup ReduceNoise
-        " autocmd!
-        " Automatically resize active split to 85 width
-        " autocmd WinEnter * :call ResizeSplits()
-
-        " autocmd WinEnter * setlocal cursorline
-        " autocmd WinEnter * setlocal signcolumn=auto
-
-        " autocmd WinLeave * setlocal nocursorline
-        " autocmd WinLeave * setlocal signcolumn=no
-" augroup END
-
-function! ResizeSplits()
-        if &ft == 'NvimTree'
-                return
-        elseif &ft == 'qf'
-                " Always set quickfix list to a height of 10
-                resize 10
-                return
-        else
-                set winwidth=120
-                " wincmd =
-        endif
-endfunction
-""""""""""""""END AUTO RESIZING WINDOW CONFIG"""""""""""""""
 
 
 "AUTO RELOAD VIM WHEN UPDATING INIT.VIM/CONFIG FILE
@@ -815,6 +785,36 @@ nnoremap <silent><leader>l :call WinMove('l')<CR>
   "/ / / /  / __/     / /_/ /  / /_/ /  / __/    / /       / /| |  / /     / __/     / / / /
  "/ /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
 "/_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
+
+"------AUTO RESIZING WINDOWS----------
+"UNDER TESTING LETS SEE IF WE LIKE THIS WORKFLOW
+" From https://github.com/knubie/dotfiles/blob/fe7967f875945e54d49fc672f575c47691a1e4cc/.vimrc#L136
+" augroup ReduceNoise
+        " autocmd!
+        " Automatically resize active split to 85 width
+        " autocmd WinEnter * :call ResizeSplits()
+
+        " autocmd WinEnter * setlocal cursorline
+        " autocmd WinEnter * setlocal signcolumn=auto
+
+        " autocmd WinLeave * setlocal nocursorline
+        " autocmd WinLeave * setlocal signcolumn=no
+" augroup END
+
+"------OLD FUNCTION, USE MY FOCUS.NVIM PLUGIN NOW..----------
+" function! ResizeSplits()
+"         if &ft == 'NvimTree'
+"                 return
+"         elseif &ft == 'qf'
+"                 " Always set quickfix list to a height of 10
+"                 resize 10
+"                 return
+"         else
+"                 set winwidth=120
+"                 " wincmd =
+"         endif
+" endfunction
+""""""""""""""END AUTO RESIZING WINDOW CONFIG"""""""""""""""
 
 
 "Removed because I ended up just configuring fzf myself before I even got into
