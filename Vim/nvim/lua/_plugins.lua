@@ -86,6 +86,7 @@ require("packer").startup {
         use 'eddyekofo94/gruvbox-flat.nvim'
         use 'beauwilliams/statusline.lua'
         use 'beauwilliams/focus.nvim'
+        --TODO: Archive
         -- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
         --[[ use {
             "vim-airline/vim-airline",
@@ -98,12 +99,13 @@ require("packer").startup {
             end
         } ]]
 
-        -- START: Toolwindow configs, includes diag list, todo list, terminal, qflist
-        use 'EthanJWright/toolwindow.nvim' -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
+        --TODO: Archive
+        -- START: QUIKFIX configs, includes diag list, todo list, terminal, qflist
+        --[[ use 'EthanJWright/toolwindow.nvim' -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
         use { -- toolwindow compatible terminal
             'akinsho/nvim-toggleterm.lua',
             config = 'require("toggleterm").setup{}'
-        }
+        } ]]
         use { --> toolwindow compatible list for navigating errors etc
             "folke/trouble.nvim",
             requires = "kyazdani42/nvim-web-devicons",
@@ -120,7 +122,7 @@ require("packer").startup {
                 }
             end
         }
-        -- END: Tooolwindow configs
+        -- END: QUICKFIX configs
         use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
         use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors with litle square
         use 'p00f/nvim-ts-rainbow' --> Treesitter compatible rainbow parentheses
@@ -133,6 +135,9 @@ require("packer").startup {
                 vim.g.beacon_shrink = 0
             end
         }
+        use {'lukas-reineke/indent-blankline.nvim', branch = 'lua', config = "vim.g.indent_blankline_char = '│'"}
+
+        --TODO: ARCHIVE
         --[[ use { --> INDENT GUIDES/LINES
         "Yggdroot/indentLine",
         requires = "lukas-reineke/indent-blankline.nvim",
@@ -142,7 +147,8 @@ require("packer").startup {
             vim.g.indentLine_fileTypeExclude = {"text", "markdown"}
         end
         } ]]
-        use {'lukas-reineke/indent-blankline.nvim', branch = 'lua', --> USING LUA BRANCH FOR NOW
+        --TODO: ARCHIVE
+        --[[ use {'lukas-reineke/indent-blankline.nvim', branch = 'lua', --> USING LUA BRANCH FOR NOW
         config = function()
             vim.g.indent_blankline_char = '│'
         end,
@@ -152,7 +158,8 @@ require("packer").startup {
             vim.g.indent_blankline_filetype_exclude = {"text", "markdown"}
             vim.g.indent_blankline_bufname_exclude = 'startify'
         end
-        }
+        } ]]
+
         use { --> STARTPAGE
         "mhinz/vim-startify",
         requires = "ryanoasis/vim-devicons"
@@ -179,7 +186,7 @@ require("packer").startup {
             'numToStr/FTerm.nvim', --> Floating terminal window
             config = function()
                 require'FTerm'.setup({
-                    border = 'double'})
+                    border = 'single'})
             end
         }
         --[[ use {
@@ -493,7 +500,7 @@ require("packer").startup {
         use 'andweeb/presence.nvim' -- discord presence
         use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
         -- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
-        use 'nanotee/zoxide.vim'
+        use 'nanotee/zoxide.vim' -- :Z command in vim, quickly jump to recent dirs
         -- use { 'michaelb/vim-tips' "Display vim tip at startup
         -- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
         -- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
