@@ -504,7 +504,10 @@ require("packer").startup {
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
         use 'andweeb/presence.nvim' -- discord presence
-        use 'kkoomen/vim-doge' -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
+        use {
+            'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
+            run = "vim.cmd[[call doge#install()]]"
+        }
         -- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
         use 'nanotee/zoxide.vim' -- :Z command in vim, quickly jump to recent dirs
         -- use { 'michaelb/vim-tips' "Display vim tip at startup

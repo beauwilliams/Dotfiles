@@ -1,4 +1,3 @@
--- no need for a global function
 local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
 local set_options = function(locality,options)
 local scope = scopes[locality]
@@ -8,7 +7,12 @@ local scope = scopes[locality]
 end
 
 
-local options_o = {
+set_options("g", {
+    mapleader = " ",
+})
+
+
+set_options("o", {
     hlsearch = true, -- highlight matching search
     cursorline = true, -- enable cursorline
     number = true, -- enable line numbers
@@ -43,11 +47,11 @@ local options_o = {
     inccommand = "nosplit", -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
     clipboard = "unnamed", -- share system clipboard but also retain nvim clipboard (see += compared
     -- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
-}
+})
 
-local options_g = {
-    mapleader = " ", -- leader is the space key
-}
+
+
+
 
 --[[ local options_buffer = {
 } ]]
@@ -56,8 +60,6 @@ local options_g = {
 } ]]
 
 --set locally. no need to call elsewhere
-set_options("o",options_o) --set global options
-set_options("g",options_g) --set global vars
 -- set_options(bo,options_buffer)
 -- set_options(wo,options_window)
 
