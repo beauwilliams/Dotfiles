@@ -1,7 +1,6 @@
-local leader = "<space>"
-
-local g = vim.g
 local utils = require('_utils')
+local leader = "<space>"
+local g = vim.g
 local api = vim.api
 local cmd = vim.cmd
 ------------------------------------------------------------------------------------------------------------------------------------------------

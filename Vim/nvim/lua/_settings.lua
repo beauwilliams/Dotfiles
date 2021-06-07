@@ -1,18 +1,21 @@
-local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
 local set_options = function(locality,options)
+local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
 local scope = scopes[locality]
     for key, value in pairs(options) do
         scope[key] = value
     end
 end
 
+local utils = require('_utils')
 
-set_options("g", {
+
+
+utils.set_options("g", {
     mapleader = " ",
 })
 
 
-set_options("o", {
+utils.set_options("o", {
     hlsearch = true, -- highlight matching search
     cursorline = true, -- enable cursorline
     number = true, -- enable line numbers

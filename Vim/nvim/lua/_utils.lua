@@ -2,74 +2,85 @@ local Job = require("plenary.job")
 local api = vim.api
 local cmd = vim.cmd
 
-local Utils = {}
+local M = {}
 
-function Utils.map(type, input, output)
+-- DEBUG
+P = function(stuff) return print(vim.inspect(stuff)) end
+
+function M.set_options(locality,options)
+local scopes = {o = vim.o, b = vim.bo, g = vim.g, w = vim.wo}
+local scope = scopes[locality]
+    for key, value in pairs(options) do
+        scope[key] = value
+    end
+end
+
+function M.map(type, input, output)
     api.nvim_set_keymap(type, input, output, {})
 end
 
-function Utils.noremap(type, input, output)
+function M.noremap(type, input, output)
     api.nvim_set_keymap(type, input, output, { noremap = true, silent = true })
 end
 
-function Utils.remap(type, input, output)
+function M.remap(type, input, output)
     api.nvim_set_keymap(type, input, output, { noremap = false, silent = true })
 end
 
-function Utils.nnoremap(input, output)
-    Utils.noremap('n', input, output)
+function M.nnoremap(input, output)
+    M.noremap('n', input, output)
 end
 
-function Utils.inoremap(input, output)
-    Utils.noremap('i', input, output)
+function M.inoremap(input, output)
+    M.noremap('i', input, output)
 end
 
-function Utils.vnoremap(input, output)
-    Utils.noremap('v', input, output)
+function M.vnoremap(input, output)
+    M.noremap('v', input, output)
 end
 
-function Utils.tnoremap(input, output)
-    Utils.noremap('t', input, output)
+function M.tnoremap(input, output)
+    M.noremap('t', input, output)
 end
 
-function Utils.nmap(input, output)
-	Utils.remap('n', input, output)
+function M.nmap(input, output)
+	M.remap('n', input, output)
 end
 
-function Utils.imap(input, output)
-	Utils.remap('i', input, output)
+function M.imap(input, output)
+	M.remap('i', input, output)
 end
 
-function Utils.vmap(input, output)
-	Utils.remap('v', input, output)
+function M.vmap(input, output)
+	M.remap('v', input, output)
 end
 
-function Utils.tmap(input, output)
-	Utils.remap('t', input, output)
+function M.tmap(input, output)
+	M.remap('t', input, output)
 end
 
 -- returns nil if not exists
-function Utils.is_dir(filepath)
+function M.is_dir(filepath)
     local ok, _ = os.rename(filepath, filepath)
     return ok
 end
 
 
-Utils.Exists = function(variable)
+M.Exists = function(variable)
     local loaded = api.nvim_call_function('exists', {variable})
     return loaded ~= 0
 end
 
-Utils.Call = function(arg0, arg1)
+M.Call = function(arg0, arg1)
     return api.nvim_call_function(arg0, arg1)
 end
 
-Utils.IsVersion5 = function()
+M.IsVersion5 = function()
     return api.nvim_call_function('has', {'nvim-0.5'}) == 1
 end
 
-Utils.translate = function(lang)
-  local word = Utils.get_visual()
+M.translate = function(lang)
+  local word = M.get_visual()
   local job = Job:new({
     command = "trans",
     args = {"-b", ":" .. (lang or "en"), word}
@@ -93,9 +104,8 @@ Utils.translate = function(lang)
 end
 vim.cmd('command! -range -nargs=1 Translate call v:lua.Util.translate(<f-args>)')
 
-P = function(stuff) return print(vim.inspect(stuff)) end
 
-Utils.check_backspace = function()
+M.check_backspace = function()
   local curr_col = vim.fn.col('.')
   local is_first_col = vim.fn.col('.') - 1 == 0
   local prev_char = vim.fn.getline('.'):sub(curr_col - 1, curr_col - 1)
@@ -107,7 +117,7 @@ Utils.check_backspace = function()
   end
 end
 
-Utils.check_surroundings = function()
+M.check_surroundings = function()
   local col = vim.fn.col('.')
   local line = vim.fn.getline('.')
   local prev_char = line:sub(col - 1, col - 1)
@@ -122,7 +132,7 @@ Utils.check_surroundings = function()
 end
 
 -- preview file using xdg_open
-Utils.xdg_open = function()
+M.xdg_open = function()
   local filename = vim.fn.expand("<cfile>")
   vim.loop.spawn("xdg-open", {args = {filename}})
 end
@@ -157,7 +167,7 @@ local to_hex = function(rgb)
   return string.format('#%x%x%x', red, green, blue)
 end
 
-Utils.get_word = function()
+M.get_word = function()
   local first_line, last_line = vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2]
   local first_col, last_col = vim.fn.getpos("'<")[3], vim.fn.getpos("'>")[3]
   local current_word = vim.fn.getline(first_line, last_line)[1]:sub(first_col, last_col)
@@ -166,7 +176,7 @@ Utils.get_word = function()
 end
 
 -- don't actually use this but I thought this might come in handy who knows ;)
-Utils.get_lines = function()
+M.get_lines = function()
   local first_line, last_line = vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2]
   local lines = vim.fn.getline(first_line, last_line)
 
@@ -174,7 +184,7 @@ Utils.get_lines = function()
 end
 
 -- don't actually use this but I thought this might come in handy who knows ;)
-Utils.get_visual = function()
+M.get_visual = function()
   local first_line, last_line = vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2]
   local first_col, last_col = vim.fn.getpos("'<")[3], vim.fn.getpos("'>")[3]
   local lines = vim.fn.getline(first_line, last_line)
@@ -189,7 +199,7 @@ Utils.get_visual = function()
   return lines
 end
 
-Utils.strike_through = function()
+M.strike_through = function()
   local first_line, _ = vim.fn.getpos("'<")[2], vim.fn.getpos("'>")[2]
   local first_col, last_col = vim.fn.getpos("'<")[3], vim.fn.getpos("'>")[3]
 
@@ -200,32 +210,32 @@ Utils.strike_through = function()
   )
 end
 
-Utils.convert_color = function(mode)
+M.convert_color = function(mode)
   local result
 
   if mode == 'rgb' then
-    result = to_rgb(Utils.get_word())
+    result = to_rgb(M.get_word())
   else
-    result = to_hex(Utils.get_word())
+    result = to_hex(M.get_word())
   end
 
-  vim.api.nvim_command(string.format('s/%s/%s', Utils.get_word(), result))
+  vim.api.nvim_command(string.format('s/%s/%s', M.get_word(), result))
 end
 
 vim.api.nvim_exec([[
-  command! -nargs=? -range=% ToRgb call v:lua.Utils.convert_color('rgb')
-  command! -nargs=? -range=% ToHex call v:lua.Utils.convert_color('hex')
+  command! -nargs=? -range=% ToRgb call v:lua.M.convert_color('rgb')
+  command! -nargs=? -range=% ToHex call v:lua.M.convert_color('hex')
 ]], false)
 
 
-Utils.is_cfg_present = function(cfg_name)
+M.is_cfg_present = function(cfg_name)
   -- this returns 1 if it's not present and 0 if it's present
   -- we need to compare it with 1 because both 0 and 1 is `true` in lua
   return vim.fn.empty(vim.fn.glob(vim.loop.cwd()..cfg_name)) ~= 1
 end
 
 -- helper for defining highlight groups
-Utils.set_hl = function(group, options)
+M.set_hl = function(group, options)
   local bg = options.bg == nil and '' or 'guibg=' .. options.bg
   local fg = options.fg == nil and '' or 'guifg=' .. options.fg
   local gui = options.gui == nil and '' or 'gui=' .. options.gui
@@ -244,33 +254,27 @@ Utils.set_hl = function(group, options)
   end
 end
 
-function Utils.linkHighlight(from, to)
+function M.linkHighlight(from, to)
   local hl_exists, _ = pcall(api.nvim_get_hl_by_name, from, false)
   if not hl_exists then
     vim.cmd(('highlight link %s %s'):format(from, to))
   end
 end
 
-function Utils.starts_with(str, start)
+function M.starts_with(str, start)
    return str:sub(1, #start) == start
 end
 
-function Utils.tprint(table)
+function M.tprint(table)
   print(vim.inspect(table))
 end
 
 
 
--- SET OPTS --> EG --> opt('b', 'expandtab', true)
-local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
-function Utils.opt(scope, key, value)
-  scopes[scope][key] = value
-  if scope ~= 'o' then scopes['o'][key] = value end
-end
 
 
 -- stolen from https://github.com/fsouza/vimfiles
-Utils.get_python_tool = function(bin_name)
+M.get_python_tool = function(bin_name)
   local result = bin_name
   if os.getenv('VIRTUAL_ENV') then
     local venv_bin_name = os.getenv('VIRTUAL_ENV') .. '/bin/' .. bin_name
@@ -284,7 +288,7 @@ end
 -- Stolen from https://github.com/kyazdani42/nvim-palenight.lua/blob/master/lua/palenight.lua#L10
 -- Usage:
 -- highlight(Cursor, { fg = bg_dark, bg = yellow })
-function Utils.highlight(group, styles)
+function M.highlight(group, styles)
     local s = vim.tbl_extend('keep', styles, { gui = 'NONE', sp = 'NONE', fg = 'NONE', bg = 'NONE' })
 
     cmd('highlight! '..group..' gui='..s.gui..' guisp='..s.sp..' guifg='..s.fg..' guibg='..s.bg)
@@ -295,22 +299,41 @@ end
 --      CursorLine   = { bg = bg },
 --      Cursor       = { fg = bg_dark, bg = yellow }
 -- })
-function Utils.highlights(hi_table)
+function M.highlights(hi_table)
     for group, styles in pairs(hi_table) do
-        Utils.highlight(group, styles)
+        M.highlight(group, styles)
     end
 end
 
-function Utils.hiLink(src, dest)
+function M.hiLink(src, dest)
     cmd('highlight link '..src..' '..dest)
 end
 
-function Utils.hiLinks(hi_table)
+function M.hiLinks(hi_table)
     for src, dest in pairs(hi_table) do
-        Utils.hiLink(src, dest)
+        M.hiLink(src, dest)
     end
 end
 
+return M
+---------
+---EOF---
+---------
 
 
-return Utils
+
+
+-----------------------
+-----------------------
+------DEPRECATED-------
+-----------------------
+-----------------------
+
+
+-- SET OPTS --> EG --> opt('b', 'expandtab', true)
+--[[ local scopes = {o = vim.o, b = vim.bo, w = vim.wo}
+function M.opt(scope, key, value)
+  scopes[scope][key] = value
+  if scope ~= 'o' then scopes['o'][key] = value end
+end ]]
+
