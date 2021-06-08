@@ -1,10 +1,9 @@
 local Job = require("plenary.job")
 local api = vim.api
 local cmd = vim.cmd
-
 local M = {}
 
--- DEBUG
+-- NOTE: DEBUG
 P = function(stuff) return print(vim.inspect(stuff)) end
 
 function M.set_options(locality,options)

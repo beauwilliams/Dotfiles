@@ -101,11 +101,11 @@ require("packer").startup {
 
         --TODO: Archive
         -- START: QUIKFIX configs, includes diag list, todo list, terminal, qflist
-        --[[ use 'EthanJWright/toolwindow.nvim' -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
+        use 'EthanJWright/toolwindow.nvim' -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
         use { -- toolwindow compatible terminal
             'akinsho/nvim-toggleterm.lua',
             config = 'require("toggleterm").setup{}'
-        } ]]
+        }
         use { --> toolwindow compatible list for navigating errors etc
             "folke/trouble.nvim",
             requires = "kyazdani42/nvim-web-devicons",
@@ -378,8 +378,8 @@ require("packer").startup {
             "kyazdani42/nvim-tree.lua",
             requires = {"kyazdani42/nvim-web-devicons", opt = true}
         }
-        use 'preservim/nerdtree'
-        use 'ms-jpq/chadtree'
+        --[[ use 'preservim/nerdtree'
+        use 'ms-jpq/chadtree' ]]
         --==========================START FZF CONFIGS=============================
         use {"junegunn/fzf", run = function()
             vim.fn["fzf#install"]()

@@ -469,10 +469,10 @@ nnoremap <silent><leader>] <c-w>K
 
 
 "ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
-" if has("nvim")
-"   au TermOpen * tnoremap <Esc> <c-\><c-n>
-"   au FileType fzf tunmap <Esc>
-" endif
+if has("nvim")
+  au TermOpen * tnoremap <Esc> <c-\><c-n><c-w>w
+  au FileType fzf tunmap <Esc>
+endif
 
 "NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
 "if has('nvim')

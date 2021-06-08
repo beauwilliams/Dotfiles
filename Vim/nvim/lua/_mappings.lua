@@ -138,12 +138,56 @@ utils.tnoremap(leader..'t', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --COMPE MAPPINGS [COMPLETION]
 --" Use <Tab> and <S-Tab> to navigate through popup menu
-api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
-api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
+-- api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
+-- api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
 -- SET COMPE MAPPINGS --> DELIMITMATE COMPATIBLE FOR AUTO-CLOSING BRACES
 api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
 api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Plug>delimitMateCR', 'mode': '' })")
 api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
+
+
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif vim.fn.call("vsnip#available", {1}) == 1 then
+    return t "<Plug>(vsnip-expand-or-jump)"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+    return t "<Plug>(vsnip-jump-prev)"
+  else
+    -- If <S-Tab> is not working in your terminal, change it to <C-h>
+    return t "<S-Tab>"
+  end
+end
+
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TREESITTER MAPPINGS
@@ -151,12 +195,14 @@ api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
-utils.nnoremap(leader..'qq', ':TroubleToggle<cr>')
-utils.nnoremap(leader..'qd', ':Trouble lsp_workspace_diagnostics<cr>')
-utils.nnoremap(leader..'qr', ':Trouble lsp_references<cr>')
-utils.nnoremap(leader..'qf', ':Trouble quickfix<cr>')
-utils.nnoremap(leader..'ql', ':Trouble loclist<cr>')
-utils.nnoremap(leader..'qc', ':TodoTrouble<cr>')
+utils.nnoremap(leader..'qq', ':lua require("toolwindow").close()<cr>')
+utils.nnoremap(leader..'qd', ':lua require("toolwindow").open_window("quickfix", "diagnostics")<cr>')
+utils.nnoremap(leader..'ql', ':lua require("toolwindow").open_window("quickfix", "loclist")<cr>')
+utils.nnoremap(leader..'qr', ':lua require("toolwindow").open_window("quickfix", "lsp_references")<cr>')
+utils.nnoremap(leader..'qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
+utils.nnoremap(leader..'qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
+utils.nnoremap(leader..'qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
+-- utils.nnoremap(leader..'qc', ':TodoTrouble<cr>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -22,7 +22,7 @@ require('lsp._lsp_config')
 
 --Statusline (My plugin :D)
 local statusline = require('statusline')
-statusline.tabline = true
+statusline.tabline = false
 statusline.lsp_diagnostics = false
 statusline.ale_diagnostics = true
 

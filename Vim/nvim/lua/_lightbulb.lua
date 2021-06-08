@@ -1,7 +1,7 @@
 --LIGHTBULB, A CODE ACTION LIGHTBULB LIKE VSC
 local vim = vim --> DON'T CALL GLOBAL EACH TIME
 
-
+require'nvim-lightbulb'.get_status_text()
 vim.cmd [[ autocmd CursorHold,CursorHoldI * lua LightBulbFunction() ]]
 LightBulbFunction = function()
     require'nvim-lightbulb'.update_lightbulb {
@@ -11,9 +11,9 @@ LightBulbFunction = function()
             priority = 10,
         },
         float = {
-            enabled = true,
+            enabled = false,
             -- Text to show in the popup float
-            text = "💡",
+            text = "",
             win_opts = {offset_x=40},
             -- Available keys for window options:
             -- - height     of floating window
@@ -28,6 +28,13 @@ LightBulbFunction = function()
             -- - offset_x   x-axis offset of the floating window
             -- - offset_y   y-axis offset of the floating window
             -- - anchor     Corner of float to place at the cursor (NW, NE, SW, SE)
-        }
+        },
+        status_text = {
+        enabled = true,
+        -- Text to provide when code actions are available
+        text = "💡",
+        -- Text to provide when no actions are available
+        text_unavailable = ""
+    }
     }
 end
