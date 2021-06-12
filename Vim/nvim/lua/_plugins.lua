@@ -83,9 +83,14 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
-        use 'eddyekofo94/gruvbox-flat.nvim'
+        -- another I would like to try https://github.com/sainnhe/everforest
+        -- use 'eddyekofo94/gruvbox-flat.nvim'
         use 'beauwilliams/statusline.lua'
         use 'beauwilliams/focus.nvim'
+        use {
+            'nacro90/numb.nvim', -- Preview line in buffer e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
+            config = "require('numb').setup()"
+        }
         --TODO: Archive
         -- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
         --[[ use {
@@ -385,7 +390,7 @@ require("packer").startup {
             vim.fn["fzf#install"]()
         end}
         use {"junegunn/fzf.vim"}
-        use {
+        use { -- non blocking finder if telescope is ever too slow https://github.com/camspiers/snap
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
         }
@@ -450,6 +455,7 @@ require("packer").startup {
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
+        use { 'sindrets/diffview.nvim' } -- Neovim enhanced diffview [:DiffviewOpen]
         --use {
             --"APZelos/blamer.nvim",
             --config = function()
@@ -476,6 +482,13 @@ require("packer").startup {
         use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults
         use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
         use {'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' }} -- Open HTTP files - a curl wrapper
+        use {
+            "folke/which-key.nvim",
+            config = function()
+                require("which-key").setup {
+                }
+            end
+        }
 
 
 
@@ -504,7 +517,7 @@ require("packer").startup {
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
         use 'andweeb/presence.nvim' -- discord presence
-        use {
+        use { -- OR.. nvim-treesitter/nvim-tree-docs
             'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
             run = "vim.cmd[[call doge#install()]]"
         }

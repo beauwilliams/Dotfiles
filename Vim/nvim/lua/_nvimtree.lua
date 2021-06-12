@@ -26,8 +26,8 @@ exec([[highlight NvimTreeRootFolder guifg = #fb4934]],"")
 exec([[highlight NvimTreeEmptyFolderName guifg = #7c6f64]],"")
 exec([[highlight NvimTreeOpenedFolderName guifg = #ebdbb2]],"")
 exec([[highlight NvimTreeExecFile guifg = #ebdbb2]],"")
-exec([[highlight NvimTreeIndentMarker guifg = #8ec07c]],"")
-exec([[highlight NvimTreeFolderIcon guifg = #8ec07c]],"")
+exec([[highlight NvimTreeIndentMarker guifg = #928374]],"")
+exec([[highlight NvimTreeFolderIcon guifg = #928374]],"")
 
 
 

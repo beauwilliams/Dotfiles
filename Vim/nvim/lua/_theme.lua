@@ -14,8 +14,8 @@ vim.o.background = 'dark'
 
                 -- TODO enable term gui support
                 -- set background=dark
-                -- set termguicolors "enabling terminal color support
-                -- set t_Co=256 "enabling 256 color support
+                --[[ vim.cmd('set termguicolors') -- "enabling terminal color support
+                vim.cmd('set t_Co=256') -- "enabling 256 color support ]]
 
                 vim.g.gruvbox_italic = 1
                 vim.g.gruvbox_contrast_dark="soft"
