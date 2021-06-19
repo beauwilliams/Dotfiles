@@ -169,6 +169,12 @@ alias mergegit="~/.config/git/merge-git-config.sh"
 
 ###GIT FUNCTIONS####
 function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch README.md && echo "# " $1 >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}
+function gwc() { git clone --bare $1 $2 && cd $2 && git worktree add main && cd main;}
+function gwa() {git worktree add $1;}
+function gwr() {git worktree remove $1;}
+function gwrf() {git worktree remove --force $1;}
+
+
 
 function acp() {
 git add .
@@ -223,8 +229,8 @@ alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
 
 ###INITS###
 #BEAU - config for z.lua directory jumper i.e z
+eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)"
-# eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 
 #Launches jenv, currently using to mng java vers
 #export PATH="$HOME/.jenv/bin:$PATH"

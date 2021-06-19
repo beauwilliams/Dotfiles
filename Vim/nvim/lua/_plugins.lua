@@ -456,6 +456,7 @@ require("packer").startup {
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
         use { 'sindrets/diffview.nvim' } -- Neovim enhanced diffview [:DiffviewOpen]
+        use 'ThePrimeagen/git-worktree.nvim' -- Adds neovim integration with worktrees and telescope
         --use {
             --"APZelos/blamer.nvim",
             --config = function()
