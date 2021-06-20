@@ -81,8 +81,8 @@ utils.nnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('te
 utils.vnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")
 utils.nnoremap(leader..'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader..'c', ":lua require'telescope.builtin'.commands()<cr>")
-utils.nnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
+--[[ utils.nnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
+utils.vnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>") ]]
 cmd("cnoreabbrev <silent>tel Telescope builtin")
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
 cmd("cnoreabbrev <silent>gwl lua require('telescope').extensions.git_worktree.git_worktrees()")

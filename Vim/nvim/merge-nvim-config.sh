@@ -5,6 +5,7 @@ cp -r ~/.config/nvim/ftplugin ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/plugin ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/syntax ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/lua ~/Git_Downloads/Dotfiles/Vim/nvim/
+cp -r ~/.config/nvim/fnl ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/snippets ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/vimspector-config ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/after ~/Git_Downloads/Dotfiles/Vim/nvim/
