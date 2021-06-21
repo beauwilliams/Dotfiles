@@ -47,10 +47,10 @@ alias ga='git add'
 alias gall='git add .'
 alias gb='git branch'
 alias gba='git branch -a'
-alias gc='git commit -v'
+# alias gc='git commit -v'
 alias gca='git commit -v -a'
 alias gci='git commit --interactive'
-alias gcl='git clone'
+# alias gcl='git clone'
 alias gcm='git commit -v -m'
 alias gco='git checkout'
 alias gcount='git shortlog -sn'
@@ -65,7 +65,7 @@ alias gmu='git fetch origin -v; git fetch upstream -v; git merge upstream/master
 alias gp='git push'
 alias gpp='git pull && git push'
 alias gpr='git pull --rebase'
-alias gs='git status'
+# alias gs='git status'
 alias gsl='git shortlog -sn'
 alias gss='git status -s'
 alias gst='git status'
@@ -84,6 +84,7 @@ alias mergegit="~/.config/git/merge-git-config.sh"
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
+alias finder="open `pwd`"
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
 #APP LAUNCHERS
 alias dymosdk="open /Library/Frameworks/DYMO/SDK/DYMO.DLS.Printing.Host.app"
