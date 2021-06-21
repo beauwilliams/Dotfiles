@@ -13,7 +13,7 @@ alias zshaliases="nvim ~/.config/zsh/aliases.zsh"
 alias powerlineconfig="nvim ~/.zsh/.p10k.zsh"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
-alias ignoreconfig="nvim ~/.config/git/.gitignore_global"
+alias gitignore="nvim ~/.config/git/.gitignore_global"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 
@@ -33,7 +33,6 @@ alias cat="bat"
 
 #DIR NAV
 alias -- -="cd -" #quick jump back to prev dir with -
-alias bd="cd .." #for when .. does not work on new systems
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -42,8 +41,40 @@ alias ....='cd ../../..'
 #alias bd="cd .."
 
 ###GIT ALIASES####
-alias gp='git push -u origin HEAD'
-#Creating aliases for my dotfiles integration with github
+alias gpo='git push -u origin HEAD'
+alias __git_find_subcommand='__git_find_on_cmdline'
+alias ga='git add'
+alias gall='git add .'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+alias gci='git commit --interactive'
+alias gcl='git clone'
+alias gcm='git commit -v -m'
+alias gco='git checkout'
+alias gcount='git shortlog -sn'
+alias gcp='git cherry-pick'
+alias gdel='git branch -D'
+alias get='git'
+alias gexport='git archive --format zip --output'
+alias gl='git pull'
+alias gll='git log --graph --pretty=oneline --abbrev-commit'
+alias gm='git merge'
+alias gmu='git fetch origin -v; git fetch upstream -v; git merge upstream/master'
+alias gp='git push'
+alias gpp='git pull && git push'
+alias gpr='git pull --rebase'
+alias gs='git status'
+alias gsl='git shortlog -sn'
+alias gss='git status -s'
+alias gst='git status'
+alias gup='git fetch && git rebase'
+alias gus='git reset HEAD'
+alias gw='git whatchanged'
+
+
+#Creating aliases for my dotfiles backup on github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="~/.config/zsh/merge-zsh.sh"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"

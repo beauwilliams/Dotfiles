@@ -109,6 +109,15 @@ git add .
 git commit -m "$1"
 git push -u origin HEAD
 }
+# No arguments: `git status`
+# With arguments: acts like `git`
+g() {
+  if [[ $# -gt 0 ]]; then
+    git "$@"
+  else
+    git status
+  fi
+}
 
 function ql() {
 	qlmanage -p $1 >  /dev/null ^ /dev/null&

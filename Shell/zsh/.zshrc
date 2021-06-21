@@ -45,7 +45,7 @@ source ~/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode
-source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
+# source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 source ~/.zsh/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1
 source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
 source ~/.zsh/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
