@@ -39,7 +39,7 @@ fi
 [[ -f ~/.zsh/.fzf.zsh ]] && source ~/.zsh/.fzf.zsh
 [[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #powerline theme config
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
-eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)"
+eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -142,33 +142,38 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 
 
 
-#HASKELL GHC
-[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
-
-
-###PATHS###
+#SYSTEM
 # export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin #default path ls, mv etc
 export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:/Users/admin/.local/bin" #MY CUSTOM BINARY LOCATION
 # export PATH="/usr/local/sbin:$PATH"
+
 #NODE
 #Adding path for node installation, something happened during update and npm dissapeared!
 # export PATH="/usr/local/bin/:$PATH"
-#QT Framework
-#export PATH="/usr/local/opt/qt/bin:$PATH"
-#JAVA
-#setting adoptopenjdk8 as default
-#export JAVA_HOME=$(/usr/libexec/java_home -v 14) / DEC20 replace with setjdk fn
-# export PATH="$HOME/tools/nvim:$PATH"
+
+#HASKELL GHC
+[ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
 #HASKELL
 export PATH=$HOME/Library/Haskell/bin:$PATH
+
+#QT Framework
+#export PATH="/usr/local/opt/qt/bin:$PATH"
+
+#JAVA --> using my setjdk() function
+setjdk 14
+
+
 #FLUTTER
 # export PATH="$PATH:/Users/admin/Git_Downloads/SDK..Downloads/flutter/bin"
+
+
 #ANDROID
 #export PATH="$PATH:/Users/admin/SDK/Android_Studio/platform-tools"
 # export ANDROID_HOME=/Users/$USER/SDK/Android_Studio/
 # export ANDROID_SDK_ROOT=$ANDROID_HOME
 # export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
+
 
 ###VIM PATHS###
 #Path for vim man pages extension https://github.com/jez/vim-superman
@@ -182,7 +187,6 @@ export PATH="$PATH:$HOME/.rvm/bin"
 
 #PHP -- Override macosx default 7.1
 export PATH=/usr/local/php5/bin:$PATH
-
 
 ####LUA/FENNEL
 export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can use fennel.
