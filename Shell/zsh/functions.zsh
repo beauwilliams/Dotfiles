@@ -63,22 +63,22 @@ mkcd ()
 
 
 aliases() {
-  if [ -f ~/.zsh/aliases ]; then
-    cat ~/.config/zsh/aliases
+  if [ -f ~/.config/zsh/aliases.zsh ]; then
+    nvim ~/.config/zsh/aliases.zsh
   fi
 
-  if [ -f ~/.zsh/aliases.local ]; then
-    cat ~/.config/zsh/aliases.local
+  if [ -f ~/.config/zsh/aliases.local.zsh ]; then
+    nvim ~/.config/zsh/aliases.zsh.local
   fi
 }
 
 funcs() {
-  if [ -f ~/.zsh/funcs ]; then
-    cat ~/.config/zsh/funcs
+  if [ -f ~/.config/zsh/functions.zsh ]; then
+    nvim ~/.config/zsh/functions.zsh
   fi
 
-  if [ -f ~/.zsh/funcs.local ]; then
-    cat ~/.config/zsh/funcs.local
+  if [ -f ~/.config/zsh/functions.zsh.local ]; then
+    nvim ~/.config/zsh/functions.zsh.local
   fi
 }
 

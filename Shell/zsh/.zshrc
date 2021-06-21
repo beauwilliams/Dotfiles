@@ -69,7 +69,7 @@ zstyle ':completion:*' original true
 zstyle :compinstall filename '/Users/admin/.zshrc'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-setopt completealiases #setting this on for now disables z completion
+# setopt completealiases #setting this on for now disables z completion
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into the shell

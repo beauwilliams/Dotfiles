@@ -1,1 +1,1 @@
-return print("hello, its a me, fennel")
+return print(vim.inspect({one = "lets", three = "sendy", two = "get"}))
