@@ -26,10 +26,10 @@ alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not workin
 alias ls=" ls -a"
 alias lst="exa -T -a --git-ignore --icons"
 alias lsl="exa --long -a -u -h --icons"
-#fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
-alias ff="nvim -c 'FZF'"
-alias vs="nvim -c 'FZF'"
 alias cat="bat"
+#fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
+# alias ff="nvim -c 'FZF'"
+# alias vs="nvim -c 'FZF'"
 
 #DIR NAV
 alias -- -="cd -" #quick jump back to prev dir with -

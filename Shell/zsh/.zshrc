@@ -1,33 +1,45 @@
-#====================BEGIN USER CONFIG==========================
-#
-# BEAU: Disable the username@hostname text in terminal when logged in to local machine
+#     ____    _   __    ____  ______
+#    /  _/   / | / /   /  _/ /_  __/
+#    / /    /  |/ /    / /    / /
+#  _/ /    / /|  /   _/ /    / /
+# /___/   /_/ |_/   /___/   /_/
+
+
+
+#Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
 
-# # ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
+#ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 
+#Hopefully this loads powerlevel10k theme faster
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
 
-export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
+
+#     ____     __    __  __   ______    ____    _   __   _____
+#    / __ \   / /   / / / /  / ____/   /  _/   / | / /  / ___/
+#   / /_/ /  / /   / / / /  / / __     / /    /  |/ /   \__ \
+#  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
+# /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
+
+
 
 # Plugins I want to try
 # https://github.com/yuki-yano/zeno.zsh Abbreviations for zsh and fzf
 
-###SOURCES###
-
-# echo "sourcing zsh plugins"
+# use this in the future?
 # for file (~/.zsh/*); do
 #   source $file
 # done
 
-
-
-[ -f ~/.zsh/.fzf.zsh ] && source ~/.zsh/.fzf.zsh
-[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #theme config
+[[ -f ~/.zsh/.fzf.zsh ]] && source ~/.zsh/.fzf.zsh
+[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #powerline theme config
+eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
+eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)"
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -43,18 +55,34 @@ source ~/.zsh/hacker-quotes/hacker-quotes.plugin.zsh
 # source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING
 # https://github.com/marlonrichert/zsh-autocomplete/issues/287
 # source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+
+#    ____     ____   ______    ____   ____     _   __   _____
+#   / __ \   / __ \ /_  __/   /  _/  / __ \   / | / /  / ___/
+#  / / / /  / /_/ /  / /      / /   / / / /  /  |/ /   \__ \
+# / /_/ /  / ____/  / /     _/ /   / /_/ /  / /|  /   ___/ /
+# \____/  /_/      /_/     /___/   \____/  /_/ |_/   /____/
+
+
+
+# funcs and aliases configs
+for file (~/.config/zsh/*.zsh); do
+  source $file
+done
+
 #AUTOSUGGESTION HISTORY
 HISTFILE=~/.zsh/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
+
+#OTHER CONFIGS
+#TODO: [beauwilliams] --> Find out what each of the below does and document for future ref
 setopt appendhistory
 setopt INC_APPEND_HISTORY EXTENDED_HISTORY HIST_IGNORE_DUPS HIST_FIND_NO_DUPS
 setopt HIST_EXPIRE_DUPS_FIRST
 setopt HIST_REDUCE_BLANKS HIST_SAVE_NO_DUPS
 setopt share_history
-
-#OTHER CONFIGS
 setopt AUTO_PUSHD               #allow for cd -1 -2 -3 and so on
 setopt auto_cd                  # if command is a path, cd into it
 unsetopt rm_star_silent         # ask for confirmation for `rm *' or `rm path/*'
@@ -62,6 +90,8 @@ setopt print_exit_value         # print return value if non-zero
 setopt chase_links              # resolve symlinks
 setopt auto_remove_slash        # self explicit
 
+#COMPLETION OPTIONS
+#TODO: [beauwilliams] --> Find out what each of the below does and document for future ref
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' insert-unambiguous true
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
@@ -75,12 +105,12 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into the shell
 
 #THEME CONFIG - COLOR LS -- switching back to plain old ls as more portable.
-ZSH_THEME='powerlevel10k/powerlevel10k'
-#ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
-export BAT_THEME='gruvbox'
+export ZSH_THEME='powerlevel10k/powerlevel10k'
 export CLICOLOR=1
 export CLICOLOR_FORCE=true
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
+#ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
+export BAT_THEME='gruvbox'
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 #export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 #export LSCOLORS=exfxcxdxbxegedabagacad
@@ -93,39 +123,22 @@ export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 # Ignore pointless files when we ls
 #function ll { ls -la $@ | rg -v .DS_Store; }
 
+#Setting nvim as out editor
 export EDITOR="nvim"
 #Setting nvim as our MANPAGER
 export MANPAGER='nvim +Man!'
 
+#ITERM OPTIONS
+export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 
 
 
+#     ____     ___   ______    __  __   _____
+#    / __ \   /   | /_  __/   / / / /  / ___/
+#   / /_/ /  / /| |  / /     / /_/ /   \__ \
+#  / ____/  / ___ | / /     / __  /   ___/ /
+# /_/      /_/  |_|/_/     /_/ /_/   /____/
 
-
-#==================END USER CONFIG=======================================
-#
-#
-#
-
-
-# echo "sourcing zsh configs"
-for file (~/.config/zsh/*.zsh); do
-  source $file
-done
-
-#
-#
-#
-#========================START INITS, PATHS & SOURCES=============================
-
-###INITS###
-#BEAU - config for z.lua directory jumper i.e z
-eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
-eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)"
-
-#Launches jenv, currently using to mng java vers
-#export PATH="$HOME/.jenv/bin:$PATH"
-#eval "$(jenv init -)"
 
 
 
@@ -194,23 +207,20 @@ export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can u
 #<<< conda initialize <<<
 #
 #
-# # TELL FZF TO USE RIPGREP NOTE: Testing this in .fzf.zsh file
-# if type rg &> /dev/null; then
-#   export FZF_DEFAULT_COMMAND='rg --files'
-#   export FZF_DEFAULT_OPTS='-m --height 50% --border'
-# fi
 
 #if [ -e /Users/admin/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/admin/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
 
-#
-#
-#=====================END OF INITS, PATHS & SOURCES===============================
-#
-#
-#
-#================ZSH DEFAULT OPTIONS=========================
-#
+
+
+#     ____     ______    ____     ____     ______   ______    ___   ______    ______    ____
+#    / __ \   / ____/   / __ \   / __ \   / ____/  / ____/   /   | /_  __/   / ____/   / __ \
+#   / / / /  / __/     / /_/ /  / /_/ /  / __/    / /       / /| |  / /     / __/     / / / /
+#  / /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
+# /_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
+
+
+
 
 # -e ensure scipt stops when first cmd fails, -u ensure script exits on first unset variable, -o pipefail means that if piped commands fail, exit code is whole command not last failed piped command
 #   set -euo pipefail
@@ -276,34 +286,3 @@ export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can u
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
-
-#
-#
-#===================END ZSH DEFAULTS================================
-#
-#
-#
-#=================OH MY ZSH PLUGINS=================================
-#
-# Path to your oh-my-zsh installation.
-#export ZSH="/Users/admin/.oh-my-zsh"
-#
-#
-#plugins=(git
-        #zsh-syntax-highlighting
-        #zsh-autosuggestions
-        #zsh-vim-mode
-#)
-#
-#REPLACED OH-MY-ZSH with Manual MGMT as I only have few plugins :)
-
-#source $ZSH/oh-my-zsh.sh
-
-#===================END PLUGIN CONFIG===========================
-#
-#
-#
-
-#===================END ZSH CONFIG===========================
-#
-

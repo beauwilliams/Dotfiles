@@ -18,11 +18,7 @@ execute-fzf() {
   esac
 }
 
-fv() {
-  execute-fzf "" "vim"
-}
-
-fnv() {
+ff() {
   execute-fzf "" "nvim"
 }
 
