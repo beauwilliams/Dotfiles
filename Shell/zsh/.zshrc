@@ -3,7 +3,7 @@
 # BEAU: Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
 
-# ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
+# # ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 
@@ -86,8 +86,9 @@ export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 #export LSCOLORS=exfxcxdxbxegedabagacad
 
 # Ignore pointless files in filename completion
-export FIGNORE="DS_Store:$FIGNORE"
-export FIGNORE="$FIGNORE:.DS_Store"
+#idk why but these were breaking bat completion so turned them off...
+# export FIGNORE="DS_Store:$FIGNORE"
+# export FIGNORE="$FIGNORE:.DS_Store"
 
 # Ignore pointless files when we ls
 #function ll { ls -la $@ | rg -v .DS_Store; }
@@ -108,7 +109,7 @@ export MANPAGER='nvim +Man!'
 
 
 # echo "sourcing zsh configs"
-for file (~/.config/zsh/*); do
+for file (~/.config/zsh/*.zsh); do
   source $file
 done
 
