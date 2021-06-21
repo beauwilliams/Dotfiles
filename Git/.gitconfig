@@ -44,6 +44,6 @@
   changed = green
   untracked = cyan
 [hub]
-	protocol = https
+	protocol = ssh
 [commit]
 	template = /Users/admin/.config/git/commitconventions.txt
