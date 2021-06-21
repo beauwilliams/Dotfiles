@@ -18,6 +18,14 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 # https://github.com/yuki-yano/zeno.zsh Abbreviations for zsh and fzf
 
 ###SOURCES###
+
+# echo "sourcing zsh plugins"
+# for file (~/.zsh/*); do
+#   source $file
+# done
+
+
+
 [ -f ~/.zsh/.fzf.zsh ] && source ~/.zsh/.fzf.zsh
 [[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #theme config
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
@@ -26,7 +34,7 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode
 source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
-source ~/.zsh/enhancd/init.sh
+source ~/.zsh/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1
 source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
 source ~/.zsh/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
 source ~/.zsh/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
@@ -61,7 +69,7 @@ zstyle ':completion:*' original true
 zstyle :compinstall filename '/Users/admin/.zshrc'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-# setopt completealiases #NOTE:, setting this on for now disables z completion
+setopt completealiases #setting this on for now disables z completion
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into the shell
@@ -84,144 +92,26 @@ export FIGNORE="$FIGNORE:.DS_Store"
 # Ignore pointless files when we ls
 #function ll { ls -la $@ | rg -v .DS_Store; }
 
-EDITOR=nvim
+export EDITOR="nvim"
 #Setting nvim as our MANPAGER
 export MANPAGER='nvim +Man!'
 
 
 
 
-#############JAVA VERSION CHANGER#############
-#USE `setjdk <version>`
-#e.g --> setjdk 1.8
-# set and change java versions
-function setjdk() {
-  if [ $# -ne 0 ]; then
-    removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
-    if [ -n "${JAVA_HOME+x}" ]; then
-      removeFromPath $JAVA_HOME
-    fi
-    export JAVA_HOME=`/usr/libexec/java_home -v $@`
-    export PATH=$JAVA_HOME/bin:$PATH
-  fi
-}
-#Helper function for java path changer
-removeFromPath () {
-    export PATH=$(echo $PATH | sed -E -e "s;:$1;;" -e "s;$1:?;;")
-}
 
 
 #==================END USER CONFIG=======================================
 #
 #
 #
-#====================BEGIN ALIASES=======================================
-
-###MISC ALIASES###
-eval $(thefuck --alias)
 
 
-###CONFIGS###
-alias vimconfig="nvim ~/.vimrc"
-alias zshconfig="nvim ~/.zshrc"
-alias powerlineconfig="nvim ~/.zsh/.p10k.zsh"
-alias nvimconfig="nvim ~/.config/nvim/init.vim"
-alias sshconfig="nvim ~/.ssh/config"
-alias ignoreconfig="nvim ~/.config/git/.gitignore_global"
+# echo "sourcing zsh configs"
+for file (~/.config/zsh/*); do
+  source $file
+done
 
-###CHEATSHEETS###
-function cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
-#alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
-
-
-###ZSH ###
-alias zshreload="source ~/.zshrc"
-alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not working
-#BEAU Below alias enables colourful ls
-#alias ls="exa -G -a --git-ignore --icons"
-alias ls=" ls -a"
-alias lst="exa -T -a --git-ignore --icons"
-alias lsl="exa --long -a -u -h --icons"
-#fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
-alias ff="nvim -c 'FZF'"
-alias vs="nvim -c 'FZF'"
-alias cat="bat"
-
-#DIR NAV
-alias -- -="cd -" #quick jump back to prev dir with -
-alias bd="cd .." #for when .. does not work on new systems
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-#My little go back quicker command
-#First alias I made
-#alias bd="cd .."
-
-###GIT ALIASES####
-alias gp='git push -u origin HEAD'
-#Creating aliases for my dotfiles integration with github
-alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
-alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell && echo 'merging zshrc'"
-alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
-alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
-alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
-alias mergegit="~/.config/git/merge-git-config.sh"
-
-###GIT FUNCTIONS####
-function gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch README.md && echo "# " $1 >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}
-function gwc() { git clone --bare $1 $2 && cd $2 && git worktree add main && cd main;}
-function gwa() {git worktree add $1;}
-function gwr() {git worktree remove $1;}
-function gwrf() {git worktree remove --force $1;}
-
-
-
-function acp() {
-git add .
-git commit -m "$1"
-git push -u origin HEAD
-}
-
-function ql() {
-	qlmanage -p $1 >  /dev/null ^ /dev/null&
-}
-
-
-###MAC ALIASES###
-#TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
-alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-#APP LAUNCHERS
-alias dymosdk="open /Library/Frameworks/DYMO/SDK/DYMO.DLS.Printing.Host.app"
-
-###APP SHORTCUTS###
-alias activitymonitor="htop"
-#Adding a markdown previewer command to my terminal
-#From here: https://tosbourn.com/view-markdown-files-terminal/
-#rmd () {
-#  pandoc $1 | lynx -stdin
-#}
-#NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
-#Does not matter what reader we usem remember one command! mdreader
-# alias mdreader='mdless'
-alias mdreader='glow'
-
-
-###PYTHON ALIASES###
-#Creating python3 and pip3 alias, essentially upgrading my system to python3
-#alias python="~/opt/miniconda3/bin/python"
-#alias pip="/usr/local/bin/pip3"
-#NO LONGER NEEDED USED PIP3 COMMAND FOR NOW #alias pipAzureML="~/opt/miniconda3/envs/AzureML/bin/pip" #NOTE: You need this to install things into your conda env
-
-#######VIM ALIASES##########
-alias luamake=/Users/admin/.config/nvim/.langservers/lua-language-server/3rd/luamake/luamake
-
-
-#####UNI######
-alias mountIceberg='sshfs -o default_permissions mqserver2:/home/45456070/ ~/SSHFS/Iceberg/ && cd ~/SSHFS/Iceberg/'
-alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
-
-
-#==================================END ALIASES===================================
 #
 #
 #
@@ -276,6 +166,12 @@ export PATH="$PATH:$HOME/.config/nvim/.langservers" #my langservers
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 
+#PHP -- Override macosx default 7.1
+export PATH=/usr/local/php5/bin:$PATH
+
+
+####LUA/FENNEL
+export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can use fennel.
 
 ###CONDA PATHS###
 #See here https://stackoverflow.com/questions/41060382/using-pip-to-install-packages-to-anaconda-environment
