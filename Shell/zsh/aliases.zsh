@@ -8,6 +8,8 @@ eval $(thefuck --alias)
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
 alias zshconfig="nvim ~/.zshrc"
+alias zshfuncs="nvim ~/.config/zsh/functions.zsh"
+alias zshaliases="nvim ~/.config/zsh/aliases.zsh"
 alias powerlineconfig="nvim ~/.zsh/.p10k.zsh"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
@@ -43,7 +45,7 @@ alias ....='cd ../../..'
 alias gp='git push -u origin HEAD'
 #Creating aliases for my dotfiles integration with github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
-alias mergezsh="cp ~/.zshrc ~/Git_Downloads/Dotfiles/Shell && echo 'merging zshrc'"
+alias mergezsh="~/.config/zsh/merge-zsh.sh"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
