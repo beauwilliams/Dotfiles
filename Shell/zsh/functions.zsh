@@ -96,7 +96,7 @@ gwr() {git worktree remove $1;}
 gwrf() {git worktree remove --force $1;}
 acp() {
 git add .
-git commit -m "$1"
+git commit -m "$*"
 git push -u origin HEAD
 }
 # No arguments: `git status`
