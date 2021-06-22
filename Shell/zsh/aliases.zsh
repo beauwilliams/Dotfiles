@@ -4,6 +4,8 @@
 ###MISC ALIASES###
 eval $(thefuck --alias)
 
+####NOTES####
+alias notes="~/.config/zsh/fzf-notes.sh"
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
@@ -84,8 +86,12 @@ alias mergegit="~/.config/git/merge-git-config.sh"
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
-alias finder="open `pwd`"
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
+alias finder="open `pwd`"
+alias afk="open -a /System/Library/CoreServices/ScreenSaverEngine.app"
+alias cpu='top -o cpu'   # CPU
+alias mem='top -o rsize' # Memory
+alias airport="/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport"
 #APP LAUNCHERS
 alias dymosdk="open /Library/Frameworks/DYMO/SDK/DYMO.DLS.Printing.Host.app"
 

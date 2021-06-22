@@ -1,3 +1,19 @@
+select_file() {
+  given_file="$1"
+  fzf --preview="cat {}" --preview-window=right:70%:wrap --query="$given_file"
+}
+
+takenote() {
+  previous_file="$1"
+  file_to_edit=`select_file $previous_file`
+
+  if [ -n "$file_to_edit" ] ; then
+    "nvim" "$file_to_edit"
+    main "$file_to_edit"
+  fi
+}
+
+
 ###CHEATSHEETS###
 cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
 
@@ -15,6 +31,20 @@ mkcd() {
     mkdir -p -- "$1" &&
       cd -P -- "$1"
 }
+
+
+# Man without options will use fzf to select a page
+function man(){
+	MAN="/usr/bin/man"
+	if [ -n "$1" ]; then
+		$MAN "$@"
+		return $?
+	else
+		$MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
+		return $?
+	fi
+}
+#
 
 # Open current finder window in terminal
 cdf() {
