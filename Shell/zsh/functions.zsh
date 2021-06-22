@@ -1,19 +1,3 @@
-select_file() {
-  given_file="$1"
-  fzf --preview="cat {}" --preview-window=right:70%:wrap --query="$given_file"
-}
-
-takenote() {
-  previous_file="$1"
-  file_to_edit=`select_file $previous_file`
-
-  if [ -n "$file_to_edit" ] ; then
-    "nvim" "$file_to_edit"
-    main "$file_to_edit"
-  fi
-}
-
-
 ###CHEATSHEETS###
 cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
 
@@ -27,9 +11,19 @@ path() {
   echo $PATH | tr ':' '\n'
 }
 
-mkcd() {
+function mkcd() {
     mkdir -p -- "$1" &&
       cd -P -- "$1"
+}
+
+function rm {
+  if [[ "$#" -eq 0 ]]; then
+    local files
+    files=$(find . -maxdepth 1 -type f | fzf --multi)
+    echo $files | xargs -I '{}' rm {}
+  else
+    command rm "$@"
+  fi
 }
 
 
@@ -141,7 +135,7 @@ g() {
 #git clone, can just type gcl to clone from clipboard else with link proceeding it
 gcl() {
   if [[ $# -gt 0 ]]; then
-    git clone "$*"
+    git clone "$*" && cd "$(basename "$1" .git)"
   else
    git clone "$(pbpaste)"
   fi

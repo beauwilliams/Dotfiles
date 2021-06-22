@@ -5,7 +5,8 @@
 eval $(thefuck --alias)
 
 ####NOTES####
-alias notes="~/.config/zsh/fzf-notes.sh"
+alias sc="~/.config/zsh/fzf-scratch.sh"
+alias notes="~/.config/zsh/fzf-scratch.sh"
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
