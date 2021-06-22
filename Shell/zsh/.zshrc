@@ -37,12 +37,12 @@ export BAT=0
 #   source $file
 # done
 
-[[ -f ~/.zsh/.fzf.zsh ]] && source ~/.zsh/.fzf.zsh
-[[ ! -f ~/.zsh/.p10k.zsh ]] || source ~/.zsh/.p10k.zsh #powerline theme config
+[[ -f ~/.config/zsh/.fzf.zsh ]] && source ~/.config/zsh/.fzf.zsh
+[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh #powerline theme config
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
-source ~/.iterm2_shell_integration.zsh
+source ~/.zsh/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode
@@ -73,7 +73,7 @@ for file (~/.config/zsh/*.zsh); do
 done
 
 #AUTOSUGGESTION HISTORY
-HISTFILE=~/.zsh/.zsh_history
+HISTFILE=~/.cache/zsh/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 

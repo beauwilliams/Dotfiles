@@ -113,11 +113,11 @@ removeFromPath () {
 
 
 ###GIT FUNCTIONS####
-gitnewrepo() {mkdir $1 && cd $1 && git init && hub create && touch README.md && echo "# " $1 >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}
+gitnewrepo() {mkdir "$*" && cd "$*" && git init && hub create && touch README.md && echo "# " "$*" >> README.md && git add . && git commit -m "init" && git push -u origin HEAD;}
 gwc() { git clone --bare $1 $2 && cd $2 && git worktree add main && cd main;}
-gwa() {git worktree add $1;}
-gwr() {git worktree remove $1;}
-gwrf() {git worktree remove --force $1;}
+gwa() {git worktree add "$*";}
+gwr() {git worktree remove "$*";}
+gwrf() {git worktree remove --force "$*";}
 acp() {
 git add .
 git commit -m "$*"
@@ -137,7 +137,7 @@ gcl() {
   if [[ $# -gt 0 ]]; then
     git clone "$*" && cd "$(basename "$1" .git)"
   else
-   git clone "$(pbpaste)"
+   git clone "$(pbpaste)" && cd "$(basename "$(pbpaste)" .git)"
   fi
 }
 # Create new branch. geb <branch-name>
@@ -151,6 +151,7 @@ ql() {
 }
 
 
+# TODO: [beauwilliams] --> Add docker fzf list using 'docker container ls' command
 # Docker
 ssh-docker() {
    docker exec -it "$@" bash
@@ -216,7 +217,7 @@ alias bu="brew-upgrade"
 
 #fuzzy finder and open in vim
 ff() {
-  execute-fzf "" "nvim"
+  execute-fzf "" $EDITOR
 }
 # cd into the directory of the selected file
 fz() {
