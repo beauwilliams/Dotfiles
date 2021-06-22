@@ -390,7 +390,7 @@ require("packer").startup {
             vim.fn["fzf#install"]()
         end}
         use {"junegunn/fzf.vim"}
-        use { 'camspiers/snap', rocks = {'fzy'} }
+        use { 'camspiers/snap' }--, rocks = {'fzy'} }
         use { -- non blocking finder if telescope is ever too slow https://github.com/camspiers/snap
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
