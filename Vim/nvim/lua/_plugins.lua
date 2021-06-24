@@ -278,8 +278,7 @@ require("packer").startup {
         end
         }
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-        use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM
-        use 'hrsh7th/vim-vsnip-integ' --> SNIPPET INTEGRATION WITH compe
+        use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
         use 'rafamadriz/friendly-snippets' --> Snippets library compatible with vim-vsnip
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
         use 'mfussenegger/nvim-jdtls' --> Better jdtls setup than lspconfig

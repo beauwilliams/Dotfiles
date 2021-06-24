@@ -1,35 +1,17 @@
 local snap = require'snap'
+local defaults = require'snap.defaults'
 
--- local fzy = snap.get'consumer.fzy'
-local limit = snap.get'consumer.limit'
--- local producer_file = snap.get'producer.ripgrep.file'
-local producer_vimgrep = snap.get'producer.ripgrep.vimgrep'
--- local producer_buffer = snap.get'producer.vim.buffer'
--- local producer_oldfile = snap.get'producer.vim.oldfile'
--- local select_file = snap.get'select.file'
-local select_vimgrep = snap.get'select.vimgrep'
--- local preview_file = snap.get'preview.file'
-local preview_vimgrep = snap.get'preview.vimgrep'
+local file = defaults.file:with {reverse = false, suffix = " »"}
+local vimgrep = defaults.vimgrep:with {limit = 50000, suffix = " »"}
+local args = {"--hidden", "--iglob", "!.git/*"}
 
---[[ snap.register.map({'n'}, {'<Leader><Leader>'}, function ()
-  snap.run({
-    prompt = 'Files',
-    producer = fzy(producer_file),
-    select = select_file.select,
-    multiselect = select_file.multiselect,
-    views = {preview_file}
-  })
-end) ]]
-
-snap.register.map({'n'}, {'<Leader>f'}, function ()
-  snap.run({
-    prompt = 'Grep',
-    producer = limit(10000, producer_vimgrep),
-    select = select_vimgrep.select,
-    multiselect = select_vimgrep.multiselect,
-    views = {preview_vimgrep}
-  })
-end)
+snap.maps {
+  {"<Leader>f", vimgrep {args = args, prompt = "Grep"}, "grep"},
+  {"<Leader>s", file {args = args, try = {"git.file", "ripgrep.file"}, prompt = "Files"}, "files"},
+  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"}, "history"},
+  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"}, "buffers"},
+  -- {"<Leader>aaaa", file {combine = {"vim.buffer", "vim.oldfiles"}}}
+}
 
 --[[ snap.register.map({'n'}, {'<Leader>fb'}, function ()
   snap.run({
