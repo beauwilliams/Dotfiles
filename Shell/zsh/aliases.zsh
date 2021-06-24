@@ -19,6 +19,8 @@ alias sshconfig="nvim ~/.ssh/config"
 alias gitignore="nvim ~/.config/git/.gitignore_global"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
+#CODING
+
 
 
 ###ZSH ###

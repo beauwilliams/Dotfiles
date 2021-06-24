@@ -1,42 +1,66 @@
+AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
+
+
+#List Awesome FZF Functions
+function fzf-awesome-list() {
+if [[ -f $AWESOME_FZF_LOCATION ]]; then
+    selected=$(grep -E "(function fzf-)(.*?)[^(]*" $AWESOME_FZF_LOCATION | sed -e "s/function fzf-//" | sed -e "s/() {//" | grep -v "selected=" | fzf --reverse --prompt="awesome fzf functions > ")
+else
+    echo "awesome fzf not found"
+fi
+    case "$selected" in
+        "");; #don't throw an exit error when we dont select anything
+        *) "fzf-"$selected;;
+    esac
+}
+
+
 ###CHEATSHEETS###
 cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
 
 # Get cheat sheet of command from cheat.sh. h <cmd>
 h(){
-  curl cheat.sh/${@:-cheat}
-  # curl cheat.sh/$@
+    curl cheat.sh/${@:-cheat}
+    # curl cheat.sh/$@
 }
 
 path() {
-  echo $PATH | tr ':' '\n'
+    echo $PATH | tr ':' '\n'
 }
 
 function mkcd() {
     mkdir -p -- "$1" &&
-      cd -P -- "$1"
+        cd -P -- "$1"
+    }
+
+
+#Create nice image of some code on your clipboard
+function codepic() {
+    silicon --from-clipboard -l $1 -o ~/Downloads/Temp/$2.png --background '#fff0' --theme 'gruvbox'
 }
 
+
 function rm {
-  if [[ "$#" -eq 0 ]]; then
-    local files
-    files=$(find . -maxdepth 1 -type f | fzf --multi)
-    echo $files | xargs -I '{}' rm {}
-  else
-    command rm "$@"
-  fi
+    if [[ "$#" -eq 0 ]]; then
+        local files
+        files=$(find . -maxdepth 1 -type f | fzf --multi)
+        echo $files | xargs -I '{}' rm {} #we use xargs so that filenames to capture filenames with spaces in them properly
+    else
+        command rm "$@"
+    fi
 }
 
 
 # Man without options will use fzf to select a page
 function man(){
-	MAN="/usr/bin/man"
-	if [ -n "$1" ]; then
-		$MAN "$@"
-		return $?
-	else
-		$MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
-		return $?
-	fi
+    MAN="/usr/bin/man"
+    if [ -n "$1" ]; then
+        $MAN "$@"
+        return $?
+    else
+        $MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
+        return $?
+    fi
 }
 #
 
@@ -60,32 +84,32 @@ function scrapeUrl() {
 
 
 aliases() {
-  if [ -f ~/.config/zsh/aliases.zsh ]; then
-    nvim ~/.config/zsh/aliases.zsh
-  fi
+    if [ -f ~/.config/zsh/aliases.zsh ]; then
+        nvim ~/.config/zsh/aliases.zsh
+    fi
 
-  if [ -f ~/.config/zsh/aliases.local.zsh ]; then
-    nvim ~/.config/zsh/aliases.zsh.local
-  fi
+    if [ -f ~/.config/zsh/aliases.local.zsh ]; then
+        nvim ~/.config/zsh/aliases.zsh.local
+    fi
 }
 
 funcs() {
-  if [ -f ~/.config/zsh/functions.zsh ]; then
-    nvim ~/.config/zsh/functions.zsh
-  fi
+    if [ -f ~/.config/zsh/functions.zsh ]; then
+        nvim ~/.config/zsh/functions.zsh
+    fi
 
-  if [ -f ~/.config/zsh/functions.zsh.local ]; then
-    nvim ~/.config/zsh/functions.zsh.local
-  fi
+    if [ -f ~/.config/zsh/functions.zsh.local ]; then
+        nvim ~/.config/zsh/functions.zsh.local
+    fi
 }
 
 # Search list of aliases/functions
 commands() {
     CMD=$(
-        (
-            (alias)
-            (functions | grep "()" | cut -d ' ' -f1 | grep -v "^_" )
-        ) | fzf | cut -d '=' -f1
+    (
+    (alias)
+    (functions | grep "()" | cut -d ' ' -f1 | grep -v "^_" )
+    ) | fzf | cut -d '=' -f1
     );
 
     eval $CMD
@@ -97,14 +121,14 @@ commands() {
 #e.g --> setjdk 1.8
 # set and change java versions
 setjdk() {
-  if [ $# -ne 0 ]; then
-    removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
-    if [ -n "${JAVA_HOME+x}" ]; then
-      removeFromPath $JAVA_HOME
+    if [ $# -ne 0 ]; then
+        removeFromPath '/System/Library/Frameworks/JavaVM.framework/Home/bin'
+        if [ -n "${JAVA_HOME+x}" ]; then
+            removeFromPath $JAVA_HOME
+        fi
+        export JAVA_HOME=`/usr/libexec/java_home -v $@`
+        export PATH=$JAVA_HOME/bin:$PATH
     fi
-    export JAVA_HOME=`/usr/libexec/java_home -v $@`
-    export PATH=$JAVA_HOME/bin:$PATH
-  fi
 }
 #Helper function for java path changer
 removeFromPath () {
@@ -119,97 +143,164 @@ gwa() {git worktree add "$*";}
 gwr() {git worktree remove "$*";}
 gwrf() {git worktree remove --force "$*";}
 acp() {
-git add .
-git commit -m "$*"
-git push -u origin HEAD
+    git add .
+    git commit -m "$*"
+    git push -u origin HEAD
 }
 # No arguments: `git status`
 # With arguments: acts like `git`
 g() {
-  if [[ $# -gt 0 ]]; then
-    git "$@"
-  else
-    git status
-  fi
+    if [[ $# -gt 0 ]]; then
+        git "$@"
+    else
+        git status
+    fi
 }
 #git clone, can just type gcl to clone from clipboard else with link proceeding it
 gcl() {
-  if [[ $# -gt 0 ]]; then
-    git clone "$*" && cd "$(basename "$1" .git)"
-  else
-   git clone "$(pbpaste)" && cd "$(basename "$(pbpaste)" .git)"
-  fi
+    if [[ $# -gt 0 ]]; then
+        git clone "$*" && cd "$(basename "$1" .git)"
+    else
+        git clone "$(pbpaste)" && cd "$(basename "$(pbpaste)" .git)"
+    fi
 }
 # Create new branch. geb <branch-name>
 gbc(){
-  git checkout -b "$1"
+    git checkout -b "$1"
 }
 
 #quickly preview item in finder
 ql() {
-	qlmanage -p $1 >  /dev/null ^ /dev/null&
+    qlmanage -p $1 >  /dev/null ^ /dev/null&
 }
 
 
 # TODO: [beauwilliams] --> Add docker fzf list using 'docker container ls' command
 # Docker
 ssh-docker() {
-   docker exec -it "$@" bash
+docker exec -it "$@" bash
 }
 
 
 
+function fzf-eval(){
+echo | fzf -q "$*" --preview-window=up:99% --preview="eval {q}"
+}
 
 execute-fzf() {
-  if [ -z "$1" ]; then
-    file="$(fzf --multi)"
-  else
-    file=$(eval "$1 | fzf --multi")
-  fi
+if [ -z "$1" ]; then
+    file="$(fzf --multi)" # if no cmd provided default to ls
+else
+    file=$(eval "$1 | fzf --multi") # otherwise pipe output of that command into fzf
+    fi
 
-  case "$file" in
-    "") echo "fzf cancelled";;
-    *) eval "$2" "$file";;
-  esac
+    case "$file" in
+        "") echo "fzf cancelled";;
+        *) eval "$2" "$file";; #execute the second provided command on the selected file
+    esac
+}
+
+function fzf-find-files-alt(){
+selected="$(fzf --multi --reverse)"
+case "$selected" in
+    "") echo "cancelled fzf";;
+    *) eval "$EDITOR" "$selected";;
+esac
+}
+
+function fzf-find-files(){
+local file=$(fzf --multi --reverse) #get file from fzf
+if [[ $file ]]; then
+    for prog in $(echo $file); #open all the selected files
+    do; $EDITOR $prog; done;
+    else
+        echo "cancelled fzf"
+fi
 }
 
 #Helper
 is_in_git_repo() {
-  git rev-parse HEAD > /dev/null 2>&1
+    git rev-parse HEAD > /dev/null 2>&1
 }
 
 #Helper
 fzf-down() {
-  fzf --height 50% "$@" --border
+fzf --height 50% "$@" --border
+}
+
+
+function brewinstaller() {
+
+    local inst=$(brew search | eval "fzf ${FZF_DEFAULT_OPTS} -m --header='[brew:install]'")
+
+    if [[ $inst ]]; then
+        for prog in $(echo $inst)
+        do brew install $prog
+        done
+    fi
+}
+
+# Install (one or multiple) selected application(s)
+# using "brew search" as source input
+# mnemonic [B]rew [I]nstall [P]lugin
+brewip() {
+    local inst=$(brew search | fzf -m)
+
+    if [[ $inst ]]; then
+        for prog in $(echo $inst);
+        do; brew install $prog; done;
+    fi
+}
+
+# Update (one or multiple) selected application(s)
+# mnemonic [B]rew [U]pdate [P]lugin
+brewup() {
+    local upd=$(brew leaves | fzf -m)
+
+    if [[ $upd ]]; then
+        for prog in $(echo $upd);
+        do; brew upgrade $prog; done;
+    fi
+}
+
+# Delete (one or multiple) selected application(s)
+# mnemonic [B]rew [C]lean [P]lugin (e.g. uninstall)
+brewdp() {
+    local uninst=$(brew leaves | fzf -m)
+
+    if [[ $uninst ]]; then
+        for prog in $(echo $uninst);
+        do; brew uninstall $prog; done;
+    fi
 }
 
 
 #brew uninstall list enter to uninstall package
 brew-uninstall() {
-  execute-fzf "brew list" "brew uninstall"
+execute-fzf "brew list" "brew uninstall"
 }
 alias bun='brew-uninstall'
 
 #brew uninstall list enter to uninstall cask
 brew-cask-uninstall() {
-  execute-fzf "brew cask list" "brew cask uninstall"
+execute-fzf "brew cask list" "brew cask uninstall"
 }
 alias bcun='brew-cask-uninstall'
 
 brew-outdated() {
-  echo "==> Running brew update..."
-  brew update >/dev/null
+echo "==> Running brew update..."
+brew update >/dev/null
 
-  echo "\n==> Outdated brews and casks"
-  brew outdated
+echo "\n==> Outdated brews and casks"
+brew outdated
 }
 
 brew-upgrade() {
-  echo "\n==> brew upgrade"
-  brew upgrade
+echo "\n==> brew upgrade"
+brew upgrade
 
-  echo "\n==> brew cask upgrade"
-  brew upgrade --cask
+echo "\n==> brew cask upgrade"
+brew upgrade --cask
 }
 
 alias bo="brew-outdated"
@@ -217,46 +308,46 @@ alias bu="brew-upgrade"
 
 #fuzzy finder and open in vim
 ff() {
-  execute-fzf "" $EDITOR
+    execute-fzf "" $EDITOR
 }
 # cd into the directory of the selected file
 fz() {
-   local file
-   local dir
-   file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
-   ls
+    local file
+    local dir
+    file=$(fzf +m -q "$1") && dir=$(dirname "$file") && cd "$dir"
+    ls
 }
 
 # Find Dirs
 fd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-  ls
-}
+    local dir
+    dir=$(find ${1:-.} -path '*/\.*' -prune \
+        -o -type d -print 2> /dev/null | fzf +m) &&
+        cd "$dir"
+            ls
+        }
 
 # Find Dirs + Hidden
 fdh() {
-  local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
-  ls
+    local dir
+    dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+    ls
 }
 
 # fdr - cd to selected parent directory
 f..() {
-  local declare dirs=()
-  get_parent_dirs() {
+local declare dirs=()
+get_parent_dirs() {
     if [[ -d "${1}" ]]; then dirs+=("$1"); else return; fi
     if [[ "${1}" == '/' ]]; then
-      for _dir in "${dirs[@]}"; do echo $_dir; done
+        for _dir in "${dirs[@]}"; do echo $_dir; done
     else
-      get_parent_dirs $(dirname "$1")
+        get_parent_dirs $(dirname "$1")
     fi
-  }
-  local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
-  cd "$DIR"
-  ls
+}
+local DIR=$(get_parent_dirs $(realpath "${1:-$PWD}") | fzf-tmux --tac)
+cd "$DIR"
+ls
 }
 
 # Git commit history browser, when @param provided, its a shorthand for git commit
@@ -279,11 +370,11 @@ gc()
 # get git commit sha
 # example usage: git rebase -i `fcs`
 commitids() {
-  local commits commit
-  commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
-  echo -n $(echo "$commit" | sed "s/ .*//")
-}
+    local commits commit
+    commits=$(git log --color=always --pretty=oneline --abbrev-commit --reverse) &&
+        commit=$(echo "$commits" | fzf --tac +s +m -e --ansi --reverse) &&
+        echo -n $(echo "$commit" | sed "s/ .*//")
+    }
 
 #picklist to checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
 #OR just type branch "branchname"
@@ -291,11 +382,11 @@ branch() {
     if [ $# -eq 0 ]; then
         local branches branch
         branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
-        branch=$(echo "$branches" |
-        fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
-        git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
-    else
-        git checkout "$@"
+            branch=$(echo "$branches" |
+            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+                else
+                    git checkout "$@"
     fi
 
 }
@@ -307,95 +398,95 @@ branch() {
 #from here: https://github.com/nikitavoloboev/dotfiles/blob/master/zsh/functions/fzf-functions.zsh
 #https://github.com/nikitavoloboev/dotfiles/blob/master/zsh/functions/git-functions.zsh
 stashes() {
-  local out q k sha
-  while out=$(
-    git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
-    fzf --ansi --no-sort --query="$q" --print-query \
-        --expect=ctrl-d,ctrl-b);
-  do
-    mapfile -t out <<< "$out"
-    q="${out[0]}"
-    k="${out[1]}"
-    sha="${out[-1]}"
-    sha="${sha%% *}"
-    [[ -z "$sha" ]] && continue
-    if [[ "$k" == 'ctrl-d' ]]; then
-      git diff $sha
-    elif [[ "$k" == 'ctrl-b' ]]; then
-      git stash branch "stash-$sha" $sha
-      break;
-    else
-      git stash show -p $sha
-    fi
-  done
-}
+    local out q k sha
+    while out=$(
+        git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
+            fzf --ansi --no-sort --query="$q" --print-query \
+            --expect=ctrl-d,ctrl-b);
+                do
+                    mapfile -t out <<< "$out"
+                    q="${out[0]}"
+                    k="${out[1]}"
+                    sha="${out[-1]}"
+                    sha="${sha%% *}"
+                    [[ -z "$sha" ]] && continue
+                    if [[ "$k" == 'ctrl-d' ]]; then
+                        git diff $sha
+                    elif [[ "$k" == 'ctrl-b' ]]; then
+                        git stash branch "stash-$sha" $sha
+                        break;
+                    else
+                        git stash show -p $sha
+                    fi
+                done
+            }
 
 
 
 #Show git staging area (git status)
 gs() {
-  is_in_git_repo || return
-  git -c color.status=always status --short |
-  fzf-down -m --ansi --nth 2..,.. \
-    --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
-  cut -c4- | sed 's/.* -> //'
-}
+    is_in_git_repo || return
+    git -c color.status=always status --short |
+        fzf-down -m --ansi --nth 2..,.. \
+        --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+        cut -c4- | sed 's/.* -> //'
+    }
 
 grr() {
-  is_in_git_repo || return
-  git remote -v | awk '{print $1 "\t" $2}' | uniq |
-  fzf-down --tac \
-    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
-  cut -d$'\t' -f1
-}
+    is_in_git_repo || return
+    git remote -v | awk '{print $1 "\t" $2}' | uniq |
+        fzf-down --tac \
+        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
+        cut -d$'\t' -f1
+    }
 
 
 # checkout git commit
 checkout() {
-  local commits commit
-  commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
-  commit=$(echo "$commits" | fzf --tac +s +m -e) &&
-  git checkout $(echo "$commit" | sed "s/ .*//")
-}
+    local commits commit
+    commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+        commit=$(echo "$commits" | fzf --tac +s +m -e) &&
+        git checkout $(echo "$commit" | sed "s/ .*//")
+    }
 
 fbr() {
-  is_in_git_repo || return
-  git branch -a --color=always | grep -v '/HEAD\s' | sort |
-  fzf-down --ansi --multi --tac --preview-window right:70% \
-    --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
-  sed 's/^..//' | cut -d' ' -f1 |
-  sed 's#^remotes/##'
-}
+    is_in_git_repo || return
+    git branch -a --color=always | grep -v '/HEAD\s' | sort |
+        fzf-down --ansi --multi --tac --preview-window right:70% \
+        --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed s/^..// <<< {} | cut -d" " -f1) | head -'$LINES |
+        sed 's/^..//' | cut -d' ' -f1 |
+        sed 's#^remotes/##'
+    }
 
 tags() {
-  is_in_git_repo || return
-  git tag --sort -version:refname |
-  fzf-down --multi --preview-window right:70% \
-    --preview 'git show --color=always {} | head -'$LINES
-}
+    is_in_git_repo || return
+    git tag --sort -version:refname |
+        fzf-down --multi --preview-window right:70% \
+        --preview 'git show --color=always {} | head -'$LINES
+    }
 
 # fh - Repeat history, assumes zsh
 history() {
-  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
 }
 
 # Search env variables
 vars() {
-  local out
-  out=$(env | fzf)
-  echo $(echo $out | cut -d= -f2)
+    local out
+    out=$(env | fzf)
+    echo $(echo $out | cut -d= -f2)
 }
 
 
 # Kill process
 fkill() {
-  local pid
-  pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+    local pid
+    pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
 
-  if [ "x$pid" != "x" ]
-  then
-    echo $pid | xargs kill -${1:-9}
-  fi
+    if [ "x$pid" != "x" ]
+    then
+        echo $pid | xargs kill -${1:-9}
+    fi
 }
 
 #Zip files
@@ -404,138 +495,138 @@ fkill() {
 # }
 # compress <file/dir> - Compress <file/dir>.
 compress()
-  {
+{
     dirPriorToExe=`pwd`
     dirName=`dirname $1`
     baseName=`basename $1`
 
     if [ -f $1 ] ; then
-      echo "It was a file change directory to $dirName"
-      cd $dirName
-      case $2 in
-        tar.bz2)
-          tar cjf $baseName.tar.bz2 $baseName
-          ;;
-        tar.gz)
-          tar czf $baseName.tar.gz $baseName
-          ;;
-        gz)
-          gzip $baseName
-          ;;
-        tar)
-          tar -cvvf $baseName.tar $baseName
-          ;;
-        zip)
-          zip -r $baseName.zip $baseName
-          ;;
-        *)
-          echo "Method not passed compressing using tar.bz2"
-          tar cjf $baseName.tar.bz2 $baseName
-          ;;
-      esac
-      echo "Back to Directory $dirPriorToExe"
-      cd $dirPriorToExe
-    else
-      if [ -d $1 ] ; then
-        echo "It was a Directory change directory to $dirName"
+        echo "It was a file change directory to $dirName"
         cd $dirName
         case $2 in
-          tar.bz2)
-            tar cjf $baseName.tar.bz2 $baseName
-            ;;
-          tar.gz)
-            tar czf $baseName.tar.gz $baseName
-            ;;
-          gz)
-            gzip -r $baseName
-            ;;
-          tar)
-            tar -cvvf $baseName.tar $baseName
-            ;;
-          zip)
-            zip -r $baseName.zip $baseName
-            ;;
-          *)
-            echo "Method not passed compressing using tar.bz2"
-            tar cjf $baseName.tar.bz2 $baseName
-            ;;
+            tar.bz2)
+                tar cjf $baseName.tar.bz2 $baseName
+                ;;
+            tar.gz)
+                tar czf $baseName.tar.gz $baseName
+                ;;
+            gz)
+                gzip $baseName
+                ;;
+            tar)
+                tar -cvvf $baseName.tar $baseName
+                ;;
+            zip)
+                zip -r $baseName.zip $baseName
+                ;;
+            *)
+                echo "Method not passed compressing using tar.bz2"
+                tar cjf $baseName.tar.bz2 $baseName
+                ;;
         esac
         echo "Back to Directory $dirPriorToExe"
         cd $dirPriorToExe
-      else
-        echo "'$1' is not a valid file/folder"
-      fi
+    else
+        if [ -d $1 ] ; then
+            echo "It was a Directory change directory to $dirName"
+            cd $dirName
+            case $2 in
+                tar.bz2)
+                    tar cjf $baseName.tar.bz2 $baseName
+                    ;;
+                tar.gz)
+                    tar czf $baseName.tar.gz $baseName
+                    ;;
+                gz)
+                    gzip -r $baseName
+                    ;;
+                tar)
+                    tar -cvvf $baseName.tar $baseName
+                    ;;
+                zip)
+                    zip -r $baseName.zip $baseName
+                    ;;
+                *)
+                    echo "Method not passed compressing using tar.bz2"
+                    tar cjf $baseName.tar.bz2 $baseName
+                    ;;
+            esac
+            echo "Back to Directory $dirPriorToExe"
+            cd $dirPriorToExe
+        else
+            echo "'$1' is not a valid file/folder"
+        fi
     fi
     echo "Done"
     echo "###########################################"
-  }
+}
 
 # TODO: Write a Go CLI that wraps extract and compress functions + more.
 # extract <file.tar> - Extract <file.tar>.
 extract() {
-  local remove_archive
-  local success
-  local file_name
-  local extract_dir
+    local remove_archive
+    local success
+    local file_name
+    local extract_dir
 
-  if (( $# == 0 )); then
-    echo "Usage: extract [-option] [file ...]"
-    echo
-    echo Options:
-    echo "    -r, --remove    Remove archive."
-  fi
-
-  remove_archive=1
-  if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
-    remove_archive=0
-    shift
-  fi
-
-  while (( $# > 0 )); do
-    if [[ ! -f "$1" ]]; then
-      echo "extract: '$1' is not a valid file" 1>&2
-      shift
-      continue
+    if (( $# == 0 )); then
+        echo "Usage: extract [-option] [file ...]"
+        echo
+        echo Options:
+        echo "    -r, --remove    Remove archive."
     fi
 
-    success=0
-    file_name="$( basename "$1" )"
-    extract_dir="$( echo "$file_name" | sed "s/\.${1##*.}//g" )"
-    case "$1" in
-      (*.tar.gz|*.tgz) [ -z $commands[pigz] ] && tar zxvf "$1" || pigz -dc "$1" | tar xv ;;
-      (*.tar.bz2|*.tbz|*.tbz2) tar xvjf "$1" ;;
-      (*.tar.xz|*.txz) tar --xz --help &> /dev/null \
-        && tar --xz -xvf "$1" \
-        || xzcat "$1" | tar xvf - ;;
-    (*.tar.zma|*.tlz) tar --lzma --help &> /dev/null \
-      && tar --lzma -xvf "$1" \
-      || lzcat "$1" | tar xvf - ;;
-  (*.tar) tar xvf "$1" ;;
-  (*.gz) [ -z $commands[pigz] ] && gunzip "$1" || pigz -d "$1" ;;
-  (*.bz2) bunzip2 "$1" ;;
-  (*.xz) unxz "$1" ;;
-  (*.lzma) unlzma "$1" ;;
-  (*.Z) uncompress "$1" ;;
-  (*.zip|*.war|*.jar|*.sublime-package) unzip "$1" -d $extract_dir ;;
-  (*.rar) unrar x -ad "$1" ;;
-  (*.7z) 7za x "$1" ;;
-  (*.deb)
-    mkdir -p "$extract_dir/control"
-    mkdir -p "$extract_dir/data"
-    cd "$extract_dir"; ar vx "../${1}" > /dev/null
-    cd control; tar xzvf ../control.tar.gz
-    cd ../data; tar xzvf ../data.tar.gz
-    cd ..; rm *.tar.gz debian-binary
-    cd ..
-    ;;
-  (*)
-    echo "extract: '$1' cannot be extracted" 1>&2
-    success=1
-    ;;
-esac
+    remove_archive=1
+    if [[ "$1" == "-r" ]] || [[ "$1" == "--remove" ]]; then
+        remove_archive=0
+        shift
+    fi
 
-(( success = $success > 0 ? $success : $? ))
-(( $success == 0 )) && (( $remove_archive == 0 )) && rm "$1"
-shift
-  done
-}
+    while (( $# > 0 )); do
+        if [[ ! -f "$1" ]]; then
+            echo "extract: '$1' is not a valid file" 1>&2
+            shift
+            continue
+        fi
+
+        success=0
+        file_name="$( basename "$1" )"
+        extract_dir="$( echo "$file_name" | sed "s/\.${1##*.}//g" )"
+        case "$1" in
+            (*.tar.gz|*.tgz) [ -z $commands[pigz] ] && tar zxvf "$1" || pigz -dc "$1" | tar xv ;;
+            (*.tar.bz2|*.tbz|*.tbz2) tar xvjf "$1" ;;
+            (*.tar.xz|*.txz) tar --xz --help &> /dev/null \
+                && tar --xz -xvf "$1" \
+                || xzcat "$1" | tar xvf - ;;
+                        (*.tar.zma|*.tlz) tar --lzma --help &> /dev/null \
+                            && tar --lzma -xvf "$1" \
+                            || lzcat "$1" | tar xvf - ;;
+                                                (*.tar) tar xvf "$1" ;;
+                                                (*.gz) [ -z $commands[pigz] ] && gunzip "$1" || pigz -d "$1" ;;
+                                                (*.bz2) bunzip2 "$1" ;;
+                                                (*.xz) unxz "$1" ;;
+                                                (*.lzma) unlzma "$1" ;;
+                                                (*.Z) uncompress "$1" ;;
+                                                (*.zip|*.war|*.jar|*.sublime-package) unzip "$1" -d $extract_dir ;;
+                                                (*.rar) unrar x -ad "$1" ;;
+                                                (*.7z) 7za x "$1" ;;
+                                                (*.deb)
+                                                    mkdir -p "$extract_dir/control"
+                                                    mkdir -p "$extract_dir/data"
+                                                    cd "$extract_dir"; ar vx "../${1}" > /dev/null
+                                                    cd control; tar xzvf ../control.tar.gz
+                                                    cd ../data; tar xzvf ../data.tar.gz
+                                                    cd ..; rm *.tar.gz debian-binary
+                                                    cd ..
+                                                    ;;
+                                                (*)
+                                                    echo "extract: '$1' cannot be extracted" 1>&2
+                                                    success=1
+                                                    ;;
+                                            esac
+
+                                            (( success = $success > 0 ? $success : $? ))
+                                            (( $success == 0 )) && (( $remove_archive == 0 )) && rm "$1"
+                                            shift
+                                        done
+                                    }

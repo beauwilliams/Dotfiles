@@ -45,17 +45,17 @@ source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.zsh/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode
-# source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
-source ~/.zsh/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1
+source ~/.zsh/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
 source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
 source ~/.zsh/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
 source ~/.zsh/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
 source ~/.zsh/hacker-quotes/hacker-quotes.plugin.zsh
+source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
+source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
+# source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
-# source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING
-# https://github.com/marlonrichert/zsh-autocomplete/issues/287
-# source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh
+# source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING https://github.com/marlonrichert/zsh-autocomplete/issues/287
+# source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode - does not work with fzf-tab
 
 
 
@@ -95,7 +95,6 @@ setopt auto_remove_slash        # self explicit
 #TODO: [beauwilliams] --> Find out what each of the below does and document for future ref
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' insert-unambiguous true
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' original true
 zstyle :compinstall filename '/Users/admin/.zshrc'
 zstyle ':completion:*' menu select
@@ -103,6 +102,16 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:
 # setopt completealiases #setting this on for now disables z completion
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# preview directory's content with exa when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# switch group using `,` and `.`
+zstyle ':fzf-tab:*' switch-group ',' '.'
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into the shell
 
 #THEME CONFIG - COLOR LS -- switching back to plain old ls as more portable.
