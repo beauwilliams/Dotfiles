@@ -13,6 +13,7 @@ local lsputil = require 'lspconfig/util'
 lsp.tsserver.setup {
     on_attach = custom_attach,
     on_init = custom_init,
+    settings = {documentFormatting = true},
   root_dir = function(fname)
     return lsputil.find_git_ancestor(fname) or
       lsputil.path.dirname(fname)

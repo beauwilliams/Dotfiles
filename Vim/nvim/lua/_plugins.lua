@@ -255,10 +255,11 @@ require("packer").startup {
             --run = ":TSInstall all"
         }
         -- romgrk/nvim-treesitter-context
-        -- use {  -- This is rad, but stupid slow right now.
-        --   "romgrk/nvim-treesitter-context",
-        --   requires = "nvim-treesitter/nvim-treesitter"
-        -- }
+        --[[ use {  -- This is rad, but stupid slow right now.
+          "romgrk/nvim-treesitter-context",
+          requires = "nvim-treesitter/nvim-treesitter",
+          config = "enable = true"
+        } ]]
         -- use "nvim-treesitter/nvim-treesitter-refactor"
         -- use {"nvim-treesitter/completion-treesitter", opt = true}
         -- use {
@@ -298,7 +299,13 @@ require("packer").startup {
         }
         use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
-        -- use 'ahmedkhalf/lsp-rooter.nvim'
+        use {
+            'airblade/vim-rooter',
+            config = function()
+                vim.cmd("let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']")
+                vim.cmd("let g:rooter_silent_chdir = 1")
+            end,
+            }
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
@@ -358,8 +365,6 @@ require("packer").startup {
                 )
             end
         }
-        -- use { 'tpope/vim-obsession' "Better vim sessions with :Obsess DEC20 Replace with vim-session for now as Obsess didn't fit me
-
 
 
 
@@ -384,13 +389,12 @@ require("packer").startup {
         }
         --[[ use 'preservim/nerdtree'
         use 'ms-jpq/chadtree' ]]
-        --==========================START FZF CONFIGS=============================
         use {"junegunn/fzf", run = function()
             vim.fn["fzf#install"]()
         end}
         use {"junegunn/fzf.vim"}
         use { 'camspiers/snap' }--, rocks = {'fzy'} }
-        use { -- non blocking finder if telescope is ever too slow https://github.com/camspiers/snap
+        use {
             'nvim-telescope/telescope.nvim',
             requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
         }
@@ -420,20 +424,6 @@ require("packer").startup {
         }
 
 
-        --use { 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' } -- FILE BROWSER
-        --use { 'tiagofumo/vim-nerdtree-syntax-highlight'
-        --[[ use { -- NO LONGER NEEDED, but keep for now
-            "junegunn/fzf.vim",
-            requires = "/usr/local/opt/fzf",
-            opt = true,
-            event = "VimEnter *",
-            config = function()
-                vim.g.fzf_colors = {["bg+"] = {"bg", "Normal"}}
-                --TODO: Convert to lua?
-            end
-        } ]]
-
-
 --[[
    ______    ____  ______           ____     __    __  __   ______    ____    _   __   _____
   / ____/   /  _/ /_  __/          / __ \   / /   / / / /  / ____/   /  _/   / | / /  / ___/
@@ -457,13 +447,6 @@ require("packer").startup {
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
         use { 'sindrets/diffview.nvim' } -- Neovim enhanced diffview [:DiffviewOpen]
         use 'ThePrimeagen/git-worktree.nvim' -- Adds neovim integration with worktrees and telescope
-        --use {
-            --"APZelos/blamer.nvim",
-            --config = function()
-                --vim.g.blamer_enabled = 1
-                --end
-                --} -- GIT LENS --> COMPANION CONFIG TO APZelos/blamer.nvim
-        --use {"airblade/vim-gitgutter"} -- Git diff gutter. DEC 2020 REPLACED WITH SIGNIFY AS GIT GUTTER CAN SLOW THINGS DOWN
 
 
 
@@ -478,7 +461,6 @@ require("packer").startup {
 
         use {"tpope/vim-eunuch"} -- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
         use 'lambdalisue/suda.vim' -- Neovim compatible :SudoWrite
-        -- use {"airblade/vim-rooter"} -- sets cwd automatically if are in say a git folder etc
         use {"sedm0784/vim-you-autocorrect"} -- Vim autocorrection
         use {'ojroques/nvim-bufdel'} --> Better buffer deletion defaults
         use {"tpope/vim-surround"} -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
@@ -517,7 +499,7 @@ require("packer").startup {
         -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
-        -- use {'andweeb/presence.nvim', disabled = true} -- discord presenceS
+        use 'andweeb/presence.nvim' -- discord presence
         use { -- OR.. nvim-treesitter/nvim-tree-docs
             'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
             run = "vim.cmd[[call doge#install()]]"

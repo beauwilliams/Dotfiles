@@ -3,12 +3,12 @@ local config = require'snap.config'
 
 local file = config.file:with {reverse = false, suffix = " »", layout = snap.get"layout".top}
 local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
--- local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.swap/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}
-local args = {"--ignorecase", "--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"}
+-- local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.baks/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}
+local args = {"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}
 
 snap.maps {
   {"<Leader>f", vimgrep {prompt = "Grep"}, "grep"},
-  {"<Leader>s", file {try = {"git.file", "ripgrep.file"}, prompt = "Files"}, "files"},
+  {"<Leader>s", file {args = args, producer = "ripgrep.file", prompt = "Files"}, "files"},
   {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"}, "history"},
   {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"}, "buffers"},
   {"<Leader>2", file {

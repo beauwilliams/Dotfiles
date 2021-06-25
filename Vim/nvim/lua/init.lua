@@ -15,7 +15,7 @@ require('_hexokinase')
 require('_telescope')
 require('_treesitter')
 require('_nvimtree')
--- require('_discord')
+require('_discord')
 require('_snap')
 
 --LSP
@@ -23,9 +23,9 @@ require('lsp._lsp_config')
 
 --Statusline (My plugin :D)
 local statusline = require('statusline')
-statusline.tabline = false
-statusline.lsp_diagnostics = false
-statusline.ale_diagnostics = true
+statusline.tabline = true
+statusline.lsp_diagnostics = true
+statusline.ale_diagnostics = false
 
 --Focus (My plugin :D)
 local focus = require('focus')
