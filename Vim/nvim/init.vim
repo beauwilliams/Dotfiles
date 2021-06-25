@@ -4,6 +4,7 @@ function! Test()
     return "test"
 endfunction
 
+
 "============================START INITS===============================
     "____    _   __    ____  ______   _____
    "/  _/   / | / /   /  _/ /_  __/  / ___/
@@ -39,22 +40,22 @@ endif
 
 
 " Backup Directories
-if !isdirectory($HOME . "/.config/nvim/.backup")
-    call mkdir($HOME . "/.config/nvim/.backup", "p", 0700)
+if !isdirectory($HOME . "/.cache/nvim/.backup")
+    call mkdir($HOME . "/.cache/nvim/.backup", "p", 0700)
 endif
-if !isdirectory($HOME . "/.config/nvim/.undo")
-    call mkdir($HOME . "/.config/nvim/.undo", "p", 0700)
+if !isdirectory($HOME . "/.cache/nvim/.undo")
+    call mkdir($HOME . "/.cache/nvim/.undo", "p", 0700)
 endif
-if !isdirectory($HOME . "/.config/nvim/.swap")
-    call mkdir($HOME . "/.config/nvim/.swap", "p", 0700)
+if !isdirectory($HOME . "/.cache/nvim/.swap")
+    call mkdir($HOME . "/.cache/nvim/.swap", "p", 0700)
 endif
-if !isdirectory($HOME . "/.config/nvim/.session")
-    call mkdir($HOME . "/.config/nvim/.session", "p", 0700)
+if !isdirectory($HOME . "/.cache/nvim/.session")
+    call mkdir($HOME . "/.cache/nvim/.session", "p", 0700)
 endif
-set backupdir=~/.config/nvim/.backup//
-set directory=~/.config/nvim/.swap//
+set backupdir=~/.cache/nvim/.backup//
+set directory=~/.cache/nvim/.swap//
 if exists('&undodir')
-  set undodir=~/.config/nvim/.undo//
+  set undodir=~/.cache/nvim/.undo//
 endif
 set swapfile
 

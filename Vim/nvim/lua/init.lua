@@ -15,7 +15,7 @@ require('_hexokinase')
 require('_telescope')
 require('_treesitter')
 require('_nvimtree')
-require('_discord')
+-- require('_discord')
 require('_snap')
 
 --LSP

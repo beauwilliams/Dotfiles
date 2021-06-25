@@ -342,7 +342,7 @@ require("packer").startup {
                 vim.api.nvim_exec(
                 [[
                 "keep all sessions in one location
-                let g:session_directory='~/.config/nvim/.session'
+                let g:session_directory='~/.cache/nvim/.session'
                 "remove .vim from end of files so it looks nicer in startify
                 let g:session_extension=''
                 "Remove pop-up each time we close to ask to save session
@@ -517,7 +517,7 @@ require("packer").startup {
         -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
-        use 'andweeb/presence.nvim' -- discord presence
+        -- use {'andweeb/presence.nvim', disabled = true} -- discord presenceS
         use { -- OR.. nvim-treesitter/nvim-tree-docs
             'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
             run = "vim.cmd[[call doge#install()]]"

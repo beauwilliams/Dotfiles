@@ -44,8 +44,11 @@ let g:startify_custom_header = [
 
 
 
-let g:startify_session_dir = '~/.config/nvim/.session'
+let g:startify_session_dir = '~/.cache/nvim/.session'
 let g:session_autosave = 'no'
+let g:startify_change_to_dir = 1
+let g:startify_change_to_vcs_root = 1
+
 
 let g:startify_lists = [
           \ { 'type': 'files',     'header': ['   Recent Files']                 },

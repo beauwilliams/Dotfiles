@@ -33,7 +33,8 @@ else
 end
 
 -- STORED IN MY .config/nvim/.langservers/
-local sumneko_root_path = vim.fn.stdpath('config')..'/.langservers/sumneko_lua/lua-language-server'
+-- local sumneko_root_path = vim.fn.stdpath('config')..'/.langservers/sumneko_lua/lua-language-server'
+local sumneko_root_path = '/Users/admin/.langservers/sumneko_lua/lua-language-server'
 local sumneko_binary = sumneko_root_path.."/bin/"..system_name.."/lua-language-server"
 
 lsp.sumneko_lua.setup {
