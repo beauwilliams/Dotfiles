@@ -1,6 +1,9 @@
 
 #====================BEGIN ALIASES=======================================
 
+###BOSS SHIT###
+alias n="nvim"
+
 ###MISC ALIASES###
 eval $(thefuck --alias)
 
@@ -57,13 +60,13 @@ alias gca='git commit -v -a'
 alias gci='git commit --interactive'
 # alias gcl='git clone'
 alias gcm='git commit -v -m'
-alias gco='git checkout'
+# alias gco='git checkout'
 alias gcount='git shortlog -sn'
 alias gcp='git cherry-pick'
 alias gdel='git branch -D'
 alias get='git'
 alias gexport='git archive --format zip --output'
-alias gl='git pull'
+alias gpl='git pull'
 alias gll='git log --graph --pretty=oneline --abbrev-commit'
 alias gm='git merge'
 alias gmu='git fetch origin -v; git fetch upstream -v; git merge upstream/master'

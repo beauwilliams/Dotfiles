@@ -52,6 +52,7 @@ source ~/.zsh/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
 source ~/.zsh/hacker-quotes/hacker-quotes.plugin.zsh
 source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
 source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
+source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
 # source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
 # source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING https://github.com/marlonrichert/zsh-autocomplete/issues/287
