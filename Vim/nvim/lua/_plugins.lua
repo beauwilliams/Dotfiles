@@ -72,7 +72,6 @@ require("packer").startup {
 
 
 
-
 --[[
   ______    __  __    ______    __  ___    ______   _____          ___             __  __    ____
  /_  __/   / / / /   / ____/   /  |/  /   / ____/  / ___/         ( _ )           / / / /   /  _/
@@ -83,8 +82,9 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
+        use "sainnhe/gruvbox-material"
         -- another I would like to try https://github.com/sainnhe/everforest
-        -- use 'eddyekofo94/gruvbox-flat.nvim'
+        --use 'eddyekofo94/gruvbox-flat.nvim'
         use 'beauwilliams/statusline.lua'
         use 'beauwilliams/focus.nvim'
         use {
@@ -293,8 +293,8 @@ require("packer").startup {
         use 'sbdchd/neoformat' -- Code formatting plugin
         use {'RRethy/vim-illuminate',  --> Highlight word under cursor
         config = function()
-            vim.cmd[[    autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]]
-            vim.cmd[[autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none]]
+            -- vim.cmd[[ hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]]
+            -- vim.cmd[[ hi illuminatedCurWord cterm=none gui=none]]
         end,
         }
         use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
@@ -326,6 +326,7 @@ require("packer").startup {
         -- use { 'uiiaoo/java-syntax.vim' "5/12/20 Retiring For Treesitter
         -- use { 'rust-lang/rust.vim' "5/12/20 Retiring for treesitter
         -- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
+
 
 
 

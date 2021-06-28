@@ -4,6 +4,7 @@ function! Test()
     return "test"
 endfunction
 
+
 "============================START INITS===============================
     "____    _   __    ____  ______   _____
    "/  _/   / | / /   /  _/ /_  __/  / ___/
@@ -137,6 +138,14 @@ cnoreabbrev spelloff  DisableAutocorrect
 "MARKDOWN RENDERER [glow.nvim]
 cnoreabbrev mdreader Glow
 
+"PAGEUP/PAGEDN ONLY HALF PAGE AT A TIME
+" nnoremap <PageUp> <C-u> why does this not scroll but snap to the next pos?
+" nnoremap <PageDown> <C-d>
+
+map <silent> <PageUp> <C-U>
+map <silent> <PageDown> <C-D>
+" imap <silent> <PageUp> <C-O>1000<C-U>
+" imap <silent> <PageDown> <C-O>1000<C-D>
 
 "Clear highlights quick!
 " noremap <silent><leader>/ :nohlsearch<cr>

@@ -48,7 +48,7 @@ utils.nnoremap(leader.."i", "gg=G<c-o>")
 -- Run Neoformat
 utils.nnoremap(leader.."F", ":Neoformat<CR>")
 vim.cmd("cnoreabbrev neofmt Neoformat")
-vim.cmd("cnoreabbrev lspfmt lua vim.lsp.buf.formatting()")
+vim.cmd("ca lspfmt w <bar> lua vim.lsp.buf.formatting()")
 
 -- SEARCH AND REPLACE
 -- replace word under cursor

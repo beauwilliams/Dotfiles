@@ -7,10 +7,11 @@ local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
 local args = {"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}
 
 snap.maps {
-  {"<Leader>f", vimgrep {prompt = "Grep"}, "grep"},
-  {"<Leader>s", file {args = args, producer = "ripgrep.file", prompt = "Files"}, "files"},
-  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"}, "history"},
-  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"}, "buffers"},
+  {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
+  {"<Leader>s", file {args = args, producer = "ripgrep.file", prompt = "Files"}, {command = "files"}},
+  {"<Leader>9", file {args = args, producer = "git.file", prompt = "Git Files"}, {command = "gitfiles"}},
+  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
+  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
   {"<Leader>2", file {
       args = args,
       try = {snap.get'consumer.combine'(
@@ -18,7 +19,7 @@ snap.maps {
       snap.get'producer.ripgrep.file'.args({}, "/Users/admin/.config/zsh")
       )},
       prompt = "Search Dotfiles"
-  }, "search dotfiles"},
+  },{command =  "search dotfiles"}},
   {"<Leader>df", vimgrep {
       args = args,
       try = {snap.get'consumer.combine'(
@@ -26,7 +27,7 @@ snap.maps {
       -- snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/zsh")
       )},
       prompt = "Grep Dotfiles"
-  }, "grep dotfiles"},
+  },{command =  "grep dotfiles"}},
 }
 -- "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"
 

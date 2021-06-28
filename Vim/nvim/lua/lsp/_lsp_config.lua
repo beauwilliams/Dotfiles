@@ -251,7 +251,7 @@ end
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
-vim.cmd[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]] -- NOTE: sets workspace per project..
+vim.cmd[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]] -- NOTE: sets workspace per project..
 -- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 
 ---------------------------------------------------------------------------------------
