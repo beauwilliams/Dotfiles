@@ -3,6 +3,8 @@
 
 ###BOSS SHIT###
 alias n="nvim"
+alias vi="nvim"
+alias vim="nvim"
 
 ###MISC ALIASES###
 eval $(thefuck --alias)

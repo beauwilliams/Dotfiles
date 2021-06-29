@@ -156,14 +156,22 @@ g() {
         git status
     fi
 }
-#git clone, can just type gcl to clone from clipboard else with link proceeding it
+
+#git clone wrapper, `gcl` to clone from clipboard (macos)
+#this works -->  `gcl git@github.com:beauwilliams/Dotfiles.git`
+#this works --> `gcl`
+# does not matter if the link you copied has "git clone" in front of it or not
 gcl() {
     if [[ $# -gt 0 ]]; then
         git clone "$*" && cd "$(basename "$1" .git)"
+    elif [[ "$(pbpaste)" == *"clone"* ]] then
+        $(pbpaste) && cd "$(basename "$(pbpaste)" .git)"
     else
         git clone "$(pbpaste)" && cd "$(basename "$(pbpaste)" .git)"
     fi
 }
+
+
 # Create new branch. geb <branch-name>
 gco(){
     git checkout -b "$1"
