@@ -162,6 +162,10 @@ export PATH="$PATH:/Users/admin/.local/bin" #MY CUSTOM BINARY LOCATION
 #NODE
 #Adding path for node installation, something happened during update and npm dissapeared!
 # export PATH="/usr/local/bin/:$PATH"
+# node version manager
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 #HASKELL GHC
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
@@ -172,7 +176,11 @@ export PATH=$HOME/Library/Haskell/bin:$PATH
 #export PATH="/usr/local/opt/qt/bin:$PATH"
 
 #JAVA --> using my setjdk() function
-setjdk 14
+setjdk 11 #using v11 for scala/sbt comp3000 26/7/21
+
+#SCALA
+export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Coursier ,Pure Scala Artifact Fetching
+
 
 
 #FLUTTER
@@ -301,3 +309,7 @@ export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can u
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/admin/.sdkman"
+[[ -s "/Users/admin/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/admin/.sdkman/bin/sdkman-init.sh"
