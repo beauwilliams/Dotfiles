@@ -1,7 +1,7 @@
 local actions = require('telescope.actions')
 local telescope = require('telescope')
 telescope.setup{
-    defaults = {
+    config = {
         mappings = {i = {["<esc>"] = actions.close,
         ["<C-c>"] = function()
             vim.cmd [[stopinsert]] --start normal mode if we need it
@@ -24,7 +24,7 @@ telescope.setup{
     selection_strategy = "reset",
     sorting_strategy = "ascending",
     layout_strategy = "horizontal",
-    layout_defaults = {
+    layout_config = {
         -- TODO add builtin options.
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,

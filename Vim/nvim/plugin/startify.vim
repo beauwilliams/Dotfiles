@@ -58,6 +58,7 @@ let g:startify_lists = [
           \ ]
 
 let g:startify_bookmarks = [
+            \ { 'n': '~/Dropbox/Software Eng/Workspaces/Neorg/index.norg' },
             \ { 'v': '~/.config/nvim/init.vim' },
             \ { 'z': '~/.zshrc' },
             \ { 's': '~/.ssh/config' },

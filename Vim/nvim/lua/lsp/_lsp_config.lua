@@ -90,7 +90,7 @@ vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
 end
 
 -- Diagnostics
-require("nvim-ale-diagnostic") --USING ALE TO DISPLAY DIAGS
+-- require("nvim-ale-diagnostic") -- WAS.. USING ALE TO DISPLAY DIAGS
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     underline = true,
@@ -104,7 +104,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 -- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
-vim.cmd [[let g:ale_linters = {'python': []}]]
+-- vim.cmd [[let g:ale_linters = {'python': []}]]
 
 --CAPABILITIES
 Custom_capabilities = function()
@@ -143,7 +143,7 @@ lsp_status.register_progress()
 custom_attach = function(client,bufnr) --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
 
   -- INITS
-  require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
+  -- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
   -- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
   lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
@@ -211,14 +211,15 @@ end
 -- npm i -g typescript typescript-language-server
 -- npm i -g bash-language-server
 -- npm install -g vim-language-server
--- npm install -g vscode-html-languageserver-bin
+-- npm i -g vscode-langservers-extracted
 -- npm install -g vscode-json-languageserver
 -- npm install -g dockerfile-language-server-nodejs
 -- npm install -g vscode-css-languageserver-bin
 -- npm install -g vim-language-server
+-- cs install metals
 
 local servers = {
-  'bashls','cssls','vimls','rust_analyzer','pyls','dockerls'
+  'bashls','cssls','vimls','rust_analyzer','pylsp','dockerls'
 }
 
 
@@ -231,7 +232,7 @@ for _,server in ipairs(servers) do
 end
 
 local servers_rootcwd = {
-  'vimls','jsonls'
+  'metals','vimls','jsonls'
 }
 
 for _,server in ipairs(servers_rootcwd) do

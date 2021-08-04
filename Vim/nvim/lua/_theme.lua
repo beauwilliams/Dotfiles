@@ -21,6 +21,7 @@ vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark="soft"
 -- vim.g.gruvbox_sign_column = "bg0"
 vim.cmd("colorscheme gruvbox") -- must come after gruvbox_italic
+
 -- vim.cmd[[colorscheme gruvbox-flat]]
 -- match the fold column colors to the line number colum
 -- Note: must come after colorscheme gruvbox

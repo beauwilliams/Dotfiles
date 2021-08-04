@@ -2,9 +2,9 @@ local init = function()
 -- MY CONFS
 require('_plugins')
 require('_theme')
-require('_mappings')
 require('_settings')
 require('_autocmds')
+require('_mappings')
 
 --LIBRARIES
 require('_utils')
@@ -15,8 +15,7 @@ require('_hexokinase')
 require('_telescope')
 require('_treesitter')
 require('_nvimtree')
-require('_discord')
-require('_snap')
+-- require('_discord')
 
 --LSP
 require('lsp._lsp_config')

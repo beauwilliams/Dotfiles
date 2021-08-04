@@ -21,12 +21,12 @@ local lsp = require 'lspconfig'
 --]]
 
 
--- NOTE: Install via npm `npm install -g vscode-html-languageserver-bin`
+-- NOTE: Install via npm `npm i -g vscode-langservers-extracted`
 lsp.html.setup{
     on_attach = custom_attach,
     on_init = custom_init,
     capabilities = Custom_capabilities(), --enable snippet support
-    cmd = { "html-languageserver", "--stdio" },
+    cmd = { "vscode-html-language-server", "--stdio" },
     root_dir = vim.loop.cwd,
     filetypes = { "html" },
     init_options = {

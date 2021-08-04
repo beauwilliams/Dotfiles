@@ -61,9 +61,47 @@ utils.nnoremap("d.", "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap("d,", "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
 -- MISCELLANEOUS
+utils.nnoremap("<leader>z", ":ToggleAlternate<cr>")
 
 
+--SNAP MAPPINGS
+local snap = require'snap'
+local config = require'snap.config'
+local file = config.file:with {reverse = true, suffix = " »", layout = snap.get"layout".center}
+local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
+-- local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.baks/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}
+local args = {"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}
 
+snap.maps {
+  {
+    '<leader>s', file {
+      try = {
+        snap.get('producer.git.file').args({'--cached', '--others', '--exclude-standard'}),
+        snap.get('producer.ripgrep.file').args({"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}),
+      },
+      prompt = 'Files',
+    },
+  },
+  {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
+  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
+  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
+  {"<Leader>2", file {
+      args = args,
+      try = {snap.get'consumer.combine'(
+      snap.get'producer.ripgrep.file'.args({}, "/Users/admin/.config/nvim"),
+      snap.get'producer.ripgrep.file'.args({}, "/Users/admin/.config/zsh")
+      )},
+      prompt = "Search Dotfiles"
+  },{command =  "search dotfiles"}},
+  --[[ {"<Leader>df", vimgrep {
+      args = args,
+      {snap.get'consumer.combine'(
+      snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/nvim"),
+      snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/zsh")
+      )},
+      prompt = "Grep Dotfiles"
+  },{command =  "grep dotfiles"}}, ]]
+}
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -102,8 +140,8 @@ cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('
 -- HOT KEYS
 utils.nnoremap(leader..'1', ":lua require'telescope.builtin'.builtin()<cr>")
 utils.vnoremap(leader..'1', ":lua require'telescope.builtin'.builtin()<cr>")
-utils.nnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
+--[[ utils.nnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
+utils.vnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>") ]]
 utils.nnoremap(leader..'3', ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>")
 utils.vnoremap(leader..'3', ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>")
 utils.nnoremap(leader..'4', ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>")

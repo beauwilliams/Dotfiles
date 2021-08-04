@@ -5,6 +5,25 @@ function! Test()
 endfunction
 
 
+function SwapBool ()
+  let s:w = expand("<cword>")
+  if s:w == "false"
+    normal ciwtrue
+    if expand("<cword>") != "true"
+      normal u
+    endif
+  elseif s:w == "true"
+    normal ciwfalse
+    if expand("<cword>") != "false"
+      normal u
+    endif
+  endif
+endfunction
+
+
+"AUTOSAVE FILES
+" autocmd TextChanged,FocusLost,BufEnter * silent update
+
 "============================START INITS===============================
     "____    _   __    ____  ______   _____
    "/  _/   / | / /   /  _/ /_  __/  / ___/

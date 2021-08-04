@@ -1,18 +1,24 @@
 local snap = require'snap'
 local config = require'snap.config'
-
-local file = config.file:with {reverse = false, suffix = " »", layout = snap.get"layout".top}
+local file = config.file:with {reverse = true, suffix = " »", layout = snap.get"layout".center}
 local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
 -- local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.baks/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}
 local args = {"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}
 
 snap.maps {
+  {
+    '<leader>s', file {
+      try = {
+        snap.get('producer.git.file').args({'--cached', '--others', '--exclude-standard'}),
+        snap.get('producer.ripgrep.file').args({"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}),
+      },
+      prompt = 'Files',
+    },
+  },
   {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
-  {"<Leader>s", file {args = args, producer = "ripgrep.file", prompt = "Files"}, {command = "files"}},
-  {"<Leader>9", file {args = args, producer = "git.file", prompt = "Git Files"}, {command = "gitfiles"}},
   {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
   {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
-  {"<Leader>2", file {
+  {"<Leader>ds", file {
       args = args,
       try = {snap.get'consumer.combine'(
       snap.get'producer.ripgrep.file'.args({}, "/Users/admin/.config/nvim"),
@@ -29,34 +35,3 @@ snap.maps {
       prompt = "Grep Dotfiles"
   },{command =  "grep dotfiles"}},
 }
--- "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes}/*"
-
-
---[[ snap.register.map('n', '<Leader>e', snap.create(function ()
-  return {
-  producer = snap.get'consumer.fzf'(snap.get'producer.git.file'),
-  select = snap.get'select.file'.select,
-  multiselect = snap.get'select.file'.multiselect,
-  views = {snap.get'preview.file'}
-  }
-end))
-
--- creates normal mode mapping <Leader>f for grepping files in cwd
-snap.register.map('n', '<Leader>f', snap.create(function ()
-  return {
-    producer = snap.get'producer.ripgrep.vimgrep',
-    select = snap.get'select.vimgrep'.select,
-    multiselect = snap.get'select.vimgrep'.multiselect,
-    views = {snap.get'preview.vimgrep'}
-  }
-end))
-
--- normal mode mapping <Leader><Leader> for searching files in cwd
-snap.register.map('n', '<Leader>s', snap.create(function ()
-  return {
-    producer = snap.get'consumer.fzf'(snap.get'producer.ripgrep.file'),
-    select = snap.get'select.file'.select,
-    multiselect = snap.get'select.file'.multiselect,
-    views = {snap.get'preview.file'}
-  }
-end)) ]]

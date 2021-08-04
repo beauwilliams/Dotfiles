@@ -16,6 +16,7 @@ utils.set_options("g", {
 
 
 utils.set_options("o", {
+    -- colorcolumn = 80, --80 column width marker for when we need it
     hlsearch = true, -- highlight matching search
     cursorline = true, -- enable cursorline
     number = true, -- enable line numbers

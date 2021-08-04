@@ -70,6 +70,8 @@ require("packer").startup {
         use {"wbthomason/packer.nvim", opt = true}
 
 
+-- DEBUG STUFF
+-- https://github.com/henriquehbr/nvim-startup.lua
 
 
 --[[
@@ -82,7 +84,8 @@ require("packer").startup {
 --]]
         --THEMES/UX/UI PLUGINS
         use "gruvbox-community/gruvbox"
-        use "sainnhe/gruvbox-material"
+        -- use 'ghifarit53/tokyonight-vim'
+        -- use "sainnhe/gruvbox-material"
         -- another I would like to try https://github.com/sainnhe/everforest
         --use 'eddyekofo94/gruvbox-flat.nvim'
         use 'beauwilliams/statusline.lua'
@@ -91,6 +94,8 @@ require("packer").startup {
             'nacro90/numb.nvim', -- Preview line in buffer e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
             config = "require('numb').setup()"
         }
+        -- Adds numbers to search
+        use {'kevinhwang91/nvim-hlslens'}
         --TODO: Archive
         -- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
         --[[ use {
@@ -103,6 +108,9 @@ require("packer").startup {
                 }
             end
         } ]]
+
+        -- WILD MENU ENHANCEMENT
+        use 'gelguy/wilder.nvim'
 
         --TODO: Archive
         -- START: QUIKFIX configs, includes diag list, todo list, terminal, qflist
@@ -140,7 +148,7 @@ require("packer").startup {
                 vim.g.beacon_shrink = 0
             end
         }
-        use {'lukas-reineke/indent-blankline.nvim', branch = 'lua', config = "vim.g.indent_blankline_char = '│'"}
+        use {'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'"}
 
         --TODO: ARCHIVE
         --[[ use { --> INDENT GUIDES/LINES
@@ -249,11 +257,12 @@ require("packer").startup {
                 )
             end
         }
-        use 'haringsrob/nvim_context_vt' --> Show treesitter context at end of functions etc
         use {
-            "nvim-treesitter/nvim-treesitter",
+            "nvim-treesitter/nvim-treesitter", branch = "0.5-compat"
             --run = ":TSInstall all"
         }
+        use 'haringsrob/nvim_context_vt' --> Show treesitter context at end of functions etc
+        use 'nvim-treesitter/nvim-treesitter-refactor' --> smart renaming and highlight definitions and scope
         -- romgrk/nvim-treesitter-context
         --[[ use {  -- This is rad, but stupid slow right now.
           "romgrk/nvim-treesitter-context",
@@ -278,11 +287,19 @@ require("packer").startup {
             )
         end
         }
+
+        -- lang specific
+        use 'mfussenegger/nvim-jdtls' --> Better jdtls setup than lspconfig
+        -- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
+        -- browse JSON gennaro-tedesco/nvim-jqx
+        -- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim
+        -- better YAML https://github.com/cuducos/yaml.nvim
+
+
         use 'b3nj5m1n/kommentary' -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         use 'hrsh7th/vim-vsnip' --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
         use 'rafamadriz/friendly-snippets' --> Snippets library compatible with vim-vsnip
         use 'neovim/nvim-lspconfig' --> PREMADE LSPCONFIGS
-        use 'mfussenegger/nvim-jdtls' --> Better jdtls setup than lspconfig
         use 'nvim-lua/lsp-status.nvim' --> Lsp statusline
         -- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
         use 'ray-x/lsp_signature.nvim' --> LSP SignatureInformation
@@ -293,13 +310,22 @@ require("packer").startup {
         use 'sbdchd/neoformat' -- Code formatting plugin
         use {'RRethy/vim-illuminate',  --> Highlight word under cursor
         config = function()
-            -- vim.cmd[[ hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]]
-            -- vim.cmd[[ hi illuminatedCurWord cterm=none gui=none]]
+            vim.cmd[[ hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]]
+            vim.cmd[[ hi illuminatedCurWord cterm=none gui=none]]
         end,
         }
-        use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter
+
+        use 'mizlan/iswap.nvim' --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things.
+
+
+        -- DEBUGGING PLUGINS
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
-        use {
+        -- https://github.com/mfussenegger/nvim-dap
+        -- https://github.com/rcarriga/nvim-dap-ui
+
+
+
+        use { -- set cwd automatically
             'airblade/vim-rooter',
             config = function()
                 vim.cmd("let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']")
@@ -343,6 +369,7 @@ require("packer").startup {
 |__/|__/   \____/  /_/ |_|  /_/ |_|  /____/  /_/      /_/  |_|\____/   /_____/   /____/
 --]]
         -- SESSION/WORKSPACE MGMT -> :SaveSession :DeleteSession :ViewSession --> sessions saved
+        -- Alternative lua version (not yet tested) https://github.com/rmagatti/auto-session
         use {
             "xolox/vim-session", -- Centralise sessions to a .sessions folder and easily save sessions with :SaveSession <name>
             requires = "xolox/vim-misc",
@@ -442,7 +469,10 @@ require("packer").startup {
                 vim.g.blamer_date_format = '%d/%m/%y'
             end
         }
-
+        use {'pwntester/octo.nvim', config=function()
+            require"octo".setup() --Edit and review GitHub issues and pull requests from the comfort of your favorite editor
+            -- :Octo issue, :Octo pr ...
+        end}
         use "mhinz/vim-signify" -- ASYNC GIT DIFF GUTTER
         use {"rhysd/git-messenger.vim"} -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
@@ -500,7 +530,8 @@ require("packer").startup {
         -- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
         -- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
         use 'npxbr/glow.nvim' --> might ned to run :GlowInstall --> :mdreader to read md
-        use 'andweeb/presence.nvim' -- discord presence
+        -- use 'andweeb/presence.nvim' -- discord presence
+        use 'rmagatti/alternate-toggler' --:ToggleAlternate -- TOGGLE BOOLS
         use { -- OR.. nvim-treesitter/nvim-tree-docs
             'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
             run = "vim.cmd[[call doge#install()]]"
@@ -516,6 +547,36 @@ require("packer").startup {
         -- use 'notomo/lreload.nvim' --> Hot reloading for lua development
         -- use 'wadackel/nvim-syntax-info' Display highlight links etc using :SyntaxInfo
 
+        use 'gennaro-tedesco/nvim-peekup' -- USAGE: "" to get list of registers
+        -- use 'abecodes/tabout.nvim' -- USAGE: <Tab> between objects such as {} [] etc
+        --
+
+        use {
+            "vhyrro/neorg",
+            config = function()
+                require('neorg').setup {
+                    -- Tell Neorg what modules to load
+                    load = {
+                        ["core.defaults"] = {}, -- Load all the default modules
+                        ["core.keybinds"] = { -- Default keybinds <leader>o, g t(ask) d(one), un(done) p(ending) [gtd,gtu,gtp]
+                            config = {
+                                default_keybinds = true, -- Generate the default keybinds
+                                neorg_leader = "<Leader>o" -- This is the default if unspecified
+                            }
+                        },
+                        ["core.norg.concealer"] = {}, -- Allows for use of icons
+                        ["core.norg.dirman"] = { -- Manage your directories with Neorg
+                            config = {
+                                workspaces = {
+                                    my_workspace = "~/Dropbox/Software Eng/Workspaces/Neorg"
+                                }
+                            }
+                        }
+                    },
+                }
+            end,
+            requires = "nvim-lua/plenary.nvim"
+        }
 
     end --> End of the packer(use) function
 }
