@@ -263,6 +263,15 @@ require("packer").startup {
         }
         use 'haringsrob/nvim_context_vt' --> Show treesitter context at end of functions etc
         use 'nvim-treesitter/nvim-treesitter-refactor' --> smart renaming and highlight definitions and scope
+        use {
+            'windwp/nvim-ts-autotag',
+            config = function()
+                vim.api.nvim_exec(
+                    [[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]] -- auto close html tags etc
+                ,false)
+            end
+        }
+        use 'nvim-treesitter/nvim-treesitter-textobjects' -- treesitter text objects
         -- romgrk/nvim-treesitter-context
         --[[ use {  -- This is rad, but stupid slow right now.
           "romgrk/nvim-treesitter-context",

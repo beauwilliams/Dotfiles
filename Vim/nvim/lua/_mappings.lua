@@ -14,6 +14,9 @@ local cmd = vim.cmd
 -- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 -- "i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
 utils.map("n", leader..leader, ":")
+--TOGGLE LIGHT/DARK THEME
+vim.cmd([[cnoreabbrev light lua vim.o.background = 'light']])
+vim.cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
 -- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
 utils.nnoremap("yp", "0p")
@@ -238,9 +241,7 @@ vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
 utils.nnoremap(leader..'qq', ':lua require("toolwindow").close()<cr>')
-utils.nnoremap(leader..'qd', ':lua require("toolwindow").open_window("quickfix", "diagnostics")<cr>')
-utils.nnoremap(leader..'ql', ':lua require("toolwindow").open_window("quickfix", "loclist")<cr>')
-utils.nnoremap(leader..'qr', ':lua require("toolwindow").open_window("quickfix", "lsp_references")<cr>')
+utils.nnoremap(leader..'qd', ':lua require("toolwindow").open_window("trouble", nil)<cr>')
 utils.nnoremap(leader..'qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
 utils.nnoremap(leader..'qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
 utils.nnoremap(leader..'qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
