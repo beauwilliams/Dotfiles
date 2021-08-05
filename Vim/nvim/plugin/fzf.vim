@@ -9,7 +9,7 @@
 
 "WE ARE USING BAT - A COOL NEW RUST CAT, TO PROVIDE FANCIER PREVIEW OF CODE
 "let $FZF_DEFAULT_OPTS="--ansi --preview-window 'right:60%' --layout=reverse --margin=1,4 --color=always --style=header,grid --line-range :300 {}'"
-let $FZF_DEFAULT_OPTS="--layout=reverse --margin=1,4  --preview 'right:60%'"
+let $FZF_DEFAULT_OPTS="--layout=reverse --margin=1,4  ---preview 'cat {}"
 "FZF CONFIGS
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } } "fzf opens in pop up window instead of down bottom
 "let g:fzf_preview_window = 'right:60%'

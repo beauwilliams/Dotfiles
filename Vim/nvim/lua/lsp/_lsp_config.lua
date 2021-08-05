@@ -120,7 +120,7 @@ end
   --kind_labels = vim.g.completion_customize_lsp_label
 --})
 --not sure what this is for i think for progresss bars on statusline
-lsp_status.register_progress()
+-- lsp_status.register_progress()
 
 
 
@@ -146,7 +146,7 @@ custom_attach = function(client,bufnr) --> Added client,bufnr works also without
   -- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
   -- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
   require('_lightbulb') --> CODE ACTION LIGHTBULB
-  lsp_status.on_attach(client) --> REQUIRED for lsp statusbar.. WROTE MY OWN..
+  lsp_status.on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
   require "lsp_signature".on_attach(client) --> Signature popups and info
   --[[ lsp_status.config(
         {
@@ -207,14 +207,13 @@ end
 --curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
 --chmod +x ~/.local/bin/rust-analyzer
 -- INSTALL COMMANDS
+-- npm i -g vscode-langservers-extracted [installs html,css,json with most up to date from vscode]
 -- pip3 install 'python-language-server[all]'
 -- npm i -g typescript typescript-language-server
 -- npm i -g bash-language-server
 -- npm install -g vim-language-server
 -- npm i -g vscode-langservers-extracted
--- npm install -g vscode-json-languageserver
 -- npm install -g dockerfile-language-server-nodejs
--- npm install -g vscode-css-languageserver-bin
 -- npm install -g vim-language-server
 -- cs install metals
 

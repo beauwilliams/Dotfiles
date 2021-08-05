@@ -71,16 +71,16 @@ tsconf.setup {
       },
     },
 
-
     incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "gnn",
-            node_incremental = "gnn",
-            scope_incremental = "gnc",
-            node_decremental = "gnd",
-        },
+      enable = true,
+      keymaps = {
+        init_selection = "<Enter>",
+        scope_incremental = "gnc",
+        node_incremental = "<Enter>",
+        node_decremental = "<BS>",
+      },
     },
+
     refactor = {
         highlight_definitions = { enable = true },
         highlight_current_scope = { enable = false },

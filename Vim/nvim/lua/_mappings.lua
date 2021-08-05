@@ -31,6 +31,16 @@ utils.inoremap("<c-k>", "<esc>ki")
 utils.inoremap("<c-h>", "<esc>i" )
 utils.inoremap("<c-l>", "<esc>la")
 
+--SESSION MANAGEMENT (VIA STARTIFY)
+vim.cmd([[
+    cnoreabbrev mks SSave
+    cnoreabbrev mksession SSave
+    cnoreabbrev lds SLoad
+    cnoreabbrev ldsession SLoad
+    cnoreabbrev dls SDelete
+    cnoreabbrev dlsession SDelete
+]])
+
 --FUZZYMENU (ctrl+p)
 utils.nmap(leader.."p", "<Plug>(Fzm)")
 utils.vmap(leader.."p", "<Plug>(FzmVisual)")
@@ -50,8 +60,8 @@ vim.cmd([[cnoreabbrev docgen DogeGenerate]])
 utils.nnoremap(leader.."i", "gg=G<c-o>")
 -- Run Neoformat
 utils.nnoremap(leader.."F", ":Neoformat<CR>")
-vim.cmd("cnoreabbrev neofmt Neoformat")
-vim.cmd("ca lspfmt w <bar> lua vim.lsp.buf.formatting()")
+vim.cmd("cnoreabbrev fmt Neoformat")
+vim.cmd("ca fmtlsp w <bar> lua vim.lsp.buf.formatting()")
 
 -- SEARCH AND REPLACE
 -- replace word under cursor
