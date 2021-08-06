@@ -13,10 +13,12 @@ local cmd = vim.cmd
 --Toggle between 0 and ^ with JUST 0 =D. Does not work well with wrap off and side scrolling..
 -- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 -- "i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
-utils.map("n", leader..leader, ":")
+-- utils.map("n", leader..leader, ":")
+cmd("nnoremap ; :")
+cmd("nnoremap : ;")
 --TOGGLE LIGHT/DARK THEME
-vim.cmd([[cnoreabbrev light lua vim.o.background = 'light']])
-vim.cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
+cmd([[cnoreabbrev light lua vim.o.background = 'light']])
+cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
 -- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
 utils.nnoremap("yp", "0p")
@@ -128,6 +130,7 @@ utils.nnoremap(leader..'S', ":lua require'telescope.builtin'.oldfiles(require('t
 utils.vnoremap(leader..'S', ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>") ]]
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
+utils.nnoremap(leader..leader, ":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>")
 utils.nnoremap(leader..'gb', ":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gb', ":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>")
 --[[ utils.nnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")

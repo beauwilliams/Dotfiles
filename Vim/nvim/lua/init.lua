@@ -2,7 +2,7 @@ local init = function()
 -- MY CONFS
 require('_plugins')
 require('_theme')
-require('_settings')
+require('_options')
 require('_autocmds')
 require('_mappings')
 

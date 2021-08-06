@@ -21,6 +21,24 @@ function SwapBool ()
 endfunction
 
 
+
+" Keep selection when shifting
+vnoremap > >gv
+vnoremap < <gv
+" Switch Between Buffers with backspace and retain cursor location and center to cursor
+nnoremap <bs> <c-^>`”zz
+"Bring search results to middle of screen, zv at end makes this compatible with folds
+noremap n nzzzv
+nnoremap N Nzzzv
+"whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
+onoremap b i[|
+onoremap p i(|
+"Disable highlights when cursor moved
+autocmd CursorMoved * set nohlsearch
+nnoremap <silent> n n:set hlsearch<cr>
+nnoremap <silent> N N:set hlsearch<cr>
+
+
 "AUTOSAVE FILES
 " autocmd TextChanged,FocusLost,BufEnter * silent update
 
@@ -88,6 +106,7 @@ endif
 if !empty(&viminfo)
   set viminfo^=!
 endif
+
 
 
 "============================END MY CONFIGS===============================
@@ -273,6 +292,18 @@ cnoreabbrev <silent>gp :G push
 "/_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
 
 
+"Set root folder to git repo, if else set pwd to current file
+function! SearchRoot()
+  let l:scm_list = ['.root', '.svn', '.git']
+  for l:item in l:scm_list
+    let l:dirs = finddir(l:item, '.;', -1)
+    if !empty(l:dirs)
+      return fnamemodify(l:dirs[-1].'/../', ':p:h')
+    endif
+  endfor
+  return '%:p:h'
+endfunction
+autocmd BufEnter * exe ':lcd '.SearchRoot()
 
 "Auto Whitspace trimming!!
 fun! TrimWhitespace()
@@ -332,7 +363,6 @@ function! WinMove(key)
 endfunction
 "MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
 "OPEN NEW SPLIT IF NO SPLITS EXIST IN THAT POSITION,
-"SORTA LIKE WE HAVE OVERLOADED IT :P
 "Just space-hjkl
 nnoremap <silent><leader>h :call WinMove('h')<CR>
 nnoremap <silent><leader>j :call WinMove('j')<CR>
@@ -344,14 +374,12 @@ nnoremap <silent> <leader>w <C-w>w
 vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
 vnoremap <silent> <leader>W <C-w>W
-"Resize our splits with <leader> +/- easily
+"Resize our splits with <leader> ;/'/,/.- easily
 nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
 nnoremap <silent> <Leader>; :exe "resize " . (winheight(0) * 3/4)<CR>
-"NOTE: DUE TO LIMITATION IN VIM, its going to go left when you think it will go right due to it simply being +/- pixels and not dependenent on direction
 nnoremap <silent> <leader>, :vertical resize -10<CR>
 nnoremap <silent> <leader>. :vertical resize +10<CR>
 "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-"<leader>H K
 nnoremap <silent><leader>[ <c-w>H
 nnoremap <silent><leader>] <c-w>K
 """"""""""""""""""""""""""""""""""""""""""""""""

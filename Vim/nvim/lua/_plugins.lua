@@ -243,6 +243,7 @@ require("packer").startup {
         -- browse JSON gennaro-tedesco/nvim-jqx
         -- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim
         -- better YAML https://github.com/cuducos/yaml.nvim
+        -- SQL https://github.com/tami5/sql.nvim
 
         use "b3nj5m1n/kommentary" -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         use "hrsh7th/vim-vsnip" --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
@@ -271,14 +272,15 @@ require("packer").startup {
         -- https://github.com/mfussenegger/nvim-dap
         -- https://github.com/rcarriga/nvim-dap-ui
 
-        use {
+        -- use 'ygm2/rooter.nvim'
+        --[[ use {
             -- set cwd automatically
             "airblade/vim-rooter",
             config = function()
                 vim.cmd("let g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']")
                 vim.cmd("let g:rooter_silent_chdir = 1")
             end
-        }
+        } ]]
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
@@ -342,6 +344,13 @@ require("packer").startup {
             "nvim-telescope/telescope.nvim",
             requires = {{"nvim-lua/popup.nvim"}, {"nvim-lua/plenary.nvim"}}
         }
+        use {
+        "nvim-telescope/telescope-frecency.nvim",
+        config = function()
+            -- require"telescope".load_extension("frecency")
+        end,
+        requires = {"tami5/sql.nvim"}
+        }
         -- CHEATSHEETS
         use {
             "sudormrfbin/cheatsheet.nvim", --> Telescope Based Cheatsheet
@@ -382,24 +391,45 @@ require("packer").startup {
             "kyazdani42/nvim-tree.lua",
             requires = {"kyazdani42/nvim-web-devicons", opt = true}
         }
-        -- VIM QUICKSCOPE --> after press t and f this highlights chars to help you nav faster
         use {
+            'ggandor/lightspeed.nvim',
+            config = function()
+                require'lightspeed'.setup {
+                    jump_to_first_match = true,
+                    jump_on_partial_input_safety_timeout = 400,
+                    -- This can get _really_ slow if the window has a lot of content,
+                    -- turn it on only if your machine can always cope with it.
+                    highlight_unique_chars = false,
+                    grey_out_search_area = true,
+                    match_only_the_start_of_same_char_seqs = true,
+                    limit_ft_matches = 5,
+                    full_inclusive_prefix_key = '<c-x>',
+                    -- By default, the values of these will be decided at runtime,
+                    -- based on `jump_to_first_match`.
+                    labels = nil,
+                    cycle_group_fwd_key = nil,
+                    cycle_group_bwd_key = nil,
+}
+            end
+        }
+        -- VIM QUICKSCOPE --> after press t and f this highlights chars to help you nav faster
+        --[[ use {
             "unblevable/quick-scope",
             setup = function()
-                vim.api.nvim_exec(
-                    [[
-                    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+                vim.api.nvim_exec( ]]
+                    -- [[
+                    --[[ highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
                     highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
                     augroup qs_colors
                     autocmd!
                     autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
                     autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
-                    augroup END
-                    ]],
-                    false
+                    augroup END ]]
+                    -- ]],
+                    --[[ false
                 )
             end
-        }
+        } ]]
 
 
 

@@ -1,7 +1,7 @@
 local actions = require('telescope.actions')
 local telescope = require('telescope')
 telescope.setup{
-    config = {
+    defaults = {
         mappings = {i = {["<esc>"] = actions.close,
         ["<C-c>"] = function()
             vim.cmd [[stopinsert]] --start normal mode if we need it
@@ -17,25 +17,25 @@ telescope.setup{
         '--smart-case',
     },
     -- find_command = { 'rg', '--files', '--hidden'},
-    prompt_position = "top",
+    -- prompt_position = "top",
     -- prompt_prefix = ">",
     initial_mode = "insert",
     -- scroll_strategy ="limit", CAUSING BUG [Jun2021]
     selection_strategy = "reset",
     sorting_strategy = "ascending",
-    layout_strategy = "horizontal",
+    layout_strategy = "center",
     layout_config = {
         -- TODO add builtin options.
     },
     file_sorter =  require'telescope.sorters'.get_fuzzy_file,
     file_ignore_patterns = {"forks",".backup",".swap",".langservers",".session",".undo",".git/","node_modules","vendor",".cache",".vscode-server",".Desktop",".Documents","classes"},
     generic_sorter =  require'telescope.sorters'.get_generic_fuzzy_sorter,
-    shorten_path = true,
+    path_display = true,
     winblend = 0,
-    width = 0.75,
-    preview_cutoff = 120,
-    results_height = 1,
-    results_width = 0.8,
+    -- width = 0.75,
+    -- preview_cutoff = 120,
+    -- results_height = 1,
+    -- results_width = 0.8,
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰'},
     color_devicons = true,
@@ -53,6 +53,7 @@ extensions = {
         override_generic_sorter = false,
         override_file_sorter = true,
     },
+    -- frecency = {}
 },
 
 }
@@ -61,8 +62,6 @@ vim.cmd[[highlight TelescopeBorder guifg=#4c4c4c]]
 vim.cmd[[highlight TelescopeSelection guifg=#ffffff guibg=#393939 gui=bold]]
 vim.cmd[[highlight TelescopeSelectionCaret guifg=#749484 gui=bold]]
 
--- require('telescope').load_extension('fzy_native')
-require('telescope').load_extension('fzy_native')
 
 local M = {}
 M.search_dotfiles = function()

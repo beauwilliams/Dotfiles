@@ -159,6 +159,10 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/kommentary"
   },
+  ["lightspeed.nvim"] = {
+    loaded = true,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/lightspeed.nvim"
+  },
   ["lsp-status.nvim"] = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/lsp-status.nvim"
@@ -269,18 +273,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
-  ["quick-scope"] = {
-    loaded = true,
-    needs_bufread = false,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/opt/quick-scope"
-  },
   ["rest.nvim"] = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/rest.nvim"
   },
+  ["rooter.nvim"] = {
+    loaded = true,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/rooter.nvim"
+  },
   snap = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/snap"
+  },
+  ["sql.nvim"] = {
+    loaded = true,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/sql.nvim"
   },
   ["statusline.lua"] = {
     loaded = true,
@@ -289,6 +296,11 @@ _G.packer_plugins = {
   ["suda.vim"] = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/suda.vim"
+  },
+  ["telescope-frecency.nvim"] = {
+    config = { "\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0" },
+    loaded = true,
+    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/telescope-frecency.nvim"
   },
   ["telescope-fzy-native.nvim"] = {
     loaded = true,
@@ -341,11 +353,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-illuminate"
   },
-  ["vim-rooter"] = {
-    config = { "\27LJ\2\nó\1\0\0\3\0\4\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\1K\0\1\0\"let g:rooter_silent_chdir = 1Jlet g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']\bcmd\bvim\0" },
-    loaded = true,
-    path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-rooter"
-  },
   ["vim-signify"] = {
     loaded = true,
     path = "/Users/admin/.local/share/nvim/site/pack/packer/start/vim-signify"
@@ -391,25 +398,6 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
--- Setup for: quick-scope
-time([[Setup for quick-scope]], true)
-try_loadstring("\27LJ\2\nÑ\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0“\4                    highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline\n                    highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline\n                    augroup qs_colors\n                    autocmd!\n                    autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline\n                    autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline\n                    augroup END\n                    \14nvim_exec\bapi\bvim\0", "setup", "quick-scope")
-time([[Setup for quick-scope]], false)
-time([[packadd for quick-scope]], true)
-vim.cmd [[packadd quick-scope]]
-time([[packadd for quick-scope]], false)
--- Config for: vim-illuminate
-time([[Config for vim-illuminate]], true)
-try_loadstring("\27LJ\2\n†\1\0\0\3\0\4\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\1K\0\1\0/ hi illuminatedCurWord cterm=none gui=noneF hi illuminatedWord guibg=#504648 guifg=none \"cterm=grey gui=grey\bcmd\bvim\0", "config", "vim-illuminate")
-time([[Config for vim-illuminate]], false)
--- Config for: vim-rooter
-time([[Config for vim-rooter]], true)
-try_loadstring("\27LJ\2\nó\1\0\0\3\0\4\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\1K\0\1\0\"let g:rooter_silent_chdir = 1Jlet g:rooter_patterns = ['.git', 'Makefile', '*.sln', 'build/env.sh']\bcmd\bvim\0", "config", "vim-rooter")
-time([[Config for vim-rooter]], false)
--- Config for: nvim-toggleterm.lua
-time([[Config for nvim-toggleterm.lua]], true)
-require("toggleterm").setup{}
-time([[Config for nvim-toggleterm.lua]], false)
 -- Config for: FTerm.nvim
 time([[Config for FTerm.nvim]], true)
 try_loadstring("\27LJ\2\nH\0\0\3\0\4\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\3\0B\0\2\1K\0\1\0\1\0\1\vborder\vsingle\nsetup\nFTerm\frequire\0", "config", "FTerm.nvim")
@@ -418,46 +406,42 @@ time([[Config for FTerm.nvim]], false)
 time([[Config for ale]], true)
 try_loadstring("\27LJ\2\n∞\5\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0˛\4                \"let g:ale_echo_msg_error_str = 'A'\n                \"let g:ale_echo_msg_warning_str = 'B'\n                \"let g:ale_echo_msg_hint_str = 'C'\n                \" I have some custom icons for errors and warnings but feel free to change them.\n                \"‚ö†\n                let g:ale_sign_error = '‚úò'\n                let g:ale_sign_warning = 'ÔÑ™'\n                \"let g:ale_sign_information = 'ÔÑ®'\n                \"let g:ale_sign_error = '‚óè'\n                \"let g:ale_sign_warning = '.'\n                \"let g:ale_lint_on_enter = 0 \"Don't lint on enter hope this speeds things up/prevents lag\n                \14nvim_exec\bapi\bvim\0", "config", "ale")
 time([[Config for ale]], false)
--- Config for: todo-comments.nvim
-time([[Config for todo-comments.nvim]], true)
-try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18todo-comments\frequire\0", "config", "todo-comments.nvim")
-time([[Config for todo-comments.nvim]], false)
--- Config for: nvim-ts-autotag
-time([[Config for nvim-ts-autotag]], true)
-try_loadstring("\27LJ\2\ns\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0Bau FileType html let b:delimitMate_matchpairs = \"(:),[:],{:}\"\14nvim_exec\bapi\bvim\0", "config", "nvim-ts-autotag")
-time([[Config for nvim-ts-autotag]], false)
--- Config for: beacon.nvim
-time([[Config for beacon.nvim]], true)
-try_loadstring("\27LJ\2\no\0\0\2\0\5\0\r6\0\0\0009\0\1\0)\1Z\0=\1\2\0006\0\0\0009\0\1\0)\1\25\0=\1\3\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\18beacon_shrink\24beacon_minimal_jump\16beacon_size\6g\bvim\0", "config", "beacon.nvim")
-time([[Config for beacon.nvim]], false)
--- Config for: which-key.nvim
-time([[Config for which-key.nvim]], true)
-try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
-time([[Config for which-key.nvim]], false)
--- Config for: trouble.nvim
-time([[Config for trouble.nvim]], true)
-try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
-time([[Config for trouble.nvim]], false)
+-- Config for: vim-illuminate
+time([[Config for vim-illuminate]], true)
+try_loadstring("\27LJ\2\n†\1\0\0\3\0\4\0\t6\0\0\0009\0\1\0'\2\2\0B\0\2\0016\0\0\0009\0\1\0'\2\3\0B\0\2\1K\0\1\0/ hi illuminatedCurWord cterm=none gui=noneF hi illuminatedWord guibg=#504648 guifg=none \"cterm=grey gui=grey\bcmd\bvim\0", "config", "vim-illuminate")
+time([[Config for vim-illuminate]], false)
+-- Config for: nvim-toggleterm.lua
+time([[Config for nvim-toggleterm.lua]], true)
+require("toggleterm").setup{}
+time([[Config for nvim-toggleterm.lua]], false)
 -- Config for: blamer.nvim
 time([[Config for blamer.nvim]], true)
 try_loadstring("\27LJ\2\n´\1\0\0\2\0\a\0\r6\0\0\0009\0\1\0)\1\1\0=\1\2\0006\0\0\0009\0\1\0'\1\4\0=\1\3\0006\0\0\0009\0\1\0'\1\6\0=\1\5\0K\0\1\0\r%d/%m/%y\23blamer_date_format3<committer> ‚îÇ <summary> ‚îÇ <committer-time>\20blamer_template\19blamer_enabled\6g\bvim\0", "config", "blamer.nvim")
 time([[Config for blamer.nvim]], false)
--- Config for: numb.nvim
-time([[Config for numb.nvim]], true)
-require('numb').setup()
-time([[Config for numb.nvim]], false)
--- Config for: zepl.vim
-time([[Config for zepl.vim]], true)
-try_loadstring("\27LJ\2\nd\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0003            cnoreabbrev repl Repl\n            \14nvim_exec\bapi\bvim\0", "config", "zepl.vim")
-time([[Config for zepl.vim]], false)
--- Config for: indent-blankline.nvim
-time([[Config for indent-blankline.nvim]], true)
-vim.g.indent_blankline_char = '‚îÇ'
-time([[Config for indent-blankline.nvim]], false)
+-- Config for: telescope-frecency.nvim
+time([[Config for telescope-frecency.nvim]], true)
+try_loadstring("\27LJ\2\n\v\0\0\1\0\0\0\1K\0\1\0\0", "config", "telescope-frecency.nvim")
+time([[Config for telescope-frecency.nvim]], false)
+-- Config for: nvim-ts-autotag
+time([[Config for nvim-ts-autotag]], true)
+try_loadstring("\27LJ\2\ns\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0Bau FileType html let b:delimitMate_matchpairs = \"(:),[:],{:}\"\14nvim_exec\bapi\bvim\0", "config", "nvim-ts-autotag")
+time([[Config for nvim-ts-autotag]], false)
 -- Config for: neorg
 time([[Config for neorg]], true)
 try_loadstring("\27LJ\2\n¬\2\0\0\a\0\17\0\0236\0\0\0'\2\1\0B\0\2\0029\0\2\0005\2\15\0005\3\3\0004\4\0\0=\4\4\0035\4\6\0005\5\5\0=\5\a\4=\4\b\0034\4\0\0=\4\t\0035\4\r\0005\5\v\0005\6\n\0=\6\f\5=\5\a\4=\4\14\3=\3\16\2B\0\2\1K\0\1\0\tload\1\0\0\21core.norg.dirman\1\0\0\15workspaces\1\0\0\1\0\1\17my_workspace,~/Dropbox/Software Eng/Workspaces/Neorg\24core.norg.concealer\18core.keybinds\vconfig\1\0\0\1\0\2\17neorg_leader\14<Leader>o\21default_keybinds\2\18core.defaults\1\0\0\nsetup\nneorg\frequire\0", "config", "neorg")
 time([[Config for neorg]], false)
+-- Config for: todo-comments.nvim
+time([[Config for todo-comments.nvim]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18todo-comments\frequire\0", "config", "todo-comments.nvim")
+time([[Config for todo-comments.nvim]], false)
+-- Config for: which-key.nvim
+time([[Config for which-key.nvim]], true)
+try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14which-key\frequire\0", "config", "which-key.nvim")
+time([[Config for which-key.nvim]], false)
+-- Config for: numb.nvim
+time([[Config for numb.nvim]], true)
+require('numb').setup()
+time([[Config for numb.nvim]], false)
 -- Config for: octo.nvim
 time([[Config for octo.nvim]], true)
 try_loadstring("\27LJ\2\n2\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\tocto\frequire\0", "config", "octo.nvim")
@@ -466,6 +450,22 @@ time([[Config for octo.nvim]], false)
 time([[Config for fuzzymenu.vim]], true)
 try_loadstring("\27LJ\2\n¡\1\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0è\1                let g:fuzzymenu_position =  'window'\n                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}\n                \14nvim_exec\bapi\bvim\0", "config", "fuzzymenu.vim")
 time([[Config for fuzzymenu.vim]], false)
+-- Config for: trouble.nvim
+time([[Config for trouble.nvim]], true)
+try_loadstring("\27LJ\2\n9\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\ftrouble\frequire\0", "config", "trouble.nvim")
+time([[Config for trouble.nvim]], false)
+-- Config for: zepl.vim
+time([[Config for zepl.vim]], true)
+try_loadstring("\27LJ\2\nd\0\0\4\0\4\0\a6\0\0\0009\0\1\0009\0\2\0'\2\3\0+\3\1\0B\0\3\1K\0\1\0003            cnoreabbrev repl Repl\n            \14nvim_exec\bapi\bvim\0", "config", "zepl.vim")
+time([[Config for zepl.vim]], false)
+-- Config for: beacon.nvim
+time([[Config for beacon.nvim]], true)
+try_loadstring("\27LJ\2\no\0\0\2\0\5\0\r6\0\0\0009\0\1\0)\1Z\0=\1\2\0006\0\0\0009\0\1\0)\1\25\0=\1\3\0006\0\0\0009\0\1\0)\1\0\0=\1\4\0K\0\1\0\18beacon_shrink\24beacon_minimal_jump\16beacon_size\6g\bvim\0", "config", "beacon.nvim")
+time([[Config for beacon.nvim]], false)
+-- Config for: indent-blankline.nvim
+time([[Config for indent-blankline.nvim]], true)
+vim.g.indent_blankline_char = '‚îÇ'
+time([[Config for indent-blankline.nvim]], false)
 if should_profile then save_profiles() end
 
 end)
