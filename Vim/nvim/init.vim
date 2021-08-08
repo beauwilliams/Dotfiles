@@ -22,25 +22,6 @@ endfunction
 
 
 
-" Keep selection when shifting
-vnoremap > >gv
-vnoremap < <gv
-" Switch Between Buffers with backspace and retain cursor location and center to cursor
-nnoremap <bs> <c-^>`”zz
-"Bring search results to middle of screen, zv at end makes this compatible with folds
-noremap n nzzzv
-nnoremap N Nzzzv
-"whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
-onoremap b i[|
-onoremap p i(|
-"Disable highlights when cursor moved
-autocmd CursorMoved * set nohlsearch
-nnoremap <silent> n n:set hlsearch<cr>
-nnoremap <silent> N N:set hlsearch<cr>
-
-
-"AUTOSAVE FILES
-" autocmd TextChanged,FocusLost,BufEnter * silent update
 
 "============================START INITS===============================
     "____    _   __    ____  ______   _____
@@ -164,6 +145,26 @@ endif
 "text will overwrite yanked text in the register.
 " nnoremap yp "0p
 " nnoremap yP "0P
+
+" Keep selection when shifting
+vnoremap > >gv
+vnoremap < <gv
+" Switch Between Buffers with backspace and retain cursor location and center to cursor
+nnoremap <silent> <bs> <c-^>`”zz
+"Bring search results to middle of screen, zv at end makes this compatible with folds
+noremap n nzzzv
+nnoremap N Nzzzv
+"whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
+onoremap b i[|
+onoremap p i(|
+"Disable highlights when cursor moved
+autocmd CursorMoved * set nohlsearch
+nnoremap <silent> n n:set hlsearch<cr>
+nnoremap <silent> N N:set hlsearch<cr>
+"Auto open vim and move cursor to last known location
+autocmd BufReadPost * silent! normal! g`"zv
+"AUTOSAVE FILES
+" autocmd TextChanged,FocusLost,BufEnter * silent update
 
 
 "Speeding up auto correction toggle for my uni lectures

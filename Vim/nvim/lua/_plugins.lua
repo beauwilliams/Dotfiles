@@ -227,7 +227,7 @@ require("packer").startup {
         --   requires = "nvim-treesitter/nvim-treesitter"
         -- }
 
-        use {
+        use { -- OR https://github.com/hkupty/iron.nvim
             --> A REPL Plugin to start / manage REPL
             "axvr/zepl.vim",
             config = function()
@@ -347,7 +347,7 @@ require("packer").startup {
         use {
         "nvim-telescope/telescope-frecency.nvim",
         config = function()
-            -- require"telescope".load_extension("frecency")
+            require"telescope".load_extension("frecency")
         end,
         requires = {"tami5/sql.nvim"}
         }

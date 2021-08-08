@@ -19,6 +19,10 @@ cmd("nnoremap : ;")
 --TOGGLE LIGHT/DARK THEME
 cmd([[cnoreabbrev light lua vim.o.background = 'light']])
 cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
+ --TOGGLE LIGHT/DARK THEME
+cmd([[cnoreabbrev cheat Cheatsheet]])
+cmd([[cnoreabbrev cheatedit CheatsheetEdit]])
+
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
 -- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
 utils.nnoremap("yp", "0p")
@@ -88,7 +92,7 @@ local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
 local args = {"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}
 
 snap.maps {
-  {
+  --[[ {
     '<leader>s', file {
       try = {
         snap.get('producer.git.file').args({'--cached', '--others', '--exclude-standard'}),
@@ -96,10 +100,10 @@ snap.maps {
       },
       prompt = 'Files',
     },
-  },
-  {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
-  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
-  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
+  }, ]]
+  -- {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
+  -- {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
+  -- {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
   {"<Leader>2", file {
       args = args,
       try = {snap.get'consumer.combine'(
@@ -124,21 +128,21 @@ snap.maps {
 --TELESCOPE MAPPINGS
 -- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
---[[ utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
+utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 utils.nnoremap(leader..'S', ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'S', ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>") ]]
+utils.vnoremap(leader..'S', ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>")
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
 utils.nnoremap(leader..leader, ":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>")
 utils.nnoremap(leader..'gb', ":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gb', ":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>")
---[[ utils.nnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>") ]]
+utils.nnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")
+utils.vnoremap(leader..'b', ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>")
 utils.nnoremap(leader..'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader..'c', ":lua require'telescope.builtin'.commands()<cr>")
---[[ utils.nnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>") ]]
+utils.nnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
+utils.vnoremap(leader..'f', ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>")
 cmd("cnoreabbrev <silent>tel Telescope builtin")
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
 cmd("cnoreabbrev <silent>gwl lua require('telescope').extensions.git_worktree.git_worktrees()")
