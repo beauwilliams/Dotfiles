@@ -1,0 +1,10 @@
+{
+    "date": {
+        "prefix": "date",
+        "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}"
+    },
+    "long date": {
+        "prefix": "datel",
+        "body": "${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}T${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}+01:00"
+    }
+}

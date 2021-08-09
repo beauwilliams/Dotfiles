@@ -1,18 +1,12 @@
 {
   "function": {
     "prefix": ["fun"],
-    "body": [
-      "function! $1(${2:args}) abort",
-      "\t$0",
-      "endfunction"
-    ],
+    "body": ["function! $1(${2:args}) abort", "\t$0", "endfunction"],
     "description": "Function"
   },
   "autocmd": {
     "prefix": ["aut"],
-    "body": [
-      "autocmd $1 ${2:* $0}"
-    ],
+    "body": ["autocmd $1 ${2:* $0}"],
     "description": "Function"
   },
   "augroup": {
@@ -24,5 +18,21 @@
       "augroup END"
     ],
     "description": "Function"
+  },
+  "try": {
+    "prefix": "try",
+    "body": ["try", "\t$1", "catch /${2:pattern}/", "\t$0", "endtry"]
+  },
+  "if": {
+    "prefix": "if",
+    "body": ["if ${1:expr1}", "\t$0", "endif"]
+  },
+  "for": {
+    "prefix": "for",
+    "body": ["for ${1:var} in ${2:list}", "\t$0", "endfor"]
+  },
+  "while": {
+    "prefix": "while",
+    "body": ["while ${1:expr1}", "\t$0", "endwhile"]
   }
 }

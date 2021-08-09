@@ -1,2 +1,98 @@
-## beau @quick @reference
-testing 123 |  :RunThisCommand , <leader>yolo
+## Learning @easily @forgotten
+Surround -> cs'" , ds" , ysiw], yss),  | visual mode -> S", repeat with .
+Toggle true/false 0/1 yes/no +/- </> | <leader>a, :swap
+## Hotkeys @dotfiles @telescope
+Telescope prompt | <leader>1
+Dotfiles | <leader>2
+Emoji | <leader>3
+Man pages | <leader>4
+Startify | <leader>5
+Git messenger | <leader>5
+## Text_Editing @text @manipulation
+Yank Paste | yp
+Rename word under cursor | R , <leader>r ts, 'rn lsp
+Change word under cursor incrementally | c. , c,
+Delete word under cursor incrementally | d. , d,
+Delete in parenthesis | dp
+Delete in brackets | db
+Change in parenthesis | cp
+Change in brackets | cb
+Swap true/false yes/no +/- 0/1 </> | :swap
+
+## Misc
+File tree | <leader>n
+Documentation generation | <leader>D , :dgen
+Markdown reader | mdreader
+Write to readonly file sudo | w!!
+Force quit | qq
+Jump to recent directory (z) | :z
+Git Push | gp
+Git Blame (lean) | :GitBlame
+Terminal (floating) | <leader>t
+Toggle light/dark mode | :light, :dark
+Open/Edit cheatsheet | cheat, cheat edit
+Rename/Delete/Move/Mkdir/Chmod | :Rename, :Delete, :Move, :Medic, :Chmod
+
+## Cursor @movement @navigation
+Move cursor while in insert mode | control-hjkl
+Escape insert mode quickly | jj
+Lightspeed (quickscope/hop) | ft/FT s/S
+
+## LSP @programming @lsp
+Code Action |  'ca
+Document hover action | K
+Signature help |  'gh
+Diagnostic next | 'dn
+Diagnostic previous | 'dp
+LSP rename |  'rn
+LSP format | 'ft
+Go to definition |  'gd
+Go to references |  'gr
+Go to document_symbol |  'gs
+Go to workspace_symbol |  'gw
+Go to implementation |  'gi
+Go to type definition |  'gt
+
+## Search @fuzzy @finding
+Fuzzy menu (ctrl+p) | <leader>p
+Fuzzy search | <leader><leader>
+Search files | <leader>s
+Search grep | <leader> f
+Search history | <leader>S
+Search buffers | <leader>b
+Search commands | <leader>c
+Search git_branches | <leader>gb
+## Buffer_Splits_Nav @buffer @splits
+Cycle last/current Buffers | <bs>
+Cycle splits | <c-w> , <c-W>
+Open new split | <leader>hjkl
+Resize splits horizontally | <leader>; , <leader>'
+Resize splits vertically | <leader>, , <leader>.
+Change splits orientation | <Leader>[ , <leader>]
+
+
+
+
+
+
+
+
+
+## Toolwindow @quickfix @trouble
+Close toolwindow | qq
+Open diagnostics | qd
+Open comments and todo list | qc
+Open terminal | qt
+Open quickfix | qf
+
+## Formatting @code @format
+Format indentation | <leader>i
+Format code (neoformat) | <leader>F , :fmt
+Format code (lsp) | 'ft , :lspfmt
+
+## Spelling @autocorrect @spell
+Toggle spell checker | spell
+Enable autocorrect | spellauto
+Disable autocorrect | spelloff
+Add word to dictionary | spelladd
+

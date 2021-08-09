@@ -4,23 +4,7 @@ function! Test()
     return "test"
 endfunction
 
-
-function SwapBool ()
-  let s:w = expand("<cword>")
-  if s:w == "false"
-    normal ciwtrue
-    if expand("<cword>") != "true"
-      normal u
-    endif
-  elseif s:w == "true"
-    normal ciwfalse
-    if expand("<cword>") != "false"
-      normal u
-    endif
-  endif
-endfunction
-
-
+autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 
 
 "============================START INITS===============================
@@ -91,199 +75,6 @@ endif
 
 
 "============================END MY CONFIGS===============================
-"=======================START CONFIGS UNDER TESTING=============================
-
-
-  "______    ______   _____  ______          ______   ____     _   __    ______    ____   ______   _____
- "/_  __/   / ____/  / ___/ /_  __/         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
-  "/ /     / __/     \__ \   / /           / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
- "/ /     / /___    ___/ /  / /           / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
-"/_/     /_____/   /____/  /_/            \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
-
-
-
-"FIXME: Since recent update, illuminate uses default textDocument/documentHighlight. How to we change colours?
-" augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
-"     autocmd!
-"     autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
-"     autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
-" augroup END
-"hi LspReferenceRead guibg=#504648 guifg=Orange THis works..
-
-
-"Setting curstom cursorline colour for the vim-illuminate plugin
-"STOLEN FROM --> https://github.com/haorenW1025/dotfiles/blob/master/nvim/plugin/plugin-setting.vim
-"function! s:check_back_space() abort
-    "let col = col('.') - 1
-    "return !col || getline('.')[col - 1]  =~ '\s'
-"endfunction
-
-
-"======================END CONFIGS UNDER TESTING=============================
-
-
-"=============================START REMAPS========================================
-    "____     ______    __  ___    ___     ____    _____
-   "/ __ \   / ____/   /  |/  /   /   |   / __ \  / ___/
-  "/ /_/ /  / __/     / /|_/ /   / /| |  / /_/ /  \__ \
- "/ _, _/  / /___    / /  / /   / ___ | / ____/  ___/ /
-"/_/ |_|  /_____/   /_/  /_/   /_/  |_|/_/      /____/
-
-
-"LEADER KEY IS THE SPACE BAR
-" let mapleader = "\<Space>"
-
-
-"i've been using the shift key w my pinky so much lately its getting sore
-"realised leader leader is free so its now an easy way to enter cmd mode
-" map <leader><leader> :
-
-"Explanation: The 0 (Zero) register is special because it only stores the last item you yank
-"and only if you yank it, not if you delete it with any of d,x,c,s.
-"We use this because we have the vim register synced with the system
-"clipboard. Meaning we can't do simple text replacement easily as deleting
-"text will overwrite yanked text in the register.
-" nnoremap yp "0p
-" nnoremap yP "0P
-
-" Keep selection when shifting
-vnoremap > >gv
-vnoremap < <gv
-" Switch Between Buffers with backspace and retain cursor location and center to cursor
-nnoremap <silent> <bs> <c-^>`”zz
-"Bring search results to middle of screen, zv at end makes this compatible with folds
-noremap n nzzzv
-nnoremap N Nzzzv
-"whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
-onoremap b i[|
-onoremap p i(|
-"Disable highlights when cursor moved
-autocmd CursorMoved * set nohlsearch
-nnoremap <silent> n n:set hlsearch<cr>
-nnoremap <silent> N N:set hlsearch<cr>
-"Auto open vim and move cursor to last known location
-autocmd BufReadPost * silent! normal! g`"zv
-"AUTOSAVE FILES
-" autocmd TextChanged,FocusLost,BufEnter * silent update
-
-
-"Speeding up auto correction toggle for my uni lectures
-"NOTE: plgn is vim-you/autocorrect
-"Note we are using neovims built in spellcheck and dictionary
-cnoreabbrev <silent>spellcheck :set spell!<cr>
-cnoreabbrev spellon :EnableAutocorrect
-cnoreabbrev spelloff  DisableAutocorrect
-
-"MARKDOWN RENDERER [glow.nvim]
-cnoreabbrev mdreader Glow
-
-"PAGEUP/PAGEDN ONLY HALF PAGE AT A TIME
-" nnoremap <PageUp> <C-u> why does this not scroll but snap to the next pos?
-" nnoremap <PageDown> <C-d>
-
-map <silent> <PageUp> <C-U>
-map <silent> <PageDown> <C-D>
-" imap <silent> <PageUp> <C-O>1000<C-U>
-" imap <silent> <PageDown> <C-O>1000<C-D>
-
-"Clear highlights quick!
-" noremap <silent><leader>/ :nohlsearch<cr>
-
-
-"FORMATTERS
-"Remove indents from code! (a simple code formatter)
-" nnoremap <silent><leader>i gg=G<c-o>
-"Run Neoformat
-" nnoremap <silent><leader>F :Neoformat<CR>
-
-
-"FIND AND REPLACE
-" nnoremap R :%s/\<<C-r><C-w>\>//g<Left><Left><C-r><C-w>
-"Replace/Delete words quick! ONE BY ONE.
-"c. c, d. d,
-" nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
-" nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
-" nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
-" nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
-
-
-"jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
-" imap jj <ESC>
-
-
-"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
-cnoreabbrev w!! SudaWrite
-" cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
-" cnoremap w!! SudoWrite<cr>
-
-
-"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
-" inoremap <c-j> <esc>ji
-" inoremap <c-k> <esc>ki
-" inoremap <c-h> <esc>i
-" inoremap <c-l> <esc>la
-
-
-"FuzzyFinderMappings AKA ctrl+p search like say vscode
-" nnoremap <silent><Leader>q :Telescope find_files<cr>
-" vnoremap <silent><Leader>q :Telescope find_files<cr>
-
-
-"SHIFT-P for file history
-" nnoremap <silent> <Leader>S :History<CR>
-" vnoremap <silent> <Leader>S :History<CR>
-" nnoremap <silent> <Leader>gf :GitFiles<CR>
-" vnoremap <silent> <Leader>gf :GitFiles<CR>
-
-"Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
-"FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
-"leader-f for search-FILES
-" nnoremap <silent> <Leader>f :RG<CR>
-" vnoremap <silent> <Leader>f :RG<CR>
-
-
-"leader-b for BUFFER LIST (show buffers)
-"WAS BEFORE UPGRADE TO packer :FzfPreviewAllBuffers<CR>
-" nnoremap <silent> <Leader>b :Buffers<CR>
-" vnoremap <silent> <Leader>b :Buffers<CR>
-
-"COMMANDS MENU/SEARCH Mappings
-" nnoremap <silent><Leader>c :Commands<CR>
-" vnoremap <silent><Leader>c :Commands<CR>
-
-" Saves the shift key I force quit a lot!
-cnoreabbrev qq q!
-
-" zoxide vim and :y print command switching
-cnoreabbrev Z z
-cnoreabbrev z Z
-
-"Fuzzymenu Mappings (ctrl+p)
-" nmap <silent><leader>p <Plug>(Fzm)
-" vmap <silent> <leader>p <Plug>(FzmVisual)
-
-"File Tree Mappings
-" nnoremap <silent><Leader>n :NvimTreeToggle<cr>
-" vnoremap <silent><Leader>n :NvimTreeToggle<cr>
-
-"Documentation Generator Mappings
-" nnoremap <Leader>D :DogeGenerate
-" vnoremap <Leader>D :DogeGenerate
-" cnoreabbrev docgen DogeGenerate
-
-
-
-"FUGITIVE/GIT
-cnoreabbrev <silent>gp :G push
-
-"SHOW GIT COMMIT / GIT BLAME POPUP
-"Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
-"NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
-" nnoremap <silent><leader>6 :GitMessenger<CR>
-
-
-"=============================END REMAPS========================================
-
 
 "============================BEGIN FUNCTIONS CONFIG=======================
     "________  ___   ______________________  _   _______
@@ -376,10 +167,12 @@ vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
 vnoremap <silent> <leader>W <C-w>W
 "Resize our splits with <leader> ;/'/,/.- easily
-nnoremap <silent> <Leader>' :exe "resize " . (winheight(0) * 4/3)<CR>
-nnoremap <silent> <Leader>; :exe "resize " . (winheight(0) * 3/4)<CR>
-nnoremap <silent> <leader>, :vertical resize -10<CR>
-nnoremap <silent> <leader>. :vertical resize +10<CR>
+nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 4/3)<CR>
+nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 3/4)<CR>
+nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
+nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 4/3)<CR>
+" nnoremap <silent> <leader>; :vertical resize -10<CR>
+" nnoremap <silent> <leader>' :vertical resize +10<CR>
 "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
 nnoremap <silent><leader>[ <c-w>H
 nnoremap <silent><leader>] <c-w>K
@@ -387,6 +180,20 @@ nnoremap <silent><leader>] <c-w>K
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""
 
+function SwapBool ()
+  let s:w = expand("<cword>")
+  if s:w == "false"
+    normal ciwtrue
+    if expand("<cword>") != "true"
+      normal u
+    endif
+  elseif s:w == "true"
+    normal ciwfalse
+    if expand("<cword>") != "false"
+      normal u
+    endif
+  endif
+endfunction
 
 " jump to the last non-whitespace char on line, or eol if already there
 "map <End> :call LineEnd()<CR>:echo<CR>
@@ -436,6 +243,196 @@ nnoremap <silent><leader>] <c-w>K
   "/ / / /  / __/     / /_/ /  / /_/ /  / __/    / /       / /| |  / /     / __/     / / / /
  "/ /_/ /  / /___    / ____/  / _, _/  / /___   / /___    / ___ | / /     / /___    / /_/ /
 "/_____/  /_____/   /_/      /_/ |_|  /_____/   \____/   /_/  |_|/_/     /_____/   /_____/
+
+
+
+"=======================START CONFIGS UNDER TESTING=============================
+
+
+  "______    ______   _____  ______          ______   ____     _   __    ______    ____   ______   _____
+ "/_  __/   / ____/  / ___/ /_  __/         / ____/  / __ \   / | / /   / ____/   /  _/  / ____/  / ___/
+  "/ /     / __/     \__ \   / /           / /      / / / /  /  |/ /   / /_       / /   / / __    \__ \
+ "/ /     / /___    ___/ /  / /           / /___   / /_/ /  / /|  /   / __/     _/ /   / /_/ /   ___/ /
+"/_/     /_____/   /____/  /_/            \____/   \____/  /_/ |_/   /_/       /___/   \____/   /____/
+
+
+
+"FIXME: Since recent update, illuminate uses default textDocument/documentHighlight. How to we change colours?
+" augroup illuminate_augroup "NOTE: WE MUST SET UNDER CURSOR SETTING SEPERATELY I DISABLED HL FOR UNDER CURSOR
+"     autocmd!
+"     autocmd VimEnter * hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey
+"     autocmd VimEnter * hi illuminatedCurWord cterm=none gui=none
+" augroup END
+"hi LspReferenceRead guibg=#504648 guifg=Orange THis works..
+
+
+"Setting curstom cursorline colour for the vim-illuminate plugin
+"STOLEN FROM --> https://github.com/haorenW1025/dotfiles/blob/master/nvim/plugin/plugin-setting.vim
+"function! s:check_back_space() abort
+    "let col = col('.') - 1
+    "return !col || getline('.')[col - 1]  =~ '\s'
+"endfunction
+
+
+"======================END CONFIGS UNDER TESTING=============================
+
+
+"=============================START REMAPS========================================
+    "____     ______    __  ___    ___     ____    _____
+   "/ __ \   / ____/   /  |/  /   /   |   / __ \  / ___/
+  "/ /_/ /  / __/     / /|_/ /   / /| |  / /_/ /  \__ \
+ "/ _, _/  / /___    / /  / /   / ___ | / ____/  ___/ /
+"/_/ |_|  /_____/   /_/  /_/   /_/  |_|/_/      /____/
+
+
+"LEADER KEY IS THE SPACE BAR
+" let mapleader = "\<Space>"
+
+
+"i've been using the shift key w my pinky so much lately its getting sore
+"realised leader leader is free so its now an easy way to enter cmd mode
+" map <leader><leader> :
+
+"Explanation: The 0 (Zero) register is special because it only stores the last item you yank
+"and only if you yank it, not if you delete it with any of d,x,c,s.
+"We use this because we have the vim register synced with the system
+"clipboard. Meaning we can't do simple text replacement easily as deleting
+"text will overwrite yanked text in the register.
+" nnoremap yp "0p
+" nnoremap yP "0P
+
+" " Keep selection when shifting
+" vnoremap > >gv
+" vnoremap < <gv
+" " Switch Between Buffers with backspace and retain cursor location and center to cursor
+" nnoremap <silent> <bs> <c-^>`”zz
+" "Bring search results to middle of screen, zv at end makes this compatible with folds
+" noremap n nzzzv
+" nnoremap N Nzzzv
+" "whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
+" onoremap b i[|
+" onoremap p i(|
+"Disable highlights when cursor moved
+" autocmd CursorMoved * set nohlsearch
+" nnoremap <silent> n n:set hlsearch<cr>
+" nnoremap <silent> N N:set hlsearch<cr>
+"Auto open vim and move cursor to last known location
+" autocmd BufReadPost * silent! normal! g`"zv
+"AUTOSAVE FILES
+" autocmd TextChanged,FocusLost,BufEnter * silent update
+
+
+"Speeding up auto correction toggle for my uni lectures
+"NOTE: plgn is vim-you/autocorrect
+"Note we are using neovims built in spellcheck and dictionary
+" cnoreabbrev <silent>spellcheck :set spell!<cr>
+" cnoreabbrev spellon :EnableAutocorrect
+" cnoreabbrev spelloff  DisableAutocorrect
+
+"MARKDOWN RENDERER [glow.nvim]
+" cnoreabbrev mdreader Glow
+
+" "PAGEUP/PAGEDN ONLY HALF PAGE AT A TIME
+" map <silent> <PageUp> <C-U>
+" map <silent> <PageDown> <C-D>
+
+"Clear highlights quick!
+" noremap <silent><leader>/ :nohlsearch<cr>
+
+
+"FORMATTERS
+"Remove indents from code! (a simple code formatter)
+" nnoremap <silent><leader>i gg=G<c-o>
+"Run Neoformat
+" nnoremap <silent><leader>F :Neoformat<CR>
+
+
+"FIND AND REPLACE
+" nnoremap R :%s/\<<C-r><C-w>\>//g<Left><Left><C-r><C-w>
+"Replace/Delete words quick! ONE BY ONE.
+"c. c, d. d,
+" nnoremap <silent>c. /\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgn
+" nnoremap <silent>c, ?\<<C-R>=expand('<cword>')<CR>\>\C<CR>``cgN
+" nnoremap <silent>d. /\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgn
+" nnoremap <silent>d, ?\<<C-r>=expand('<cword>')<CR>\>\C<CR>``dgN
+
+
+"jj to escape quick yo... turns out there arent many words with jj in them if ya really need it... just type it slowly
+" imap jj <ESC>
+
+
+"Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
+" cnoreabbrev w!! SudaWrite
+" cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+" cnoremap w!! SudoWrite<cr>
+
+
+"DITCH THOSE ARROW KEYS --> MOVE UP AND DOWN IN INSERT MODE WITH HJKL BY SIMPLY HOLDING CONTROL
+" inoremap <c-j> <esc>ji
+" inoremap <c-k> <esc>ki
+" inoremap <c-h> <esc>i
+" inoremap <c-l> <esc>la
+
+
+"FuzzyFinderMappings AKA ctrl+p search like say vscode
+" nnoremap <silent><Leader>q :Telescope find_files<cr>
+" vnoremap <silent><Leader>q :Telescope find_files<cr>
+
+
+"SHIFT-P for file history
+" nnoremap <silent> <Leader>S :History<CR>
+" vnoremap <silent> <Leader>S :History<CR>
+" nnoremap <silent> <Leader>gf :GitFiles<CR>
+" vnoremap <silent> <Leader>gf :GitFiles<CR>
+
+"Ripgrep Mappings / NOTE We also have Silver Searcher Optionally Available :Ag
+"FIND WORDS RECURSIVELY AND FAST IN YOUR CWD
+"leader-f for search-FILES
+" nnoremap <silent> <Leader>f :RG<CR>
+" vnoremap <silent> <Leader>f :RG<CR>
+
+
+"leader-b for BUFFER LIST (show buffers)
+"WAS BEFORE UPGRADE TO packer :FzfPreviewAllBuffers<CR>
+" nnoremap <silent> <Leader>b :Buffers<CR>
+" vnoremap <silent> <Leader>b :Buffers<CR>
+
+"COMMANDS MENU/SEARCH Mappings
+" nnoremap <silent><Leader>c :Commands<CR>
+" vnoremap <silent><Leader>c :Commands<CR>
+
+" Saves the shift key I force quit a lot!
+" cnoreabbrev qq q!
+
+" zoxide vim and :y print command switching
+" cnoreabbrev Z z
+" cnoreabbrev z Z
+
+"Fuzzymenu Mappings (ctrl+p)
+" nmap <silent><leader>p <Plug>(Fzm)
+" vmap <silent> <leader>p <Plug>(FzmVisual)
+
+"File Tree Mappings
+" nnoremap <silent><Leader>n :NvimTreeToggle<cr>
+" vnoremap <silent><Leader>n :NvimTreeToggle<cr>
+
+"Documentation Generator Mappings
+" nnoremap <Leader>D :DogeGenerate
+" vnoremap <Leader>D :DogeGenerate
+" cnoreabbrev docgen DogeGenerate
+
+
+
+"FUGITIVE/GIT
+" cnoreabbrev <silent>gp :G push
+
+"SHOW GIT COMMIT / GIT BLAME POPUP
+"Show git commit that introduced line after cursor, bit like GIT BLAME, BUT
+"NOW WE CAN INCLUDE OUR VIM ;) Note leader-gm is mapped automatically too
+" nnoremap <silent><leader>6 :GitMessenger<CR>
+
+
+"=============================END REMAPS========================================
 
 
 " DEFUALT SETTING IN NVIM filetype plugin indent on "Indent and stuff based on ft
@@ -526,10 +523,10 @@ nnoremap <silent><leader>] <c-w>K
 
 
 "ESCAPE VIM TERMINAL MODE WITH ESC LIKE ALL OTHER MODES
-if has("nvim")
-  au TermOpen * tnoremap <Esc> <c-\><c-n><c-w>w
-  au FileType fzf tunmap <Esc>
-endif
+" if has("nvim")
+"   au TermOpen * tnoremap <Esc> <c-\><c-n><c-w>w
+"   au FileType fzf tunmap <Esc>
+" endif
 
 "NOTE: DEPRECTATED THIS HAS A BUG THAT STOPS FZF CLOSING WHEN ESC PRESSED
 "if has('nvim')
