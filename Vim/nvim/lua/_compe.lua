@@ -32,7 +32,8 @@ compe.setup {
     nvim_lsp = {menu = '[LSP]'};
     nvim_lua = {menu = '[LUA]'};
     treesitter = {menu = '[TRS]'};
-    neorg = {menu = '[ORG]'}
+    neorg = {menu = '[ORG]'};
+    tabnine = {menu = '[TAB]'}
     -- spell = true;
     -- tags = true;
     -- snippets_nvim = true;

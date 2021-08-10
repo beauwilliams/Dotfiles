@@ -254,6 +254,7 @@ require("packer").startup {
         use "nvim-lua/lsp-status.nvim" --> Lsp statusline
         use "ray-x/lsp_signature.nvim" --> LSP SignatureInformation
         use "hrsh7th/nvim-compe" --> COMPLETION MENU
+        use {'tzachar/compe-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-compe'}
         use "Raimondi/delimitMate" --> Compatible with compe auto braces etc
         use "kosayoda/nvim-lightbulb" --> CODE ACTION LIGHTBULB
         use "nathunsmitty/nvim-ale-diagnostic" --> PIPE LSP DIAGS TO ALE
