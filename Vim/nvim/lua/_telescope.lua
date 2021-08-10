@@ -56,7 +56,8 @@ telescope.setup {
             ".vscode-server",
             ".Desktop",
             ".Documents",
-            "classes"
+            "classes",
+            "quantumimage"
         },
         generic_sorter = require "telescope.sorters".get_generic_fuzzy_sorter,
         winblend = 0,

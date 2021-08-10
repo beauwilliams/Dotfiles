@@ -1,7 +1,9 @@
 local compe = require('compe')
 local api = vim.api
+local vim = vim
 local protocol = require('vim.lsp.protocol')
 
+vim.cmd('highlight link CompeDocumentation Black')
 
 -- INIT
 compe.setup {
@@ -13,7 +15,15 @@ compe.setup {
   --source_timeout = ... number ...;
   --incomplete_delay = ... number ...;
   allow_prefix_unmatch = false;
-  documentation = true; -- what does this do?
+  -- documentation = true; -- what does this do?
+  documentation = {
+    border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, -- the border option is the same as `|help nvim_open_win|`
+    winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+    max_width = 120,
+    min_width = 60,
+    max_height = math.floor(vim.o.lines * 0.3),
+    min_height = 1,
+  };
 
   source = {
     path = true;

@@ -36,7 +36,7 @@ utils.set_options("o", {
     wildmenu = true, -- enhanced tab completion for vim command bar
     wildmode = "list,full", -- Displays a handy list of commands we can tab thru"
     hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: E37: No write since last change (add ! to override) When opening a new buffer before saving current one
-    relativenumber = true, -- Enable relative line numbers in ruler
+    -- relativenumber = true, -- Enable relative line numbers in ruler
     shiftround = true, -- Rounds the indent spacing to the next multiple of shiftwidth EG. If you have something 3 spaces in and hit < it will move 2 or 4 spaces depending on shiftwidth and line up
     shortmess = "aF", -- abreviates messages and prevents file name being echoed when opened
     backspace = "indent,eol,start", -- this makes backspace work as normal

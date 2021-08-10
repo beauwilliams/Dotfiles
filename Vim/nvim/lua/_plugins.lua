@@ -248,6 +248,9 @@ require("packer").startup {
         use "hrsh7th/vim-vsnip" --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
         use "rafamadriz/friendly-snippets" --> Snippets library compatible with vim-vsnip
         use "neovim/nvim-lspconfig" --> PREMADE LSPCONFIGS
+        use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
+
+
         use "nvim-lua/lsp-status.nvim" --> Lsp statusline
         use "ray-x/lsp_signature.nvim" --> LSP SignatureInformation
         use "hrsh7th/nvim-compe" --> COMPLETION MENU
@@ -270,6 +273,7 @@ require("packer").startup {
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
         -- https://github.com/mfussenegger/nvim-dap
         -- https://github.com/rcarriga/nvim-dap-ui
+        -- https://github.com/theHamsta/nvim-dap-virtual-text
 
         -- use 'ygm2/rooter.nvim'
         --[[ use {
@@ -512,7 +516,7 @@ require("packer").startup {
         -- display last undos
         use({"mbbill/undotree", opt = true, cmd = {"UndotreeToggle"}})
         -- display helpfiles
-        use {
+        --[[ use {
             "lvim-tech/lvim-helper",
             setup = function()
                 local home = os.getenv('HOME')
@@ -522,7 +526,7 @@ require("packer").startup {
                     }
                 })
             end
-        }
+        } ]]
         -- use 'abecodes/tabout.nvim' -- USAGE: <Tab> between objects such as {} [] etc
         -- use 'kevinhwang91/nvim-bqf' --> BETTER QF
         -- use 'monaqa/dial.nvim' BETTER INCREMENTING IN VIM (TO BE TESTED)

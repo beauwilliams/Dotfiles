@@ -29,13 +29,17 @@ local init = function()
     --Focus (My plugin :D)
     local focus = require("focus")
     focus.enable = true
-    focus.width = 160
-    focus.treewidth = 50
+    -- focus.width = 180
+    focus.treewidth = 30
     -- focus.treewidth = 160
-    focus.height = 80
+    -- focus.height = 30
     focus.cursorline = true
     focus.signcolumn = true
     focus.winhighlight = false
+    focus.number = false
+    -- focus.relativenumber = true
+    focus.hybridnumber = true
 end
 
 init() --> Load our confs
+

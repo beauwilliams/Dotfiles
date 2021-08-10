@@ -75,6 +75,8 @@ end
                                                                      /____/
 --]]
 
+--UI CONFIG ref: https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter
+
 -- async formatting
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
 vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
@@ -103,6 +105,13 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
     update_in_insert = false,
   }
 )
+
+local signs = { Error = "✘", Warning = "", Hint = "", Information = "" }
+
+for type, icon in pairs(signs) do
+  local hl = "LspDiagnosticsSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+end
 -- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
 -- vim.cmd [[let g:ale_linters = {'python': []}]]
 
@@ -208,7 +217,8 @@ end
 --chmod +x ~/.local/bin/rust-analyzer
 -- INSTALL COMMANDS
 -- npm i -g vscode-langservers-extracted [installs html,css,json with most up to date from vscode]
--- pip3 install 'python-language-server[all]'
+-- pip3 install 'python-language-server[all]' - DEPRECATED
+-- pipx install 'python-lsp-server[all]'
 -- npm i -g typescript typescript-language-server
 -- npm i -g bash-language-server
 -- npm install -g vim-language-server

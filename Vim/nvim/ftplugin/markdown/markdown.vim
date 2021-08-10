@@ -1,3 +1,3 @@
-set spell "Enabling spell checking when editing md files
+" set spell "Enabling spell checking when editing md files
 ":EnableAutocorrect
 
