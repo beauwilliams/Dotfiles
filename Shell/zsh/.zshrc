@@ -12,6 +12,10 @@ prompt_context(){}
 #ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
+autoload -U bashcompinit
+bashcompinit
+eval "$(register-python-argcomplete pipx)"
+
 
 #Hopefully this loads powerlevel10k theme faster
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -41,6 +45,7 @@ export BAT=0
 [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh #powerline theme config
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
+# source ~/Git_Downloads/z/z.sh
 source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.zsh/.iterm2_shell_integration.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -199,6 +204,7 @@ export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Cours
 # export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
 # compdef vman="man" #adds autocompletion for the command
 export PATH="$PATH:$HOME/.langservers" #my langservers
+export PATH="$PATH:$HOME/.formatters" #my langservers
 
 #RUBY / RVM
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
