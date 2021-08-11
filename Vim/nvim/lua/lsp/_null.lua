@@ -1,11 +1,25 @@
+------------------------------
+----- INSTALL FORMATTERS -----
+------------------------------
+-- prettierd
+-- npm i -g @fsouza/prettierd
+------------------------------
+--stylua (better than luafmt&luaformatter)
+-- cargo install stylua
+-- option to add stylua.toml
+------------------------------
+
+
 local null_ls = require("null-ls")
 local b = null_ls.builtins
 
 local sources = {
-    b.formatting.scalafmt,
-    b.formatting.prettier.with({
-        filetypes = { "html", "json", "yaml", "markdown" },
-    }),
+    b.formatting.scalafmt, -- scala
+    b.formatting.autopep8, -- python
+    b.formatting.rustfmt, -- rust
+    b.uncrustify, -- c, cpp, cs, java
+    b.formatting.shfmt, -- bash
+    b.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
     b.formatting.stylua.with({
         condition = function(utils)
             return utils.root_has_file("stylua.toml")
@@ -15,7 +29,6 @@ local sources = {
         return utils.root_has_file(".eslintrc.js") and b.formatting.eslint_d or b.formatting.prettier
     end),
     --[[ b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal", "zsh" } }),
-    b.formatting.shfmt,
     b.diagnostics.write_good,
     b.diagnostics.markdownlint,
     b.diagnostics.teal,

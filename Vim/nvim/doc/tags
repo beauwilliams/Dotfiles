@@ -1,0 +1,10 @@
+myhelp	myhelp.txt	/*myhelp*
+myhelp-contents	myhelp.txt	/*myhelp-contents*
+myhelp-intro	myhelp.txt	/*myhelp-intro*
+myhelp-treesitter	myhelp.txt	/*myhelp-treesitter*
+myhelp.txt	myhelp.txt	/*myhelp.txt*
+sed	myhelp.txt	/*sed*
+sfphone	myhelp.txt	/*sfphone*
+sfsed	myhelp.txt	/*sfsed*
+sfvim	myhelp.txt	/*sfvim*
+vim	myhelp.txt	/*vim*

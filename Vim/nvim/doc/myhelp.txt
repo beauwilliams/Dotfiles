@@ -1,0 +1,56 @@
+*myhelp.txt*  My helpfile
+*myhelp*
+    __  __    ______    __     ____     ______    ____    __     ______
+   / / / /   / ____/   / /    / __ \   / ____/   /  _/   / /    / ____/
+  / /_/ /   / __/     / /    / /_/ /  / /_       / /    / /    / __/
+ / __  /   / /___    / /___ / ____/  / __/     _/ /    / /___ / /___
+/_/ /_/   /_____/   /_____//_/      /_/       /___/   /_____//_____/
+
+>
+    My helpfile
+<
+
+CONTENTS                                                     *myhelp-contents*
+
+    INTRO .......................................... |myhelp-intro|
+
+==============================================================================
+INTRO                                                           *myhelp-intro*
+
+Startify is a plugin that shows recently used files, bookmarks, commands and
+sessions that were saved to a certain directory.
+
+==============================================================================
+
+Notes about sed *sed* *sfsed* <<<
+
+Swapping word's in stream (I know, you don't need the cat)
+ cat Myfile.h|sed 's/foo/fyy/g'
+
+Notes about vim *vim* *sfvim* <<<
+ Stuff I have learned about vim.
+ Create a help link like this |add-local-help|
+ Regenerate help tags: |helptags|
+
+ A realy big section closed with a tag <<<
+ --- lots of stuf ---
+ Closing tag >>>
+
+Telephonelist *sfphone* <<<
+ mom: 555-676767-333
+ dad: 555-767676-222
+
+ ------------------------------------------------------------------------------
+                                                        *myhelp-treesitter*
+>
+    let g:startify_session_dir = '~/.vim/session'
+<
+The directory to save/load sessions to/from.
+
+Defaults:~
+
+  Nvim:          `$XDG_DATA_HOME/nvim/session` (`:echo stdpath('data')`)
+  Vim (Unix):    `$HOME/.vim/session`
+  Vim (Windows): `$HOME/vimfiles/session`sis: 555-121212-999
+
+vim: filetype=help foldmethod=marker foldmarker=<<<,>>> modifiable noreadonly
