@@ -248,13 +248,12 @@ require("packer").startup {
         use "hrsh7th/vim-vsnip" --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
         use "rafamadriz/friendly-snippets" --> Snippets library compatible with vim-vsnip
         use "neovim/nvim-lspconfig" --> PREMADE LSPCONFIGS
-        use {'ray-x/navigator.lua', requires = {'ray-x/guihua.lua', run = 'cd lua/fzy && make'}}
-
+        use {"ray-x/navigator.lua", requires = {"ray-x/guihua.lua", run = "cd lua/fzy && make"}}
 
         use "nvim-lua/lsp-status.nvim" --> Lsp statusline
         use "ray-x/lsp_signature.nvim" --> LSP SignatureInformation
         use "hrsh7th/nvim-compe" --> COMPLETION MENU
-        use {'tzachar/compe-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-compe'}
+        use {"tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe"}
         use "Raimondi/delimitMate" --> Compatible with compe auto braces etc
         use "kosayoda/nvim-lightbulb" --> CODE ACTION LIGHTBULB
         use "nathunsmitty/nvim-ale-diagnostic" --> PIPE LSP DIAGS TO ALE
@@ -288,6 +287,17 @@ require("packer").startup {
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 
+        use "sheerun/vim-polyglot"
+        use(
+            {
+                "jose-elias-alvarez/null-ls.nvim",
+                config = function()
+                    require("null-ls").config({})
+                    require("lspconfig")["null-ls"].setup({})
+                end,
+                requires = {"nvim-lua/plenary.nvim", "neovim/nvim-lspconfig"}
+            }
+        )
         -- use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
         --[[ "sheerun/vim-polyglot", --> REMOVED FOR NOW BECAUSE THEY KEEP MESSING WITH SWAP FILES & DOING TOO MUCH
         opt = true,

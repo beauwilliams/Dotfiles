@@ -258,6 +258,8 @@ end
 
 
 -- LANG CONFS
+require ('lsp._null').setup(custom_attach)
+
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
