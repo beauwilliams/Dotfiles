@@ -5,7 +5,8 @@
 -- npm i -g @fsouza/prettierd
 ------------------------------
 --stylua (better than luafmt&luaformatter)
--- cargo install stylua
+-- installed binary to my ~/.formatters path
+-- from here: https://github.com/JohnnyMorganz/StyLua/releases
 -- option to add stylua.toml
 ------------------------------
 
