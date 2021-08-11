@@ -20,11 +20,13 @@ local sources = {
     b.uncrustify, -- c, cpp, cs, java
     b.formatting.shfmt, -- bash
     b.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
-    b.formatting.stylua.with({
+    b.formatting.stylua,
+    -- if we want to only use stylua etc when stylua.toml file is in project etc.
+    --[[ b.formatting.stylua.with({
         condition = function(utils)
             return utils.root_has_file("stylua.toml")
         end,
-    }),
+    }), ]]
     require("null-ls.helpers").conditional(function(utils)
         return utils.root_has_file(".eslintrc.js") and b.formatting.eslint_d or b.formatting.prettier
     end),
