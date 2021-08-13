@@ -14,6 +14,7 @@ endfunction
 
 command! Lcopen :copen | :wincmd p | :wincmd L | :bp | :wincmd h | :bn
 
+
 " autocmd QuickFixCmdPost * echo 'hellovim'
 " autocmd FileType qf wincmd J | resize 10
 
@@ -181,6 +182,7 @@ function! WinMove(key)
                         wincmd s
                 endif
                 exec "wincmd ".a:key
+                exec "enew"
         endif
 endfunction
 "MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
