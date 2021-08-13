@@ -171,10 +171,52 @@ gcl() {
     fi
 }
 
+# Local:
+# https://stackoverflow.com/questions/21151178/shell-script-to-check-if-specified-git-branch-exists
+# test if the branch is in the local repository.
+# return 1 if the branch exists in the local, or 0 if not.
+function is_in_local() {
+    if [ `git rev-parse --verify --quiet $1` ]
+    then
+        echo "Branch exists locally"
+        return 1
+    fi
+}
 
-# Create new branch. geb <branch-name>
+# Remote:
+# Ref: https://stackoverflow.com/questions/8223906/how-to-check-if-remote-branch-exists-on-a-given-remote-repository
+# test if the branch is in the remote repository.
+# return 1 if its remote branch exists, or 0 if not.
+function is_in_remote() {
+    if [ `git branch --remotes | grep  --extended-regexp "^[[:space:]]+origin/${1}$"` ]
+    then
+        echo "Branch exists on remote"
+        return 1
+    fi
+
+}
+
+# Checkout to existing branch or else create new branch. gco <branch-name>.
+# Falls back to fuzzy branch selector list powered by fzf if no args.
 gco(){
-    git checkout -b "$1"
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        if [[ "$#" -eq 0 ]]; then
+            local branches branch
+            branches=$(git branch -a) &&
+            branch=$(echo "$branches" |
+            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+        elif [ `git rev-parse --verify --quiet $*` ] || \
+             [ `git branch --remotes | grep  --extended-regexp "^[[:space:]]+origin/${*}$"` ]; then
+            echo "Checking out to existing branch"
+            git checkout "$*"
+        else
+            echo "Creating new branch"
+            git checkout -b "$*"
+        fi
+    else
+        echo "Can't check out or create branch. Not in a git repo"
+    fi
 }
 
 #quickly preview item in finder
@@ -386,7 +428,7 @@ commitids() {
 
 #picklist to checkout git branch (including remote branches), sorted by most recent commit, limit 30 last branches
 #OR just type branch "branchname"
-branch() {
+gbrl() {
     if [ $# -eq 0 ]; then
         local branches branch
         branches=$(git for-each-ref --count=30 --sort=-committerdate refs/heads/ --format="%(refname:short)") &&
@@ -398,6 +440,20 @@ branch() {
     fi
 
 }
+
+#Select git branches including remote and checkout to them
+gbr() {
+    if [ $# -eq 0 ]; then
+        local branches branch
+        branches=$(git branch -a) &&
+            branch=$(echo "$branches" |
+            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+            git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+                else
+                    git checkout "$@"
+    fi
+}
+
 
 # stashes - easier way to deal with stashes
 # enter shows you the contents of the stash
@@ -433,7 +489,7 @@ stashes() {
 
 #Show git staging area (git status)
 gs() {
-    git rev-parse HEAD > /dev/null 2>&1 || { echo "You are not in a git repository" && return }
+    git rev-parse --git-dir > /dev/null 2>&1 || { echo "You are not in a git repository" && return }
     local selected
     selected=$(git -c color.status=always status --short |
         fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
