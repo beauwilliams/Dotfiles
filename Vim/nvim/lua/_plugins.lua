@@ -103,7 +103,11 @@ require("packer").startup {
         -- or https://github.com/folke/persistence.nvim
 
         -- SMOOTH SCROLLING
-        use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
+        -- use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
+        use {
+            'karb94/neoscroll.nvim',
+            setup = require('neoscroll').setup()
+        }
 
         -- HEX COLOUR PREVIEW
         use {"rrethy/vim-hexokinase", run = "make hexokinase"} -- preview hex colors with litle square
@@ -269,6 +273,9 @@ require("packer").startup {
 
         use "mizlan/iswap.nvim" --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things.
 
+        -- LSP INSTALLERS
+        -- alexaandru/nvim-lspupdate OR kabouzeid/nvim-lspinstall
+
         -- DEBUGGING PLUGINS
         -- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
         -- https://github.com/mfussenegger/nvim-dap
@@ -286,6 +293,7 @@ require("packer").startup {
         } ]]
         -- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
         -- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
+        -- https://github.com/jubnzv/mdeval.nvim - RUN CODE SNIPPETS IN MARKDOWN FILE
 
         use "sheerun/vim-polyglot"
         use(
@@ -373,6 +381,10 @@ require("packer").startup {
                 require "telescope".load_extension "z"
                 -- ... other telescope settings
             end
+        }
+        use {
+            'cljoly/telescope-repo.nvim',
+            setup = require'telescope'.load_extension'repo'
         }
         -- CHEATSHEETS
         use {
@@ -487,6 +499,7 @@ require("packer").startup {
         use {"tpope/vim-fugitive"} -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
         use {"sindrets/diffview.nvim"} -- Neovim enhanced diffview [:DiffviewOpen]
         use "ThePrimeagen/git-worktree.nvim" -- Adds neovim integration with worktrees and telescope
+        -- https://github.com/tanvirtin/vgit.nvim - visual git for neovim
 
         --[[
     __  ___    ____   _____   ______           ____     __    __  __   ______    ____    _   __   _____
@@ -551,6 +564,7 @@ require("packer").startup {
         -- use "gennaro-tedesco/nvim-peekup" -- USAGE: "" to get list of registers
 
         -- LUA/VIM DEVELOPMENT
+        -- bfredl/nvim-luadev Lua like REPL for nvim dev from the cheifman himself bfredl
         -- use 'notomo/lreload.nvim' --> Hot reloading for lua development
         -- use 'wadackel/nvim-syntax-info' Display highlight links etc using :SyntaxInfo
 

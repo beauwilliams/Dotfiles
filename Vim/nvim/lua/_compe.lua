@@ -29,11 +29,11 @@ compe.setup {
     path = true;
     buffer = {menu = '[BUF]'};
     vsnip = {menu = '[SPT]'};
-    nvim_lsp = {menu = '[LSP]'};
+    nvim_lsp = {menu = '[LSP]', priority = 10};
     nvim_lua = {menu = '[LUA]'};
     treesitter = {menu = '[TRS]'};
     neorg = {menu = '[ORG]'};
-    tabnine = {menu = '[TAB]'}
+    tabnine = {menu = '[TAB]', priority = 2}
     -- spell = true;
     -- tags = true;
     -- snippets_nvim = true;

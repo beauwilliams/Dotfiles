@@ -6,6 +6,18 @@ endfunction
 
 autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 
+
+function GlobalReplace(foo,bar)
+    exe 'grep '.a:foo
+    exe 'cdo %s/'.a:foo.'/'.a:bar.'/gc'
+endfunction
+
+command! Lcopen :copen | :wincmd p | :wincmd L | :bp | :wincmd h | :bn
+
+" autocmd QuickFixCmdPost * echo 'hellovim'
+" autocmd FileType qf wincmd J | resize 10
+
+
 " au VimEnter * lua require('focus').init()
 " au VimEnter * echo "hello"
 

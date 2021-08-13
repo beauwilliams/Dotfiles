@@ -42,6 +42,33 @@ tsconf.setup {
         --> VIA p00f/nvim-ts-rainbow
         enable = true
     },
+    incremental_selection = {
+        enable = true,
+        keymaps = {
+            init_selection = "<Enter>",
+            scope_incremental = "gnc",
+            node_incremental = "<Enter>",
+            node_decremental = "<BS>"
+        }
+    },
+    refactor = {
+        highlight_definitions = {enable = true},
+        highlight_current_scope = {enable = false},
+        navigation = {
+            enable = true,
+            keymaps = {
+                goto_next_usage = "<A-*>",
+                goto_previous_usage = "<A-#>"
+            }
+        },
+        smart_rename = {
+            enable = true,
+            keymaps = {
+                -- mapping to rename reference under cursor
+                smart_rename = "<leader>r"
+            }
+        }
+    },
     textobjects = {
         select = {
             enable = true,
@@ -72,41 +99,14 @@ tsconf.setup {
         swap = {
             enable = true,
             swap_next = {
-                ["<Leader>a"] = "@parameter.inner"
+                -- ["<Leader>a"] = "@parameter.inner"
             },
             swap_previous = {
-                ["<Leader>A"] = "@parameter.inner"
+                -- ["<Leader>A"] = "@parameter.inner"
             }
         },
         lsp_interop = {
             enable = true
-        }
-    },
-    incremental_selection = {
-        enable = true,
-        keymaps = {
-            init_selection = "<Enter>",
-            scope_incremental = "gnc",
-            node_incremental = "<Enter>",
-            node_decremental = "<BS>"
-        }
-    },
-    refactor = {
-        highlight_definitions = {enable = true},
-        highlight_current_scope = {enable = false},
-        navigation = {
-            enable = true,
-            keymaps = {
-                goto_next_usage = "<A-*>",
-                goto_previous_usage = "<A-#>"
-            }
-        },
-        smart_rename = {
-            enable = true,
-            keymaps = {
-                -- mapping to rename reference under cursor
-                smart_rename = "<leader>r"
-            }
         }
     }
 }

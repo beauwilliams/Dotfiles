@@ -36,8 +36,8 @@ local init = function()
 	focus.cursorline = true
 	focus.signcolumn = true
 	focus.winhighlight = false
-	focus.number = true
-	-- focus.relativenumber = true
+	-- focus.number = true
+	focus.relativenumber = true
 	-- focus.hybridnumber = true
 end
 

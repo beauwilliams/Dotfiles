@@ -14,11 +14,11 @@ end
 
 local function setup()
     local definitions = {
-        insert = {
+        --[[ insert = {
             --TURN OFF RELATIVE LINE NUMBERING WHEN WE ENTER INSERT MODE AND ENABLE OTHERWISE
             {"InsertEnter", "*", ":set norelativenumber"},
             {"InsertLeave", "*", ":set relativenumber"}
-        },
+        }, ]]
         onwrite = {
             {"BufWritePre", "*", ":call TrimWhitespace()"},
             {"BufWritePost", "~/.config/nvim/*.{vim,lua}", "so $MYVIMRC"}
