@@ -1,3 +1,4 @@
+
 "DEBUG
 function! Test()
     echo "test"
@@ -115,18 +116,18 @@ endif
 "/_/    \____/_/ |_/\____/ /_/ /___/\____/_/ |_//____/
 
 
-"Set root folder to git repo, if else set pwd to current file
-function! SearchRoot()
-  let l:scm_list = ['.root', '.svn', '.git']
-  for l:item in l:scm_list
-    let l:dirs = finddir(l:item, '.;', -1)
-    if !empty(l:dirs)
-      return fnamemodify(l:dirs[-1].'/../', ':p:h')
-    endif
-  endfor
-  return '%:p:h'
-endfunction
-autocmd BufEnter * exe ':lcd '.SearchRoot()
+" "Set root folder to git repo, if else set pwd to current file
+" function! SearchRoot()
+"   let l:scm_list = ['.root', '.svn', '.git']
+"   for l:item in l:scm_list
+"     let l:dirs = finddir(l:item, '.;', -1)
+"     if !empty(l:dirs)
+"       return fnamemodify(l:dirs[-1].'/../', ':p:h')
+"     endif
+"   endfor
+"   return '%:p:h'
+" endfunction
+" autocmd BufEnter * exe ':lcd '.SearchRoot()
 
 "Auto Whitspace trimming!!
 fun! TrimWhitespace()
@@ -167,31 +168,6 @@ augroup BWCCreateDir
 augroup END
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""EASY WINDOW MANAGEMENT""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""
-"default move between splits with ctrl h j k l
-"IF no split to move to, create a new split
-function! WinMove(key)
-        let t:curwin = winnr()
-        exec "wincmd ".a:key
-        if (t:curwin == winnr())
-                if (match(a:key,'[jk]'))
-                        wincmd v
-                else
-                        wincmd s
-                endif
-                exec "wincmd ".a:key
-                exec "enew"
-        endif
-endfunction
-"MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
-"OPEN NEW SPLIT IF NO SPLITS EXIST IN THAT POSITION,
-"Just space-hjkl
-nnoremap <silent><leader>h :call WinMove('h')<CR>
-nnoremap <silent><leader>j :call WinMove('j')<CR>
-nnoremap <silent><leader>k :call WinMove('k')<CR>
-nnoremap <silent><leader>l :call WinMove('l')<CR>
 "leader-w for SPLIT CYCLING (cycle current windows)
 "leader-W takes us anticlockwise
 nnoremap <silent> <leader>w <C-w>w
@@ -199,10 +175,17 @@ vnoremap <silent> <leader>w <C-w>w
 nnoremap <silent> <leader>W <C-w>W
 vnoremap <silent> <leader>W <C-w>W
 "Resize our splits with <leader> ;/'/,/.- easily
-nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 4/3)<CR>
-nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 3/4)<CR>
-nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 3/4)<CR>
-nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 4/3)<CR>
+nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
+nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
+nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
+nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
+
+" if nvim_win_get_width(window) > nvim_get_height(window)
+    "this means its a horizontal split, so we can resize the height
+    "
+" else
+    "this means its a vertical split, so we can resize the width
+" endif
 " nnoremap <silent> <leader>; :vertical resize -10<CR>
 " nnoremap <silent> <leader>' :vertical resize +10<CR>
 "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
@@ -315,6 +298,33 @@ endfunction
   "/ /_/ /  / __/     / /|_/ /   / /| |  / /_/ /  \__ \
  "/ _, _/  / /___    / /  / /   / ___ | / ____/  ___/ /
 "/_/ |_|  /_____/   /_/  /_/   /_/  |_|/_/      /____/
+
+
+" """"""""""""""""""""""""""""""""""""""""""""""""
+" """"""""""""""EASY WINDOW MANAGEMENT""""""""""""
+" """"""""""""""""""""""""""""""""""""""""""""""""
+" "default move between splits with ctrl h j k l
+" "IF no split to move to, create a new split
+" function! WinMove(key)
+"         let t:curwin = winnr()
+"         exec "wincmd ".a:key
+"         if (t:curwin == winnr())
+"                 if (match(a:key,'[jk]'))
+"                         wincmd v
+"                 else
+"                         wincmd s
+"                 endif
+"                 exec "wincmd ".a:key
+"                 exec "enew"
+"         endif
+" endfunction
+" "MOVE BETWEEN SPLITS DIRECTIONALLY SUPER QUICK
+" "OPEN NEW SPLIT IF NO SPLITS EXIST IN THAT POSITION,
+" "Just space-hjkl
+" nnoremap <silent><leader>h :call WinMove('h')<CR>
+" nnoremap <silent><leader>j :call WinMove('j')<CR>
+" nnoremap <silent><leader>k :call WinMove('k')<CR>
+" nnoremap <silent><leader>l :call WinMove('l')<CR>
 
 
 "LEADER KEY IS THE SPACE BAR

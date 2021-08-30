@@ -1,6 +1,8 @@
+
 local init = function()
 	-- MY CONFS
 	require("_plugins")
+    require('impatient')
 	require("_theme")
 	require("_options")
 	require("_autocmds")
@@ -37,8 +39,8 @@ local init = function()
 	focus.signcolumn = true
 	focus.winhighlight = false
 	-- focus.number = true
-	focus.relativenumber = true
-	-- focus.hybridnumber = true
+	focus.relativenumber = false
+	focus.hybridnumber = true
 end
 
 init() --> Load our confs

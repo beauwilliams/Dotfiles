@@ -112,6 +112,12 @@ utils.nnoremap("c,", "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
 utils.nnoremap("d.", "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap("d,", "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
+--Split movement using my focus plugin
+utils.nnoremap(leader.."h", ":FocusSplitLeft<cr>")
+utils.nnoremap(leader.."j", ":FocusSplitDown<cr>")
+utils.nnoremap(leader.."k", ":FocusSplitUp<cr>")
+utils.nnoremap(leader.."l", ":FocusSplitRight<cr>")
+
 --TAB/BUFFER CYCLING
 --[[ utils.nnoremap("gt", ":WintabsNext<cr>")
 utils.nnoremap("gT", ":WintabsPrevious<cr>") ]]
