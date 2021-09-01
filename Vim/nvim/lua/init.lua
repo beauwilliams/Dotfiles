@@ -2,7 +2,6 @@
 local init = function()
 	-- MY CONFS
 	require("_plugins")
-    require('impatient')
 	require("_theme")
 	require("_options")
 	require("_autocmds")

@@ -52,6 +52,8 @@ end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
 vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
+--require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
+vim.cmd 'autocmd BufWritePost _plugins.lua PackerCompile' -- Auto compile when there are changes to plugins
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
    / __ \   / /   / / / /  / ____/   /  _/   / | / /          /  _/   / | / /   /  _/ /_  __/  / ___/
@@ -96,7 +98,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 
 		--STATUSLINE
 		use("beauwilliams/statusline.lua")
-		use("beauwilliams/focus.nvim")
+		 use("beauwilliams/focus.nvim")
+       -- use {'beauwilliams/focus.nvim', module = "focus"}
+       -- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
+        -- use 'sagarc03/focus.nvim'
 
 		-- STARIFY / SESSIONS
 		use({
@@ -114,7 +119,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		})
 
 		-- HEX COLOUR PREVIEW
-		use({ "rrethy/vim-hexokinase", run = "make hexokinase" }) -- preview hex colors with litle square
+		use({ "rrethy/vim-hexokinase"})--, run = "make hexokinase" }) -- preview hex colors with litle square
 		-- CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
 		use({
 			"danilamihailov/beacon.nvim",
@@ -542,6 +547,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
+        use {
+            's1n7ax/nvim-search-and-replace',
+            setup = function() require'nvim-search-and-replace'.setup() end,
+}
 		use("npxbr/glow.nvim") --> might ned to run :GlowInstall --> :mdreader to read md
 		use("thugcee/nvim-map-to-lua")
 		use("nanotee/zoxide.vim") -- :Z command in vim, quickly jump to recent dirs
