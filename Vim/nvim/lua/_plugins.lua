@@ -52,7 +52,7 @@ end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
 vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
---require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
+require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
 vim.cmd 'autocmd BufWritePost _plugins.lua PackerCompile' -- Auto compile when there are changes to plugins
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
@@ -259,16 +259,21 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		-- SQL https://github.com/tami5/sql.nvim
 
 		use("b3nj5m1n/kommentary") -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
+        --COMPE
+		use("hrsh7th/nvim-compe") --> COMPLETION MENU
+		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
 		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
 		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip
+        -- COQ
+        --[[ use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+        use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets ]]
+        --LSP
 		use("neovim/nvim-lspconfig") --> PREMADE LSPCONFIGS
 		use("nanotee/nvim-lsp-basics") -->  Basic wrappers for LSP features
 		use({ "ray-x/navigator.lua", requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" } })
 
 		use("nvim-lua/lsp-status.nvim") --> Lsp statusline
 		use("ray-x/lsp_signature.nvim") --> LSP SignatureInformation
-		use("hrsh7th/nvim-compe") --> COMPLETION MENU
-		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
 		use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 		use("kosayoda/nvim-lightbulb") --> CODE ACTION LIGHTBULB
 		use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
@@ -547,10 +552,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-        use {
+        --[[ use {
             's1n7ax/nvim-search-and-replace',
             setup = function() require'nvim-search-and-replace'.setup() end,
-}
+        } ]]
 		use("npxbr/glow.nvim") --> might ned to run :GlowInstall --> :mdreader to read md
 		use("thugcee/nvim-map-to-lua")
 		use("nanotee/zoxide.vim") -- :Z command in vim, quickly jump to recent dirs

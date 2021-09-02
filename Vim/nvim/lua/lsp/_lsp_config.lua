@@ -40,6 +40,7 @@ local exclude_patterns = {
                     /_/                                     /_/
 --]]
 require("_compe") --> We load custom compe init in lua._compe.lua
+-- require("_coq") --> We load custom coq init in lua._clspoq.lua
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -196,6 +197,8 @@ vim.cmd("autocmd CursorMoved * :lua echo_diagnostic()")
 Custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
+    --[[ local coq = require "coq"
+    coq.lsp_ensure_capabilities() ]]
 	return capabilities
 end
 

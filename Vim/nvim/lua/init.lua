@@ -1,7 +1,7 @@
 
 local init = function()
 	-- MY CONFS
-	require("_plugins")
+	require("_plugins") -- Loads packer commands
 	require("_theme")
 	require("_options")
 	require("_autocmds")
