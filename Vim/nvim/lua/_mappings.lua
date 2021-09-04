@@ -150,7 +150,7 @@ vim.cmd("cnoreabbrev <silent> spelloff exe SpellOff()")
 vim.cmd("cnoreabbrev spelladd spell")
 
 -- MARKDOWN RENDERER [glow.nvim]
-vim.cmd("cnoreabbrev mdreader Glow")
+vim.cmd("cnoreabbrev mdreader MarkdownPreview")
 
 -- Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
 vim.cmd("cnoreabbrev w!! SudaWrite")
@@ -163,6 +163,11 @@ vim.cmd("cnoreabbrev Z z")
 vim.cmd("cnoreabbrev z Z")
 -- FUGITIVE/GIT
 vim.cmd("cnoreabbrev <silent>gp :G push")
+
+--PACKER
+cmd([[cnoreabbrev pc PackerCompile]])
+cmd([[cnoreabbrev pi PackerInstall]])
+cmd([[cnoreabbrev ps PackerSync]])
 
 --SNAP MAPPINGS
 local snap = require "snap"
@@ -339,7 +344,7 @@ utils.tnoremap(leader .. "t", '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
 -- api.nvim_command('inoremap <expr> <Tab>   pumvisible() ? "<C-n>" : "<Tab>"')
 -- api.nvim_command('inoremap <expr> <S-Tab> pumvisible() ? "<C-p>" : "<S-Tab>"')
 -- SET COMPE MAPPINGS --> DELIMITMATE COMPATIBLE FOR AUTO-CLOSING BRACES
-api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
+--[[ api.nvim_command("inoremap <silent><expr> <C-Space> compe#complete()")
 api.nvim_command("inoremap <silent><expr> <CR>      compe#confirm({ 'keys': '<Plug>delimitMateCR', 'mode': '' })")
 api.nvim_command("inoremap <silent><expr> <C-e>     compe#close('<C-e>')")
 
@@ -384,7 +389,7 @@ end
 vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}) ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TREESITTER MAPPINGS

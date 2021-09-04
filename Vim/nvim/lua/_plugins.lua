@@ -260,13 +260,13 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 
 		use("b3nj5m1n/kommentary") -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
         --COMPE
-		use("hrsh7th/nvim-compe") --> COMPLETION MENU
+		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
 		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
 		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
-		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip
+		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
         -- COQ
-        --[[ use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-        use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets ]]
+        use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+        use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
         --LSP
 		use("neovim/nvim-lspconfig") --> PREMADE LSPCONFIGS
 		use("nanotee/nvim-lsp-basics") -->  Basic wrappers for LSP features
@@ -557,6 +557,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
             setup = function() require'nvim-search-and-replace'.setup() end,
         } ]]
 		use("npxbr/glow.nvim") --> might ned to run :GlowInstall --> :mdreader to read md
+        use "iamcco/markdown-preview.nvim" --> need to run :call mkdp#util#install()
 		use("thugcee/nvim-map-to-lua")
 		use("nanotee/zoxide.vim") -- :Z command in vim, quickly jump to recent dirs
 		use({
@@ -583,7 +584,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
 		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
-		-- use 'andweeb/presence.nvim' -- discord presence
+		use 'andweeb/presence.nvim' -- discall mkdp#util#install()call mkdp#util#install()cord presence
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 		-- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe

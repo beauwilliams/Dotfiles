@@ -11,12 +11,13 @@ local init = function()
 	require("_utils")
 
 	--PLUGINS
+	require('_startify')
 	require("_quickscope")
 	require("_hexokinase")
 	require("_telescope")
 	require("_treesitter")
 	require("_nvimtree")
-	-- require('_discord')
+	require('_discord')
 
 	--LSP
 	require("lsp._lsp_config")
