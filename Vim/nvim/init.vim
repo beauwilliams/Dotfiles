@@ -13,7 +13,8 @@ function GlobalReplace(foo,bar)
     exe 'cdo %s/'.a:foo.'/'.a:bar.'/gc'
 endfunction
 
-command! Lcopen :copen | :wincmd p | :wincmd L | :bp | :wincmd h | :bn
+" command! Lcopen :copen | :wincmd p | :wincmd L | :bp | :wincmd h | :bn
+" cnoreabbrev copen botright copen
 
 
 " autocmd QuickFixCmdPost * echo 'hellovim'
@@ -35,7 +36,6 @@ function! TwiddleCase(str)
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
-cnoreabbrev copen botright copen
 
 
 

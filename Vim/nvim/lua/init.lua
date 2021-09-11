@@ -1,4 +1,3 @@
-
 local init = function()
 	-- MY CONFS
 	require("_plugins") -- Loads packer commands
@@ -11,13 +10,13 @@ local init = function()
 	require("_utils")
 
 	--PLUGINS
-	require('_startify')
+	require("_startify")
 	require("_quickscope")
 	require("_hexokinase")
 	require("_telescope")
 	require("_treesitter")
 	require("_nvimtree")
-	require('_discord')
+	require("_discord")
 
 	--LSP
 	require("lsp._lsp_config")
@@ -29,7 +28,7 @@ local init = function()
 	statusline.ale_diagnostics = false
 
 	--Focus (My plugin :D)
-	local focus = require("focus")
+	--[[ local focus = require("focus")
 	focus.enable = true
 	-- focus.width = 180
 	focus.treewidth = 30
@@ -39,8 +38,9 @@ local init = function()
 	focus.signcolumn = true
 	focus.winhighlight = false
 	-- focus.number = true
-	focus.relativenumber = false
-	focus.hybridnumber = true
+	-- focus.relativenumber = true
+	focus.hybridnumber = true ]]
+
 end
 
 init() --> Load our confs

@@ -113,10 +113,25 @@ utils.nnoremap("d.", "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap("d,", "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
 --Split movement using my focus plugin
-utils.nnoremap(leader.."h", ":FocusSplitLeft<cr>")
+-- LAZY LOADING
+local focusmap = function(direction)
+    vim.api.nvim_set_keymap(
+        "n",
+        "<Leader>" .. direction,
+        ":lua require'focus'.split_command('" .. direction .. "')<CR>",
+        { silent = true }
+    )
+end
+-- Use `<Leader>h` to split the screen to the left, same as command FocusSplitLeft etc
+focusmap("h")
+focusmap("j")
+focusmap("k")
+focusmap("l")
+
+--[[ utils.nnoremap(leader.."h", ":FocusSplitLeft<cr>")
 utils.nnoremap(leader.."j", ":FocusSplitDown<cr>")
 utils.nnoremap(leader.."k", ":FocusSplitUp<cr>")
-utils.nnoremap(leader.."l", ":FocusSplitRight<cr>")
+utils.nnoremap(leader.."l", ":FocusSplitRight<cr>") ]]
 
 --TAB/BUFFER CYCLING
 --[[ utils.nnoremap("gt", ":WintabsNext<cr>")
@@ -307,8 +322,8 @@ utils.vnoremap(
     leader .. "4",
     ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
 )
-utils.nnoremap(leader .. "5", ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
-utils.vnoremap(leader .. "5", ":Startify<cr> :setlocal statusline=%!ActiveLine()<cr>")
+utils.nnoremap(leader .. "5", ":Startify<mappcr>")
+utils.vnoremap(leader .. "5", ":Startify<cr>")
 utils.nnoremap(leader .. "6", ":GitMessenger<CR>") -- "SHOW GIT COMMIT / GIT BLAME POPUP
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -390,6 +405,76 @@ vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
 vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}) ]]
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+-- COQ MAPPINGS
+local remap = vim.api.nvim_set_keymap
+local npairs = require('nvim-autopairs')
+
+npairs.setup({ map_bs = false })
+
+vim.g.coq_settings = { keymap = { recommended = false } }
+
+-- these mappings are coq recommended mappings unrelated to nvim-autopairs
+remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
+remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
+-- remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
+remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
+--NOTE: ,leader+tab is command to move to next snippet location
+-- remap('n', '<leader>0', "<c-h>", { noremap = true })
+
+
+-- remap('i', '<cr>', [[pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"]], { expr = true, noremap = true })
+
+
+-- skip it, if you use another global object
+_G.MUtils= {}
+
+MUtils.CR = function()
+  if vim.fn.pumvisible() ~= 0 then
+    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+      return npairs.esc('<c-y>')
+    else
+      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+    end
+  else
+    return npairs.autopairs_cr()
+  end
+end
+remap('i', '<cr>', 'v:lua.MUtils.CR()', { expr = true, noremap = true })
+
+MUtils.BS = function()
+  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
+  else
+    return npairs.autopairs_bs()
+  end
+end
+remap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap = true })
+
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+
+_G.tab_complete = function()
+    if vim.fn.pumvisible() == 1 then
+        return t "<C-n>"
+    elseif _G.COQmarks_available() == true then
+        return t "<C-h>"
+    else
+        return t "<Tab>"
+    end
+end
+
+vim.api.nvim_set_keymap("n", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TREESITTER MAPPINGS

@@ -14,6 +14,6 @@ cp -r ~/.config/nvim/doc ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/merge-nvim-config.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/cheatsheet.txt ~/Git_Downloads/Dotfiles/Vim/nvim/
-cp ~/.langservers/launch_jdtls.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
+cp ~/.config/nvim/lua/lsp/launch_jdtls.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/guide.vim ~/Git_Downloads/Dotfiles/Vim/nvim/
 

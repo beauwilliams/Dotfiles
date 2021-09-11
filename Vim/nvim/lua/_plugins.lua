@@ -98,9 +98,16 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 
 		--STATUSLINE
 		use("beauwilliams/statusline.lua")
-		 use("beauwilliams/focus.nvim")
+		 -- use("beauwilliams/focus.nvim")
+         -- use {'beauwilliams/focus.nvim', cmd = "FocusEnable"}
+         -- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
+        use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely", module = "focus",
+            config = function()
+                require("focus").setup({hybridnumber = true})
+            end
+		}
        -- use {'beauwilliams/focus.nvim', module = "focus"}
-       -- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
+       -- use { 'beauwilliams/focus.nvim', branch = "setup", cmd = "FocusSplitNicely" }
         -- use 'sagarc03/focus.nvim'
 
 		-- STARIFY / SESSIONS
@@ -212,15 +219,14 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		})
 		use("haringsrob/nvim_context_vt") --> Show treesitter context at end of functions etc
 		use("nvim-treesitter/nvim-treesitter-refactor") --> smart renaming and highlight definitions and scope
-		use({
-			"windwp/nvim-ts-autotag",
-			config = function()
-				vim.api.nvim_exec(
-					[[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]], -- auto close html tags etc
-					false
-				)
-			end,
-		})
+		use("windwp/nvim-ts-autotag")
+	--		config = function()
+--				vim.api.nvim_exec(
+					-- [[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]], -- auto close html tags etc
+--					false
+--				)
+		--end,
+	--	})
 		use("nvim-treesitter/nvim-treesitter-textobjects") -- treesitter text objects
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
@@ -265,8 +271,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
 		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
         -- COQ
-        use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-        use { 'ms-jpq/coq.artifacts', branch= 'artifacts'} -- 9000+ Snippets
+        -- use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+        use { 'zeertzjq/coq_nvim', branch = 'marks-available' }
+        use { 'ms-jpq/coq.artifacts', branch = 'artifacts'} -- 9000+ Snippets
+        use "windwp/nvim-autopairs" -- compatible with COQ
         --LSP
 		use("neovim/nvim-lspconfig") --> PREMADE LSPCONFIGS
 		use("nanotee/nvim-lsp-basics") -->  Basic wrappers for LSP features
@@ -274,9 +282,9 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 
 		use("nvim-lua/lsp-status.nvim") --> Lsp statusline
 		use("ray-x/lsp_signature.nvim") --> LSP SignatureInformation
-		use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
+		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 		use("kosayoda/nvim-lightbulb") --> CODE ACTION LIGHTBULB
-		use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
+		-- use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
 		use("sbdchd/neoformat") -- Code formatting plugin
 		-- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
 		use({
