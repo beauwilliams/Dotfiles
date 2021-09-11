@@ -204,7 +204,8 @@ export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Cours
 # export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
 # compdef vman="man" #adds autocompletion for the command
 export PATH="$PATH:$HOME/.langservers" #my langservers
-export PATH="$PATH:$HOME/.formatters" #my langservers
+# export PATH="$PATH:$HOME/.langservers/omnisharp-osx/bin/" # C#  omnisharp-roslyn
+export PATH="$PATH:$HOME/.formatters" #my formatters
 
 #RUBY / RVM
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
