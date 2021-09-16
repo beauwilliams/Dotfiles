@@ -1,13 +1,12 @@
-
 -- TODO: Teal and Moonscript equivalents!
 
-local status, fennel = pcall(require, 'fennel')
+local status, fennel = pcall(require, "fennel")
 if not status then
-  return nil
+	return nil
 end
 
 function _fennel_runtime_searcher(name)
-  --[[
+	--[[
   Based on vim._load_package() in
   <https://github.com/neovim/neovim/blob/52e660e8570346d28f5c7f5dde0a5ca9b614a801/src/nvim/lua/vim.lua#L112-L134>.
 
@@ -16,44 +15,43 @@ function _fennel_runtime_searcher(name)
   loading Fennel modules, skipping fennel.path entirely in favor of manually
   searching &runtimepath and returning loaders accordingly.
   --]]
-  local basename = name:gsub('%.', '/')
+	local basename = name:gsub("%.", "/")
 
-  if vim.env.NVIM_FENNEL_DEBUG then
-    print(string.format("Nvim-Fennel: Seeking loader for '%s'", basename))
-  end
+	if vim.env.NVIM_FENNEL_DEBUG then
+		print(string.format("Nvim-Fennel: Seeking loader for '%s'", basename))
+	end
 
-  local paths = {
-    -- "lua/"..basename..".fnl",
-    -- "lua/"..basename.."/init.fnl",
-    -- "fnl/"..basename..".fnl",
-    -- "fnl/"..basename.."/init.fnl",
-    "fennel/"..basename..".fnl",
-    "fennel/"..basename.."/init.fnl",
-  }
+	local paths = {
+		-- "lua/"..basename..".fnl",
+		-- "lua/"..basename.."/init.fnl",
+		-- "fnl/"..basename..".fnl",
+		-- "fnl/"..basename.."/init.fnl",
+		"fennel/" .. basename .. ".fnl",
+		"fennel/" .. basename .. "/init.fnl",
+	}
 
-  for _,path in ipairs(paths) do
-    local found = vim.api.nvim_get_runtime_file(path, false)
-    if #found > 0 then
-      if vim.env.NVIM_FENNEL_DEBUG then
-        print(string.format("Nvim-Fennel: Returning loader for %s (%s)", basename, found[1]))
-      end
-      return function()
-        if vim.env.NVIM_FENNEL_DEBUG then
-          print(string.format("Nvim-Fennel: Executing loader for %s (%s)", basename, found[1]))
-        end
-        return fennel.dofile(found[1])
-      end
-    end
-  end
+	for _, path in ipairs(paths) do
+		local found = vim.api.nvim_get_runtime_file(path, false)
+		if #found > 0 then
+			if vim.env.NVIM_FENNEL_DEBUG then
+				print(string.format("Nvim-Fennel: Returning loader for %s (%s)", basename, found[1]))
+			end
+			return function()
+				if vim.env.NVIM_FENNEL_DEBUG then
+					print(string.format("Nvim-Fennel: Executing loader for %s (%s)", basename, found[1]))
+				end
+				return fennel.dofile(found[1])
+			end
+		end
+	end
 end
 
 if vim.env.NVIM_FENNEL_DEBUG then
-  print("Loaders before Fennel init:")
-  for _, searcher in ipairs(package.loaders) do
-    print("  "..tostring(searcher))
-  end
+	print("Loaders before Fennel init:")
+	for _, searcher in ipairs(package.loaders) do
+		print("  " .. tostring(searcher))
+	end
 end
-
 
 --[[
 Neovim's runtimepath Lua searcher is added at the front of `package.loaders`.
@@ -93,10 +91,10 @@ table.insert(package.loaders, fennel.searcher)
 table.insert(package.loaders, 2, _fennel_runtime_searcher)
 
 if vim.env.NVIM_FENNEL_DEBUG then
-  print("Loaders after Fennel init:")
-  for _, searcher in ipairs(package.loaders) do
-    print("  "..tostring(searcher))
-  end
+	print("Loaders after Fennel init:")
+	for _, searcher in ipairs(package.loaders) do
+		print("  " .. tostring(searcher))
+	end
 end
 
 return fennel

@@ -52,8 +52,8 @@ end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
 vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
-require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
-vim.cmd 'autocmd BufWritePost _plugins.lua PackerCompile' -- Auto compile when there are changes to plugins
+require("impatient") -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
+vim.cmd("autocmd BufWritePost _plugins.lua PackerCompile") -- Auto compile when there are changes to plugins
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
    / __ \   / /   / / / /  / ____/   /  _/   / | / /          /  _/   / | / /   /  _/ /_  __/  / ___/
@@ -62,6 +62,10 @@ vim.cmd 'autocmd BufWritePost _plugins.lua PackerCompile' -- Auto compile when t
 /_/      /_____/\____/   \____/   /___/   /_/ |_/          /___/   /_/ |_/   /___/   /_/     /____/
 
 --]]
+--
+--
+-------------------------------------------------------------------------
+--
 --PACKER IS CAPABLE OF MANAGING ITSELF. IT INITS FIRST THEN CALLS REST OF OUR PLUGINS
 require("packer").startup({
 	function(use)
@@ -70,10 +74,10 @@ require("packer").startup({
 		-- DEBUG STUFF
 		-- https://github.com/henriquehbr/nvim-startup.lua
 
---SPEED UP NVIM REQUIRE AND STARTUP TIME
-use {'lewis6991/impatient.nvim', rocks = 'mpack'}
+		--SPEED UP NVIM REQUIRE AND STARTUP TIME
+		use({ "lewis6991/impatient.nvim", rocks = "mpack" })
 
---[[
+		--[[
   ______    __  __    ______    __  ___    ______   _____          ___             __  __    ____
  /_  __/   / / / /   / ____/   /  |/  /   / ____/  / ___/         ( _ )           / / / /   /  _/
   / /     / /_/ /   / __/     / /|_/ /   / __/     \__ \         / __ \/|        / / / /    / /
@@ -95,20 +99,45 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 
 		--INDENT LINES
 		use({ "lukas-reineke/indent-blankline.nvim", config = "vim.g.indent_blankline_char = '│'" })
+		--HORIZONTAL LINES --> Looks bad.. Not working right
+		--[[ use({
+			"lukas-reineke/headlines.nvim",
+			config = function()
+				require("headlines").setup()
+			end,
+		}) ]]
 
 		--STATUSLINE
 		use("beauwilliams/statusline.lua")
-		 -- use("beauwilliams/focus.nvim")
-         -- use {'beauwilliams/focus.nvim', cmd = "FocusEnable"}
-         -- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
-        use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely", module = "focus",
-            config = function()
-                require("focus").setup({hybridnumber = true})
-            end
-		}
-       -- use {'beauwilliams/focus.nvim', module = "focus"}
-       -- use { 'beauwilliams/focus.nvim', branch = "setup", cmd = "FocusSplitNicely" }
-        -- use 'sagarc03/focus.nvim'
+		-- use("beauwilliams/focus.nvim")
+		-- use {'beauwilliams/focus.nvim', cmd = "FocusEnable"}
+		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
+		-- use { "beauwilliams/focus.nvim", config = function() require("focus").setup() end }
+
+		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely", module = "focus",
+		use({
+			"beauwilliams/focus.nvim",
+			--[[ cmd = { "FocusSplitNicely", "FocusSplitCycle" },
+			module = "focus", ]]
+			config = function()
+				require("focus").setup({
+					tmux = false,
+					hybridnumber = true,
+					excluded_filetypes = { "toggleterm" },
+					signcolumn = "number",
+				})
+			end,
+		})
+		-- use {'beauwilliams/focus.nvim', module = "focus"}
+		-- use { 'beauwilliams/focus.nvim', branch = "setup", cmd = "FocusSplitNicely" }
+		-- use 'sagarc03/focus.nvim'
+		--
+		-- use 'beauwilliams/imnotaquitter.nvim'
+		use("nvim-lua/plenary.nvim")
+		use("windwp/nvim-spectre")
+
+		-- SCROLL BARS
+		use("dstein64/nvim-scrollview")
 
 		-- STARIFY / SESSIONS
 		use({
@@ -126,8 +155,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		})
 
 		-- HEX COLOUR PREVIEW
-		use({ "rrethy/vim-hexokinase"})--, run = "make hexokinase" }) -- preview hex colors with litle square
+		use({ "rrethy/vim-hexokinase" }) --, run = "make hexokinase" }) -- preview hex colors with litle square
 		-- CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
+		-- https://github.com/edluffy/specs.nvim
+		-- https://github.com/edluffy/specs.nvim
 		use({
 			"danilamihailov/beacon.nvim",
 			config = function()
@@ -220,13 +251,13 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		use("haringsrob/nvim_context_vt") --> Show treesitter context at end of functions etc
 		use("nvim-treesitter/nvim-treesitter-refactor") --> smart renaming and highlight definitions and scope
 		use("windwp/nvim-ts-autotag")
-	--		config = function()
---				vim.api.nvim_exec(
-					-- [[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]], -- auto close html tags etc
---					false
---				)
+		--		config = function()
+		--				vim.api.nvim_exec(
+		-- [[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]], -- auto close html tags etc
+		--					false
+		--				)
 		--end,
-	--	})
+		--	})
 		use("nvim-treesitter/nvim-treesitter-textobjects") -- treesitter text objects
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
@@ -263,25 +294,27 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		-- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim && https://github.com/shift-d/crates.nvim
 		-- better YAML https://github.com/cuducos/yaml.nvim
 		-- SQL https://github.com/tami5/sql.nvim
+		-- REFACTORING https://github.com/ThePrimeagen/refactoring.nvim
 
 		use("b3nj5m1n/kommentary") -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-        --COMPE
+		--COMPE
 		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
 		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
 		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
 		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
-        -- COQ
-        -- use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-        use { 'zeertzjq/coq_nvim', branch = 'marks-available' }
-        use { 'ms-jpq/coq.artifacts', branch = 'artifacts'} -- 9000+ Snippets
-        use "windwp/nvim-autopairs" -- compatible with COQ
-        --LSP
+		-- COQ
+		-- use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
+		use({ "zeertzjq/coq_nvim", branch = "marks-available" })
+		use({ "ms-jpq/coq.artifacts", branch = "artifacts" }) -- 9000+ Snippets
+		use("windwp/nvim-autopairs") -- compatible with COQ
+		--LSP
 		use("neovim/nvim-lspconfig") --> PREMADE LSPCONFIGS
 		use("nanotee/nvim-lsp-basics") -->  Basic wrappers for LSP features
 		use({ "ray-x/navigator.lua", requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" } })
 
 		use("nvim-lua/lsp-status.nvim") --> Lsp statusline
 		use("ray-x/lsp_signature.nvim") --> LSP SignatureInformation
+		-- use 'jubnzv/virtual-types.nvim'--> A Neovim plugin that shows type annotations as virtual text
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 		use("kosayoda/nvim-lightbulb") --> CODE ACTION LIGHTBULB
 		-- use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
@@ -386,6 +419,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 			-- vim.fn["fzf#install"]()
 			-- end
 		})
+		-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
 		use({ "junegunn/fzf.vim" })
 		-- TELESCOPE
 		use({
@@ -447,7 +481,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		-- PREVIEW LINE IN BUFFER --> e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
 		use({ "nacro90/numb.nvim", config = "require('numb').setup()" })
 		-- ENHANCED SEARCH --> Adds count numbers etc
-		use({ "kevinhwang91/nvim-hlslens" })
+		-- use({ "kevinhwang91/nvim-hlslens" })
 		-- FILE TREE
 		use({
 			"kyazdani42/nvim-tree.lua",
@@ -544,6 +578,7 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
 		use("tpope/vim-surround") -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
 		use("tpope/vim-repeat") -- repeat surround motions with .
 		use("rmagatti/alternate-toggler") --:ToggleAlternate -- TOGGLE BOOLS
+		use("monaqa/dial.nvim") -- BETTER INCREMENTING IN VIM (TO BE TESTED)
 		use("chaoren/vim-wordmotion") --> IMPROVED VIM WORD MOTIONS, now includes under_scores and camelCase etc.
 		use({ "NTBBloodbath/rest.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- Open HTTP files - a curl wrapper
 		use({
@@ -560,12 +595,13 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-        --[[ use {
+		--[[ use {
             's1n7ax/nvim-search-and-replace',
             setup = function() require'nvim-search-and-replace'.setup() end,
         } ]]
+		use("MunifTanjim/nui.nvim") -- NOTE: We need this as its a dependency of something..
 		use("npxbr/glow.nvim") --> might ned to run :GlowInstall --> :mdreader to read md
-        use "iamcco/markdown-preview.nvim" --> need to run :call mkdp#util#install()
+		use("iamcco/markdown-preview.nvim") --> need to run :call mkdp#util#install()
 		use("thugcee/nvim-map-to-lua")
 		use("nanotee/zoxide.vim") -- :Z command in vim, quickly jump to recent dirs
 		use({
@@ -588,11 +624,10 @@ use {'lewis6991/impatient.nvim', rocks = 'mpack'}
         } ]]
 		-- use 'abecodes/tabout.nvim' -- USAGE: <Tab> between objects such as {} [] etc
 		-- use 'kevinhwang91/nvim-bqf' --> BETTER QF
-		-- use 'monaqa/dial.nvim' BETTER INCREMENTING IN VIM (TO BE TESTED)
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
 		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
-		use 'andweeb/presence.nvim' -- discall mkdp#util#install()call mkdp#util#install()cord presence
+		use("andweeb/presence.nvim") -- discall mkdp#util#install()call mkdp#util#install()cord presence
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 		-- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe

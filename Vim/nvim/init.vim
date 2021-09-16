@@ -1,4 +1,3 @@
-
 "DEBUG
 function! Test()
     echo "test"
@@ -6,6 +5,8 @@ function! Test()
 endfunction
 
 autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
+
+autocmd TabEnter DiffviewFilePanel :FocusDisable
 
 
 function GlobalReplace(foo,bar)
@@ -170,8 +171,8 @@ augroup END
 
 "leader-w for SPLIT CYCLING (cycle current windows)
 "leader-W takes us anticlockwise
-nnoremap <silent> <leader>w <C-w>w
-vnoremap <silent> <leader>w <C-w>w
+nnoremap <silent> <leader>w :FocusSplitCycle<CR>
+vnoremap <silent> <leader>w :FocusSplitCycle<CR>
 nnoremap <silent> <leader>W <C-w>W
 vnoremap <silent> <leader>W <C-w>W
 "Resize our splits with <leader> ;/'/,/.- easily

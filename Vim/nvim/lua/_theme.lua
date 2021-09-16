@@ -1,8 +1,7 @@
-vim.cmd('syntax on')
-
+vim.cmd("syntax on")
 
 vim.o.termguicolors = true
-vim.o.background = 'dark'
+vim.o.background = "dark"
 
 --vim.g.gruvbox_sign_column = 'dark0_hard'
 --vim.g.gruvbox_invert_selection = 0
@@ -11,14 +10,13 @@ vim.o.background = 'dark'
 --vim.cmd('highlight ColorColumn ctermbg=0 guibg=lightgrey')
 --vim.cmd('highlight SignColumn guibg=#282828')
 
-
 -- TODO enable term gui support
 -- set background=dark
 --[[ vim.cmd('set termguicolors') -- "enabling terminal color support
 vim.cmd('set t_Co=256') -- "enabling 256 color support ]]
 
 vim.g.gruvbox_italic = 1
-vim.g.gruvbox_contrast_dark="soft"
+vim.g.gruvbox_contrast_dark = "soft"
 -- vim.g.gruvbox_sign_column = "bg0"
 vim.cmd("colorscheme gruvbox") -- must come after gruvbox_italic
 

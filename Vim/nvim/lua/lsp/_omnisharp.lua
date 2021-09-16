@@ -1,4 +1,4 @@
-local lsp = require 'lspconfig'
+local lsp = require("lspconfig")
 -- local lsputil = require 'lspconfig/util'
 
 local pid = vim.fn.getpid()

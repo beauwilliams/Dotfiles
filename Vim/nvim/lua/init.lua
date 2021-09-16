@@ -1,3 +1,4 @@
+local M = {}
 local init = function()
 	-- MY CONFS
 	require("_plugins") -- Loads packer commands
@@ -40,7 +41,53 @@ local init = function()
 	-- focus.number = true
 	-- focus.relativenumber = true
 	focus.hybridnumber = true ]]
-
 end
 
 init() --> Load our confs
+
+vim.cmd([[
+function! SpectreFocus()
+    lua vim.bo.buftype = 'help'
+    lua require('spectre').open()
+    :FocusEqualise
+endfunction
+nnoremap <leader>/ :call SpectreFocus()<cr>
+]])
+
+function wait(seconds)
+	local start = os.time()
+	repeat
+	until os.time() > start + seconds
+end
+
+M.FocusEqualiseDiffview = function()
+	vim.cmd([[
+    wincmd w
+    wincmd w
+    ]])
+	vim.bo.buftype = "help"
+	vim.cmd("FocusEqualise")
+end
+
+M.Diffv = function()
+	local co = coroutine.create(function()
+		require("diffview").open()
+	end)
+	coroutine.yield(co)
+	wait(3)
+	print("hello")
+end
+
+M.Diffv2 = function()
+	co2 = coroutine.create(function()
+		coroutine.yield()
+		-- wait(5)
+		print("this runs after 5 seconds, diffview is opened during this time")
+	end)
+	require("diffview").open()
+	coroutine.resume(co2)
+	wait(5)
+	coroutine.resume(co2)
+end
+
+return M

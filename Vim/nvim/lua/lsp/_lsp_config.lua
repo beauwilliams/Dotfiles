@@ -197,8 +197,8 @@ vim.cmd("autocmd CursorMoved * :lua echo_diagnostic()")
 Custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
-    local coq = require "coq"
-    coq.lsp_ensure_capabilities()
+	local coq = require("coq")
+	coq.lsp_ensure_capabilities()
 	return capabilities
 end
 
@@ -230,6 +230,7 @@ custom_attach =
 		require("lsp_signature").on_attach(client) --> Signature popups and info
 		local basics = require("lsp_basics")
 		basics.make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+		-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 		-- basics.make_lsp_mappings(client, bufnr)
 		--[[ lsp_status.config(
         {
@@ -330,14 +331,15 @@ for _, server in ipairs(servers_rootcwd) do
 	})
 end
 
-
 -- LANG CONFS
 require("lsp._null").setup(custom_attach)
 require("lsp._lua")
 require("lsp._html")
 require("lsp._typescript")
 require("lsp._omnisharp")
-vim.cmd([[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]) -- NOTE: sets workspace per project..
+vim.cmd(
+	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
+) -- NOTE: sets workspace per project..
 -- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 
 ---------------------------------------------------------------------------------------
