@@ -187,6 +187,11 @@ setjdk 11 #using v11 for scala/sbt comp3000 26/7/21
 export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Coursier ,Pure Scala Artifact Fetching
 
 
+#SOLIDITY
+export PATH="$PATH:$HOME/.langservers/solidity/llvm12.0/bin"
+export PATH="$PATH:$HOME/.langservers/solidity/"
+
+
 
 #FLUTTER
 # export PATH="$PATH:/Users/admin/Git_Downloads/SDK..Downloads/flutter/bin"
