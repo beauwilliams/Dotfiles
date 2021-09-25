@@ -156,7 +156,9 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 # /_/      /_/  |_|/_/     /_/ /_/   /____/
 
 
-
+#GCC + CC
+#NOTE: gcc is symlinked to replace usr/bin/cc
+#ln -s /usr/local/Cellar/gcc/11.2.0/bin/gcc-11 /usr/local/bin/cc
 
 #SYSTEM
 # export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin #default path ls, mv etc
