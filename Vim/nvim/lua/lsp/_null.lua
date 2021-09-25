@@ -10,7 +10,7 @@
 -- option to add stylua.toml
 ------------------------------
 
-local null_ls = require("null-ls")
+local null_ls = require('null-ls')
 local b = null_ls.builtins
 
 local sources = {
@@ -27,8 +27,8 @@ local sources = {
             return utils.root_has_file("stylua.toml")
         end,
     }), ]]
-	require("null-ls.helpers").conditional(function(utils)
-		return utils.root_has_file(".eslintrc.js") and b.formatting.eslint_d or b.formatting.prettier
+	require('null-ls.helpers').conditional(function(utils)
+		return utils.root_has_file('.eslintrc.js') and b.formatting.eslint_d or b.formatting.prettier
 	end),
 	--[[ b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal", "zsh" } }),
     b.diagnostics.write_good,
@@ -43,7 +43,7 @@ M.setup = function(on_attach)
 	null_ls.config({
 		sources = sources,
 	})
-	require("lspconfig")["null-ls"].setup({ on_attach = on_attach })
+	require('lspconfig')['null-ls'].setup({ on_attach = on_attach })
 end
 
 return M

@@ -32,28 +32,28 @@ local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
 if not packer_exists then
 	-- TODO: Maybe handle windows better?
-	if vim.fn.input("Download Packer? (y for yes)") ~= "y" then
+	if vim.fn.input('Download Packer? (y for yes)') ~= 'y' then
 		return
 	end
 
-	local directory = string.format("%s/site/pack/packer/opt/", vim.fn.stdpath("data"))
+	local directory = string.format('%s/site/pack/packer/opt/', vim.fn.stdpath('data'))
 
-	vim.fn.mkdir(directory, "p")
+	vim.fn.mkdir(directory, 'p')
 
 	local out = vim.fn.system(
-		string.format("git clone %s %s", "https://github.com/wbthomason/packer.nvim", directory .. "/packer.nvim")
+		string.format('git clone %s %s', 'https://github.com/wbthomason/packer.nvim', directory .. '/packer.nvim')
 	)
 
 	print(out)
-	print("Downloading packer.nvim...")
+	print('Downloading packer.nvim...')
 
 	return
 end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
-vim.fn.setenv("MACOSX_DEPLOYMENT_TARGET", "10.15")
-require("impatient") -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
-vim.cmd("autocmd BufWritePost _plugins.lua PackerCompile") -- Auto compile when there are changes to plugins
+vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '10.15')
+require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
+vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when there are changes to plugins
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
    / __ \   / /   / / / /  / ____/   /  _/   / | / /          /  _/   / | / /   /  _/ /_  __/  / ___/
@@ -67,15 +67,15 @@ vim.cmd("autocmd BufWritePost _plugins.lua PackerCompile") -- Auto compile when 
 -------------------------------------------------------------------------
 --
 --PACKER IS CAPABLE OF MANAGING ITSELF. IT INITS FIRST THEN CALLS REST OF OUR PLUGINS
-require("packer").startup({
+require('packer').startup({
 	function(use)
-		use({ "wbthomason/packer.nvim", opt = true })
+		use({ 'wbthomason/packer.nvim', opt = true })
 
 		-- DEBUG STUFF
 		-- https://github.com/henriquehbr/nvim-startup.lua
 
 		--SPEED UP NVIM REQUIRE AND STARTUP TIME
-		use({ "lewis6991/impatient.nvim", rocks = "mpack" })
+		use({ 'lewis6991/impatient.nvim', rocks = 'mpack' })
 
 		--[[
   ______    __  __    ______    __  ___    ______   _____          ___             __  __    ____
@@ -86,8 +86,8 @@ require("packer").startup({
 
 --]]
 		--THEMES/UX/UI PLUGINS
-		use("gruvbox-community/gruvbox")
-		use("folke/lsp-colors.nvim") -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
+		use('gruvbox-community/gruvbox')
+		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
 
 		-- use 'ghifarit53/tokyonight-vim'
 		-- use "sainnhe/gruvbox-material"
@@ -95,10 +95,10 @@ require("packer").startup({
 		--use 'eddyekofo94/gruvbox-flat.nvim'
 
 		--COLOURED BRACES
-		use("p00f/nvim-ts-rainbow") --> Treesitter compatible rainbow parentheses
+		use('p00f/nvim-ts-rainbow') --> Treesitter compatible rainbow parentheses
 
 		--INDENT LINES
-		use({ "lukas-reineke/indent-blankline.nvim", config = "vim.g.indent_blankline_char = '│'" })
+		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
 		--HORIZONTAL LINES --> Looks bad.. Not working right
 		--[[ use({
 			"lukas-reineke/headlines.nvim",
@@ -108,7 +108,7 @@ require("packer").startup({
 		}) ]]
 
 		--STATUSLINE
-		use("beauwilliams/statusline.lua")
+		use('beauwilliams/statusline.lua')
 		-- use("beauwilliams/focus.nvim")
 		-- use {'beauwilliams/focus.nvim', cmd = "FocusEnable"}
 		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
@@ -116,15 +116,16 @@ require("packer").startup({
 
 		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely", module = "focus",
 		use({
-			"beauwilliams/focus.nvim",
+			'beauwilliams/focus.nvim',
 			--[[ cmd = { "FocusSplitNicely", "FocusSplitCycle" },
 			module = "focus", ]]
 			config = function()
-				require("focus").setup({
+				require('focus').setup({
 					tmux = false,
 					hybridnumber = true,
-					excluded_filetypes = { "toggleterm" },
-					signcolumn = "number",
+					excluded_filetypes = { 'toggleterm', 'fterm', 'term' },
+					signcolumn = 'number',
+					bufnew = true,
 				})
 			end,
 		})
@@ -133,16 +134,16 @@ require("packer").startup({
 		-- use 'sagarc03/focus.nvim'
 		--
 		-- use 'beauwilliams/imnotaquitter.nvim'
-		use("nvim-lua/plenary.nvim")
-		use("windwp/nvim-spectre")
+		use('nvim-lua/plenary.nvim')
+		use('windwp/nvim-spectre')
 
 		-- SCROLL BARS
-		use("dstein64/nvim-scrollview")
+		use('dstein64/nvim-scrollview')
 
 		-- STARIFY / SESSIONS
 		use({
-			"mhinz/vim-startify",
-			requires = "ryanoasis/vim-devicons",
+			'mhinz/vim-startify',
+			requires = 'ryanoasis/vim-devicons',
 		})
 		-- Alternative lua version (not yet tested) https://github.com/rmagatti/auto-session
 		-- or https://github.com/folke/persistence.nvim
@@ -150,17 +151,17 @@ require("packer").startup({
 		-- SMOOTH SCROLLING
 		-- use {"psliwka/vim-smoothie"} --  some very smooth ass scrolling
 		use({
-			"karb94/neoscroll.nvim",
-			setup = require("neoscroll").setup(),
+			'karb94/neoscroll.nvim',
+			setup = require('neoscroll').setup(),
 		})
 
 		-- HEX COLOUR PREVIEW
-		use({ "rrethy/vim-hexokinase" }) --, run = "make hexokinase" }) -- preview hex colors with litle square
+		use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
 		-- CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
 		-- https://github.com/edluffy/specs.nvim
 		-- https://github.com/edluffy/specs.nvim
 		use({
-			"danilamihailov/beacon.nvim",
+			'danilamihailov/beacon.nvim',
 			config = function()
 				vim.g.beacon_size = 90
 				vim.g.beacon_minimal_jump = 25
@@ -171,39 +172,49 @@ require("packer").startup({
 		-- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
 
 		-- START: TOOLWINDOW configs, includes diag list, todo list, terminal, quickfix list
-		use("EthanJWright/toolwindow.nvim") -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
+		use('EthanJWright/toolwindow.nvim') -- A toolwindow for trouble, nvim-toggleterm, quickfix, todos
 		use({
 			-- toolwindow compatible terminal
-			"akinsho/nvim-toggleterm.lua",
+			'akinsho/nvim-toggleterm.lua',
 			config = 'require("toggleterm").setup{}',
 		})
 		use({
 			--> toolwindow compatible list for navigating errors etc
-			"folke/trouble.nvim",
-			requires = "kyazdani42/nvim-web-devicons",
+			'folke/trouble.nvim',
+			requires = 'kyazdani42/nvim-web-devicons',
 			config = function()
-				require("trouble").setup({})
+				require('trouble').setup({})
 			end,
 		})
 		use({
-			"folke/todo-comments.nvim", --> TOOLWWINDOW COMPATIBLE, Highlight and navigate comments in code
-			requires = "nvim-lua/plenary.nvim",
+			'folke/todo-comments.nvim', --> TOOLWWINDOW COMPATIBLE, Highlight and navigate comments in code
+			requires = 'nvim-lua/plenary.nvim',
 			config = function()
-				require("todo-comments").setup({})
+				require('todo-comments').setup({})
 			end,
 		})
 		-- END: QUICKFIX configs
 
 		use({
 			-- OR "voldikss/vim-floaterm"
-			"numToStr/FTerm.nvim", --> Floating terminal window
+			'beauwilliams/FTerm.nvim', --> Floating terminal window
 			config = function()
-				require("FTerm").setup({
-					border = "single",
+				require('FTerm').setup({
+					border = 'single',
 				})
 			end,
 		})
 
+		use({
+			'itmecho/neoterm.nvim',
+			config = function()
+				require('neoterm').setup({
+					clear_on_run = true, -- run clear command before user specified commands
+					mode = 'fullscreen', -- vertical/horizontal/fullscreen
+					noinsert = false,     -- disable entering insert mode when opening the neoterm window
+				})
+			end,
+		})
 		--[[
     ____     ____    ____    ______    ____     ___     __  ___    __  ___    ____    _   __   ______
    / __ \   / __ \  / __ \  / ____/   / __ \   /   |   /  |/  /   /  |/  /   /  _/   / | / /  / ____/
@@ -215,15 +226,18 @@ require("packer").startup({
 		-- DOCUMENTATION
 		use({
 			-- OR.. nvim-treesitter/nvim-tree-docs
-			"kkoomen/vim-doge", -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
-			run = "vim.cmd[[call doge#install()]]",
+			'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
+			run = 'vim.cmd[[call doge#install()]]',
 		})
-		use("dbeniamine/cheat.sh-vim") --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
+
+        use 'RishabhRD/popfix' -- cheat.sh integration for neovim in elegant way
+        use 'RishabhRD/nvim-cheat.sh'
+		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
 		--LANG PLUGS Language Servers / Linting / Snippets
 		use({
 			-- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
 			--  Shorten error/warning flags
-			"w0rp/ale",
+			'w0rp/ale',
 			config = function()
 				vim.api.nvim_exec(
 					[[
@@ -244,13 +258,13 @@ require("packer").startup({
 			end,
 		})
 		use({
-			"nvim-treesitter/nvim-treesitter",
-			branch = "0.5-compat",
+			'nvim-treesitter/nvim-treesitter',
+			branch = '0.5-compat',
 			--run = ":TSInstall all"
 		})
-		use("haringsrob/nvim_context_vt") --> Show treesitter context at end of functions etc
-		use("nvim-treesitter/nvim-treesitter-refactor") --> smart renaming and highlight definitions and scope
-		use("windwp/nvim-ts-autotag")
+		use('haringsrob/nvim_context_vt') --> Show treesitter context at end of functions etc
+		use('nvim-treesitter/nvim-treesitter-refactor') --> smart renaming and highlight definitions and scope
+		use('windwp/nvim-ts-autotag')
 		--		config = function()
 		--				vim.api.nvim_exec(
 		-- [[au FileType html let b:delimitMate_matchpairs = "(:),[:],{:}"]], -- auto close html tags etc
@@ -258,7 +272,7 @@ require("packer").startup({
 		--				)
 		--end,
 		--	})
-		use("nvim-treesitter/nvim-treesitter-textobjects") -- treesitter text objects
+		use('nvim-treesitter/nvim-treesitter-textobjects') -- treesitter text objects
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
 		--[[ use {  -- This is rad, but stupid slow right now.
@@ -276,7 +290,7 @@ require("packer").startup({
 		use({
 			-- OR https://github.com/hkupty/iron.nvim
 			--> A REPL Plugin to start / manage REPL
-			"axvr/zepl.vim",
+			'axvr/zepl.vim',
 			config = function()
 				vim.api.nvim_exec(
 					[[
@@ -288,7 +302,7 @@ require("packer").startup({
 		})
 
 		-- lang specific
-		use("mfussenegger/nvim-jdtls") --> Better jdtls setup than lspconfig
+		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
 		-- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
 		-- browse JSON gennaro-tedesco/nvim-jqx
 		-- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim && https://github.com/shift-d/crates.nvim
@@ -296,7 +310,7 @@ require("packer").startup({
 		-- SQL https://github.com/tami5/sql.nvim
 		-- REFACTORING https://github.com/ThePrimeagen/refactoring.nvim
 
-		use("b3nj5m1n/kommentary") -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
+		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
 		--COMPE
 		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
 		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
@@ -304,31 +318,31 @@ require("packer").startup({
 		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
 		-- COQ
 		-- use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-		use({ "zeertzjq/coq_nvim", branch = "marks-available" })
-		use({ "ms-jpq/coq.artifacts", branch = "artifacts" }) -- 9000+ Snippets
-		use("windwp/nvim-autopairs") -- compatible with COQ
+		use({ 'ms-jpq/coq_nvim'})
+		use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' }) -- 9000+ Snippets
+		use('windwp/nvim-autopairs') -- compatible with COQ
 		--LSP
-		use("neovim/nvim-lspconfig") --> PREMADE LSPCONFIGS
-		use("nanotee/nvim-lsp-basics") -->  Basic wrappers for LSP features
-		use({ "ray-x/navigator.lua", requires = { "ray-x/guihua.lua", run = "cd lua/fzy && make" } })
+		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
+		use('nanotee/nvim-lsp-basics') -->  Basic wrappers for LSP features
+		use({ 'ray-x/navigator.lua', requires = { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' } })
 
-		use("nvim-lua/lsp-status.nvim") --> Lsp statusline
-		use("ray-x/lsp_signature.nvim") --> LSP SignatureInformation
+		use('nvim-lua/lsp-status.nvim') --> Lsp statusline
+		use('ray-x/lsp_signature.nvim') --> LSP SignatureInformation
 		-- use 'jubnzv/virtual-types.nvim'--> A Neovim plugin that shows type annotations as virtual text
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
-		use("kosayoda/nvim-lightbulb") --> CODE ACTION LIGHTBULB
+		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
 		-- use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
-		use("sbdchd/neoformat") -- Code formatting plugin
+		use('sbdchd/neoformat') -- Code formatting plugin
 		-- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
 		use({
-			"RRethy/vim-illuminate", --> Highlight word under cursor
+			'RRethy/vim-illuminate', --> Highlight word under cursor
 			config = function()
 				vim.cmd([[ hi illuminatedWord guibg=#504648 guifg=none "cterm=grey gui=grey]])
 				vim.cmd([[ hi illuminatedCurWord cterm=none gui=none]])
 			end,
 		})
 
-		use("mizlan/iswap.nvim") --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things.
+		use('mizlan/iswap.nvim') --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things.
 
 		-- LSP INSTALLERS
 		-- alexaandru/nvim-lspupdate OR kabouzeid/nvim-lspinstall
@@ -341,10 +355,10 @@ require("packer").startup({
 
 		-- ROOT PATH .GIT ETC, ALSO A TELESCOPE EXTENSION TO DISPLAY PROJECTS PREVIOUSLY VISITED
 		use({
-			"ahmedkhalf/project.nvim",
+			'ahmedkhalf/project.nvim',
 			config = function()
-				require("project_nvim").setup({})
-				require("telescope").load_extension("projects")
+				require('project_nvim').setup({})
+				require('telescope').load_extension('projects')
 			end,
 		})
 		-- use 'ygm2/rooter.nvim'
@@ -360,14 +374,14 @@ require("packer").startup({
 		-- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 		-- https://github.com/jubnzv/mdeval.nvim - RUN CODE SNIPPETS IN MARKDOWN FILE
 
-		use("sheerun/vim-polyglot")
+		use('sheerun/vim-polyglot')
 		use({
-			"jose-elias-alvarez/null-ls.nvim",
+			'jose-elias-alvarez/null-ls.nvim',
 			config = function()
-				require("null-ls").config({})
-				require("lspconfig")["null-ls"].setup({})
+				require('null-ls').config({})
+				require('lspconfig')['null-ls'].setup({})
 			end,
-			requires = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+			requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
 		})
 		-- use { --> LANGUAGE FILES AND SYNTAX. SUPPOSED TO NOT SLOW VIM DOWN BASICALLY AT ALL SO WHY NOT RUN FOR NOW
 		--[[ "sheerun/vim-polyglot", --> REMOVED FOR NOW BECAUSE THEY KEEP MESSING WITH SWAP FILES & DOING TOO MUCH
@@ -397,7 +411,7 @@ require("packer").startup({
 --]]
 		--FUZZY HELP MENU FOR FZF & VIM like ctrl+p
 		use({
-			"laher/fuzzymenu.vim",
+			'laher/fuzzymenu.vim',
 			config = function()
 				vim.api.nvim_exec(
 					[[
@@ -409,40 +423,40 @@ require("packer").startup({
 			end,
 		})
 		-- FUZZY WILD MENU ENHANCEMENT
-		use("gelguy/wilder.nvim")
+		use('gelguy/wilder.nvim')
 		-- FAST FUZZY SEARCH
-		use({ "camspiers/snap" })
+		use({ 'camspiers/snap' })
 		-- FZF
 		use({
-			"junegunn/fzf",
+			'junegunn/fzf',
 			-- run = function()
 			-- vim.fn["fzf#install"]()
 			-- end
 		})
 		-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
-		use({ "junegunn/fzf.vim" })
+		use({ 'junegunn/fzf.vim' })
 		-- TELESCOPE
 		use({
-			"nvim-telescope/telescope.nvim",
-			requires = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
+			'nvim-telescope/telescope.nvim',
+			requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
 		})
 		use({
-			"nvim-telescope/telescope-frecency.nvim",
+			'nvim-telescope/telescope-frecency.nvim',
 			config = function()
-				require("telescope").load_extension("frecency")
+				require('telescope').load_extension('frecency')
 			end,
-			requires = { "tami5/sql.nvim" },
+			requires = { 'tami5/sql.nvim' },
 		})
 		-- TELESCOPE Z INTEGRATION
 		use({
-			"nvim-telescope/telescope-z.nvim",
+			'nvim-telescope/telescope-z.nvim',
 			requires = {
-				{ "nvim-lua/plenary.nvim" },
-				{ "nvim-lua/popup.nvim" },
-				{ "nvim-telescope/telescope.nvim" },
+				{ 'nvim-lua/plenary.nvim' },
+				{ 'nvim-lua/popup.nvim' },
+				{ 'nvim-telescope/telescope.nvim' },
 			},
 			config = function()
-				require("telescope").load_extension("z")
+				require('telescope').load_extension('z')
 				-- ... other telescope settings
 			end,
 		})
@@ -452,16 +466,16 @@ require("packer").startup({
 		--}
 		-- CHEATSHEETS
 		use({
-			"sudormrfbin/cheatsheet.nvim", --> Telescope Based Cheatsheet
+			'sudormrfbin/cheatsheet.nvim', --> Telescope Based Cheatsheet
 			requires = {
 				-- optional
-				{ "nvim-telescope/telescope.nvim" },
-				{ "nvim-lua/popup.nvim" },
-				{ "nvim-lua/plenary.nvim" },
+				{ 'nvim-telescope/telescope.nvim' },
+				{ 'nvim-lua/popup.nvim' },
+				{ 'nvim-lua/plenary.nvim' },
 			},
 		})
-		use("nvim-telescope/telescope-fzy-native.nvim")
-		use("nvim-telescope/telescope-symbols.nvim")
+		use('nvim-telescope/telescope-fzy-native.nvim')
+		use('nvim-telescope/telescope-symbols.nvim')
 
 		--[[
     ______    ____    __     ______           _   __    ___  _    __
@@ -476,21 +490,21 @@ require("packer").startup({
 \____/\/        /____/  /_____/   /_/  |_|/_/ |_|  \____/   /_/ /_/
 
 --]]
-		use({ "tpope/vim-eunuch" }) -- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
-		use("lambdalisue/suda.vim") -- Neovim compatible :SudoWrite
+		use({ 'tpope/vim-eunuch' }) -- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
+		use('lambdalisue/suda.vim') -- Neovim compatible :SudoWrite
 		-- PREVIEW LINE IN BUFFER --> e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
-		use({ "nacro90/numb.nvim", config = "require('numb').setup()" })
+		use({ 'nacro90/numb.nvim', config = "require('numb').setup()" })
 		-- ENHANCED SEARCH --> Adds count numbers etc
 		-- use({ "kevinhwang91/nvim-hlslens" })
 		-- FILE TREE
 		use({
-			"kyazdani42/nvim-tree.lua",
-			requires = { "kyazdani42/nvim-web-devicons", opt = true },
+			'kyazdani42/nvim-tree.lua',
+			requires = { 'kyazdani42/nvim-web-devicons', opt = true },
 		})
 		use({
-			"ggandor/lightspeed.nvim",
+			'ggandor/lightspeed.nvim',
 			config = function()
-				require("lightspeed").setup({
+				require('lightspeed').setup({
 					jump_to_first_match = true,
 					jump_on_partial_input_safety_timeout = 400,
 					-- This can get _really_ slow if the window has a lot of content,
@@ -499,7 +513,7 @@ require("packer").startup({
 					grey_out_search_area = false,
 					match_only_the_start_of_same_char_seqs = true,
 					limit_ft_matches = 5,
-					full_inclusive_prefix_key = "<c-x>",
+					full_inclusive_prefix_key = '<c-x>',
 					-- By default, the values of these will be decided at runtime,
 					-- based on `jump_to_first_match`.
 					labels = nil,
@@ -543,26 +557,26 @@ require("packer").startup({
 --]]
 		-- use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
 		use({
-			"APZelos/blamer.nvim",
+			'APZelos/blamer.nvim',
 			config = function()
 				-- vim.g.blamer_prefix = ' > '
 				vim.g.blamer_enabled = 1
-				vim.g.blamer_template = "<committer> │ <summary> │ <committer-time>"
-				vim.g.blamer_date_format = "%d/%m/%y"
+				vim.g.blamer_template = '<committer> │ <summary> │ <committer-time>'
+				vim.g.blamer_date_format = '%d/%m/%y'
 			end,
 		})
 		use({
-			"pwntester/octo.nvim",
+			'pwntester/octo.nvim',
 			config = function()
-				require("octo").setup() --Edit and review GitHub issues and pull requests from the comfort of your favorite editor
+				require('octo').setup() --Edit and review GitHub issues and pull requests from the comfort of your favorite editor
 				-- :Octo issue, :Octo pr ...
 			end,
 		})
-		use("mhinz/vim-signify") -- ASYNC GIT DIFF GUTTER, Diff view
-		use({ "rhysd/git-messenger.vim" }) -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
-		use({ "tpope/vim-fugitive" }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
-		use({ "sindrets/diffview.nvim" }) -- Neovim enhanced diffview [:DiffviewOpen]
-		use("ThePrimeagen/git-worktree.nvim") -- Adds neovim integration with worktrees and telescope
+		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
+		use({ 'rhysd/git-messenger.vim' }) -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
+		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
+		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen]
+		use('ThePrimeagen/git-worktree.nvim') -- Adds neovim integration with worktrees and telescope
 		-- https://github.com/tanvirtin/vgit.nvim - visual git for neovim
 
 		--[[
@@ -572,21 +586,28 @@ require("packer").startup({
  / /  / /   _/ /    ___/ / / /___           / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 /_/  /_/   /___/   /____/  \____/          /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
-		use("michaelb/vim-tips") -- Display vim tip at startup
-		use("sedm0784/vim-you-autocorrect") -- Vim autocorrection
-		use("ojroques/nvim-bufdel") --> Better buffer deletion defaults
-		use("tpope/vim-surround") -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
-		use("tpope/vim-repeat") -- repeat surround motions with .
-		use("rmagatti/alternate-toggler") --:ToggleAlternate -- TOGGLE BOOLS
-		use("monaqa/dial.nvim") -- BETTER INCREMENTING IN VIM (TO BE TESTED)
-		use("chaoren/vim-wordmotion") --> IMPROVED VIM WORD MOTIONS, now includes under_scores and camelCase etc.
-		use({ "NTBBloodbath/rest.nvim", requires = { "nvim-lua/plenary.nvim" } }) -- Open HTTP files - a curl wrapper
-		use({
-			"folke/which-key.nvim",
+        use 'Darazaki/indent-o-matic' --Faster than vim-sleuth. Detects indent based on file. No performance impact
+		use('michaelb/vim-tips') -- Display vim tip at startup
+		use('sedm0784/vim-you-autocorrect') -- Vim autocorrection
+		use('ojroques/nvim-bufdel') --> Better buffer deletion defaults
+		use('tpope/vim-surround') -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
+		use('tpope/vim-repeat') -- repeat surround motions with .
+		use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS
+		use('monaqa/dial.nvim') -- BETTER INCREMENTING IN VIM (TO BE TESTED)
+		use('chaoren/vim-wordmotion') --> IMPROVED VIM WORD MOTIONS, now includes under_scores and camelCase etc.
+		use({ 'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' } }) -- Open HTTP files - a curl wrapper
+		use({ -- help suggestions for key mappings
+			'folke/which-key.nvim',
 			config = function()
-				require("which-key").setup({})
+				require('which-key').setup({})
 			end,
 		})
+        use ({
+            'antoinemadec/FixCursorHold.nvim',
+            config = function()
+                vim.g.cursorhold_updatetime = 100
+            end
+        })
 
 		--[[
     ____     __    __  __   ______    ____    _   __   _____         ______    ______   _____  ______    ____    _   __   ______
@@ -599,17 +620,17 @@ require("packer").startup({
             's1n7ax/nvim-search-and-replace',
             setup = function() require'nvim-search-and-replace'.setup() end,
         } ]]
-		use("MunifTanjim/nui.nvim") -- NOTE: We need this as its a dependency of something..
-		use("npxbr/glow.nvim") --> might ned to run :GlowInstall --> :mdreader to read md
-		use("iamcco/markdown-preview.nvim") --> need to run :call mkdp#util#install()
-		use("thugcee/nvim-map-to-lua")
-		use("nanotee/zoxide.vim") -- :Z command in vim, quickly jump to recent dirs
+		use('MunifTanjim/nui.nvim') -- NOTE: We need this as its a dependency of something..
+		use('npxbr/glow.nvim') --> might ned to run :GlowInstall --> :mdreader to read md
+		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
+		use('thugcee/nvim-map-to-lua')
+		use('nanotee/zoxide.vim') -- :Z command in vim, quickly jump to recent dirs
 		use({
-			"vuki656/package-info.nvim",
-			setup = require("package-info").setup(),
+			'vuki656/package-info.nvim',
+			setup = require('package-info').setup(),
 		})
 		-- display last undos
-		use({ "mbbill/undotree", opt = true, cmd = { "UndotreeToggle" } })
+		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
 		-- display helpfiles
 		--[[ use {
             "lvim-tech/lvim-helper",
@@ -627,7 +648,7 @@ require("packer").startup({
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
 		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
-		use("andweeb/presence.nvim") -- discall mkdp#util#install()call mkdp#util#install()cord presence
+		use('andweeb/presence.nvim') -- discall mkdp#util#install()call mkdp#util#install()cord presence
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 		-- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
@@ -641,32 +662,32 @@ require("packer").startup({
 		--
 
 		use({
-			"vhyrro/neorg",
+			'vhyrro/neorg',
 			config = function()
-				require("neorg").setup({
+				require('neorg').setup({
 					-- Tell Neorg what modules to load
 					load = {
-						["core.defaults"] = {}, -- Load all the default modules
-						["core.keybinds"] = {
+						['core.defaults'] = {}, -- Load all the default modules
+						['core.keybinds'] = {
 							-- Default keybinds <leader>o, g t(ask) d(one), un(done) p(ending) [gtd,gtu,gtp]
 							config = {
 								default_keybinds = true, -- Generate the default keybinds
-								neorg_leader = "<Leader>o", -- This is the default if unspecified
+								neorg_leader = '<Leader>o', -- This is the default if unspecified
 							},
 						},
-						["core.norg.concealer"] = {}, -- Allows for use of icons
-						["core.norg.dirman"] = {
+						['core.norg.concealer'] = {}, -- Allows for use of icons
+						['core.norg.dirman'] = {
 							-- Manage your directories with Neorg
 							config = {
 								workspaces = {
-									my_workspace = "~/Dropbox/Software Eng/Workspaces/Neorg",
+									my_workspace = '~/Dropbox/Software Eng/Workspaces/Neorg',
 								},
 							},
 						},
 					},
 				})
 			end,
-			requires = "nvim-lua/plenary.nvim",
+			requires = 'nvim-lua/plenary.nvim',
 		})
 	end, --> End of the packer(use) function
 })

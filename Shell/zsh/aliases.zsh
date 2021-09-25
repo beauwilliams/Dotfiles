@@ -1,3 +1,5 @@
+###So that we can use aliases within vim :! commands
+shopt -s expand_aliases
 
 #====================BEGIN ALIASES=======================================
 

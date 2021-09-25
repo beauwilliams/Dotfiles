@@ -1,10 +1,10 @@
 --LIGHTBULB, A CODE ACTION LIGHTBULB LIKE VSC
 local vim = vim --> DON'T CALL GLOBAL EACH TIME
 
-require("nvim-lightbulb").get_status_text()
+require('nvim-lightbulb').get_status_text()
 vim.cmd([[ autocmd CursorHold,CursorHoldI * lua LightBulbFunction() ]])
 LightBulbFunction = function()
-	require("nvim-lightbulb").update_lightbulb({
+	require('nvim-lightbulb').update_lightbulb({
 		sign = {
 			enabled = false,
 			-- Priority of the gutter sign
@@ -13,7 +13,7 @@ LightBulbFunction = function()
 		float = {
 			enabled = false,
 			-- Text to show in the popup float
-			text = "",
+			text = '',
 			win_opts = { offset_x = 40 },
 			-- Available keys for window options:
 			-- - height     of floating window
@@ -32,9 +32,9 @@ LightBulbFunction = function()
 		status_text = {
 			enabled = true,
 			-- Text to provide when code actions are available
-			text = "💡",
+			text = '💡',
 			-- Text to provide when no actions are available
-			text_unavailable = "",
+			text_unavailable = '',
 		},
 	})
 end

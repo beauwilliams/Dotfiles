@@ -8,7 +8,7 @@
 /_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
 
 --]]
-local lsp = require("lspconfig")
+local lsp = require('lspconfig')
 ---------------------------------------------------------------------------------------
 --[[
     __  __  ______    __  ___    __
@@ -23,11 +23,11 @@ lsp.html.setup({
 	on_attach = custom_attach,
 	on_init = custom_init,
 	capabilities = Custom_capabilities(), --enable snippet support
-	cmd = { "vscode-html-language-server", "--stdio" },
+	cmd = { 'vscode-html-language-server', '--stdio' },
 	root_dir = vim.loop.cwd,
-	filetypes = { "html" },
+	filetypes = { 'html' },
 	init_options = {
-		configurationSection = { "html", "css", "javascript" },
+		configurationSection = { 'html', 'css', 'javascript' },
 		embeddedLanguages = {
 			css = true,
 			javascript = true,

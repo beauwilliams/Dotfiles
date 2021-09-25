@@ -2,13 +2,13 @@
 local g = vim.g
 local exec = vim.api.nvim_exec
 
-g.nvim_tree_side = "left"
+g.nvim_tree_side = 'left'
 g.nvim_tree_width = 35
-g.nvim_tree_ignore = { ".git", "node_modules" }
+g.nvim_tree_ignore = { '.git', 'node_modules' }
 
 -- 0 by default, opens the tree when typing `vim $DIR` or `vim`
 g.nvim_tree_auto_open = 1
-g.nvim_tree_auto_ignore_ft = { "startify", "dashboard" } -- empty by default, don't auto open tree on specific filetypes.
+g.nvim_tree_auto_ignore_ft = { 'startify', 'dashboard' } -- empty by default, don't auto open tree on specific filetypes.
 
 -- 0 by default, closes the tree when it's the last window
 g.nvim_tree_auto_close = 1
@@ -20,30 +20,30 @@ g.nvim_tree_follow = 1
 g.nvim_tree_git_hl = 1
 
 --TODO:
-exec([[highlight NvimTreeFolderName ctermfg=none guifg=none]], "")
-exec([[highlight NvimTreeRootFolder guifg = #fb4934]], "")
-exec([[highlight NvimTreeEmptyFolderName guifg = #7c6f64]], "")
-exec([[highlight NvimTreeOpenedFolderName guifg = #ebdbb2]], "")
-exec([[highlight NvimTreeExecFile guifg = #ebdbb2]], "")
-exec([[highlight NvimTreeIndentMarker guifg = #928374]], "")
-exec([[highlight NvimTreeFolderIcon guifg = #928374]], "")
+exec([[highlight NvimTreeFolderName ctermfg=none guifg=none]], '')
+exec([[highlight NvimTreeRootFolder guifg = #fb4934]], '')
+exec([[highlight NvimTreeEmptyFolderName guifg = #7c6f64]], '')
+exec([[highlight NvimTreeOpenedFolderName guifg = #ebdbb2]], '')
+exec([[highlight NvimTreeExecFile guifg = #ebdbb2]], '')
+exec([[highlight NvimTreeIndentMarker guifg = #928374]], '')
+exec([[highlight NvimTreeFolderIcon guifg = #928374]], '')
 
 -- "Setting nvim tree folders to not have any guibg
 -- "hi Cursorline guibg=#424040 guifg=none
 
 g.nvim_tree_icons = {
-	default = "",
+	default = '',
 	-- symlink = '',
 	git = {
-		unstaged = "M",
-		staged = "A",
-		unmerged = "═",
-		renamed = "R",
-		untracked = "U",
+		unstaged = 'M',
+		staged = 'A',
+		unmerged = '═',
+		renamed = 'R',
+		untracked = 'U',
 	},
 	folder = {
-		default = "",
-		open = "",
+		default = '',
+		open = '',
 	},
 }
 
@@ -67,5 +67,5 @@ exec(
           au FileType NvimTree setlocal nowrap
         augroup END
     ]],
-	""
+	''
 )

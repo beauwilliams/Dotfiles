@@ -1,7 +1,7 @@
-vim.cmd("syntax on")
+vim.cmd('syntax on')
 
 vim.o.termguicolors = true
-vim.o.background = "dark"
+vim.o.background = 'dark'
 
 --vim.g.gruvbox_sign_column = 'dark0_hard'
 --vim.g.gruvbox_invert_selection = 0
@@ -16,9 +16,9 @@ vim.o.background = "dark"
 vim.cmd('set t_Co=256') -- "enabling 256 color support ]]
 
 vim.g.gruvbox_italic = 1
-vim.g.gruvbox_contrast_dark = "soft"
+vim.g.gruvbox_contrast_dark = 'soft'
 -- vim.g.gruvbox_sign_column = "bg0"
-vim.cmd("colorscheme gruvbox") -- must come after gruvbox_italic
+vim.cmd('colorscheme gruvbox') -- must come after gruvbox_italic
 
 -- vim.cmd[[colorscheme gruvbox-flat]]
 -- match the fold column colors to the line number colum
@@ -28,19 +28,19 @@ vim.cmd("colorscheme gruvbox") -- must come after gruvbox_italic
 -- vim.cmd("hi! link CursorLineNr LineNr ") --REMOVES Cursor light grey block where cusorline is
 
 -- treesitter highlights
-vim.cmd("highlight! link TSConstBuiltin Constant") -- None
-vim.cmd("highlight! link TSKeywordOperator Keyword") -- not, in
-vim.cmd("highlight! link TSOperator GruvboxRed")
-vim.cmd("highlight! link TSFunction GruvboxAqua")
-vim.cmd("highlight! link TSMethod GruvboxAqua")
+vim.cmd('highlight! link TSConstBuiltin Constant') -- None
+vim.cmd('highlight! link TSKeywordOperator Keyword') -- not, in
+vim.cmd('highlight! link TSOperator GruvboxRed')
+vim.cmd('highlight! link TSFunction GruvboxAqua')
+vim.cmd('highlight! link TSMethod GruvboxAqua')
 
 -- snap highlights
-vim.cmd("highlight! link SnapSelect GruvboxBlue")
-vim.cmd("highlight! link SnapMultiSelect GruvboxGray")
-vim.cmd("highlight! link SnapNormal GruvboxFg1")
-vim.cmd("highlight! link SnapBorder SnapNormal")
-vim.cmd("highlight! link SnapPrompt GruvboxOrangeBold")
-vim.cmd("highlight! link SnapPosition GruvboxOrangeBold")
+vim.cmd('highlight! link SnapSelect GruvboxBlue')
+vim.cmd('highlight! link SnapMultiSelect GruvboxGray')
+vim.cmd('highlight! link SnapNormal GruvboxFg1')
+vim.cmd('highlight! link SnapBorder SnapNormal')
+vim.cmd('highlight! link SnapPrompt GruvboxOrangeBold')
+vim.cmd('highlight! link SnapPosition GruvboxOrangeBold')
 
 ----
 

@@ -2,13 +2,13 @@ local api = vim.api
 
 local function nvim_create_augroups(definitions)
 	for group_name, definition in pairs(definitions) do
-		api.nvim_command("augroup " .. group_name)
-		api.nvim_command("autocmd!")
+		api.nvim_command('augroup ' .. group_name)
+		api.nvim_command('autocmd!')
 		for _, def in ipairs(definition) do
-			local command = table.concat(vim.tbl_flatten({ "autocmd", def }), " ")
+			local command = table.concat(vim.tbl_flatten({ 'autocmd', def }), ' ')
 			api.nvim_command(command)
 		end
-		api.nvim_command("augroup END")
+		api.nvim_command('augroup END')
 	end
 end
 
@@ -20,20 +20,20 @@ local function setup()
             {"InsertLeave", "*", ":set relativenumber"}
         }, ]]
 		onwrite = {
-			{ "BufWritePre", "*", ":call TrimWhitespace()" },
-			{ "BufWritePost", "~/.config/nvim/*.{vim,lua}", "so $MYVIMRC" },
+			{ 'BufWritePre', '*', ':call TrimWhitespace()' },
+			{ 'BufWritePost', '~/.config/nvim/*.{vim,lua}', 'so $MYVIMRC' },
 		},
 		onread = {
 			-- Open non vim files (binaries etc) in their respective applications
 			{
-				"BufRead",
-				"*.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf",
+				'BufRead',
+				'*.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf',
 				'sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft',
 			},
 			-- Auto open vim and move cursor to last known location
 			{
-				"BufReadPost",
-				"*",
+				'BufReadPost',
+				'*',
 				'silent! normal! g`"zv',
 			},
 		},

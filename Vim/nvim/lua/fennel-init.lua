@@ -1,6 +1,6 @@
 -- TODO: Teal and Moonscript equivalents!
 
-local status, fennel = pcall(require, "fennel")
+local status, fennel = pcall(require, 'fennel')
 if not status then
 	return nil
 end
@@ -15,7 +15,7 @@ function _fennel_runtime_searcher(name)
   loading Fennel modules, skipping fennel.path entirely in favor of manually
   searching &runtimepath and returning loaders accordingly.
   --]]
-	local basename = name:gsub("%.", "/")
+	local basename = name:gsub('%.', '/')
 
 	if vim.env.NVIM_FENNEL_DEBUG then
 		print(string.format("Nvim-Fennel: Seeking loader for '%s'", basename))
@@ -26,19 +26,19 @@ function _fennel_runtime_searcher(name)
 		-- "lua/"..basename.."/init.fnl",
 		-- "fnl/"..basename..".fnl",
 		-- "fnl/"..basename.."/init.fnl",
-		"fennel/" .. basename .. ".fnl",
-		"fennel/" .. basename .. "/init.fnl",
+		'fennel/' .. basename .. '.fnl',
+		'fennel/' .. basename .. '/init.fnl',
 	}
 
 	for _, path in ipairs(paths) do
 		local found = vim.api.nvim_get_runtime_file(path, false)
 		if #found > 0 then
 			if vim.env.NVIM_FENNEL_DEBUG then
-				print(string.format("Nvim-Fennel: Returning loader for %s (%s)", basename, found[1]))
+				print(string.format('Nvim-Fennel: Returning loader for %s (%s)', basename, found[1]))
 			end
 			return function()
 				if vim.env.NVIM_FENNEL_DEBUG then
-					print(string.format("Nvim-Fennel: Executing loader for %s (%s)", basename, found[1]))
+					print(string.format('Nvim-Fennel: Executing loader for %s (%s)', basename, found[1]))
 				end
 				return fennel.dofile(found[1])
 			end
@@ -47,9 +47,9 @@ function _fennel_runtime_searcher(name)
 end
 
 if vim.env.NVIM_FENNEL_DEBUG then
-	print("Loaders before Fennel init:")
+	print('Loaders before Fennel init:')
 	for _, searcher in ipairs(package.loaders) do
-		print("  " .. tostring(searcher))
+		print('  ' .. tostring(searcher))
 	end
 end
 
@@ -91,9 +91,9 @@ table.insert(package.loaders, fennel.searcher)
 table.insert(package.loaders, 2, _fennel_runtime_searcher)
 
 if vim.env.NVIM_FENNEL_DEBUG then
-	print("Loaders after Fennel init:")
+	print('Loaders after Fennel init:')
 	for _, searcher in ipairs(package.loaders) do
-		print("  " .. tostring(searcher))
+		print('  ' .. tostring(searcher))
 	end
 end
 

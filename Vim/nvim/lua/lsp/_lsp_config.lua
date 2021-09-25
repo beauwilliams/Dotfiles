@@ -12,8 +12,8 @@ local vim = vim
 local fn = vim.fn
 local api = vim.api
 local cwd = vim.loop.cwd
-local lsp_status = require("lsp-status")
-local has_lsp, lsp = pcall(require, "lspconfig")
+local lsp_status = require('lsp-status')
+local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
@@ -40,7 +40,7 @@ local exclude_patterns = {
                     /_/                                     /_/
 --]]
 -- require("_compe") --> We load custom compe init in lua._compe.lua
-require("_coq") --> We load custom coq init in lua._clspoq.lua
+require('_coq') --> We load custom coq init in lua._clspoq.lua
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ require("_coq") --> We load custom coq init in lua._clspoq.lua
 --]]
 --A custom mapper function to make mapping our lsp functions to vim key sequences less verbose
 local mapper = function(mode, key, result)
-	api.nvim_buf_set_keymap(0, mode, key, "<cmd>lua " .. result .. "<cr>", { noremap = true, silent = true })
+	api.nvim_buf_set_keymap(0, mode, key, '<cmd>lua ' .. result .. '<cr>', { noremap = true, silent = true })
 end
 
 ---------------------------------------------------------------------------------------
@@ -71,21 +71,21 @@ end
 
 -- async formatting
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
-vim.lsp.handlers["textDocument/formatting"] = function(err, _, result, _, bufnr)
+vim.lsp.handlers['textDocument/formatting'] = function(err, _, result, _, bufnr)
 	if err ~= nil or result == nil then
 		return
 	end
-	if not vim.api.nvim_buf_get_option(bufnr, "modified") then
+	if not vim.api.nvim_buf_get_option(bufnr, 'modified') then
 		local view = fn.winsaveview()
 		vim.lsp.util.apply_text_edits(result, bufnr)
 		fn.winrestview(view)
-		vim.api.nvim_command("noautocmd :update")
+		vim.api.nvim_command('noautocmd :update')
 	end
 end
 
 -- Diagnostics
 -- require("nvim-ale-diagnostic") -- WAS.. USING ALE TO DISPLAY DIAGS
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	underline = true,
 	virtual_text = false,
 	--[[ virtual_text = {
@@ -96,11 +96,11 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagn
 	update_in_insert = false,
 })
 
-local signs = { Error = "✘", Warning = "", Hint = "", Information = "" }
+local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
 
 for type, icon in pairs(signs) do
-	local hl = "LspDiagnosticsSign" .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+	local hl = 'LspDiagnosticsSign' .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
 -- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
 -- vim.cmd [[let g:ale_linters = {'python': []}]]
@@ -117,10 +117,10 @@ local echo_timer = nil
 local echo_timeout = 250
 
 -- The highlight group to use for warning messages.
-local warning_hlgroup = "WarningMsg"
+local warning_hlgroup = 'WarningMsg'
 
 -- The highlight group to use for error messages.
-local error_hlgroup = "ErrorMsg"
+local error_hlgroup = 'ErrorMsg'
 
 -- If the first diagnostic line has fewer than this many characters, also add
 -- the second line to it.
@@ -128,7 +128,7 @@ local short_line_limit = 20
 
 -- Shows the current line's diagnostics in a floating window.
 function show_line_diagnostics()
-	vim.lsp.diagnostic.show_line_diagnostics({ severity_limit = "Warning" }, vim.fn.bufnr(""))
+	vim.lsp.diagnostic.show_line_diagnostics({ severity_limit = 'Warning' }, vim.fn.bufnr(''))
 end
 
 -- Prints the first diagnostic for the current line.
@@ -138,7 +138,7 @@ function echo_diagnostic()
 	end
 
 	echo_timer = vim.defer_fn(function()
-		local line = vim.fn.line(".") - 1
+		local line = vim.fn.line('.') - 1
 		local bufnr = vim.api.nvim_win_get_buf(0)
 
 		if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then
@@ -162,42 +162,42 @@ function echo_diagnostic()
 		last_echo = { true, bufnr, line }
 
 		local diag = diags[1]
-		local width = vim.api.nvim_get_option("columns") - 15
-		local lines = vim.split(diag.message, "\n")
+		local width = vim.api.nvim_get_option('columns') - 15
+		local lines = vim.split(diag.message, '\n')
 		local message = lines[1]
 		local trimmed = false
 
 		if #lines > 1 and #message <= short_line_limit then
-			message = message .. " " .. lines[2]
+			message = message .. ' ' .. lines[2]
 		end
 
 		if width > 0 and #message >= width then
-			message = message:sub(1, width) .. "..."
+			message = message:sub(1, width) .. '...'
 		end
 
-		local kind = "warning"
+		local kind = 'warning'
 		local hlgroup = warning_hlgroup
 
 		if diag.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-			kind = "error"
+			kind = 'error'
 			hlgroup = error_hlgroup
 		end
 
 		local chunks = {
-			{ kind .. ": ", hlgroup },
+			{ kind .. ': ', hlgroup },
 			{ message },
 		}
 
 		vim.api.nvim_echo(chunks, false, {})
 	end, echo_timeout)
 end
-vim.cmd("autocmd CursorMoved * :lua echo_diagnostic()")
+vim.cmd('autocmd CursorMoved * :lua echo_diagnostic()')
 
 --CAPABILITIES
 Custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	local coq = require("coq")
+	local coq = require('coq')
 	coq.lsp_ensure_capabilities()
 	return capabilities
 end
@@ -225,10 +225,10 @@ custom_attach =
 		-- INITS
 		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
 		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
-		require("_lightbulb") --> CODE ACTION LIGHTBULB
+		require('_lightbulb') --> CODE ACTION LIGHTBULB
 		lsp_status.on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-		require("lsp_signature").on_attach(client) --> Signature popups and info
-		local basics = require("lsp_basics")
+		require('lsp_signature').on_attach(client) --> Signature popups and info
+		local basics = require('lsp_basics')
 		basics.make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
 		-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 		-- basics.make_lsp_mappings(client, bufnr)
@@ -300,12 +300,12 @@ end
 -- cs install metals
 
 local servers = {
-	"bashls",
-	"cssls",
-	"vimls",
-	"rust_analyzer",
-	"pylsp",
-	"dockerls",
+	'bashls',
+	'cssls',
+	'vimls',
+	'rust_analyzer',
+	'pylsp',
+	'dockerls',
 }
 
 for _, server in ipairs(servers) do
@@ -316,10 +316,12 @@ for _, server in ipairs(servers) do
 	})
 end
 
+-- these servers activate even when not in .git repo etc
 local servers_rootcwd = {
-	"metals",
-	"vimls",
-	"jsonls",
+	'metals',
+	'vimls',
+	'jsonls',
+    'solang' -- solidity
 }
 
 for _, server in ipairs(servers_rootcwd) do
@@ -332,11 +334,11 @@ for _, server in ipairs(servers_rootcwd) do
 end
 
 -- LANG CONFS
-require("lsp._null").setup(custom_attach)
-require("lsp._lua")
-require("lsp._html")
-require("lsp._typescript")
-require("lsp._omnisharp")
+require('lsp._null').setup(custom_attach)
+require('lsp._lua')
+require('lsp._html')
+require('lsp._typescript')
+require('lsp._omnisharp')
 vim.cmd(
 	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
 ) -- NOTE: sets workspace per project..

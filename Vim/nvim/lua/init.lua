@@ -1,29 +1,29 @@
 local M = {}
 local init = function()
 	-- MY CONFS
-	require("_plugins") -- Loads packer commands
-	require("_theme")
-	require("_options")
-	require("_autocmds")
-	require("_mappings")
+	require('_plugins') -- Loads packer commands
+	require('_theme')
+	require('_options')
+	require('_autocmds')
+	require('_mappings')
 
 	--LIBRARIES
-	require("_utils")
+	require('_utils')
 
 	--PLUGINS
-	require("_startify")
-	require("_quickscope")
-	require("_hexokinase")
-	require("_telescope")
-	require("_treesitter")
-	require("_nvimtree")
-	require("_discord")
+	require('_startify')
+	require('_quickscope')
+	require('_hexokinase')
+	require('_telescope')
+	require('_treesitter')
+	require('_nvimtree')
+	require('_discord')
 
 	--LSP
-	require("lsp._lsp_config")
+	require('lsp._lsp_config')
 
 	--Statusline (My plugin :D)
-	local statusline = require("statusline")
+	local statusline = require('statusline')
 	statusline.tabline = true
 	statusline.lsp_diagnostics = true
 	statusline.ale_diagnostics = false
@@ -65,26 +65,26 @@ M.FocusEqualiseDiffview = function()
     wincmd w
     wincmd w
     ]])
-	vim.bo.buftype = "help"
-	vim.cmd("FocusEqualise")
+	vim.bo.buftype = 'help'
+	vim.cmd('FocusEqualise')
 end
 
 M.Diffv = function()
 	local co = coroutine.create(function()
-		require("diffview").open()
+		require('diffview').open()
 	end)
 	coroutine.yield(co)
 	wait(3)
-	print("hello")
+	print('hello')
 end
 
 M.Diffv2 = function()
 	co2 = coroutine.create(function()
 		coroutine.yield()
 		-- wait(5)
-		print("this runs after 5 seconds, diffview is opened during this time")
+		print('this runs after 5 seconds, diffview is opened during this time')
 	end)
-	require("diffview").open()
+	require('diffview').open()
 	coroutine.resume(co2)
 	wait(5)
 	coroutine.resume(co2)

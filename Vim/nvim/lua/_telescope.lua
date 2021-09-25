@@ -1,23 +1,23 @@
-local actions = require("telescope.actions")
-local telescope = require("telescope")
+local actions = require('telescope.actions')
+local telescope = require('telescope')
 telescope.setup({
 	defaults = {
 		mappings = {
 			i = {
-				["<esc>"] = actions.close,
-				["<C-c>"] = function()
+				['<esc>'] = actions.close,
+				['<C-c>'] = function()
 					vim.cmd([[stopinsert]]) --start normal mode if we need it
 				end,
 			},
 		},
 		vimgrep_arguments = {
-			"rg",
-			"--color=never",
-			"--no-heading",
-			"--with-filename",
-			"--line-number",
-			"--column",
-			"--smart-case",
+			'rg',
+			'--color=never',
+			'--no-heading',
+			'--with-filename',
+			'--line-number',
+			'--column',
+			'--smart-case',
 		},
 		-- find_command = { 'rg', '--files', '--hidden'},
 		-- layout_config.prompt_position = "top",
@@ -27,7 +27,7 @@ telescope.setup({
 		layout_config = {
 			horizontal = {
 				mirror = false,
-				prompt_position = "top",
+				prompt_position = 'top',
 				width = 0.75,
 				height = 0.75,
 				preview_cutoff = 120,
@@ -38,37 +38,37 @@ telescope.setup({
 				mirror = false, -- makes prompt on top
 			},
 		},
-		initial_mode = "insert",
-		selection_strategy = "reset",
-		sorting_strategy = "ascending",
-		file_sorter = require("telescope.sorters").get_fuzzy_file,
+		initial_mode = 'insert',
+		selection_strategy = 'reset',
+		sorting_strategy = 'ascending',
+		file_sorter = require('telescope.sorters').get_fuzzy_file,
 		file_ignore_patterns = {
-			"forks",
-			".backup",
-			".swap",
-			".langservers",
-			".session",
-			".undo",
-			".git/",
-			"node_modules",
-			"vendor",
-			".cache",
-			".vscode-server",
-			".Desktop",
-			".Documents",
-			"classes",
-			"quantumimage",
+			'forks',
+			'.backup',
+			'.swap',
+			'.langservers',
+			'.session',
+			'.undo',
+			'.git/',
+			'node_modules',
+			'vendor',
+			'.cache',
+			'.vscode-server',
+			'.Desktop',
+			'.Documents',
+			'classes',
+			'quantumimage',
 		},
-		generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
+		generic_sorter = require('telescope.sorters').get_generic_fuzzy_sorter,
 		winblend = 0,
 		border = {},
-		borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+		borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
 		color_devicons = true, -- Whether to color devicons or not
 		use_less = true,
-		set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-		file_previewer = require("telescope.previewers").cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
-		grep_previewer = require("telescope.previewers").vimgrep.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_vimgrep.new`
-		qflist_previewer = require("telescope.previewers").qflist.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_qflist.new`
+		set_env = { ['COLORTERM'] = 'truecolor' }, -- default = nil,
+		file_previewer = require('telescope.previewers').cat.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_cat.new`
+		grep_previewer = require('telescope.previewers').vimgrep.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_vimgrep.new`
+		qflist_previewer = require('telescope.previewers').qflist.new, -- For buffer previewer use `require'telescope.previewers'.vim_buffer_qflist.new`
 
 		-- Developer configurations: Not meant for general override
 		-- buffer_previewer_maker = require'telescope.previewers'.buffer_previewer_maker
@@ -80,12 +80,12 @@ telescope.setup({
 		},
 		frecency = {
 			show_unindexed = true,
-			ignore_patterns = { "*.git/*", "*/tmp/*" },
+			ignore_patterns = { '*.git/*', '*/tmp/*' },
 			workspaces = {
-				["nvim"] = "/Users/admin/.config/nvim",
-				["packer"] = "/Users/admin/.local/share/nvim/site/pack/packer",
-				["uni"] = "/Users/admin/Dropbox/Software Eng/University Work",
-				["code"] = "/Users/admin/Dropbox/Software Eng/Projects/My Codes",
+				['nvim'] = '/Users/admin/.config/nvim',
+				['packer'] = '/Users/admin/.local/share/nvim/site/pack/packer',
+				['uni'] = '/Users/admin/Dropbox/Software Eng/University Work',
+				['code'] = '/Users/admin/Dropbox/Software Eng/Projects/My Codes',
 			},
 		},
 	},
@@ -97,17 +97,17 @@ vim.cmd([[highlight TelescopeSelectionCaret guifg=#749484 gui=bold]])
 
 local M = {}
 M.search_dotfiles = function()
-	require("telescope.builtin").find_files({
-		prompt_title = "< VimRC >",
-		cwd = "$HOME/.config/nvim/",
+	require('telescope.builtin').find_files({
+		prompt_title = '< VimRC >',
+		cwd = '$HOME/.config/nvim/',
 	})
 end
 
 M.git_branches = function()
-	require("telescope.builtin").git_branches({
+	require('telescope.builtin').git_branches({
 		attach_mappings = function(prompt_bufnr, map)
-			map("i", "<c-d>", actions.git_delete_branch)
-			map("n", "dd", actions.git_delete_branch)
+			map('i', '<c-d>', actions.git_delete_branch)
+			map('n', 'dd', actions.git_delete_branch)
 			return true
 		end,
 	})

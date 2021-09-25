@@ -6,25 +6,25 @@ https://github.com/haringsrob/nvim_context_vt
 https://github.com/windwp/nvim-ts-autotag
 https://github.com/lewis6991/spellsitter.nvim
 https://github.com/nvim-treesitter/nvim-tree-docs ]]
-local tsconf = require("nvim-treesitter.configs")
+local tsconf = require('nvim-treesitter.configs')
 if not tsconf then
 	vim.cmd([[ echom 'Cannot load `nvim-treesitter.configs`' ]])
 	return
 end
 
 -- FOR NEORG USAGE: run :TSInstall norg
-local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+local parser_configs = require('nvim-treesitter.parsers').get_parser_configs()
 
 parser_configs.norg = {
 	install_info = {
-		url = "https://github.com/nvim-neorg/tree-sitter-norg",
-		files = { "src/parser.c", "src/scanner.cc" },
-		branch = "main",
+		url = 'https://github.com/nvim-neorg/tree-sitter-norg',
+		files = { 'src/parser.c', 'src/scanner.cc' },
+		branch = 'main',
 	},
 }
 
 tsconf.setup({
-	ensure_installed = "maintained", --> Installs ALL maintained packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
+	ensure_installed = 'maintained', --> Installs ALL maintained packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
 	-- ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
 	autotag = {
 		-- NOTE: Not working https://github.com/windwp/nvim-ts-autotag
@@ -46,10 +46,10 @@ tsconf.setup({
 	incremental_selection = {
 		enable = true,
 		keymaps = {
-			init_selection = "<Enter>",
-			scope_incremental = "gnc",
-			node_incremental = "<Enter>",
-			node_decremental = "<BS>",
+			init_selection = '<Enter>',
+			scope_incremental = 'gnc',
+			node_incremental = '<Enter>',
+			node_decremental = '<BS>',
 		},
 	},
 	refactor = {
@@ -58,15 +58,15 @@ tsconf.setup({
 		navigation = {
 			enable = true,
 			keymaps = {
-				goto_next_usage = "<A-*>",
-				goto_previous_usage = "<A-#>",
+				goto_next_usage = '<A-*>',
+				goto_previous_usage = '<A-#>',
 			},
 		},
 		smart_rename = {
 			enable = true,
 			keymaps = {
 				-- mapping to rename reference under cursor
-				smart_rename = "<leader>r",
+				smart_rename = '<leader>r',
 			},
 		},
 	},
@@ -74,27 +74,27 @@ tsconf.setup({
 		select = {
 			enable = true,
 			keymaps = {
-				["iF"] = {
-					python = "(function_definition) @function",
-					cpp = "(function_definition) @function",
-					c = "(function_definition) @function",
-					java = "(method_declaration) @function",
+				['iF'] = {
+					python = '(function_definition) @function',
+					cpp = '(function_definition) @function',
+					c = '(function_definition) @function',
+					java = '(method_declaration) @function',
 				},
-				["af"] = "@function.outer",
-				["if"] = "@function.inner",
-				["aC"] = "@class.outer",
-				["iC"] = "@class.inner",
-				["ac"] = "@conditional.outer",
-				["ic"] = "@conditional.inner",
-				["ae"] = "@block.outer",
-				["ie"] = "@block.inner",
-				["al"] = "@loop.outer",
-				["il"] = "@loop.inner",
-				["is"] = "@statement.inner",
-				["as"] = "@statement.outer",
-				["ad"] = "@comment.outer",
-				["am"] = "@call.outer",
-				["im"] = "@call.inner",
+				['af'] = '@function.outer',
+				['if'] = '@function.inner',
+				['aC'] = '@class.outer',
+				['iC'] = '@class.inner',
+				['ac'] = '@conditional.outer',
+				['ic'] = '@conditional.inner',
+				['ae'] = '@block.outer',
+				['ie'] = '@block.inner',
+				['al'] = '@loop.outer',
+				['il'] = '@loop.inner',
+				['is'] = '@statement.inner',
+				['as'] = '@statement.outer',
+				['ad'] = '@comment.outer',
+				['am'] = '@call.outer',
+				['im'] = '@call.inner',
 			},
 		},
 		swap = {

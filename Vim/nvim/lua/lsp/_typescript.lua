@@ -1,5 +1,5 @@
-local lsp = require("lspconfig")
-local lsputil = require("lspconfig/util")
+local lsp = require('lspconfig')
+local lsputil = require('lspconfig/util')
 ---------------------------------------------------------------------------------------
 --[[
   ______                                _       __

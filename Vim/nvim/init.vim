@@ -4,10 +4,8 @@ function! Test()
     return "test"
 endfunction
 
+"AUOTO SAVES HELP TAGS"
 autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
-
-autocmd TabEnter DiffviewFilePanel :FocusDisable
-
 
 function GlobalReplace(foo,bar)
     exe 'grep '.a:foo
@@ -37,7 +35,12 @@ function! TwiddleCase(str)
 endfunction
 vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
-
+command! -complete=customlist,FileWords -nargs=? MyCommand echomsg <q-args>
+function! FileWords(A, L, P) abort
+  let a = []
+  %s/\w\+/\=add(a, submatch(0))/gn
+  return a
+endfunction
 
 
 "============================START INITS===============================
@@ -173,8 +176,10 @@ augroup END
 "leader-W takes us anticlockwise
 nnoremap <silent> <leader>w :FocusSplitCycle<CR>
 vnoremap <silent> <leader>w :FocusSplitCycle<CR>
-nnoremap <silent> <leader>W <C-w>W
-vnoremap <silent> <leader>W <C-w>W
+tnoremap <silent> <leader>w :FocusSplitCycle<CR>
+nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
 "Resize our splits with <leader> ;/'/,/.- easily
 nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
 nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
