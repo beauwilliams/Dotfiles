@@ -1,3 +1,6 @@
+--TODO: Implement https://github.com/b0o/mapx.nvim
+--Also add whichkey support
+
 local utils = require('_utils')
 local leader = '<space>'
 local g = vim.g
@@ -18,8 +21,8 @@ cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --Toggle between 0 and ^ with JUST 0 =D. Does not work well with wrap off and side scrolling..
 -- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
--- "i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
--- utils.map("n", leader..leader, ":")
+--i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
+utils.map("n", leader..leader, ":")
 
 --KOMMENTARY MAPPINGS, COMMENT WITH CMD+/
 utils.nmap('++', '<Plug>kommentary_line_default')
@@ -174,7 +177,6 @@ nnoremap <silent><leader>] <c-w>K
 utils.nnoremap(leader.."j", ":FocusSplitDown<cr>")
 utils.nnoremap(leader.."k", ":FocusSplitUp<cr>")
 utils.nnoremap(leader.."l", ":FocusSplitRight<cr>") ]]
-
 --TAB/BUFFER CYCLING
 --[[ utils.nnoremap("gt", ":WintabsNext<cr>")
 utils.nnoremap("gT", ":WintabsPrevious<cr>") ]]
@@ -182,7 +184,6 @@ utils.nnoremap("gT", ":WintabsPrevious<cr>") ]]
 -- utils.nnoremap("<leader>z", ":ToggleAlternate<cr>")
 --[[ vim.cmd("cnoreabbrev swap ToggleAlternate")
 vim.cmd("cnoreabbrev swapfile swap") ]]
-
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -259,8 +260,6 @@ cmd([[cnoreabbrev pcl PackerClean]])
 --TELESCOPE MAPPINGS
 -- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
-utils.nnoremap(leader .. leader, ":lua require'telescope'.extensions.projects.projects{}<CR>")
-utils.vnoremap(leader .. leader, ":lua require'telescope'.extensions.projects.projects{}<CR>")
 
 utils.nnoremap(
 	leader .. 's',
@@ -306,7 +305,8 @@ utils.vnoremap(
 	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
-cmd('cnoreabbrev <silent>tls Telescope')
+cmd('cnoreabbrev <silent>tel Telescope')
+cmd('cnoreabbrev <silent>clip Telescope neoclip')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
 cmd("cnoreabbrev <silent>gwl lua require('telescope').extensions.git_worktree.git_worktrees()")
 --[[ cmd("cnoreabbrev <silent>tmaps lua require'telescope.builtin'.keymaps(require('telescope.themes').get_dropdown({}))")
@@ -318,7 +318,6 @@ cmd("cnoreabbrev <silent>tlocs lua require'telescope.builtin'.loclist(require('t
 cmd("cnoreabbrev <silent>topts lua require'telescope.builtin'.options(require('telescope.themes').get_dropdown({}))")
 cmd("cnoreabbrev <silent>tcmds lua require'telescope.builtin'.autocommands(require('telescope.themes').get_dropdown({}))")
 cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('telescope.themes').get_dropdown({}))") ]]
-
 _G.TelescopeMaps = {}
 function TelescopeMaps.installed_plugins()
 	require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({
@@ -453,7 +452,6 @@ end
 	end
 end
 vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = true }) ]]
-
 -- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------

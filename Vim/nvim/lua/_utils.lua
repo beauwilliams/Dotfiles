@@ -393,6 +393,7 @@ M.sudo_exec = function(cmd, print_output)
 	return true
 end
 
+-- NOTE: Replaces use('lambdalisue/suda.vim') -- Neovim compatible :SudoWrite
 M.sudo_write = function(tmpfile, filepath)
 	if not tmpfile then
 		tmpfile = vim.fn.tempname()

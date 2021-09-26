@@ -190,7 +190,8 @@ require('packer').startup({
 
 		use({
 			-- OR "voldikss/vim-floaterm"
-			'beauwilliams/FTerm.nvim', --> Floating terminal window
+			-- OR 'itmecho/neoterm.nvim',
+			'numToStr/FTerm.nvim', --> Floating terminal window
 			config = function()
 				require('FTerm').setup({
 					border = 'single',
@@ -198,16 +199,6 @@ require('packer').startup({
 			end,
 		})
 
-		use({
-			'itmecho/neoterm.nvim',
-			config = function()
-				require('neoterm').setup({
-					clear_on_run = true, -- run clear command before user specified commands
-					mode = 'fullscreen', -- vertical/horizontal/fullscreen
-					noinsert = false, -- disable entering insert mode when opening the neoterm window
-				})
-			end,
-		})
 		--[[
     ____     ____    ____    ______    ____     ___     __  ___    __  ___    ____    _   __   ______
    / __ \   / __ \  / __ \  / ____/   / __ \   /   |   /  |/  /   /  |/  /   /  _/   / | / /  / ____/
@@ -410,7 +401,7 @@ require('packer').startup({
 /_/       \____/   /____//____//_/          /_/       /___/   /_/ |_/   /_____/  /___/   /_/ |_/   \____/
 
 --]]
---	-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
+		--	-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
 		-- FUZZY WILD MENU ENHANCEMENT
 		use('gelguy/wilder.nvim')
 		-- FAST FUZZY SEARCH
@@ -471,32 +462,34 @@ require('packer').startup({
 		use({
 			'AckslD/nvim-neoclip.lua',
 			config = function()
-				require('neoclip').setup()
+				require('neoclip').setup({
+					default_register = '*'
+				})
 				require('telescope').load_extension('neoclip')
 			end,
 		})
 
---		-- FZF
---		use({
---			'junegunn/fzf',
---			-- run = function()
---			-- vim.fn["fzf#install"]()
---			-- end
---		})
---		use({ 'junegunn/fzf.vim' })
---		--FUZZY HELP MENU FOR FZF & VIM like ctrl+p
---		use({
---			'laher/fuzzymenu.vim',
---			config = function()
---				vim.api.nvim_exec(
---					[[
---                let g:fuzzymenu_position =  'window'
---                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
---                ]],
---					false
---				)
---			end,
---		})
+		--		-- FZF
+		--		use({
+		--			'junegunn/fzf',
+		--			-- run = function()
+		--			-- vim.fn["fzf#install"]()
+		--			-- end
+		--		})
+		--		use({ 'junegunn/fzf.vim' })
+		--		--FUZZY HELP MENU FOR FZF & VIM like ctrl+p
+		--		use({
+		--			'laher/fuzzymenu.vim',
+		--			config = function()
+		--				vim.api.nvim_exec(
+		--					[[
+		--                let g:fuzzymenu_position =  'window'
+		--                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
+		--                ]],
+		--					false
+		--				)
+		--			end,
+		--		})
 		--[[
     ______    ____    __     ______           _   __    ___  _    __
    / ____/   /  _/   / /    / ____/          / | / /   /   || |  / /
@@ -510,8 +503,8 @@ require('packer').startup({
 \____/\/        /____/  /_____/   /_/  |_|/_/ |_|  \____/   /_/ /_/
 
 --]]
-		use({ 'tpope/vim-eunuch' }) -- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
-		use('lambdalisue/suda.vim') -- Neovim compatible :SudoWrite
+		-- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
+		use({ 'tpope/vim-eunuch' })
 		-- PREVIEW LINE IN BUFFER --> e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
 		use({ 'nacro90/numb.nvim', config = "require('numb').setup()" })
 		-- ENHANCED SEARCH --> Adds count numbers etc
@@ -521,6 +514,8 @@ require('packer').startup({
 			'kyazdani42/nvim-tree.lua',
 			requires = { 'kyazdani42/nvim-web-devicons', opt = true },
 		})
+		-- VIM MOTION PLUGIN
+		-- OR phaazon/hop.nvim OR quickscope.nvim
 		use({
 			'ggandor/lightspeed.nvim',
 			config = function()
