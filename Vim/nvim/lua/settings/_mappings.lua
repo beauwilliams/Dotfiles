@@ -262,31 +262,31 @@ cmd([[cnoreabbrev pcl PackerClean]])
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 
 utils.nnoremap(
-	leader .. 's',
+	leader .. 'f',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 utils.vnoremap(
-	leader .. 's',
+	leader .. 'f',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 utils.nnoremap(
-	leader .. 'S',
+	leader .. 'F',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'S',
+	leader .. 'F',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
-utils.nnoremap(
+--[[ utils.nnoremap(
 	leader .. 'gb',
-	":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
+	":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
 	leader .. 'gb',
-	":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
-)
+	":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
+) ]]
 utils.nnoremap(
 	leader .. 'b',
 	":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
@@ -298,13 +298,15 @@ utils.vnoremap(
 utils.nnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.nnoremap(
-	leader .. 'f',
+	leader .. 'g',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'f',
+	leader .. 'g',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
+utils.nnoremap(leader .. 'p', ":Telescope projects<cr>")
+utils.vnoremap(leader .. 'p', ":Telescope projects<cr>")
 cmd('cnoreabbrev <silent>tel Telescope')
 cmd('cnoreabbrev <silent>clip Telescope neoclip')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
