@@ -92,6 +92,7 @@ alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
 alias mergehammer="cp ~/.hammerspoon/init.lua ~/Git_Downloads/Dotfiles/Hammerspoon"
 alias mergegit="~/.config/git/merge-git-config.sh"
+alias mergebrew="brew bundle dump --force"
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
