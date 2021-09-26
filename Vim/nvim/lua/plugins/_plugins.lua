@@ -572,7 +572,8 @@ require('packer').startup({
 --]]
 		-- use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
 		use({
-			'APZelos/blamer.nvim',
+			'beauwilliams/blamer.nvim',
+			branch = 'patch-1',
 			config = function()
 				-- vim.g.blamer_prefix = ' > '
 				vim.g.blamer_enabled = 1
@@ -588,8 +589,8 @@ require('packer').startup({
 			end,
 		})
 		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
-		use({ 'rhysd/git-messenger.vim' ,
-		setup = function () vim.g.git_messenger_no_default_mappings = true end}) -- leader-gb to GIT BLAME i.e who wrote that code commit info and navigate history at a glance
+		use({ 'rhysd/git-messenger.vim' , -- :GitMessenger
+		setup = function () vim.g.git_messenger_no_default_mappings = true end})
 		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
 		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen]
 		use('ThePrimeagen/git-worktree.nvim') -- Adds neovim integration with worktrees and telescope

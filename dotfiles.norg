@@ -1,0 +1,10 @@
+@document.meta
+	title: dotfiles
+	description:
+	author: admin
+	categories:
+	created: 2021-09-26
+	version: 0.1
+@end
+
+- [ ] backup all neccessary files
