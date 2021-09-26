@@ -18,7 +18,7 @@ if not has_lsp then
 	return
 end
 
--- local utils = require('_utils')
+-- local utils = require('libraries._utils')
 -- local saga = require 'lspsaga'
 
 --Configure the exclusion pattterns
@@ -40,7 +40,7 @@ local exclude_patterns = {
                     /_/                                     /_/
 --]]
 -- require("_compe") --> We load custom compe init in lua._compe.lua
-require('_coq') --> We load custom coq init in lua._clspoq.lua
+require('plugins._coq') --> We load custom coq init in lua._clspoq.lua
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ custom_attach =
 		-- INITS
 		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
 		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
-		require('_lightbulb') --> CODE ACTION LIGHTBULB
+		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
 		lsp_status.on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
 		require('lsp_signature').on_attach(client) --> Signature popups and info
 		local basics = require('lsp_basics')
