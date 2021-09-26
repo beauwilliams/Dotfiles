@@ -141,6 +141,35 @@ focusmap('j')
 focusmap('k')
 focusmap('l')
 
+-- TODO: Implement utils fn into FOCUS to do natural resizing of windows like tmux etc
+vim.cmd([[
+	"leader-w for SPLIT CYCLING (cycle current windows)
+"leader-W takes us anticlockwise
+nnoremap <silent> <leader>w :FocusSplitCycle<CR>
+vnoremap <silent> <leader>w :FocusSplitCycle<CR>
+tnoremap <silent> <leader>w :FocusSplitCycle<CR>
+nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+"Resize our splits with <leader> ;/'/,/.- easily
+nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
+nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
+nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
+nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
+
+" if nvim_win_get_width(window) > nvim_get_height(window)
+    "this means its a horizontal split, so we can resize the height
+    "
+" else
+    "this means its a vertical split, so we can resize the width
+" endif
+" nnoremap <silent> <leader>; :vertical resize -10<CR>
+" nnoremap <silent> <leader>' :vertical resize +10<CR>
+"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+nnoremap <silent><leader>[ <c-w>H
+nnoremap <silent><leader>] <c-w>K
+]])
+
 --[[ utils.nnoremap(leader.."h", ":FocusSplitLeft<cr>")
 utils.nnoremap(leader.."j", ":FocusSplitDown<cr>")
 utils.nnoremap(leader.."k", ":FocusSplitUp<cr>")
@@ -198,7 +227,9 @@ vim.cmd('cnoreabbrev <silent> spelloff exe SpellOff()')
 vim.cmd('cnoreabbrev spelladd spell')
 
 -- Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
-vim.cmd('cnoreabbrev w!! SudaWrite')
+-- utils.cnoremap('w!!', "<esc>:lua require'_utils'.sudo_write()<CR>")
+vim.cmd('cnoreabbrev w!! lua require"_utils".sudo_write()')
+-- vim.cmd('cnoreabbrev w!! SudaWrite')
 
 -- MARKDOWN RENDERER [glow.nvim]
 vim.cmd('cnoreabbrev mdreader MarkdownPreview')
@@ -218,7 +249,7 @@ cmd([[cnoreabbrev pc PackerCompile]])
 cmd([[cnoreabbrev pi PackerInstall]])
 cmd([[cnoreabbrev ps PackerSync]])
 cmd([[cnoreabbrev pcl PackerClean]])
-cmd('cnoreabbrev <silent>pf lua TelescopeMaps.installed_plugins()')
+-- cmd('cnoreabbrev <silent>pf lua TelescopeMaps.installed_plugins()')
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -228,6 +259,9 @@ cmd('cnoreabbrev <silent>pf lua TelescopeMaps.installed_plugins()')
 --TELESCOPE MAPPINGS
 -- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
+utils.nnoremap(leader .. leader, ":lua require'telescope'.extensions.projects.projects{}<CR>")
+utils.vnoremap(leader .. leader, ":lua require'telescope'.extensions.projects.projects{}<CR>")
+
 utils.nnoremap(
 	leader .. 's',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
@@ -246,10 +280,6 @@ utils.vnoremap(
 )
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
-utils.nnoremap(
-	leader .. leader,
-	":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
-)
 utils.nnoremap(
 	leader .. 'gb',
 	":lua require('_telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
@@ -276,7 +306,7 @@ utils.vnoremap(
 	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
-cmd('cnoreabbrev <silent>tel Telescope builtin')
+cmd('cnoreabbrev <silent>tls Telescope')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
 cmd("cnoreabbrev <silent>gwl lua require('telescope').extensions.git_worktree.git_worktrees()")
 --[[ cmd("cnoreabbrev <silent>tmaps lua require'telescope.builtin'.keymaps(require('telescope.themes').get_dropdown({}))")
@@ -312,8 +342,12 @@ end
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- HOT KEYS
-utils.nnoremap(leader .. '1', ":lua require'telescope.builtin'.builtin()<cr>")
-utils.vnoremap(leader .. '1', ":lua require'telescope.builtin'.builtin()<cr>")
+utils.nnoremap(
+	leader .. 1,
+	":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
+)
+
+-- USING SNAP FOR NOW leader-2
 --[[ utils.nnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'2', ":lua require('_telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>") ]]
 utils.nnoremap(
@@ -375,7 +409,7 @@ remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, no
 remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
 remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
 --NOTE: ,leader+tab is command to move to next snippet location
-remap('n', leader..'<tab>', '<c-h>', { noremap = false })
+remap('n', leader .. '<tab>', '<c-h>', { noremap = false })
 
 -- remap('i', '<cr>', [[pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"]], { expr = true, noremap = true })
 

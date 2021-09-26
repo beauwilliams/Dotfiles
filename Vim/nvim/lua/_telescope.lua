@@ -43,6 +43,8 @@ telescope.setup({
 		sorting_strategy = 'ascending',
 		file_sorter = require('telescope.sorters').get_fuzzy_file,
 		file_ignore_patterns = {
+			'luadisabled',
+			'vimdisabled',
 			'forks',
 			'.backup',
 			'.swap',

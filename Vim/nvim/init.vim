@@ -1,21 +1,5 @@
-function! s:RunInInteractiveShell(command, bang)
-  let saved_shellcmdflag = &shellcmdflag
-  set shellcmdflag+=il
-  try
-    if a:bang
-      silent execute '!clear'
-    endif
-    execute '!' . a:command
-  finally
-    execute 'set shellcmdflag=' . saved_shellcmdflag
-  endtry
-endfunction
 
 
-command! -bang -nargs=1 RunInInteractiveShell call <sid>RunInInteractiveShell(<f-args>, <bang>0)
-
-
-let $ZSH_ENV="Users/admin/.zshrc"
 
 "DEBUG
 function! Test()
@@ -31,6 +15,8 @@ function GlobalReplace(foo,bar)
     exe 'cdo %s/'.a:foo.'/'.a:bar.'/gc'
 endfunction
 
+" let $ZSH_ENV="Users/admin/.zshrc"
+"
 " command! Lcopen :copen | :wincmd p | :wincmd L | :bp | :wincmd h | :bn
 " cnoreabbrev copen botright copen
 
@@ -41,25 +27,6 @@ endfunction
 
 " au VimEnter * lua require('focus').init()
 " au VimEnter * echo "hello"
-
-function! TwiddleCase(str)
-  if a:str ==# toupper(a:str)
-    let result = tolower(a:str)
-  elseif a:str ==# tolower(a:str)
-    let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
-  else
-    let result = toupper(a:str)
-  endif
-  return result
-endfunction
-vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
-
-command! -complete=customlist,FileWords -nargs=? MyCommand echomsg <q-args>
-function! FileWords(A, L, P) abort
-  let a = []
-  %s/\w\+/\=add(a, submatch(0))/gn
-  return a
-endfunction
 
 
 "============================START INITS===============================
@@ -152,70 +119,22 @@ endif
 " endfunction
 " autocmd BufEnter * exe ':lcd '.SearchRoot()
 
-"Auto Whitspace trimming!!
-fun! TrimWhitespace()
-        let l:save = winsaveview()
-        keeppatterns %s/\s\+$//e
-        call winrestview(l:save)
-endfun
 
 "self descriptive -- highlights yanked text for a little extra visual feedback
 "so we don't need to rely on visual mode as much, try yip or y4y
 "NOTE REQUIRES NVIM V5
-augroup highlight_yank
-    if has("nvim-0.5")
-        autocmd!
-        autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
-    endif
-augroup END
+" augroup highlight_yank
+"     if has("nvim-0.5")
+"         autocmd!
+"         autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank()
+"     endif
+" augroup END
 
 "LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GitBlame to see who wrote the commit
 command! -range GitBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
 
-"AUTOMATICALLY CREATE NEW PARENT FOLDER ON SAVE IF NOT ALREADY CREATED
-"SAVES A LOT OF MKDIR COMMANDS :)
-function s:MkNonExDir(file, buf)
-    if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
-        let dir=fnamemodify(a:file, ':h')
-        if !isdirectory(dir)
-            let confirm = input('Parent folders not found. y/n to confirm: ')
-            if confirm=="y"
-                call mkdir(dir, 'p')
-            endif
-        endif
-    endif
-endfunction
-augroup BWCCreateDir
-    autocmd!
-    autocmd BufWritePre * :call s:MkNonExDir(expand('<afile>'), +expand('<abuf>'))
-augroup END
 
 
-"leader-w for SPLIT CYCLING (cycle current windows)
-"leader-W takes us anticlockwise
-nnoremap <silent> <leader>w :FocusSplitCycle<CR>
-vnoremap <silent> <leader>w :FocusSplitCycle<CR>
-tnoremap <silent> <leader>w :FocusSplitCycle<CR>
-nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-"Resize our splits with <leader> ;/'/,/.- easily
-nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
-nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
-nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
-nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
-
-" if nvim_win_get_width(window) > nvim_get_height(window)
-    "this means its a horizontal split, so we can resize the height
-    "
-" else
-    "this means its a vertical split, so we can resize the width
-" endif
-" nnoremap <silent> <leader>; :vertical resize -10<CR>
-" nnoremap <silent> <leader>' :vertical resize +10<CR>
-"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-nnoremap <silent><leader>[ <c-w>H
-nnoremap <silent><leader>] <c-w>K
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""
@@ -260,6 +179,19 @@ endfunction
   "return ""
 "endfunction
 
+
+"Change case of selected text to camelcase, uppercase etc
+" function! TwiddleCase(str)
+"   if a:str ==# toupper(a:str)
+"     let result = tolower(a:str)
+"   elseif a:str ==# tolower(a:str)
+"     let result = substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+"   else
+"     let result = toupper(a:str)
+"   endif
+"   return result
+" endfunction
+" vnoremap ~ y:call setreg('', TwiddleCase(@"), getregtype(''))<CR>gv""Pgv
 
 "============================END FUNCTIONS CONFIG=======================
 

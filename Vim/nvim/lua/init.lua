@@ -1,6 +1,7 @@
 local M = {}
 local init = function()
 	-- MY CONFS
+	require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
 	require('_plugins') -- Loads packer commands
 	require('_theme')
 	require('_options')
@@ -17,7 +18,7 @@ local init = function()
 	require('_telescope')
 	require('_treesitter')
 	require('_nvimtree')
-	require('_discord')
+	-- require('_discord')
 
 	--LSP
 	require('lsp._lsp_config')

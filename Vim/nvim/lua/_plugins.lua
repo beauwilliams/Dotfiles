@@ -52,8 +52,8 @@ end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
 vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '10.15')
-require('impatient') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
 vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when there are changes to plugins
+
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
    / __ \   / /   / / / /  / ____/   /  _/   / | / /          /  _/   / | / /   /  _/ /_  __/  / ___/
@@ -71,11 +71,11 @@ require('packer').startup({
 	function(use)
 		use({ 'wbthomason/packer.nvim', opt = true })
 
-		-- DEBUG STUFF
-		-- https://github.com/henriquehbr/nvim-startup.lua
-
 		--SPEED UP NVIM REQUIRE AND STARTUP TIME
 		use({ 'lewis6991/impatient.nvim', rocks = 'mpack' })
+
+		-- DEBUG STUFF
+		-- https://github.com/henriquehbr/nvim-startup.lua
 
 		--[[
   ______    __  __    ______    __  ___    ______   _____          ___             __  __    ____
@@ -88,7 +88,6 @@ require('packer').startup({
 		--THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
-
 		-- use 'ghifarit53/tokyonight-vim'
 		-- use "sainnhe/gruvbox-material"
 		-- another I would like to try https://github.com/sainnhe/everforest
@@ -109,12 +108,12 @@ require('packer').startup({
 
 		--STATUSLINE
 		use('beauwilliams/statusline.lua')
-		-- use("beauwilliams/focus.nvim")
-		-- use {'beauwilliams/focus.nvim', cmd = "FocusEnable"}
-		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely" }
-		-- use { "beauwilliams/focus.nvim", config = function() require("focus").setup() end }
-
-		-- use { 'beauwilliams/focus.nvim', cmd = "FocusSplitNicely", module = "focus",
+		--TABLINE
+		--[[ use {
+      "jose-elias-alvarez/buftabline.nvim",
+      requires = {"kyazdani42/nvim-web-devicons"}, -- optional!
+      config = function() require("buftabline").setup {} end
+    } ]]
 		use({
 			'beauwilliams/focus.nvim',
 			--[[ cmd = { "FocusSplitNicely", "FocusSplitCycle" },
@@ -129,13 +128,7 @@ require('packer').startup({
 				})
 			end,
 		})
-		-- use {'beauwilliams/focus.nvim', module = "focus"}
-		-- use { 'beauwilliams/focus.nvim', branch = "setup", cmd = "FocusSplitNicely" }
-		-- use 'sagarc03/focus.nvim'
-		--
 		-- use 'beauwilliams/imnotaquitter.nvim'
-		use('nvim-lua/plenary.nvim')
-		use('windwp/nvim-spectre')
 
 		-- SCROLL BARS
 		use('dstein64/nvim-scrollview')
@@ -211,7 +204,7 @@ require('packer').startup({
 				require('neoterm').setup({
 					clear_on_run = true, -- run clear command before user specified commands
 					mode = 'fullscreen', -- vertical/horizontal/fullscreen
-					noinsert = false,     -- disable entering insert mode when opening the neoterm window
+					noinsert = false, -- disable entering insert mode when opening the neoterm window
 				})
 			end,
 		})
@@ -223,40 +216,57 @@ require('packer').startup({
 /_/      /_/ |_|  \____/  \____/   /_/ |_|  /_/  |_|/_/  /_/   /_/  /_/   /___/   /_/ |_/   \____/
 
 --]]
-		-- DOCUMENTATION
+		-- NOTE: DOCUMENTATION
 		use({
 			-- OR.. nvim-treesitter/nvim-tree-docs
 			'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
 			run = 'vim.cmd[[call doge#install()]]',
 		})
 
-        use 'RishabhRD/popfix' -- cheat.sh integration for neovim in elegant way
-        use 'RishabhRD/nvim-cheat.sh'
+		-- NOTE: Indenting
+		use('Darazaki/indent-o-matic') --Faster than vim-sleuth. Detects indent based on file. No performance impact
+
+		-- NOTE: Cheat sheets
+		use('RishabhRD/popfix') -- cheat.sh integration for neovim in elegant way
+		use('RishabhRD/nvim-cheat.sh')
 		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
-		--LANG PLUGS Language Servers / Linting / Snippets
-		use({
-			-- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
-			--  Shorten error/warning flags
-			'w0rp/ale',
-			config = function()
-				vim.api.nvim_exec(
-					[[
-                "let g:ale_echo_msg_error_str = 'A'
-                "let g:ale_echo_msg_warning_str = 'B'
-                "let g:ale_echo_msg_hint_str = 'C'
-                " I have some custom icons for errors and warnings but feel free to change them.
-                "⚠
-                let g:ale_sign_error = '✘'
-                let g:ale_sign_warning = ''
-                "let g:ale_sign_information = ''
-                "let g:ale_sign_error = '●'
-                "let g:ale_sign_warning = '.'
-                "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
-                ]],
-					false
-				)
-			end,
-		})
+
+		-- NOTE: LSP SERVERS
+		-- COQ
+		use({ 'ms-jpq/coq_nvim', branch = 'coq' }) -- main one
+		use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' }) -- 9000+ Snippets
+		--COMPE
+		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
+		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
+		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
+		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
+
+		--		use({
+		--			-- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
+		--			--  Shorten error/warning flags
+		--			'w0rp/ale',
+		--			config = function()
+		--				vim.api.nvim_exec(
+		--					[[
+		--                "let g:ale_echo_msg_error_str = 'A'
+		--                "let g:ale_echo_msg_warning_str = 'B'
+		--                "let g:ale_echo_msg_hint_str = 'C'
+		--                " I have some custom icons for errors and warnings but feel free to change them.
+		--                "⚠
+		--                let g:ale_sign_error = '✘'
+		--                let g:ale_sign_warning = ''
+		--                "let g:ale_sign_information = ''
+		--                "let g:ale_sign_error = '●'
+		--                "let g:ale_sign_warning = '.'
+		--                "let g:ale_lint_on_enter = 0 "Don't lint on enter hope this speeds things up/prevents lag
+		--                ]],
+		--					false
+		--				)
+		--			end,
+		--		})
+		--		use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
+
+		--NOTE: Treesitter
 		use({
 			'nvim-treesitter/nvim-treesitter',
 			branch = '0.5-compat',
@@ -287,6 +297,7 @@ require('packer').startup({
 		--   requires = "nvim-treesitter/nvim-treesitter"
 		-- }
 
+		-- NOTE: REPL
 		use({
 			-- OR https://github.com/hkupty/iron.nvim
 			--> A REPL Plugin to start / manage REPL
@@ -301,7 +312,7 @@ require('packer').startup({
 			end,
 		})
 
-		-- lang specific
+		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
 		-- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
 		-- browse JSON gennaro-tedesco/nvim-jqx
@@ -311,15 +322,6 @@ require('packer').startup({
 		-- REFACTORING https://github.com/ThePrimeagen/refactoring.nvim
 
 		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-		--COMPE
-		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
-		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
-		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
-		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
-		-- COQ
-		-- use { 'ms-jpq/coq_nvim', branch = 'coq'} -- main one
-		use({ 'ms-jpq/coq_nvim'})
-		use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' }) -- 9000+ Snippets
 		use('windwp/nvim-autopairs') -- compatible with COQ
 		--LSP
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
@@ -331,7 +333,6 @@ require('packer').startup({
 		-- use 'jubnzv/virtual-types.nvim'--> A Neovim plugin that shows type annotations as virtual text
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
-		-- use("nathunsmitty/nvim-ale-diagnostic") --> PIPE LSP DIAGS TO ALE
 		use('sbdchd/neoformat') -- Code formatting plugin
 		-- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
 		use({
@@ -344,6 +345,14 @@ require('packer').startup({
 
 		use('mizlan/iswap.nvim') --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things.
 
+		-- AUTO DETECT LANGUAGES IN NEW BUFFERS WITH NO FT SET
+		use({
+			'spywhere/detect-language.nvim',
+			config = function()
+				require('detect-language').setup({})
+			end,
+		})
+
 		-- LSP INSTALLERS
 		-- alexaandru/nvim-lspupdate OR kabouzeid/nvim-lspinstall
 
@@ -353,14 +362,6 @@ require('packer').startup({
 		-- https://github.com/rcarriga/nvim-dap-ui
 		-- https://github.com/theHamsta/nvim-dap-virtual-text
 
-		-- ROOT PATH .GIT ETC, ALSO A TELESCOPE EXTENSION TO DISPLAY PROJECTS PREVIOUSLY VISITED
-		use({
-			'ahmedkhalf/project.nvim',
-			config = function()
-				require('project_nvim').setup({})
-				require('telescope').load_extension('projects')
-			end,
-		})
 		-- use 'ygm2/rooter.nvim'
 		--[[ use {
             -- set cwd automatically
@@ -409,32 +410,11 @@ require('packer').startup({
 /_/       \____/   /____//____//_/          /_/       /___/   /_/ |_/   /_____/  /___/   /_/ |_/   \____/
 
 --]]
-		--FUZZY HELP MENU FOR FZF & VIM like ctrl+p
-		use({
-			'laher/fuzzymenu.vim',
-			config = function()
-				vim.api.nvim_exec(
-					[[
-                let g:fuzzymenu_position =  'window'
-                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
-                ]],
-					false
-				)
-			end,
-		})
+--	-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
 		-- FUZZY WILD MENU ENHANCEMENT
 		use('gelguy/wilder.nvim')
 		-- FAST FUZZY SEARCH
 		use({ 'camspiers/snap' })
-		-- FZF
-		use({
-			'junegunn/fzf',
-			-- run = function()
-			-- vim.fn["fzf#install"]()
-			-- end
-		})
-		-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
-		use({ 'junegunn/fzf.vim' })
 		-- TELESCOPE
 		use({
 			'nvim-telescope/telescope.nvim',
@@ -476,7 +456,47 @@ require('packer').startup({
 		})
 		use('nvim-telescope/telescope-fzy-native.nvim')
 		use('nvim-telescope/telescope-symbols.nvim')
+		-- ROOT PATH .GIT ETC, ALSO A TELESCOPE EXTENSION TO DISPLAY PROJECTS PREVIOUSLY VISITED
+		-- Telescope projects
+		use({
+			'ahmedkhalf/project.nvim',
+			config = function()
+				require('project_nvim').setup({})
+				require('telescope').load_extension('projects')
+			end,
+		})
 
+		-- Clipboard manager neovim plugin with telescope integration
+		-- :Telescope neoclip
+		use({
+			'AckslD/nvim-neoclip.lua',
+			config = function()
+				require('neoclip').setup()
+				require('telescope').load_extension('neoclip')
+			end,
+		})
+
+--		-- FZF
+--		use({
+--			'junegunn/fzf',
+--			-- run = function()
+--			-- vim.fn["fzf#install"]()
+--			-- end
+--		})
+--		use({ 'junegunn/fzf.vim' })
+--		--FUZZY HELP MENU FOR FZF & VIM like ctrl+p
+--		use({
+--			'laher/fuzzymenu.vim',
+--			config = function()
+--				vim.api.nvim_exec(
+--					[[
+--                let g:fuzzymenu_position =  'window'
+--                let g:fuzzymenu_size = {'height': 0.6, 'width': 0.9}
+--                ]],
+--					false
+--				)
+--			end,
+--		})
 		--[[
     ______    ____    __     ______           _   __    ___  _    __
    / ____/   /  _/   / /    / ____/          / | / /   /   || |  / /
@@ -586,7 +606,6 @@ require('packer').startup({
  / /  / /   _/ /    ___/ / / /___           / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 /_/  /_/   /___/   /____/  \____/          /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 --]]
-        use 'Darazaki/indent-o-matic' --Faster than vim-sleuth. Detects indent based on file. No performance impact
 		use('michaelb/vim-tips') -- Display vim tip at startup
 		use('sedm0784/vim-you-autocorrect') -- Vim autocorrection
 		use('ojroques/nvim-bufdel') --> Better buffer deletion defaults
@@ -602,12 +621,12 @@ require('packer').startup({
 				require('which-key').setup({})
 			end,
 		})
-        use ({
-            'antoinemadec/FixCursorHold.nvim',
-            config = function()
-                vim.g.cursorhold_updatetime = 100
-            end
-        })
+		use({
+			'antoinemadec/FixCursorHold.nvim',
+			config = function()
+				vim.g.cursorhold_updatetime = 100
+			end,
+		})
 
 		--[[
     ____     __    __  __   ______    ____    _   __   _____         ______    ______   _____  ______    ____    _   __   ______
@@ -620,6 +639,8 @@ require('packer').startup({
             's1n7ax/nvim-search-and-replace',
             setup = function() require'nvim-search-and-replace'.setup() end,
         } ]]
+		use('nvim-lua/plenary.nvim')
+		use('windwp/nvim-spectre')
 		use('MunifTanjim/nui.nvim') -- NOTE: We need this as its a dependency of something..
 		use('npxbr/glow.nvim') --> might ned to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
@@ -648,7 +669,7 @@ require('packer').startup({
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
 		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
-		use('andweeb/presence.nvim') -- discall mkdp#util#install()call mkdp#util#install()cord presence
+		-- use('andweeb/presence.nvim') -- discall mkdp#util#install()call mkdp#util#install()cord presence
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 		-- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe

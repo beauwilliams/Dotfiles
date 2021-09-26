@@ -37,6 +37,14 @@ local function setup()
 				'silent! normal! g`"zv',
 			},
 		},
+		ontextyank = {
+			{ 'TextYankPost', '*', 'silent! lua require"vim.highlight".on_yank()' },
+		},
+		disabledconfigs = {
+			{ 'BufNewFile,BufRead', '*.vimdisabled', ':set filetype=vim' },
+			{ 'BufNewFile,BufRead', '*.luadisabled', ':set filetype=lua' },
+			{ 'BufNewFile,BufRead', '*.jsondisabled', ':set filetype=json' },
+		},
 		-- wins = {
 		-- { 'BufWritePre', '*.py', 'undojoin | Neoformat'},
 		-- { 'BufWinEnter', '*', 'highlight ExtraWhitespace guifg=#666666' },

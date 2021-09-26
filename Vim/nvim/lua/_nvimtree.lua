@@ -19,6 +19,10 @@ g.nvim_tree_follow = 1
 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
 g.nvim_tree_git_hl = 1
 
+-- Updates nvimtree to current cwd always, and the cwd of buffer
+g.nvim_tree_update_cwd = 1
+g.nvim_tree_respect_buf_cwd = 1
+
 --TODO:
 exec([[highlight NvimTreeFolderName ctermfg=none guifg=none]], '')
 exec([[highlight NvimTreeRootFolder guifg = #fb4934]], '')

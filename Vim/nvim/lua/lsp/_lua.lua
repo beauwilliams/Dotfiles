@@ -37,8 +37,8 @@ end
 local sumneko_root_path = '/Users/admin/.langservers/sumneko_lua/lua-language-server'
 local sumneko_binary = sumneko_root_path .. '/bin/' .. system_name .. '/lua-language-server'
 local runtime_path = vim.split(package.path, ';')
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
+table.insert(runtime_path, 'lua/?.lua')
+table.insert(runtime_path, 'lua/?/init.lua')
 
 lsp.sumneko_lua.setup({
 	cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
@@ -65,7 +65,7 @@ lsp.sumneko_lua.setup({
 				-- Tell the language server which version of Lua you're using (LuaJIT in the case of Neovim)
 				version = 'LuaJIT',
 				-- Setup your lua path
-				path = runtime_path
+				path = runtime_path,
 			},
 			diagnostics = {
 				-- Get the language server to recognize the `vim` global
@@ -74,11 +74,13 @@ lsp.sumneko_lua.setup({
 			},
 			workspace = {
 				-- Make the server aware of Neovim runtime files
-                library = vim.api.nvim_get_runtime_file("", true),
-				--[[ library = {
+				-- vim.api.nvim_get_runtime_file("", true),
+				library = {
 					[vim.fn.expand('$VIMRUNTIME/lua')] = true,
 					[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
-				}, ]]
+					-- For when we want to write hammerspoon stuff
+					-- ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
+				},
 			},
 			-- Do not send telemetry data containing a randomized but unique identifier
 			telemetry = {

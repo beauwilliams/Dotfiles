@@ -7,6 +7,43 @@ local M = {}
 P = function(stuff)
 	return print(vim.inspect(stuff))
 end
+-- help to inspect results, e.g.:
+-- ':lua _G.dump(vim.fn.getwininfo())'
+function _G.dump(...)
+	local objects = vim.tbl_map(vim.inspect, { ... })
+	print(unpack(objects))
+end
+
+function _G.reload(package)
+	package.loaded[package] = nil
+	return require(package)
+end
+
+local M = {}
+
+function M._echo_multiline(msg)
+	for _, s in ipairs(vim.fn.split(msg, '\n')) do
+		vim.cmd("echom '" .. s:gsub("'", "''") .. "'")
+	end
+end
+
+function M.info(msg)
+	vim.cmd('echohl Directory')
+	M._echo_multiline(msg)
+	vim.cmd('echohl None')
+end
+
+function M.warn(msg)
+	vim.cmd('echohl WarningMsg')
+	M._echo_multiline(msg)
+	vim.cmd('echohl None')
+end
+
+function M.err(msg)
+	vim.cmd('echohl ErrorMsg')
+	M._echo_multiline(msg)
+	vim.cmd('echohl None')
+end
 
 function M.set_options(locality, options)
 	local scopes = { o = vim.o, b = vim.bo, g = vim.g, w = vim.wo }
@@ -42,6 +79,10 @@ end
 
 function M.tnoremap(input, output)
 	M.noremap('t', input, output)
+end
+
+function M.cnoremap(input, output)
+	M.noremap('c', input, output)
 end
 
 function M.nmap(input, output)
@@ -304,6 +345,75 @@ function M.hiLinks(hi_table)
 	for src, dest in pairs(hi_table) do
 		M.hiLink(src, dest)
 	end
+end
+
+-- expand or minimize current buffer in a more natural direction (tmux-like)
+-- ':resize <+-n>' or ':vert resize <+-n>' increases or decreasese current
+-- window horizontally or vertically. When mapped to '<leader><arrow>' this
+-- can get confusing as left might actually be right, etc
+-- the below can be mapped to arrows and will work similar to the tmux binds
+-- map to: "<cmd>lua require'utils'.resize(false, -5)<CR>"
+M.resize = function(vertical, margin)
+	local cur_win = vim.api.nvim_get_current_win()
+	-- go (possibly) right
+	vim.cmd(string.format('wincmd %s', vertical and 'l' or 'j'))
+	local new_win = vim.api.nvim_get_current_win()
+
+	-- determine direction cond on increase and existing right-hand buffer
+	local not_last = not (cur_win == new_win)
+	local sign = margin > 0
+	-- go to previous window if required otherwise flip sign
+	if not_last == true then
+		vim.cmd([[wincmd p]])
+	else
+		sign = not sign
+	end
+
+	sign = sign and '+' or '-'
+	local dir = vertical and 'vertical ' or ''
+	local cmd = dir .. 'resize ' .. sign .. math.abs(margin) .. '<CR>'
+	vim.cmd(cmd)
+end
+
+M.sudo_exec = function(cmd, print_output)
+	local password = vim.fn.inputsecret('Password: ')
+	if not password or #password == 0 then
+		M.warn('Invalid password, sudo aborted')
+		return false
+	end
+	local out = vim.fn.system(string.format("sudo -p '' -S %s", cmd), password)
+	if vim.v.shell_error ~= 0 then
+		print('\r\n')
+		M.err(out)
+		return false
+	end
+	if print_output then
+		print('\r\n', out)
+	end
+	return true
+end
+
+M.sudo_write = function(tmpfile, filepath)
+	if not tmpfile then
+		tmpfile = vim.fn.tempname()
+	end
+	if not filepath then
+		filepath = vim.fn.expand('%')
+	end
+	if not filepath or #filepath == 0 then
+		M.err('E32: No file name')
+		return
+	end
+	-- `bs=1048576` is equivalent to `bs=1M` for GNU dd or `bs=1m` for BSD dd
+	-- Both `bs=1M` and `bs=1m` are non-POSIX
+	local cmd = string.format('dd if=%s of=%s bs=1048576', vim.fn.shellescape(tmpfile), vim.fn.shellescape(filepath))
+	-- no need to check error as this fails the entire function
+	vim.api.nvim_exec(string.format('write! %s', tmpfile), true)
+	if M.sudo_exec(cmd) then
+		M.info(string.format('\r\n"%s" written', filepath))
+		vim.cmd('e!')
+	end
+	vim.fn.delete(tmpfile)
 end
 
 return M

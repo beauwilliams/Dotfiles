@@ -321,7 +321,7 @@ local servers_rootcwd = {
 	'metals',
 	'vimls',
 	'jsonls',
-    'solang' -- solidity
+	'solang', -- solidity
 }
 
 for _, server in ipairs(servers_rootcwd) do

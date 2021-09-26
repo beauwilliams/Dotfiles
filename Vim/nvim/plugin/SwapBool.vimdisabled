@@ -1,0 +1,14 @@
+function SwapBool ()
+  let s:w = expand("<cword>")
+  if s:w == "false"
+    normal ciwtrue
+    if expand("<cword>") != "true"
+      normal u
+    endif
+  elseif s:w == "true"
+    normal ciwfalse
+    if expand("<cword>") != "false"
+      normal u
+    endif
+  endif
+endfunction

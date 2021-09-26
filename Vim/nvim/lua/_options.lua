@@ -1,11 +1,3 @@
-local set_options = function(locality, options)
-	local scopes = { o = vim.o, b = vim.bo, g = vim.g, w = vim.wo }
-	local scope = scopes[locality]
-	for key, value in pairs(options) do
-		scope[key] = value
-	end
-end
-
 local utils = require('_utils')
 
 utils.set_options('g', {
@@ -16,6 +8,7 @@ utils.set_options('o', {
 	-- colorcolumn = 80, --80 column width marker for when we need it
 	-- signcolumn = "auto",
 	hlsearch = true, -- highlight matching search
+	wrapscan = true, -- begin search from top of the file when nothng is found
 	cursorline = true, -- enable cursorline
 	number = true, -- enable line numbers
 	signcolumn = 'number', -- show errors in number column
@@ -31,7 +24,7 @@ utils.set_options('o', {
 	showmatch = true, -- match opening and closing braces
 	showmode = false, -- turns off the --INSERT-- etc mode messages at very bottom
 	lazyredraw = true, -- hopefully this speeds up vim!
-	autoread = true, -- loads file as soon as there are changes on disk
+	--SET IN AutoRead.vim -- autoread = true, -- loads file as soon as there are changes on disk, not working when I do :Shell stylua .
 	wildmenu = true, -- enhanced tab completion for vim command bar
 	wildmode = 'list,full', -- Displays a handy list of commands we can tab thru"
 	hidden = true, -- ENABLE BUFFERS TO HIDE - PREVENTS ERROR: E37: No write since last change (add ! to override) When opening a new buffer before saving current one
@@ -40,6 +33,7 @@ utils.set_options('o', {
 	shortmess = 'aF', -- abreviates messages and prevents file name being echoed when opened
 	backspace = 'indent,eol,start', -- this makes backspace work as normal
 	scrolloff = 5, -- Set the cursor 5 lines down instead of at the top
+	sidescrolloff = 5, -- Set the cursor 5 lines down instead of at the top
 	sidescroll = 2, -- make scrolling better, instead of wrap we sroll horizontally with the cursor
 	wrap = false, -- dont wrap lines
 	encoding = 'UTF-8', -- REQUIRED BY DEV ICONS PLUGIN
@@ -50,7 +44,66 @@ utils.set_options('o', {
 	inccommand = 'nosplit', -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
 	clipboard = 'unnamed', -- share system clipboard but also retain nvim clipboard (see += compared
 	-- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
+	-- cpoptions = vim.o.cpoptions .. 'x', -- stay at seach item when <esc> (ENTERS COMMAND WHEN HIT ESC from : MODE, DONT USE)
 })
+
+-- Disable providers we do not care a about
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+
+-- Disable some in built plugins completely
+local disabled_built_ins = {
+	'netrw',
+	'netrwPlugin',
+	'netrwSettings',
+	'netrwFileHandlers',
+	'gzip',
+	'zip',
+	'zipPlugin',
+	'tar',
+	'tarPlugin',
+	'getscript',
+	'getscriptPlugin',
+	'vimball',
+	'vimballPlugin',
+	'2html_plugin',
+	'logipat',
+	'rrhelper',
+	'spellfile_plugin',
+	'matchit',
+	--'matchparen',
+}
+for _, plugin in pairs(disabled_built_ins) do
+	vim.g['loaded_' .. plugin] = 1
+end
+
+--[[ vim.g.markdown_fenced_languages = {
+  'vim',
+  'lua',
+  'cpp',
+  'sql',
+  'python',
+  'bash=sh',
+  'console=sh',
+  'javascript',
+  'typescript',
+  'js=javascript',
+  'ts=typescript',
+  'yaml',
+  'json',
+} ]]
+
+--[[ vim.opt.formatoptions = vim.opt.formatoptions
+  - "a" -- Auto formatting is BAD.
+  - "t" -- Don't auto format my code. I got linters for that.
+  + "c" -- In general, I like it when comments respect textwidth
+  + "q" -- Allow formatting comments w/ gq
+  - "o" -- O and o, don't continue comments
+  + "r" -- But do continue when pressing enter.
+  + "n" -- Indent past the formatlistpat, not underneath it.
+  + "j" -- Auto-remove comments if possible.
+  - "2" -- ?? ]]
 
 --[[ local options_buffer = {
 } ]]

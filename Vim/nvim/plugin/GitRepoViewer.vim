@@ -15,3 +15,4 @@ function! GitRepoView(url) abort
 endfunction
 
 command! -nargs=1 GitRepoView call GitRepoView(<q-args>)
+command! -nargs=1 GView call GitRepoView(<q-args>)

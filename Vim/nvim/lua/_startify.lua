@@ -1,3 +1,4 @@
+-- lua alternative goolord/alpha-nvim
 local g = vim.g
 local fn = vim.fn
 
