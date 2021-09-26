@@ -1,3 +1,8 @@
+#NEOVIM ORG MODE
+.norg
+
+
+
 # To set me up, run.. git config --global core.excludesFile '~/.config/git/.gitignore_global'
 *~
 #Ignoring my C completor conf
@@ -33,6 +38,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+#### scala ####
+#.bloop
+.metals
+/project/target
+/target
 #### python ####
 # Byte-compiled / optimized / DLL files
 __pycache__/
