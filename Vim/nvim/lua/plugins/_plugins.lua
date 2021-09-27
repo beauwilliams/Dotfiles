@@ -119,7 +119,7 @@ require('packer').startup({
 				require('focus').setup({
 					tmux = false,
 					hybridnumber = true,
-					excluded_filetypes = { 'toggleterm', 'fterm', 'term' },
+					excluded_filetypes = { 'fterm', 'term' },
 					signcolumn = 'number',
 					bufnew = true,
 				})
@@ -172,6 +172,7 @@ require('packer').startup({
 				})
 			end,
 		})
+
 
 		--[[
   ______   ____    ____     __  _       __    ____    _   __    ____    ____  _       __
@@ -348,7 +349,7 @@ require('packer').startup({
 		--   "nvim-treesitter/playground",
 		--   requires = "nvim-treesitter/nvim-treesitter"
 		-- }
-
+		use 'David-Kunz/treesitter-unit' -- use iu au to select units of code
 		use('mizlan/iswap.nvim') --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things. ]]
 		--[[
     ______   __  __ _____ _______  __           ______    ____    _   __    ____     ____    _   __   ______

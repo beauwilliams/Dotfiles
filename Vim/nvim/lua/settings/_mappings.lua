@@ -128,6 +128,8 @@ vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.formatting()')
 
 -- SEARCH AND REPLACE
 -- replace word under cursor
+utils.nnoremap(leader..'r', ':lua require("spectre").open()<cr>')
+utils.vnoremap(leader..'r', ':lua require("spectre").open()<cr>')
 utils.nnoremap('R', ':%s/\\<<C-r><C-w>\\>//g<Left><Left><C-r><C-w>')
 -- Replace/Delete words quick! ONE BY ONE.
 -- c. c, d. d,
@@ -389,20 +391,20 @@ utils.nnoremap(leader .. '6', ':GitMessenger<CR>') -- "SHOW GIT COMMIT / GIT BLA
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --LSP MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
-utils.nnoremap('K', ':lua vim.lsp.buf.hover()<CR>')
+--utils.nnoremap('.', ':lua vim.lsp.buf.hover()<CR>')
 -- vim.cmd[[autocmd CursorHold * silent :lua vim.lsp.buf.hover()]] -- NOTE: Auto open on hover
-utils.nnoremap("'gd", ':lua vim.lsp.buf.definition()<CR>')
-utils.nnoremap("'gr", ":lua require'telescope.builtin'.lsp_references()<CR>")
-utils.nnoremap("'gs", ':Telescope lsp_workspace_symbols')
-utils.nnoremap("'gw", ':lua vim.lsp.buf.workspace_symbol()<CR>')
-utils.nnoremap("'rn", ':lua vim.lsp.buf.rename()<CR>')
-utils.nnoremap("'ft", ':lua vim.lsp.buf.formatting()<CR>')
-utils.nnoremap("'dn", ':lua vim.lsp.diagnostic.goto_next()<CR>')
-utils.nnoremap("'dp", ':lua vim.lsp.diagnostic.goto_prev()<CR>')
-utils.nnoremap("'gh", ':lua vim.lsp.buf.signature_help()<CR>')
-utils.nnoremap("'ca", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps find eg lua
-utils.nnoremap("'gt", ':lua vim.lsp.buf.type_definition()<CR>')
-utils.nnoremap("'gi", ':lua vim.lsp.buf.implementation()<CR>')
+utils.nnoremap(".g", ':lua vim.lsp.buf.definition()<CR>')
+utils.nnoremap(".r", ":lua require'telescope.builtin'.lsp_references()<CR>")
+utils.nnoremap(".sw", ':Telescope lsp_workspace_symbols<CR>')
+utils.nnoremap(".sd", ':Telescope lsp_document_symbols<CR>')
+-- utils.nnoremap(".rn", ':lua vim.lsp.buf.rename()<CR>')
+utils.nnoremap(".f", ':lua vim.lsp.buf.formatting()<CR>')
+utils.nnoremap(".d", ':lua vim.lsp.diagnostic.goto_next()<CR>')
+utils.nnoremap(".D", ':lua vim.lsp.diagnostic.goto_prev()<CR>')
+utils.nnoremap(".h", ':lua vim.lsp.buf.signature_help()<CR>')
+utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps fine eg lua
+utils.nnoremap(".t", ':lua vim.lsp.buf.type_definition()<CR>')
+utils.nnoremap(".i", ':lua vim.lsp.buf.implementation()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -476,6 +478,10 @@ vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = t
 --TREESITTER MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --smart_rename = "'rn",
+vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
+vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
+vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------

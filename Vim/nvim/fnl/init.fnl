@@ -1,4 +1,7 @@
 ;inspo https://github.com/Gavinok/dotneovim/blob/main/fnl/init.fnl
+;https://github.com/tsbohc/.garden/tree/master/etc/nvim/config/fnl
+
+;frameworks: hotpot, aniseed, zest
 ; (fn init []
   ;CORE
   (require :impatient ) ;Speed up require caching

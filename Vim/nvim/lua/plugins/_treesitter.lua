@@ -66,7 +66,7 @@ tsconf.setup({
 			enable = true,
 			keymaps = {
 				-- mapping to rename reference under cursor
-				smart_rename = '<leader>r',
+				-- smart_rename = '<leader>r',
 			},
 		},
 	},
