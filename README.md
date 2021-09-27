@@ -14,11 +14,17 @@ _Thank you_ :smile:
 
 ## Key Neovim Features
 
-#### Open files quick!! FZF and Ripgrep - Easy Window Splitting. All a couple of keystrokes away. Who needs file explorers.
+#### Lua utils library
 
-#### Excellent and fast LSP with COC.nvim. Java support is fantastic, despite often being a struggle without a heavy IDE. Easy to install languages on the fly.
+#### My own help file and tags generator
 
-#### Plus gnarly Git integrations, start screen, minimal UX and soft UI and more!
+#### Snippets library
+
+#### Cool Vimscript and Lua functions
+
+#### Telescope and many other awesome plugins configured
+
+#### IDE like experience
 
 #### Now featuring a parser based treesitter for syntax highlighting and other goodies.
 
