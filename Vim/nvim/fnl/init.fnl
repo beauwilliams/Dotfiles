@@ -1,3 +1,4 @@
+;inspo https://github.com/Gavinok/dotneovim/blob/main/fnl/init.fnl
 ; (fn init []
   ;CORE
   (require :impatient ) ;Speed up require caching
@@ -19,6 +20,8 @@
    (set statusline.enable true)
    (set statusline.lsp_diagnostics true)
    (set statusline.ale_diagnostics false)
+;   (a.assoc vim.o
+;         :mouse          :a)
   statusline
   ; )
 ; (init)

@@ -38,7 +38,7 @@ utils.set_options('o', {
 	wrap = false, -- dont wrap lines
 	encoding = 'UTF-8', -- REQUIRED BY DEV ICONS PLUGIN
 	history = 200, -- keep 200 hungy commands in the stash
-	updatetime = 200, -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+	updatetime = 100, -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
 	timeoutlen = 400, -- faster timeout wait time
 	spelllang = 'en', -- Set NEOVIMS NATIVE spell lang for spellchecker
 	inccommand = 'nosplit', -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.

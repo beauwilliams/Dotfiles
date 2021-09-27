@@ -457,7 +457,10 @@ require('packer').startup({
 / /_/ /   _/ /    / /            / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /
 \____/   /___/   /_/            /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/
 ]]
-		-- use 'beauwilliams/nvim-blamer.lua' --> MY CUSTOM GIT BLAME PLUGIN
+		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
+		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
+		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen] (better than signify)
+		use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
 		use({
 			'beauwilliams/blamer.nvim',
 			branch = 'patch-1',
@@ -475,17 +478,13 @@ require('packer').startup({
 				-- :Octo issue, :Octo pr ...
 			end,
 		})
-		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
-		use({
+		use('ThePrimeagen/git-worktree.nvim') -- Adds neovim integration with worktrees and telescope
+		--[[ use({
 			'rhysd/git-messenger.vim', -- :GitMessenger
 			setup = function()
 				vim.g.git_messenger_no_default_mappings = true
 			end,
-		})
-		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
-		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen]
-		use('ThePrimeagen/git-worktree.nvim') -- Adds neovim integration with worktrees and telescope
-		-- https://github.com/tanvirtin/vgit.nvim - visual git for neovim
+		}) ]]
 
 		--[[
     __  ___   ____   ______    ____   ____     _   __   _____

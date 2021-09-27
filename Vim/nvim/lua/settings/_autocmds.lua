@@ -22,6 +22,7 @@ local function setup()
 		onwrite = {
 			{ 'BufWritePre', '*', ':call TrimWhitespace()' },
 			{ 'BufWritePost', '~/.config/nvim/*.{vim,lua}', 'so $MYVIMRC' },
+			{ 'BufWritePost', '~/.config/nvim/*.{fnl}', 'make' },
 		},
 		onread = {
 			-- Open non vim files (binaries etc) in their respective applications
