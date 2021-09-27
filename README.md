@@ -31,7 +31,7 @@ Demonstrated here with a minified CSS file. We can see easily the limits of rege
 
 # Plus tons of awesome shell scripts. Enhanced rm, cd and more. Git commands + FZF + Shell awesomeness = productivity level over 9000.
 
-#### FZF Enhanced. Delete multiple files at once interactively!
+#### FZF Enhanced rm. Delete multiple files at once interactively!
 
 ![](https://i.ibb.co/7btCjfj/Screen-Shot-2021-09-28-at-8-18-45-am.png)
 
