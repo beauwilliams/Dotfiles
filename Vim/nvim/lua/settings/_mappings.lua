@@ -101,9 +101,22 @@ utils.nnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
 utils.vnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
 
 -- DOCUMENTATION GENERATION
+vim.cmd('let g:doge_enable_mappings=0') -- disable leader-d default
 utils.nnoremap(leader .. 'D', ':DogeGenerate<cr>')
 utils.vnoremap(leader .. 'D', ':DogeGenerate<cr>')
 vim.cmd([[cnoreabbrev dgen DogeGenerate]])
+
+-- DIFFVIEW
+utils.nnoremap(leader .. 'd', ':DiffviewOpen<cr>')
+utils.vnoremap(leader .. 'd', ':DiffviewOpen<cr>')
+vim.cmd([[cnoreabbrev diff DiffviewOpen]])
+
+-- GIT (MAGIT/NEOGIT)
+utils.nnoremap(leader .. 'g', ':Neogit<cr>')
+utils.vnoremap(leader .. 'g', ':Neogit<cr>')
+--Fugitive Shortcut
+vim.cmd([[cnoreabbrev git Git]])
+
 
 -- CODE FORMATTERS
 --Remove indents from code! (a simple code formatter)
