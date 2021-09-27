@@ -1,0 +1,29 @@
+-- local M = {}
+
+require('finit') -- HALVES STARTUP TIME MUST BE RUN JUST AFTER PLUGINS
+
+
+-- local init = function()
+	-- MY CONFS
+	-- require('impatient')
+	-- require('settings._mappings')
+
+	--Utils
+	-- require('utils._utils')
+
+	--PLUGINS
+	-- require('plugins._discord')
+
+	--LSP
+	-- require('lsp._lsp_config')
+
+	--Statusline (My plugin :D)
+	--[[ local statusline = require('statusline')
+	statusline.tabline = true
+	statusline.lsp_diagnostics = true
+	statusline.ale_diagnostics = false ]]
+-- end
+
+-- init() --> Load our confs
+
+-- return M

@@ -1,6 +1,4 @@
 
-
-
 "DEBUG
 function! Test()
     echo "test"

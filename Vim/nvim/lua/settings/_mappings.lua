@@ -1,7 +1,7 @@
 --TODO: Implement https://github.com/b0o/mapx.nvim
 --Also add whichkey support
 
-local utils = require('libraries._utils')
+local utils = require('utils._utils')
 local leader = '<space>'
 local g = vim.g
 local api = vim.api
@@ -22,7 +22,7 @@ cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 --Toggle between 0 and ^ with JUST 0 =D. Does not work well with wrap off and side scrolling..
 -- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 --i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
-utils.map("n", leader..leader, ":")
+utils.map('n', leader .. leader, ':')
 
 --KOMMENTARY MAPPINGS, COMMENT WITH CMD+/
 utils.nmap('++', '<Plug>kommentary_line_default')
@@ -229,7 +229,7 @@ vim.cmd('cnoreabbrev spelladd spell')
 
 -- Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
 -- utils.cnoremap('w!!', "<esc>:lua require'_utils'.sudo_write()<CR>")
-vim.cmd('cnoreabbrev w!! lua require"libraries._utils".sudo_write()')
+vim.cmd('cnoreabbrev w!! lua require"utils._utils".sudo_write()')
 -- vim.cmd('cnoreabbrev w!! SudaWrite')
 
 -- MARKDOWN RENDERER [glow.nvim]
@@ -262,19 +262,19 @@ cmd([[cnoreabbrev pcl PackerClean]])
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 
 utils.nnoremap(
-	leader .. 'f',
+	leader .. 's',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'f',
+	leader .. 's',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 utils.nnoremap(
-	leader .. 'F',
+	leader .. 'S',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'F',
+	leader .. 'S',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
@@ -298,15 +298,15 @@ utils.vnoremap(
 utils.nnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.nnoremap(
-	leader .. 'g',
+	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'g',
+	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
-utils.nnoremap(leader .. 'p', ":Telescope projects<cr>")
-utils.vnoremap(leader .. 'p', ":Telescope projects<cr>")
+utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
+utils.vnoremap(leader .. 'p', ':Telescope projects<cr>')
 cmd('cnoreabbrev <silent>tel Telescope')
 cmd('cnoreabbrev <silent>clip Telescope neoclip')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")

@@ -13,7 +13,10 @@ call wilder#set_option('pipeline', [
       \       'dir_command': ['find', '.', '-type', 'd', '-printf', '%P\n'],
       \       'filters': ['fuzzy_filter', 'difflib_sorter'],
       \     }),
-      \     wilder#cmdline_pipeline(),
+      \     wilder#cmdline_pipeline({
+      \       'fuzzy': 1,
+      \       'fuzzy_filter': wilder#vim_fuzzy_filter(),
+      \ }),
       \     wilder#python_search_pipeline({
       \       'pattern': 'fuzzy',
       \     }),

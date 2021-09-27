@@ -12,23 +12,11 @@ local vim = vim
 local fn = vim.fn
 local api = vim.api
 local cwd = vim.loop.cwd
-local lsp_status = require('lsp-status')
 local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
 
--- local utils = require('libraries._utils')
--- local saga = require 'lspsaga'
-
---Configure the exclusion pattterns
---[[
-local exclude_patterns = {
-  '**/node_modules/**/*',
-  '**/bin/**/*',
-  '**/obj/**/*',
-  '/tmp/**/*'
-}]]
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
@@ -40,22 +28,7 @@ local exclude_patterns = {
                     /_/                                     /_/
 --]]
 -- require("_compe") --> We load custom compe init in lua._compe.lua
-require('plugins._coq') --> We load custom coq init in lua._clspoq.lua
-
----------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------
---[[
-    __  __     __                   ______                 __  _
-   / / / /__  / /___  ___  _____   / ____/_  ______  _____/ /_(_)___  ____  _____
-  / /_/ / _ \/ / __ \/ _ \/ ___/  / /_  / / / / __ \/ ___/ __/ / __ \/ __ \/ ___/
- / __  /  __/ / /_/ /  __/ /     / __/ / /_/ / / / / /__/ /_/ / /_/ / / / (__  )
-/_/ /_/\___/_/ .___/\___/_/     /_/    \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
-            /_/
---]]
---A custom mapper function to make mapping our lsp functions to vim key sequences less verbose
-local mapper = function(mode, key, result)
-	api.nvim_buf_set_keymap(0, mode, key, '<cmd>lua ' .. result .. '<cr>', { noremap = true, silent = true })
-end
+require('plugins._coq') --> We load custom coq init in lua._coq.lua
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -96,8 +69,8 @@ vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagn
 	update_in_insert = false,
 })
 
+-- SET DIAG SIGNS
 local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
-
 for type, icon in pairs(signs) do
 	local hl = 'LspDiagnosticsSign' .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
@@ -105,93 +78,8 @@ end
 -- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
 -- vim.cmd [[let g:ale_linters = {'python': []}]]
 
--- DISPLAY DIAGNOSTICS IN THE COMMAND BAR
--- Location information about the last message printed. The format is
--- `(did print, buffer number, line number)`.
-local last_echo = { false, -1, -1 }
-
--- The timer used for displaying a diagnostic in the commandline.
-local echo_timer = nil
-
--- The timer after which to display a diagnostic in the commandline.
-local echo_timeout = 250
-
--- The highlight group to use for warning messages.
-local warning_hlgroup = 'WarningMsg'
-
--- The highlight group to use for error messages.
-local error_hlgroup = 'ErrorMsg'
-
--- If the first diagnostic line has fewer than this many characters, also add
--- the second line to it.
-local short_line_limit = 20
-
--- Shows the current line's diagnostics in a floating window.
-function show_line_diagnostics()
-	vim.lsp.diagnostic.show_line_diagnostics({ severity_limit = 'Warning' }, vim.fn.bufnr(''))
-end
-
--- Prints the first diagnostic for the current line.
-function echo_diagnostic()
-	if echo_timer then
-		echo_timer:stop()
-	end
-
-	echo_timer = vim.defer_fn(function()
-		local line = vim.fn.line('.') - 1
-		local bufnr = vim.api.nvim_win_get_buf(0)
-
-		if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then
-			return
-		end
-
-		local diags = vim.lsp.diagnostic.get_line_diagnostics()
-
-		if #diags == 0 then
-			-- If we previously echo'd a message, clear it out by echoing an empty
-			-- message.
-			if last_echo[1] then
-				last_echo = { false, -1, -1 }
-
-				vim.api.nvim_command('echo ""')
-			end
-
-			return
-		end
-
-		last_echo = { true, bufnr, line }
-
-		local diag = diags[1]
-		local width = vim.api.nvim_get_option('columns') - 15
-		local lines = vim.split(diag.message, '\n')
-		local message = lines[1]
-		local trimmed = false
-
-		if #lines > 1 and #message <= short_line_limit then
-			message = message .. ' ' .. lines[2]
-		end
-
-		if width > 0 and #message >= width then
-			message = message:sub(1, width) .. '...'
-		end
-
-		local kind = 'warning'
-		local hlgroup = warning_hlgroup
-
-		if diag.severity == vim.lsp.protocol.DiagnosticSeverity.Error then
-			kind = 'error'
-			hlgroup = error_hlgroup
-		end
-
-		local chunks = {
-			{ kind .. ': ', hlgroup },
-			{ message },
-		}
-
-		vim.api.nvim_echo(chunks, false, {})
-	end, echo_timeout)
-end
-vim.cmd('autocmd CursorMoved * :lua echo_diagnostic()')
+-- DISPLAY LSP DIAGS IN COMMAND LINE
+vim.cmd('autocmd CursorMoved * :lua require("utils._lsp").echo_diagnostic()')
 
 --CAPABILITIES
 Custom_capabilities = function()
@@ -201,13 +89,6 @@ Custom_capabilities = function()
 	coq.lsp_ensure_capabilities()
 	return capabilities
 end
-
--- Statusline
---lsp_status.config({
---kind_labels = vim.g.completion_customize_lsp_label
---})
---not sure what this is for i think for progresss bars on statusline
--- lsp_status.register_progress()
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -223,25 +104,13 @@ end
 custom_attach =
 	function(client, bufnr) --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
 		-- INITS
+		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
+		require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
+		require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
 		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
 		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
-		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
-		lsp_status.on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-		require('lsp_signature').on_attach(client) --> Signature popups and info
-		local basics = require('lsp_basics')
-		basics.make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+		-- require('lsp_signature').on_attach(client) --> Signature popups and info
 		-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
-		-- basics.make_lsp_mappings(client, bufnr)
-		--[[ lsp_status.config(
-        {
-            status_symbol = "LSP ",
-            indicator_errors = "E",
-            indicator_warnings = "W",
-            indicator_info = "I",
-            indicator_hint = "H",
-            indicator_ok = "ok"
-        }
-    ) ]]
 		-- saga.init_lsp_saga() --> SETS UP SAGA ENHANCED LSP UX, REVISIT LATER
 	end
 
@@ -251,22 +120,6 @@ custom_init = function()
 	-- SWAG
 	print("LSP Started.. Let's get this bread")
 end
-
---ERROR HANDLING INSPO
---if has_status then
---lsp_status.on_attach(client)
---end
-
---if has_diagnostic then
---diagnostic.on_attach()
---end
-
---if has_completion then
---completion.on_attach({
---sorter = 'alphabet',
---matcher = {'exact', 'fuzzy'}
---})
---end
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -345,63 +198,6 @@ vim.cmd(
 -- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 
 ---------------------------------------------------------------------------------------
---[[
-       __
-      / /___ __   ______ _
- __  / / __ `/ | / / __ `/
-/ /_/ / /_/ /| |/ / /_/ /
-\____/\__,_/ |___/\__,_/
---]]
-
---[[ require'lspconfig'.java_language_server.setup{
-    on_attach = custom_attach,
-    on_init = custom_init,
-    root_dir = cwd,
-    cmd = "~/.config/nvim/.langservers/java-language-server/dist/lang_server_mac.sh",
-    -- capabilities = Custom_capabilities()
-} ]]
-
---NOTE: NOT WORKING
---lsp.jdtls.setup{}
---lsp.jdtls.setup {on_attach = custom_attach,
---root_dir = cwd
---}
-
---configs.jdtls.handlers == {
---['client/registerCapability'] = function(_, _, _, _)
---return {
---result = nil
---error = nil;
---}
---end
---},
-
---root_dir = lsp.util.root_pattern('.git', 'pom.xml', 'build.xml')
-
---local root_pattern = lsp.util.root_pattern
-
---lsp.jdtls.setup{
---root_dir = root_pattern(".git"),
---on_attach = custom_attach,
---capabilities = capabilities,
---}
-
---local function root_patterns(...)
---local searchers = {}
-
---for _, patterns in ipairs({...}) do
---local searcher = root_pattern(unpack(patterns))
---searchers[#searchers + 1] = searcher
---end
-
---return function(startpath)
---for _, searcher in ipairs(searchers) do
---local root = searcher(startpath)
---if root then return root end
---end
---end
---end
-
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -415,7 +211,50 @@ vim.cmd(
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
+
+--TODO: Add error handling?
+--ERROR HANDLING INSPO
+--if has_status then
+--lsp_status.on_attach(client)
+--end
+
+--if has_diagnostic then
+--diagnostic.on_attach()
+--end
+
+--if has_completion then
+--completion.on_attach({
+--sorter = 'alphabet',
+--matcher = {'exact', 'fuzzy'}
+--})
+--end
+
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+--[[
+    __  __     __                   ______                 __  _
+   / / / /__  / /___  ___  _____   / ____/_  ______  _____/ /_(_)___  ____  _____
+  / /_/ / _ \/ / __ \/ _ \/ ___/  / /_  / / / / __ \/ ___/ __/ / __ \/ __ \/ ___/
+ / __  /  __/ / /_/ /  __/ /     / __/ / /_/ / / / / /__/ /_/ / /_/ / / / (__  )
+/_/ /_/\___/_/ .___/\___/_/     /_/    \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
+            /_/
+--]]
+--A custom mapper function to make mapping our lsp functions to vim key sequences less verbose
+--[[ local mapper = function(mode, key, result)
+	api.nvim_buf_set_keymap(0, mode, key, '<cmd>lua ' .. result .. '<cr>', { noremap = true, silent = true })
+end ]]
+
 -- NOTE: Below is just some stuff I will keep for review later / found interesting
+
+--Configure the exclusion pattterns
+--[[
+local exclude_patterns = {
+  '**/node_modules/**/*',
+  '**/bin/**/*',
+  '**/obj/**/*',
+  '/tmp/**/*'
+}]]
+
 --local configs = require('lspconfig/configs')
 
 --root_dir = vim.loop.cwd
@@ -742,3 +581,60 @@ vim.cmd(
     on_attach = on_attach
   }
 end--]]
+
+--[[
+       __
+      / /___ __   ______ _
+ __  / / __ `/ | / / __ `/
+/ /_/ / /_/ /| |/ / /_/ /
+\____/\__,_/ |___/\__,_/
+--]]
+
+--[[ require'lspconfig'.java_language_server.setup{
+    on_attach = custom_attach,
+    on_init = custom_init,
+    root_dir = cwd,
+    cmd = "~/.config/nvim/.langservers/java-language-server/dist/lang_server_mac.sh",
+    -- capabilities = Custom_capabilities()
+} ]]
+
+--NOTE: NOT WORKING
+--lsp.jdtls.setup{}
+--lsp.jdtls.setup {on_attach = custom_attach,
+--root_dir = cwd
+--}
+
+--configs.jdtls.handlers == {
+--['client/registerCapability'] = function(_, _, _, _)
+--return {
+--result = nil
+--error = nil;
+--}
+--end
+--},
+
+--root_dir = lsp.util.root_pattern('.git', 'pom.xml', 'build.xml')
+
+--local root_pattern = lsp.util.root_pattern
+
+--lsp.jdtls.setup{
+--root_dir = root_pattern(".git"),
+--on_attach = custom_attach,
+--capabilities = capabilities,
+--}
+
+--local function root_patterns(...)
+--local searchers = {}
+
+--for _, patterns in ipairs({...}) do
+--local searcher = root_pattern(unpack(patterns))
+--searchers[#searchers + 1] = searcher
+--end
+
+--return function(startpath)
+--for _, searcher in ipairs(searchers) do
+--local root = searcher(startpath)
+--if root then return root end
+--end
+--end
+--end
