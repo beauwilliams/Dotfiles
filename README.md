@@ -10,6 +10,8 @@ Here is my collection configs for zsh, fzf, neovim and friends
 
 ## Key Neovim Features
 
+#### Init written in fennel and compiled to lua
+
 #### Lua utils library
 
 #### My own help file and tags generator
@@ -20,7 +22,7 @@ Here is my collection configs for zsh, fzf, neovim and friends
 
 #### Telescope and many other awesome plugins configured
 
-#### IDE like experience
+#### IDE like experience + heaps of vim tricks
 
 #### Now featuring a parser based treesitter for syntax highlighting and other goodies.
 
