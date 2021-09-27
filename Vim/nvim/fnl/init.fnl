@@ -1,4 +1,4 @@
-(fn init []
+; (fn init []
   ;CORE
   (require :impatient ) ;Speed up require caching
   (require :settings._mappings )
@@ -19,6 +19,6 @@
    (set statusline.enable true)
    (set statusline.lsp_diagnostics true)
    (set statusline.ale_diagnostics false)
-
-  statusline)
-(init)
+  statusline
+  ; )
+; (init)
