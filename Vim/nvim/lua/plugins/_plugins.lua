@@ -449,6 +449,10 @@ require('packer').startup({
 		use({
 			'kyazdani42/nvim-tree.lua',
 			requires = { 'kyazdani42/nvim-web-devicons', opt = true },
+			cmd = 'NvimTreeToggle',
+			config = function()
+        require("nvim-tree").setup(require "plugins._nvimtree")
+			end
 		})
 
 		--[[
