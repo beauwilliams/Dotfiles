@@ -1,6 +1,7 @@
 #====================BEGIN ALIASES=======================================
 
 ###BOSS SHIT###
+alias nvimenv="~/.local/bin/nvim"
 alias n="nvim"
 alias vi="nvim"
 alias vim="nvim"

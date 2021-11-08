@@ -1,3 +1,7 @@
+#!/bin/bash
+#TODO: Set up forgit -> https://github.com/wfxr/forgit
+
+
 AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
 
 
@@ -16,7 +20,14 @@ fi
 
 
 ###CHEATSHEETS###
-cheat() { nvim -- ~/.cheatsheet/$1-cheatsheet.md; }
+function cheat() {
+    if [[ "$#" -eq 0 ]]; then
+        local selected=$(find ~/.cheatsheet -maxdepth 1 -type f | fzf --multi)
+        nvim -- ~/.cheatsheet/$selected-cheatsheet.md;
+    else
+        nvim -- ~/.cheatsheet/$1-cheatsheet.md;
+    fi
+}
 
 # Get cheat sheet of command from cheat.sh. h <cmd>
 h(){
@@ -40,15 +51,42 @@ function codepic() {
 }
 
 
-function rm {
+#!/bin/bash
+function rm() (
+    local FILES
+    local REPLY
+    local ERRORMSG
     if [[ "$#" -eq 0 ]]; then
-        local files
-        files=$(find . -maxdepth 1 -type f | fzf --multi)
-        echo $files | xargs -I '{}' rm {} #we use xargs so that filenames to capture filenames with spaces in them properly
+        echo -n "would you like to use the force young padawan? y/n: "
+        read REPLY
+        #prompt user interactively to select multiple files with tab + fuzzy search
+        FILES=$(find . -maxdepth 1 | fzf --multi)
+        #we use xargs to capture filenames with spaces in them properly
+        if [[ $REPLY =~ ^[Yy]$ ]] then
+            echo "using the force..."
+            echo $FILES | xargs -I '{}' rm -rf {}
+        else
+            echo $FILES | xargs -I '{}' rm {}
+        fi
+        echo "removed selected file/folder(s)"
     else
-        command rm "$@"
+        ERRORMSG=$(command rm "$@" 2>&1)
+        #if error msg is not empty, prompt the user
+        if [ ! -z "$ERRORMSG" ]
+        then
+            echo $ERRORMSG
+            echo -n "rm failed, would you like to use the force young padawan? y/n: "
+            read REPLY
+            if [[ $REPLY =~ ^[Yy]$ ]]
+            then
+                echo "using the force..."
+                command rm -rf "$@"
+            fi
+        else
+            echo "removed file/folder"
+        fi
     fi
-}
+)
 
 
 # Man without options will use fzf to select a page

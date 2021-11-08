@@ -190,6 +190,7 @@ export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Cours
 
 
 #SOLIDITY
+#NOTE: Use solc-select binary to change / install solidity versions
 export PATH="$PATH:$HOME/.langservers/solidity/llvm12.0/bin"
 export PATH="$PATH:$HOME/.langservers/solidity/"
 
