@@ -51,34 +51,31 @@ function codepic() {
 }
 
 
-#!/bin/bash
 function rm() (
     local FILES
     local REPLY
     local ERRORMSG
     if [[ "$#" -eq 0 ]]; then
         echo -n "would you like to use the force young padawan? y/n: "
-        read REPLY
+        read -r REPLY
         #prompt user interactively to select multiple files with tab + fuzzy search
         FILES=$(find . -maxdepth 1 | fzf --multi)
         #we use xargs to capture filenames with spaces in them properly
-        if [[ $REPLY =~ ^[Yy]$ ]] then
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "using the force..."
-            echo $FILES | xargs -I '{}' rm -rf {}
+            echo "$FILES" | xargs -I '{}' rm -rf {}
         else
-            echo $FILES | xargs -I '{}' rm {}
+            echo "$FILES" | xargs -I '{}' rm {}
         fi
         echo "removed selected file/folder(s)"
     else
         ERRORMSG=$(command rm "$@" 2>&1)
         #if error msg is not empty, prompt the user
-        if [ ! -z "$ERRORMSG" ]
-        then
-            echo $ERRORMSG
+        if [ -n "$ERRORMSG" ]; then
+            echo "$ERRORMSG"
             echo -n "rm failed, would you like to use the force young padawan? y/n: "
-            read REPLY
-            if [[ $REPLY =~ ^[Yy]$ ]]
-            then
+            read -r REPLY
+            if [[ "$REPLY" =~ ^[Yy]$ ]]; then
                 echo "using the force..."
                 command rm -rf "$@"
             fi
