@@ -1,4 +1,6 @@
-
+" set mmp=2000
+" set maxmempattern=5000
+" set re=0
 "DEBUG
 function! Test()
     echo "test"

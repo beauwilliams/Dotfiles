@@ -17,6 +17,7 @@ vim.cmd('set t_Co=256') -- "enabling 256 color support ]]
 
 vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark = 'soft'
+vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
 -- vim.g.gruvbox_sign_column = "bg0"
 vim.cmd('colorscheme gruvbox') -- must come after gruvbox_italic
 

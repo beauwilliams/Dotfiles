@@ -4,6 +4,7 @@
 local utils = require('utils._utils')
 local leader = '<space>'
 local g = vim.g
+---@diagnostic disable-next-line: unused-local
 local api = vim.api
 local cmd = vim.cmd
 
@@ -29,6 +30,7 @@ utils.nmap('++', '<Plug>kommentary_line_default')
 utils.vmap('++', '<Plug>kommentary_visual_default')
 
 -- F(ROM) and T(O) MAPPINGS
+---@diagnostic disable-next-line: lowercase-global
 function repeat_ft(reverse)
 	local ls = require('lightspeed')
 	ls.ft['instant-repeat?'] = true
@@ -44,7 +46,8 @@ vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true })
 
 -- Switch Between Buffers with backspace and retain cursor location and center to cursor
-vim.api.nvim_set_keymap('n', '<bs>', '<c-^>`”zz', { silent = true, noremap = true })
+vim.api.nvim_set_keymap('n', '<bs>', '<c-^>zz', { silent = true, noremap = true })
+-- vim.api.nvim_set_keymap('n', '<bs>', '<c-^>\'"zz', { silent = true, noremap = true })
 
 --Bring search results to middle of screen, zv at end makes this compatible with folds
 vim.api.nvim_set_keymap('n', 'n', 'nzzzv', { noremap = true })
@@ -64,6 +67,13 @@ vim.api.nvim_set_keymap('n', 'n', 'n:set hlsearch<cr>', { noremap = true, silent
 vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent = true })
 -- Clear highlights quick! Removed for above
 -- utils.nnoremap(leader .. "/", ":nohlsearch<cr>")
+
+vim.api.nvim_set_keymap('n', '<leader>o',
+  ':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
+  { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>O',
+  ':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
+  { noremap = true, silent = true })
 
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
 -- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
@@ -402,7 +412,8 @@ utils.nnoremap(".f", ':lua vim.lsp.buf.formatting()<CR>')
 utils.nnoremap(".d", ':lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.nnoremap(".D", ':lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.nnoremap(".h", ':lua vim.lsp.buf.signature_help()<CR>')
-utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps fine eg lua
+-- utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps fine eg lua
+utils.nnoremap(".c", ":CodeActionMenu<CR>")
 utils.nnoremap(".t", ':lua vim.lsp.buf.type_definition()<CR>')
 utils.nnoremap(".i", ':lua vim.lsp.buf.implementation()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------

@@ -14,3 +14,4 @@ endfunction
 
 command! -bang -nargs=1 Shell call <sid>RunInInteractiveShell(<f-args>, <bang>0)
 cnoreabbrev shell Shell
+cnoreabbrev cmd Shell

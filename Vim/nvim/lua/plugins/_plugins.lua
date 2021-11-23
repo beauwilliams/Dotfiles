@@ -121,6 +121,7 @@ require('packer').startup({
 					hybridnumber = true,
 					excluded_filetypes = { 'fterm', 'term' },
 					signcolumn = 'number',
+					absolutenumber = false,
 					bufnew = true,
 				})
 			end,
@@ -288,6 +289,10 @@ require('packer').startup({
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc
 		use({ 'ray-x/navigator.lua', requires = { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' } })
 		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
+		use({
+			'weilbith/nvim-code-action-menu',
+			cmd = 'CodeActionMenu',
+		})
 
 		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
@@ -313,6 +318,12 @@ require('packer').startup({
 
 		-- NOTE: Pair Programming
 		-- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
+
+		-- NOTE: Documentation search
+		use({
+			'mrjones2014/dash.nvim',
+			run = 'make install',
+		})
 
 		-- TODO: Review
 		-- use('ray-x/lsp_signature.nvim') --> LSP SignatureInformation
@@ -590,6 +601,15 @@ require('packer').startup({
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
+
+		--cmd line in center of display
+		use {
+			'VonHeikemen/fine-cmdline.nvim',
+			requires = {
+				{'MunifTanjim/nui.nvim'}
+			}
+		}
+
 		--[[ use {
             's1n7ax/nvim-search-and-replace',
             setup = function() require'nvim-search-and-replace'.setup() end,

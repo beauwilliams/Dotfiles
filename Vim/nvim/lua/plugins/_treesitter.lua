@@ -25,6 +25,7 @@ parser_configs.norg = {
 
 tsconf.setup({
 	ensure_installed = 'maintained', --> Installs ALL maintained packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
+	disable = {},
 	-- ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
 	autotag = {
 		-- NOTE: Not working https://github.com/windwp/nvim-ts-autotag
