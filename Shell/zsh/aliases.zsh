@@ -26,6 +26,8 @@ alias gitignore="nvim ~/.config/git/.gitignore_global"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
+alias start="./start.sh"
+alias deploy="./deploy.sh"
 
 
 
@@ -52,6 +54,7 @@ alias ....='cd ../../..'
 #alias bd="cd .."
 
 ###GIT ALIASES####
+alias ghelp="git help -a | fzf --reverse"
 alias gpo='git push -u origin HEAD'
 alias __git_find_subcommand='__git_find_on_cmdline'
 alias ga='git add'

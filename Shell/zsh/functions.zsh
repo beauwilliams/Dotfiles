@@ -3,6 +3,20 @@
 
 
 AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
+# morhetz/gruvbox theme for FZF
+export FZF_DEFAULT_OPTS='--color=bg+:#3c3836,bg:#32302f,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
+
+#Test if user has binary installed
+function hasBinary() (
+if cmd=$(command -v $1); then echo TRUE; else echo FALSE; fi
+)
+
+function getFZFPreviewer() (
+if [[ $(hasBinary bat) = TRUE ]]
+    then echo "bat --style=numbers --color=always --line-range :500 {}";
+    else echo "cat {}";
+fi
+)
 
 
 #List Awesome FZF Functions
@@ -56,11 +70,11 @@ function rm() (
     local REPLY
     local ERRORMSG
     if [[ "$#" -eq 0 ]]; then
-        echo -n "would you like to use the force young padawan? y/n: "
         read -r REPLY
         #prompt user interactively to select multiple files with tab + fuzzy search
         FILES=$(find . -maxdepth 1 | fzf --multi)
         #we use xargs to capture filenames with spaces in them properly
+        echo -n "would you like to use the force young padawan? y/n: "
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "using the force..."
             echo "$FILES" | xargs -I '{}' rm -rf {}
@@ -87,16 +101,24 @@ function rm() (
 
 
 # Man without options will use fzf to select a page
-function man(){
+function man() (
     MAN="/usr/bin/man"
     if [ -n "$1" ]; then
         $MAN "$@"
         return $?
     else
-        $MAN -k . | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN
+        $MAN -k . | fzf --reverse --prompt='Man> ' --preview="echo {1} | sed 's/(.*//' | xargs $MAN -P cat" | awk '{print $1}' | sed 's/(.*//' | xargs $MAN
         return $?
     fi
+)
+
+
+list_man() {
+  manlist=$(man -k . 2>/dev/null | awk 'BEGIN {FS=OFS="- "} /\([1|4]\)/ {gsub(/\([0-9]\)/, "", $1); if (!seen[$0]++) { print }}' | fzf --reverse --preview="echo {1,2} | sed 's/ (/./' | sed -E 's/\)\s*$//' | xargs $MAN" | awk '{print $1 "." $2}' | tr -d '()' | xargs -r $MAN) \
+    && man "$(echo "$manlist" | awk -F' |,' '{print $1}')" \
+    && unset manlist
 }
+
 #
 
 # Open current finder window in terminal
@@ -393,7 +415,7 @@ alias bu="brew-upgrade"
 
 #fuzzy finder and open in vim
 ff() {
-    execute-fzf "" $EDITOR
+    $EDITOR $(find * -type f | fzf --multi --reverse --preview "$(getFZFPreviewer)")
 }
 # cd into the directory of the selected file
 fz() {
@@ -592,6 +614,15 @@ fkill() {
         echo $pid | xargs kill -${1:-9}
     fi
 }
+
+# Restart my buggy mouse app
+restartmouse() (
+PID=`ps -eaf | grep LogiMgrDaemon | grep -v grep | awk '{print $2}'`
+if [[ "" !=  "$PID" ]]; then
+  echo "killing LogiMgrDaemon with PID $PID"
+  kill -9 $PID
+fi
+)
 
 #Zip files
 # archive() {
