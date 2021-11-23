@@ -17,6 +17,8 @@ vim:disableForApp('iTerm')
 vim:disableForApp('MacVim')
 vim:disableForApp('Terminal')
 
+-- enables a block cursor like vim
+vim:enableBetaFeature('block_cursor_overlay')
 
 -- Configure apps you do *not* want Vim mode enabled in
 -- For example, you don't want this plugin overriding your control of Terminal
@@ -43,8 +45,9 @@ vim:setAlertFont("Courier New")
 -- vim:enterWithSequence('jk')
 -- timeout after 100ms instead. this is a nicer default for `jk`, but needs to
 -- be more like 140ms for `jj` to be caught quickly enough.
-vim:enterWithSequence('jk', 300)
-vim:enterWithSequence('jj', 300)
+-- vim:enterWithSequence('escape')
+vim:enterWithSequence('jk', 200)
+vim:enterWithSequence('jj', 200)
 
 -- if you want to bind a single key to entering vim, remove the
 -- :enterWithSequence('jk') line above and uncomment the bindHotKeys line
