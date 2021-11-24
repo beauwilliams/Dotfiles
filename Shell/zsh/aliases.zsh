@@ -29,8 +29,6 @@ alias gitignore="nvim ~/.config/git/.gitignore_global"
 alias start="./start.sh"
 alias deploy="./deploy.sh"
 
-
-
 ###ZSH ###
 alias zshreload="source ~/.zshrc"
 alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not working
@@ -87,7 +85,6 @@ alias gup='git fetch && git rebase'
 alias gus='git reset HEAD'
 alias gw='git whatchanged'
 
-
 #Creating aliases for my dotfiles backup on github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="~/.config/zsh/merge-zsh.sh"
@@ -101,7 +98,7 @@ alias mergebrew="brew bundle dump --force"
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-alias finder="open `pwd`"
+alias finder="open $(pwd)"
 alias afk="open -a /System/Library/CoreServices/ScreenSaverEngine.app"
 alias cpu='top -o cpu'   # CPU
 alias mem='top -o rsize' # Memory
@@ -121,7 +118,6 @@ alias activitymonitor="htop"
 # alias mdreader='mdless'
 alias mdreader='glow'
 
-
 ###PYTHON ALIASES###
 #Creating python3 and pip3 alias, essentially upgrading my system to python3
 #alias python="~/opt/miniconda3/bin/python"
@@ -131,10 +127,8 @@ alias mdreader='glow'
 #######VIM ALIASES##########
 alias luamake=/Users/admin/.config/nvim/.langservers/lua-language-server/3rd/luamake/luamake
 
-
 #####UNI######
 alias mountIceberg='sshfs -o default_permissions mqserver2:/home/45456070/ ~/SSHFS/Iceberg/ && cd ~/SSHFS/Iceberg/'
 alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
-
 
 #==================================END ALIASES===================================

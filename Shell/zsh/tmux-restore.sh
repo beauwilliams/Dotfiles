@@ -10,7 +10,7 @@ dump() {
 }
 
 save() {
-  dump > ~/.tmux-session
+  dump >~/.tmux-session
 }
 
 terminal_size() {
@@ -27,7 +27,7 @@ add_window() {
 
 new_session() {
   cd "$3" &&
-  tmux new-session -d -s "$1" -n "$2" $4
+    tmux new-session -d -s "$1" -n "$2" $4
 }
 
 restore() {
@@ -41,19 +41,20 @@ restore() {
         add_window "$session_name" "$window_name" "$dir"
       else
         new_session "$session_name" "$window_name" "$dir" "$dimensions"
-        count=$(( count + 1 ))
+        count=$((count + 1))
       fi
     fi
-  done < ~/.tmux-session
+  done <~/.tmux-session
 
   echo "restored $count sessions"
 }
 
 case "$1" in
-save | restore )
+save | restore)
   $1
   ;;
-* )
+*)
   echo "valid commands: save, restore" >&2
   exit 1
+  ;;
 esac
