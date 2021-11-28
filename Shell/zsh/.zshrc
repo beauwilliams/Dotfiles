@@ -46,17 +46,17 @@ export BAT=0
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 # source ~/Git_Downloads/z/z.sh
-source ~/.zsh/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
-source ~/.zsh/.iterm2_shell_integration.zsh
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zsh/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
-source ~/.zsh/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
-source ~/.zsh/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
-source ~/.zsh/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
-source ~/.zsh/hacker-quotes/hacker-quotes.plugin.zsh
-source ~/.zsh/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
-source ~/.zsh/fzf-tab/fzf-tab.plugin.zsh
+source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
+source ~/.zsh/plugins/.iterm2_shell_integration.zsh
+source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
+source ~/.zsh/plugins/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
+source ~/.zsh/plugins/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
+source ~/.zsh/plugins/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
+source ~/.zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
+source ~/.zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
+source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
 source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
 # source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed

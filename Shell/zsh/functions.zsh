@@ -1,4 +1,4 @@
-#!/bin/bash
+# !/bin/bash
 #TODO: Set up forgit -> https://github.com/wfxr/forgit
 
 AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
@@ -62,20 +62,20 @@ function codepic() {
 }
 
 function rm() (
-    local FILES
+    local SOURCES
     local REPLY
     local ERRORMSG
     if [[ "$#" -eq 0 ]]; then
+        echo -n "would you like to use the force young padawan? y/n: "
         read -r REPLY
         #prompt user interactively to select multiple files with tab + fuzzy search
-        FILES=$(find . -maxdepth 1 | fzf --multi)
+        SOURCES=$(find . -maxdepth 1 | fzf --multi)
         #we use xargs to capture filenames with spaces in them properly
-        echo -n "would you like to use the force young padawan? y/n: "
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo "using the force..."
-            echo "$FILES" | xargs -I '{}' rm -rf {}
+            echo "$SOURCES" | xargs -I '{}' rm -rf {}
         else
-            echo "$FILES" | xargs -I '{}' rm {}
+            echo "$SOURCES" | xargs -I '{}' rm {}
         fi
         echo "removed selected file/folder(s)"
     else
@@ -94,6 +94,56 @@ function rm() (
         fi
     fi
 )
+
+# mv wrapper. if no command provided prompt user to
+# interactively select multiple files with tab + fuzzy search
+function mv() {
+    local SOURCES
+    local TARGET
+    local REPLY
+    local ERRORMSG
+    if [[ "$#" -eq 0 ]]; then
+        echo -n "would you like to use the force young padawan? y/n: "
+        read -r REPLY
+
+        # NOTE. THIS IS A ZSH IMPLEMENTATION ONLY FOR NOW. VARED IS ZSH BUILTIN.
+        # FOR BASH use something like read -p "enter a directory: "
+        vared -p 'to whence shall be the files moved. state your target: ' -c TARGET
+        if [ -z "$TARGET" ]; then
+            echo 'no target specified'
+            return 1
+        fi
+
+        # This corrects issue where directory is not found as ~ is
+        # not expanded  properly When stored directly from user input
+        if echo "$TARGET" | grep -q "~"; then
+            TARGET=$(echo $TARGET | sed 's/~//')
+            TARGET=~/$TARGET
+        fi
+
+        SOURCES=$(find . -maxdepth 1 | fzf --multi)
+        #we use xargs to capture filenames with spaces in them properly
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            echo "using the force..."
+            echo "$SOURCES" | xargs -I '{}' mv -f {} '/'$TARGET'/'
+        else
+            echo "$SOURCES" | xargs -I '{}' mv {} '/'$TARGET'/'
+        fi
+        echo "moved selected file/folder(s)"
+    else
+        ERRORMSG=$(command mv "$@" 2>&1)
+        #if error msg is not empty, prompt the user
+        if [ -n "$ERRORMSG" ]; then
+            echo "$ERRORMSG"
+            echo -n "mv failed, would you like to use the force young padawan? y/n: "
+            read -r REPLY
+            if [[ "$REPLY" =~ ^[Yy]$ ]]; then
+                echo "using the force..."
+                command mv -f "$@"
+            fi
+        fi
+    fi
+}
 
 # Man without options will use fzf to select a page
 function man() (
@@ -521,7 +571,7 @@ stashes() {
 
 #Show git staging area (git status)
 gs() {
-    git rev-parse --git-dir >/dev/null 2>&1 || echo "You are not in a git repository" && return
+    git rev-parse --git-dir >/dev/null 2>&1 || { echo "You are not in a git repository" && return; }
     local selected
     selected=$(git -c color.status=always status --short |
         fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
@@ -531,6 +581,19 @@ gs() {
         for prog in $(echo $selected); do $EDITOR $prog; done
     fi
 }
+
+# gs() {
+# git rev-parse --git-dir > /dev/null 2>&1 || { echo "You are not in a git repository" && return }
+# local selected
+# selected=$(git -c color.status=always status --short |
+#     fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
+#     --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+#     cut -c4- | sed 's/.* -> //')
+#     if [[ $selected ]]; then
+#         for prog in $(echo $selected);
+#         do; $EDITOR $prog; done;
+#     fi
+# }
 
 grr() {
     is_in_git_repo || return
