@@ -87,14 +87,14 @@ alias gus='git reset HEAD'
 alias gw='git whatchanged'
 
 #Creating aliases for my dotfiles backup on github
-alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
+alias mergevim="echo merging vimrc && cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
 alias mergezsh="~/.config/zsh/commands/merge-zsh.sh"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
-alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
-alias mergehammer="cp ~/.hammerspoon/init.lua ~/Git_Downloads/Dotfiles/Hammerspoon"
+alias mergehammer="echo merging hammerspon && cp ~/.hammerspoon/init.lua ~/Git_Downloads/Dotfiles/Hammerspoon"
 alias mergegit="~/.config/git/merge-git-config.sh"
-alias mergebrew="cd ~/Git_Downloads/Dotfiles/Homebrew/ && brew bundle dump --force"
+alias mergebrew="echo merging homebrew && cd ~/Git_Downloads/Dotfiles/Homebrew/ && brew bundle dump --force"
+alias mergeall="mergezsh && mergenvim && mergebrew && mergecheatsheets && mergegit && mergehammer && mergevim"
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
