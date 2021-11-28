@@ -41,30 +41,28 @@ export BAT=0
 #   source $file
 # done
 
-[[ -f ~/.config/zsh/.fzf.zsh ]] && source ~/.config/zsh/.fzf.zsh
-[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh #powerline theme config
+[[ -f ~/.config/zsh/configs/.fzf.zsh ]] && source ~/.config/zsh/configs/.fzf.zsh
+[[ -f ~/.config/zsh/configs/.p10k.zsh ]] && source ~/.config/zsh/configs/.p10k.zsh #powerline theme config
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
 eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 # source ~/Git_Downloads/z/z.sh
-source ~/.zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
-source ~/.zsh/plugins/.iterm2_shell_integration.zsh
-source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
-source ~/.zsh/plugins/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
-source ~/.zsh/plugins/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
-source ~/.zsh/plugins/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
-source ~/.zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
-source ~/.zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
-source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
+source ~/.config/zsh/plugins/.iterm2_shell_integration.zsh
+source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+source ~/.config/zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
+source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
+source ~/.config/zsh/plugins/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
+source ~/.config/zsh/plugins/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
+source ~/.config/zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
+source ~/.config/zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
+source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
 source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
-fpath=(~/.zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh completions
+fpath=(~/.config/zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh completions
 # source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
 # source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING https://github.com/marlonrichert/zsh-autocomplete/issues/287
 # source ~/.zsh/zsh-vim-mode-enhanced/zsh-vi-mode.plugin.zsh #https://github.com/jeffreytse/zsh-vi-mode - does not work with fzf-tab
-
-
 
 #    ____     ____   ______    ____   ____     _   __   _____
 #   / __ \   / __ \ /_  __/   /  _/  / __ \   / | / /  / ___/
@@ -73,11 +71,11 @@ fpath=(~/.zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh completions
 # \____/  /_/      /_/     /___/   \____/  /_/ |_/   /____/
 
 
-
-# funcs and aliases configs
+# funcs and aliases and other scripts
 for file (~/.config/zsh/scripts/*); do
   source $file
 done
+
 
 
 #AUTOSUGGESTION HISTORY

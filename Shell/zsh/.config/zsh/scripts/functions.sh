@@ -32,7 +32,7 @@ function fzf-awesome-list() {
 }
 
 ###CHEATSHEETS###
-function cheatsheets() {
+function cheats() {
     if [[ "$#" -eq 0 ]]; then
         local selected=$(find ~/.cheatsheet -maxdepth 1 -type f | fzf --multi)
         nvim -- ~/.cheatsheet/$selected-cheatsheet.md

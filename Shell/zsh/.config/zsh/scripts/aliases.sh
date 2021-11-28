@@ -10,8 +10,11 @@ alias vim="nvim"
 eval $(thefuck --alias)
 
 ####NOTES####
-alias sc="~/.config/zsh/fzf-scratch.sh"
+alias scratch="~/.config/zsh/fzf-scratch.sh"
 alias notes="~/.config/zsh/fzf-scratch.sh"
+
+####CHEAT.SH####
+alias chtsh='fzf-cheat'
 
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
@@ -85,13 +88,13 @@ alias gw='git whatchanged'
 
 #Creating aliases for my dotfiles backup on github
 alias mergevim="cp ~/.vimrc ~/Git_Downloads/Dotfiles/Vim/vim"
-alias mergezsh="~/.config/zsh/merge-zsh.sh"
+alias mergezsh="~/.config/zsh/commands/merge-zsh.sh"
 alias mergenvim="~/.config/nvim/merge-nvim-config.sh"
 alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergecoc="cp ~/.config/nvim/coc-settings.json ~/Git_Downloads/Dotfiles/Vim/nvim"
 alias mergehammer="cp ~/.hammerspoon/init.lua ~/Git_Downloads/Dotfiles/Hammerspoon"
 alias mergegit="~/.config/git/merge-git-config.sh"
-alias mergebrew="brew bundle dump --force"
+alias mergebrew="cd ~/Git_Downloads/Dotfiles/Homebrew/ && brew bundle dump --force"
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
