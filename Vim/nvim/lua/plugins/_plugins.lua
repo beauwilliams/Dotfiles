@@ -62,8 +62,21 @@ vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when 
 /_/      /_____/\____/   \____/   /___/   /_/ |_/          /___/   /_/ |_/   /___/   /_/     /____/
 
 ]]
+
+local packer = require('packer')
+packer.init({
+	max_jobs = 4,
+	git = {
+		clone_timeout = 300, -- 5 mins
+	},
+	profile = {
+		enable = true,
+	},
+})
+
+
 --PACKER IS CAPABLE OF MANAGING ITSELF. IT INITS FIRST THEN CALLS REST OF OUR PLUGINS
-require('packer').startup({
+packer.startup({
 	function(use)
 		use({ 'wbthomason/packer.nvim', opt = true })
 
@@ -538,8 +551,12 @@ require('packer').startup({
 					-- By default, the values of these will be decided at runtime,
 					-- based on `jump_to_first_match`.
 					labels = nil,
-					cycle_group_fwd_key = nil,
-					cycle_group_bwd_key = nil,
+					cycle_group_fwd_key = '.',
+					cycle_group_bwd_key = '>',
+					-- f/t
+					instant_repeat_fwd_key = '.',
+					instant_repeat_bwd_key = '>',
+
 				})
 				vim.api.nvim_exec(
 					[[
@@ -602,6 +619,15 @@ require('packer').startup({
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
 
+
+		use 'tweekmonster/startuptime.vim'
+		--inc search box ui, making search more pretty
+		use {
+			'VonHeikemen/searchbox.nvim',
+			requires = {
+				{'MunifTanjim/nui.nvim'}
+			}
+		}
 		--cmd line in center of display
 		use {
 			'VonHeikemen/fine-cmdline.nvim',
@@ -609,6 +635,13 @@ require('packer').startup({
 				{'MunifTanjim/nui.nvim'}
 			}
 		}
+		--color column virtual text
+		--[[ use {"lukas-reineke/virt-column.nvim",
+			setup = function()
+				require("virt-column").setup()
+			end
+		} ]]
+
 
 		--[[ use {
             's1n7ax/nvim-search-and-replace',
