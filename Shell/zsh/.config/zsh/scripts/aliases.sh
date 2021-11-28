@@ -10,8 +10,8 @@ alias vim="nvim"
 eval $(thefuck --alias)
 
 ####NOTES####
-alias scratch="~/.config/zsh/fzf-scratch.sh"
-alias notes="~/.config/zsh/fzf-scratch.sh"
+alias scratch="~/.config/zsh/commands/fzf-scratch.sh"
+alias notes="~/.config/zsh/commands/fzf-scratch.sh"
 
 ####CHEAT.SH####
 alias chtsh='fzf-cheat'
