@@ -58,6 +58,7 @@ source ~/.zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
 source ~/.zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
 source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
 source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
+fpath=(~/.zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh completions
 # source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
 # source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh #NOT WORKING https://github.com/marlonrichert/zsh-autocomplete/issues/287
@@ -74,9 +75,10 @@ source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
 
 
 # funcs and aliases configs
-for file (~/.config/zsh/*.zsh); do
+for file (~/.config/zsh/scripts/*); do
   source $file
 done
+
 
 #AUTOSUGGESTION HISTORY
 HISTFILE=~/.cache/zsh/.zsh_history
