@@ -1,20 +1,4 @@
 #!/usr/bin/env bash
-# if [[ "$#" -eq 0 ]]; then
-#     echo "please provide a session name"
-#     exit
-# fi
-# tmux split-window -v
-# tmux new-session -s "$1" -d
-# tmux split-window -h
-# tmux send-keys -t "$1"".0" "$2"  ENTER
-# tmux send-keys -t "$1"".1" "$3"  ENTER
-
-# echo -n "would you like to attach to the tmux session? y/n: "
-# read -r REPLY
-
-# if [[ $REPLY =~ ^[Yy]$ ]]; then
-# tmux -2 attach-session -d
-# fi
 
 getHelp() (
 	echo "Creates a new detached tmux session with 2 panes"
