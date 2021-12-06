@@ -48,18 +48,21 @@ require('plugins._coq') --> We load custom coq init in lua._coq.lua
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
 vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 
--- Diagnostics
--- require("nvim-ale-diagnostic") -- WAS.. USING ALE TO DISPLAY DIAGS
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-	underline = true,
-	virtual_text = true,
+-- Diagnostics [NVIM 0.6 only]
+vim.diagnostic.config({
+    virtual_text = false,
+    underline = true,
+    float = {
+      source = "always",
+    },
+    severity_sort = true,
 	--[[ virtual_text = {
       prefix = "»",
       spacing = 4,
     }, ]]
 	signs = true,
 	update_in_insert = false,
-})
+  })
 
 -- SET DIAG SIGNS
 local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
@@ -178,7 +181,7 @@ end
 --mispeled words
 
 -- LANG CONFS
-require('lsp._null').setup(custom_attach)
+require('lsp._null')
 require('lsp._lua')
 require('lsp._html')
 require('lsp._typescript')

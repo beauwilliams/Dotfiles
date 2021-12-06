@@ -13,7 +13,9 @@
 local null_ls = require('null-ls')
 local b = null_ls.builtins
 
-local sources = {
+
+null_ls.config({
+sources = {
 	--FORMATTERS
 	-- b.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal", "zsh" } }),
 	b.formatting.scalafmt, -- scala
@@ -46,15 +48,8 @@ local sources = {
 
     -- b.diagnostics.teal,
     -- b.code_actions.gitsigns,
+	}
+})
 
-}
-
-local M = {}
-M.setup = function(on_attach, custom_capabilities)
-	null_ls.config({
-		sources = sources,
-	})
-	require('lspconfig')['null-ls'].setup({ on_attach = on_attach })
-end
-
-return M
+-- Must be setup after config
+require("lspconfig")["null-ls"].setup({})
