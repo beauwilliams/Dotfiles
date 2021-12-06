@@ -200,6 +200,9 @@ cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
 cmd([[cnoreabbrev cheat Cheatsheet]])
 cmd([[cnoreabbrev cheatedit CheatsheetEdit]])
 
+--Clipboard
+cmd([[cnoreabbrev clipboard lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))]])
+
 --SESSION MANAGEMENT (VIA STARTIFY)
 vim.cmd([[
     cnoreabbrev mks SSave
@@ -315,6 +318,7 @@ utils.vnoremap(
 	leader .. 's',
 	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
+
 utils.nnoremap(
 	leader .. 'S',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
@@ -323,6 +327,7 @@ utils.vnoremap(
 	leader .. 'S',
 	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
+
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
 --[[ utils.nnoremap(
@@ -341,8 +346,10 @@ utils.vnoremap(
 	leader .. 'b',
 	":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
 )
+
 utils.nnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
+
 utils.nnoremap(
 	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
@@ -350,6 +357,15 @@ utils.nnoremap(
 utils.vnoremap(
 	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
+)
+
+utils.nnoremap(
+	leader .. 'y',
+	":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
+)
+utils.vnoremap(
+	leader .. 'y',
+	":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
 )
 --[[ utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
 utils.vnoremap(leader .. 'p', ':Telescope projects<cr>') ]]
