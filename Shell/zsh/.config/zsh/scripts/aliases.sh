@@ -36,8 +36,8 @@ alias deploy="./deploy.sh"
 alias compile="./compile.sh"
 
 ###TMUX###
-alias attach-tmux='tmux attach -t'
-alias kill-tmux='tmux kill-session -t'
+alias attach='tmux attach -t'
+alias stop='tmux kill-session -t'
 
 ###ZSH ###
 alias zshreload="source ~/.zshrc"
