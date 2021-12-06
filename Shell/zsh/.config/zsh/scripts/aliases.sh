@@ -23,7 +23,8 @@ alias powerlineconfig="nvim ~/.config/zsh/.p10k.zsh"
 alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
-alias gitignore="nvim ~/.config/git/.gitignore_global"
+alias gitignore="nvim ~/.config/git/ignore"
+alias gitconfig="nvim ~/.config/config/git/config"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
