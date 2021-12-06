@@ -44,7 +44,7 @@ else
 	# done
 fi
 
-echo -n "Would you like to attach to the tmux session ""$1""? y/n: "
+echo -n "Would you like to attach to the tmux session ""$1"" (enter for n) y/n?: "
 read -r REPLY
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
