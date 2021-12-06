@@ -151,6 +151,7 @@ packer.startup({
 		--NOTE:  SCROLL BARS
 		use('dstein64/nvim-scrollview')
 
+
 		--NOTE:  STARIFY / SESSIONS
 		use({
 			'mhinz/vim-startify',
