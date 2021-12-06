@@ -1,4 +1,4 @@
--- local utils = require "utils._utils"
+-- local utils = require "libraries._utils"
 local g = vim.g
 local exec = vim.api.nvim_exec
 

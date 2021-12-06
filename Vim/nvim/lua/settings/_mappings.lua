@@ -1,7 +1,7 @@
 --TODO: Implement https://github.com/b0o/mapx.nvim
 --Also add whichkey support
 
-local utils = require('utils._utils')
+local utils = require('libraries._set_mappings')
 local leader = '<space>'
 local g = vim.g
 ---@diagnostic disable-next-line: unused-local
@@ -231,7 +231,7 @@ vim.cmd('cnoreabbrev spelladd spell')
 
 -- Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
 -- utils.cnoremap('w!!', "<esc>:lua require'_utils'.sudo_write()<CR>")
-vim.cmd('cnoreabbrev w!! lua require"utils._utils".sudo_write()')
+vim.cmd('cnoreabbrev w!! lua require"libraries._utils".sudo_write()')
 -- vim.cmd('cnoreabbrev w!! SudaWrite')
 
 -- MARKDOWN RENDERER [glow.nvim]

@@ -1,4 +1,4 @@
-local utils = require('utils._utils')
+local utils = require('libraries._set_options')
 
 utils.set_options('g', {
 	mapleader = ' ',

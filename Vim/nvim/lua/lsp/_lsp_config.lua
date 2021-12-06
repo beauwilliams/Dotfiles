@@ -16,7 +16,7 @@ local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
-lsp_utils = require('utils._lsp')
+lsp_utils = require('libraries._lsp')
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 -- require("nvim-ale-diagnostic") -- WAS.. USING ALE TO DISPLAY DIAGS
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
 	underline = true,
-	virtual_text = false,
+	virtual_text = true,
 	--[[ virtual_text = {
       prefix = "»",
       spacing = 4,
@@ -67,11 +67,9 @@ for type, icon in pairs(signs) do
 	local hl = 'LspDiagnosticsSign' .. type
 	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
--- ALE Disabled Built in linting (using LSP instead end up with double up otherwise..)
--- vim.cmd [[let g:ale_linters = {'python': []}]]
 
 -- DISPLAY LSP DIAGS IN COMMAND LINE
-vim.cmd('autocmd CursorMoved * :lua require("utils._lsp").echo_diagnostic()')
+vim.cmd('autocmd CursorMoved * :lua require("libraries._lsp").echo_diagnostic()')
 
 --CAPABILITIES
 Custom_capabilities = function()
