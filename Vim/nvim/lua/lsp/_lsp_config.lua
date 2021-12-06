@@ -99,7 +99,7 @@ custom_attach =
 		-- INITS
 		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
 		require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-		-- require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+		require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
 		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
 		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
 		-- require('lsp_signature').on_attach(client) --> Signature popups and info

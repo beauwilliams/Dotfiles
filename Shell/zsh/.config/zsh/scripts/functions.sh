@@ -10,6 +10,12 @@ function hasBinary() (
     if cmd=$(command -v $1); then echo TRUE; else echo FALSE; fi
 )
 
+function newtabi() {
+  osascript \
+    -e 'tell application "iTerm2" to tell current window to set newWindow to (create tab with default profile)'\
+    -e "tell application \"iTerm2\" to tell current session of newWindow to write text \"$*\""
+}
+
 function getFZFPreviewer() (
     if [[ $(hasBinary bat) = TRUE ]]; then
         echo "bat --style=numbers --color=always --line-range :500 {}"
@@ -53,7 +59,7 @@ path() {
 
 function mkcd() {
     mkdir -p -- "$1" &&
-        cd -P -- "$1"
+        cd -P -- "$1" || return;
 }
 
 #Create nice image of some code on your clipboard
@@ -493,7 +499,7 @@ gc() {
     else
         git log --graph --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" |
             fzf --ansi --no-sort --reverse --tiebreak=index --preview \
-                'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 ; }; f {}' \
+                'f() { set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}"); [ $# -eq 0 ] || git show --color=always $1 | delta ; }; f {}' \
                 --bind "j:down,k:up,alt-j:preview-down,alt-k:preview-up,ctrl-f:preview-page-down,ctrl-b:preview-page-up,q:abort,ctrl-m:execute:
                     (grep -o '[a-f0-9]\{7\}' | head -1 |
                         xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
@@ -574,11 +580,11 @@ gs() {
     git rev-parse --git-dir >/dev/null 2>&1 || { echo "You are not in a git repository" && return; }
     local selected
     selected=$(git -c color.status=always status --short |
-        fzf --height 50% "$@" --border -m --ansi --nth 2..,.. \
-            --preview '(git diff --color=always -- {-1} | sed 1,4d; cat {-1}) | head -500' |
+        fzf --height 50% "$@" --preview-window right:70% --border -m --ansi --nth 2..,.. \
+            --preview '(git diff --color=always -- {-1} | delta | sed 1,4d; cat {-1}) | head -500' |
         cut -c4- | sed 's/.* -> //')
     if [[ $selected ]]; then
-        for prog in $(echo $selected); do $EDITOR $prog; done
+        for prog in $selected; do git add "$prog"; done
     fi
 }
 
@@ -654,7 +660,7 @@ restartmouse() (
     PID=$(ps -eaf | grep LogiMgrDaemon | grep -v grep | awk '{print $2}')
     if [[ "" != "$PID" ]]; then
         echo "killing LogiMgrDaemon with PID $PID"
-        kill -9 $PID
+        kill -9 "$PID"
     fi
 )
 

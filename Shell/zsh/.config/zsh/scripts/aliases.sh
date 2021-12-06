@@ -1,3 +1,4 @@
+#!/usr/bin/env sh
 #====================BEGIN ALIASES=======================================
 
 ###BOSS SHIT###
@@ -5,9 +6,11 @@ alias nvimenv="~/.local/bin/nvim"
 alias n="nvim"
 alias vi="nvim"
 alias vim="nvim"
+alias n6="/Users/admin/Downloads/Temp/nvim0.6/nvim-osx64/bin/nvim"
+alias nvim="n6"
 
 ###MISC ALIASES###
-eval $(thefuck --alias)
+eval "$(thefuck --alias)"
 
 ####NOTES####
 alias scratch="~/.config/zsh/commands/fzf-scratch.sh"
@@ -24,12 +27,17 @@ alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
 alias gitignore="nvim ~/.config/git/ignore"
-alias gitconfig="nvim ~/.config/config/git/config"
+alias gitconfig="nvim ~/.config/git/config"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
 alias start="./start.sh"
 alias deploy="./deploy.sh"
+alias compile="./compile.sh"
+
+###TMUX###
+alias attach-tmux='tmux attach -t'
+alias kill-tmux='tmux kill-session -t'
 
 ###ZSH ###
 alias zshreload="source ~/.zshrc"
@@ -118,7 +126,11 @@ alias activitymonitor="htop"
 #NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
 #Does not matter what reader we usem remember one command! mdreader
 # alias mdreader='mdless'
-alias mdreader='glow'
+# alias mdreader='glow'
+alias mdreader='mlp'
+alias mdr=mdreader
+alias mdpreview=mdreader
+alias mdp=mdreader
 
 ###PYTHON ALIASES###
 #Creating python3 and pip3 alias, essentially upgrading my system to python3

@@ -11,6 +11,9 @@
     pager = delta
 [interactive]
     diffFilter = delta --color-onlyhelper = store
+[delta]
+    features = line-numbers decorations
+    syntax-theme = Gruvbox
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
