@@ -4,7 +4,7 @@ utils.set_options('g', {
 	mapleader = ' ',
 })
 
-utils.set_options('o', {
+utils.set_options( 'o', {
 	-- colorcolumn = 80, --80 column width marker for when we need it
 	-- signcolumn = "auto",
 	hlsearch = true, -- highlight matching search
@@ -41,7 +41,7 @@ utils.set_options('o', {
 	updatetime = 100, -- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
 	timeoutlen = 400, -- faster timeout wait time
 	spelllang = 'en', -- Set NEOVIMS NATIVE spell lang for spellchecker
-	inccommand = 'nosplit', -- This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
+	-- inccommand = 'nosplit', -- Deault in 0.6. This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
 	clipboard = 'unnamed', -- share system clipboard but also retain nvim clipboard (see += compared
 	-- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
 	-- cpoptions = vim.o.cpoptions .. 'x', -- stay at seach item when <esc> (ENTERS COMMAND WHEN HIT ESC from : MODE, DONT USE)

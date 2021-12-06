@@ -101,7 +101,11 @@ local M = {}
 M.search_dotfiles = function()
 	require('telescope.builtin').find_files({
 		prompt_title = '< VimRC >',
-		cwd = '$HOME/.config/nvim/',
+		-- winblend = 5,
+		-- border = true,
+		-- cwd = '$HOME/.config/nvim/',
+		-- find_command={ 'rg', '--files'},
+		search_dirs = { vim.fn.stdpath('config'), '~/.config/zsh/scripts', '~/.config/zsh/commands/', '~/.config/zsh/configs/' },
 	})
 end
 
@@ -113,6 +117,15 @@ M.git_branches = function()
 			return true
 		end,
 	})
+end
+
+
+M.installed_plugins = function()
+	require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({
+		-- winblend = 5,
+		border = true,
+		cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
+	}))
 end
 
 return M

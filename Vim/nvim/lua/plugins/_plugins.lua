@@ -51,7 +51,7 @@ if not packer_exists then
 end
 
 -- FOR LUAROCKS TO INSTALL RIGHT
-vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '10.15')
+-- vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '12')
 vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when there are changes to plugins
 
 --[[
@@ -65,6 +65,7 @@ vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when 
 
 local packer = require('packer')
 packer.init({
+	--FIXES ISSUE WHERE WONT UPDATE OTHERWISE
 	max_jobs = 4,
 	git = {
 		clone_timeout = 300, -- 5 mins
@@ -97,6 +98,7 @@ packer.startup({
 		--NOTE: THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
+    use {'stevearc/dressing.nvim'} -- Neovim plugin to improve the default vim.ui interfaces
 		-- use 'ghifarit53/tokyonight-vim'
 		-- use "sainnhe/gruvbox-material"
 		-- another I would like to try https://github.com/sainnhe/everforest
@@ -117,6 +119,9 @@ packer.startup({
 		--NOTE: STATUSLINE
 		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
 		--NOTE: TABLINE
+		--TODO: Try below
+		--https://github.com/rafcamlet/tabline-framework.nvim
+		--
 		-- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
 		--[[ use {
       "jose-elias-alvarez/buftabline.nvim",
@@ -228,6 +233,7 @@ packer.startup({
 --]]
 		--NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
+		use 'ii14/lsp-command' -- USAGE: :h :Lsp
 
 		-- NOTE: LSP SERVERS
 		-- COQ
@@ -244,6 +250,7 @@ packer.startup({
 		-- NOTE: DOCUMENTATION
 		use({
 			-- OR.. nvim-treesitter/nvim-tree-docs
+			-- OR.. https://github.com/danymat/neogen
 			'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
 			run = 'vim.cmd[[call doge#install()]]',
 		})
@@ -300,12 +307,7 @@ packer.startup({
 
 		--NOTE: NVIM LSP PLUGINS
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc
-		use({ 'ray-x/navigator.lua', requires = { 'ray-x/guihua.lua', run = 'cd lua/fzy && make' } })
 		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
-		use({
-			'weilbith/nvim-code-action-menu',
-			cmd = 'CodeActionMenu',
-		})
 
 		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
@@ -550,12 +552,7 @@ packer.startup({
 					full_inclusive_prefix_key = '<c-x>',
 					-- By default, the values of these will be decided at runtime,
 					-- based on `jump_to_first_match`.
-					labels = nil,
-					cycle_group_fwd_key = '.',
-					cycle_group_bwd_key = '>',
-					-- f/t
-					instant_repeat_fwd_key = '.',
-					instant_repeat_bwd_key = '>',
+					-- labels = nil,
 
 				})
 				vim.api.nvim_exec(

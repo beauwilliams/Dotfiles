@@ -120,6 +120,11 @@ M.IsVersion5 = function()
 	return api.nvim_call_function('has', { 'nvim-0.5' }) == 1
 end
 
+M.hasVersion = function(version)
+	return api.nvim_call_function('has', { 'nvim-'..version }) == 1
+end
+
+
 M.translate = function(lang)
 	local word = M.get_visual()
 	local job = Job:new({

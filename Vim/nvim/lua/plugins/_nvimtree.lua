@@ -4,7 +4,6 @@ local exec = vim.api.nvim_exec
 
 g.nvim_tree_side = 'left'
 g.nvim_tree_width = 35
-g.nvim_tree_ignore = { '.git', 'node_modules' }
 
 -- 0 by default, opens the tree when typing `vim $DIR` or `vim`
 -- g.nvim_tree_auto_open = 1
@@ -78,7 +77,7 @@ local M = {
 	-- open the tree when running this setup function
 	open_on_setup = false,
 	-- will not open on setup if the filetype is in this list
-	ignore_ft_on_setup = {},
+	ignore_ft_on_setup = { '.git', 'node_modules' },
 	-- closes neovim automatically when the tree is the last **WINDOW** in the view
 	auto_close = true,
 	-- false by default, opens the tree when typing `vim $DIR` or `vim`
@@ -90,7 +89,7 @@ local M = {
 	-- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
 	update_cwd = true,
 	-- show lsp diagnostics in the signcolumn
-	lsp_diagnostics = false,
+	-- lsp_diagnostics = false,
 	-- false by default, this option allows the cursor to be updated when entering a buffer
 	nvim_tree_follow = true,
 	-- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file

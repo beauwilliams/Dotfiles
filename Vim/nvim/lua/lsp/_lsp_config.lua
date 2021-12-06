@@ -16,6 +16,7 @@ local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
+lsp_utils = require('utils._lsp')
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -42,19 +43,10 @@ require('plugins._coq') --> We load custom coq init in lua._coq.lua
 --]]
 --UI CONFIG ref: https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter
 
+-- FORMATTING
 -- async formatting
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
-vim.lsp.handlers['textDocument/formatting'] = function(err, _, result, _, bufnr)
-	if err ~= nil or result == nil then
-		return
-	end
-	if not vim.api.nvim_buf_get_option(bufnr, 'modified') then
-		local view = fn.winsaveview()
-		vim.lsp.util.apply_text_edits(result, bufnr)
-		fn.winrestview(view)
-		vim.api.nvim_command('noautocmd :update')
-	end
-end
+vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 
 -- Diagnostics
 -- require("nvim-ale-diagnostic") -- WAS.. USING ALE TO DISPLAY DIAGS
@@ -106,7 +98,7 @@ custom_attach =
 		-- INITS
 		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
 		require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-		require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+		-- require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
 		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
 		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
 		-- require('lsp_signature').on_attach(client) --> Signature popups and info
@@ -185,6 +177,7 @@ for _, server in ipairs(servers_rootcwd) do
 		root_dir = cwd,
 	})
 end
+--mispeled words
 
 -- LANG CONFS
 require('lsp._null').setup(custom_attach)

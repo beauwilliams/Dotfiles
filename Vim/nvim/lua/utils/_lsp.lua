@@ -1,3 +1,4 @@
+local utils = require('utils._utils')
 local M = {}
 
 -- DISPLAY DIAGNOSTICS IN THE COMMAND BAR
@@ -86,5 +87,48 @@ function M.echo_diagnostic()
 		vim.api.nvim_echo(chunks, false, {})
 	end, echo_timeout)
 end
+
+
+-- async formatting
+-- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
+-- NOTE: This is 0.6 only this error https://github.com/jose-elias-alvarez/null-ls.nvim/issues/390#issuecomment-984641678
+local format_async = function(err, result, ctx)
+	if err ~= nil or result == nil then
+		return
+	end
+
+	local bufnr = ctx.bufnr
+	if not vim.api.nvim_buf_get_option(bufnr, 'modified') then
+		local view = vim.fn.winsaveview()
+		vim.lsp.util.apply_text_edits(result, bufnr)
+		vim.fn.winrestview(view)
+		if bufnr == vim.api.nvim_get_current_buf() then
+			vim.api.nvim_command('noautocmd :update')
+		end
+	end
+end
+
+-- NOTE: This is 0.5 only this error https://github.com/jose-elias-alvarez/null-ls.nvim/issues/390#issuecomment-984641678
+local format_async_legacy = function(err, _, result, _, bufnr)
+	if err ~= nil or result == nil then
+		return
+	end
+	if not vim.api.nvim_buf_get_option(bufnr, 'modified') then
+		local view = fn.winsaveview()
+		vim.lsp.util.apply_text_edits(result, bufnr)
+		fn.winrestview(view)
+		vim.api.nvim_command('noautocmd :update')
+	end
+end
+
+M.get_async_format_fn = function()
+	if utils.hasVersion("0.5.1") then
+		return format_async
+	elseif utils.hasVersion("0.5") then
+		return format_async_legacy
+	end
+end
+
+
 
 return M

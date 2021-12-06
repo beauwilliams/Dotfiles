@@ -9,8 +9,8 @@ local api = vim.api
 local cmd = vim.cmd
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
 --SET LEADER GLOBALLY
+------------------------------------------------------------------------------------------------------------------------------------------------
 g.mapleader = ' '
 -- REFACTOR VIM MAPPINGS QUICK
 cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
@@ -28,7 +28,6 @@ utils.map('n', leader .. leader, ':')
 --KOMMENTARY MAPPINGS, COMMENT WITH CMD+/
 utils.nmap('++', '<Plug>kommentary_line_default')
 utils.vmap('++', '<Plug>kommentary_visual_default')
-
 
 -- Keep selection when shifting
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
@@ -57,12 +56,18 @@ vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent
 -- Clear highlights quick! Removed for above
 -- utils.nnoremap(leader .. "/", ":nohlsearch<cr>")
 
-vim.api.nvim_set_keymap('n', '<leader>o',
-  ':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
-  { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>O',
-  ':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
-  { noremap = true, silent = true })
+vim.api.nvim_set_keymap(
+	'n',
+	'<leader>o',
+	':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
+	{ noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap(
+	'n',
+	'<leader>O',
+	':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
+	{ noremap = true, silent = true }
+)
 
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
 -- We use this because we have the vim register synced with the system clipboard. Meaning we can't do simple text replacement easily as deleting text will overwrite yanked text in the register.
@@ -91,10 +96,6 @@ vim.cmd([[
     vmap <space>- <Plug>(dial-decrement)
 ]])
 
---FUZZYMENU (ctrl+p)
-utils.nmap(leader .. 'p', '<Plug>(Fzm)')
-utils.vmap(leader .. 'p', '<Plug>(FzmVisual)')
-
 --FILE TREE
 utils.nnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
 utils.vnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
@@ -116,7 +117,6 @@ utils.vnoremap(leader .. 'g', ':Neogit<cr>')
 --Fugitive Shortcut
 vim.cmd([[cnoreabbrev git Git]])
 
-
 -- CODE FORMATTERS
 --Remove indents from code! (a simple code formatter)
 utils.nnoremap(leader .. 'i', 'gg=G<c-o>')
@@ -127,8 +127,8 @@ vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.formatting()')
 
 -- SEARCH AND REPLACE
 -- replace word under cursor
-utils.nnoremap(leader..'r', ':lua require("spectre").open()<cr>')
-utils.vnoremap(leader..'r', ':lua require("spectre").open()<cr>')
+utils.nnoremap(leader .. 'r', ':lua require("spectre").open()<cr>')
+utils.vnoremap(leader .. 'r', ':lua require("spectre").open()<cr>')
 utils.nnoremap('R', ':%s/\\<<C-r><C-w>\\>//g<Left><Left><C-r><C-w>')
 -- Replace/Delete words quick! ONE BY ONE.
 -- c. c, d. d,
@@ -186,23 +186,11 @@ nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
 nnoremap <silent><leader>[ <c-w>H
 nnoremap <silent><leader>] <c-w>K
 ]])
-
---[[ utils.nnoremap(leader.."h", ":FocusSplitLeft<cr>")
-utils.nnoremap(leader.."j", ":FocusSplitDown<cr>")
-utils.nnoremap(leader.."k", ":FocusSplitUp<cr>")
-utils.nnoremap(leader.."l", ":FocusSplitRight<cr>") ]]
---TAB/BUFFER CYCLING
---[[ utils.nnoremap("gt", ":WintabsNext<cr>")
-utils.nnoremap("gT", ":WintabsPrevious<cr>") ]]
--- MISCELLANEOUS
--- utils.nnoremap("<leader>z", ":ToggleAlternate<cr>")
---[[ vim.cmd("cnoreabbrev swap ToggleAlternate")
-vim.cmd("cnoreabbrev swapfile swap") ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
--- ABREVIATIONS
+-- ABBREVIATIONS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TOGGLE LIGHT/DARK THEME
 cmd([[cnoreabbrev light lua vim.o.background = 'light']])
@@ -264,7 +252,6 @@ cmd([[cnoreabbrev pc PackerCompile]])
 cmd([[cnoreabbrev pi PackerInstall]])
 cmd([[cnoreabbrev ps PackerSync]])
 cmd([[cnoreabbrev pcl PackerClean]])
--- cmd('cnoreabbrev <silent>pf lua TelescopeMaps.installed_plugins()')
 
 -- INCREMENTAL SEARCH UI
 --[[ vim.api.nvim_set_keymap(
@@ -273,13 +260,50 @@ cmd([[cnoreabbrev pcl PackerClean]])
   '<cmd>lua require("searchbox").incsearch()<CR>',
   {noremap = true}
 ) ]]
-
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+-- HOT KEYS
+------------------------------------------------------------------------------------------------------------------------------------------------
+utils.nnoremap(
+	leader .. 1,
+	":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
+)
+
+utils.nnoremap(
+	leader .. '2',
+	":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
+)
+utils.vnoremap(
+	leader .. '2',
+	":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
+)
+utils.nnoremap(
+	leader .. '3',
+	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
+)
+utils.vnoremap(
+	leader .. '3',
+	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
+)
+utils.nnoremap(
+	leader .. '4',
+	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
+)
+utils.vnoremap(
+	leader .. '4',
+	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
+)
+utils.nnoremap(leader .. '5', ':Startify<cr>')
+utils.vnoremap(leader .. '5', ':Startify<cr>')
+-- utils.nnoremap(leader .. '6', ':GitMessenger<CR>') -- "SHOW GIT COMMIT / GIT BLAME POPUP
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TELESCOPE MAPPINGS
+------------------------------------------------------------------------------------------------------------------------------------------------
 -- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 
@@ -327,8 +351,8 @@ utils.vnoremap(
 	leader .. 'f',
 	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
-utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
-utils.vnoremap(leader .. 'p', ':Telescope projects<cr>')
+--[[ utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
+utils.vnoremap(leader .. 'p', ':Telescope projects<cr>') ]]
 cmd('cnoreabbrev <silent>tel Telescope')
 cmd('cnoreabbrev <silent>clip Telescope neoclip')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
@@ -342,76 +366,38 @@ cmd("cnoreabbrev <silent>tlocs lua require'telescope.builtin'.loclist(require('t
 cmd("cnoreabbrev <silent>topts lua require'telescope.builtin'.options(require('telescope.themes').get_dropdown({}))")
 cmd("cnoreabbrev <silent>tcmds lua require'telescope.builtin'.autocommands(require('telescope.themes').get_dropdown({}))")
 cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('telescope.themes').get_dropdown({}))") ]]
-_G.TelescopeMaps = {}
-function TelescopeMaps.installed_plugins()
-	require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({
-		winblend = 5,
-		border = true,
-		cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
-	}))
-end
-
-function TelescopeMaps.dotfiles()
-	require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({
-		winblend = 5,
-		border = true,
-		cwd = vim.fn.stdpath('config'),
-	}))
-end
--- vim.api.nvim_set_keymap("n", leader .. "2", ":lua TelescopeMaps.dotfiles()<cr>", {})
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
--- HOT KEYS
-utils.nnoremap(
-	leader .. 1,
-	":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
-)
-
-utils.nnoremap(leader..'2', ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'2', ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>")
-utils.nnoremap(
-	leader .. '3',
-	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
-)
-utils.vnoremap(
-	leader .. '3',
-	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
-)
-utils.nnoremap(
-	leader .. '4',
-	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-	leader .. '4',
-	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.nnoremap(leader .. '5', ':Startify<cr>')
-utils.vnoremap(leader .. '5', ':Startify<cr>')
-utils.nnoremap(leader .. '6', ':GitMessenger<CR>') -- "SHOW GIT COMMIT / GIT BLAME POPUP
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --LSP MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
---utils.nnoremap('.', ':lua vim.lsp.buf.hover()<CR>')
+--Hover actions
+-- vim.cmd[[autocmd CursorHold * silent :lua require'lspsaga.diagnostic'.show_cursor_diagnostics()]] -- NOTE: Auto open on hover
 -- vim.cmd[[autocmd CursorHold * silent :lua vim.lsp.buf.hover()]] -- NOTE: Auto open on hover
-utils.nnoremap(".g", ':lua vim.lsp.buf.definition()<CR>')
-utils.nnoremap(".r", ":lua require'telescope.builtin'.lsp_references()<CR>")
-utils.nnoremap(".sw", ':Telescope lsp_workspace_symbols<CR>')
-utils.nnoremap(".sd", ':Telescope lsp_document_symbols<CR>')
--- utils.nnoremap(".rn", ':lua vim.lsp.buf.rename()<CR>')
-utils.nnoremap(".f", ':lua vim.lsp.buf.formatting()<CR>')
-utils.nnoremap(".d", ':lua vim.lsp.diagnostic.goto_next()<CR>')
-utils.nnoremap(".D", ':lua vim.lsp.diagnostic.goto_prev()<CR>')
-utils.nnoremap(".h", ':lua vim.lsp.buf.signature_help()<CR>')
--- utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works wih other lsps fine eg lua
-utils.nnoremap(".c", ":CodeActionMenu<CR>")
-utils.nnoremap(".t", ':lua vim.lsp.buf.type_definition()<CR>')
-utils.nnoremap(".i", ':lua vim.lsp.buf.implementation()<CR>')
+
+--  Shortcut Actions
+utils.nnoremap(',h', ':lua require("lspsaga.hover").render_hover_doc()<CR>')
+utils.nnoremap(",'", ':lua vim.lsp.diagnostic.goto_next()<CR>')
+utils.nnoremap(',;', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
+utils.nnoremap(
+	',c',
+	":lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_dropdown({}))<CR>"
+)
+utils.nnoremap(',r', ':lua vim.lsp.buf.rename()<CR>')
+utils.nnoremap(',f', ':lua vim.lsp.buf.formatting()<CR>')
+-- Search Actions
+utils.nnoremap(',g', ':lua vim.lsp.buf.definition()<CR>')
+utils.nnoremap(',R', ":lua require'telescope.builtin'.lsp_references()<CR>")
+utils.nnoremap(',w', ":lua require'telescope.builtin'.workspace_symbols()<CR>")
+utils.nnoremap(',d', ":lua require'telescope.builtin'.document_symbols()<CR>")
+utils.nnoremap(',s', ':lua vim.lsp.buf.signature_help()<CR>')
+utils.nnoremap(',t', ':lua vim.lsp.buf.type_definition()<CR>')
+utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>')
+
+--Archived
+-- utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works with other lsps fine eg lua
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -485,10 +471,10 @@ vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = t
 --TREESITTER MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --smart_rename = "'rn",
-vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', {noremap=true})
-vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', {noremap=true})
-vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', {noremap=true})
+vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', { noremap = true })
+vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', { noremap = true })
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -511,6 +497,11 @@ utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", n
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --NOTE: ARCHIVE
+
+--FUZZYMENU (ctrl+p)
+-- utils.nmap(leader .. 'p', '<Plug>(Fzm)')
+-- utils.vmap(leader .. 'p', '<Plug>(FzmVisual)')
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
