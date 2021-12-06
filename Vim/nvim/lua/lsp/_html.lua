@@ -8,6 +8,7 @@
 /_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
 
 --]]
+local M = {}
 local lsp = require('lspconfig')
 ---------------------------------------------------------------------------------------
 --[[
@@ -19,10 +20,11 @@ local lsp = require('lspconfig')
 --]]
 
 -- NOTE: Install via npm `npm i -g vscode-langservers-extracted`
+M.setup = function(custom_init, custom_attach, custom_capabilities)
 lsp.html.setup({
 	on_attach = custom_attach,
 	on_init = custom_init,
-	capabilities = Custom_capabilities(), --enable snippet support
+	capabilities = custom_capabilities(), --enable snippet support
 	cmd = { 'vscode-html-language-server', '--stdio' },
 	root_dir = vim.loop.cwd,
 	filetypes = { 'html' },
@@ -34,3 +36,6 @@ lsp.html.setup({
 		},
 	},
 })
+end
+
+return M

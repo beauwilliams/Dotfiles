@@ -16,7 +16,7 @@ local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
-lsp_utils = require('libraries._lsp')
+local lsp_utils = require('libraries._lsp')
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -50,19 +50,19 @@ vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 
 -- Diagnostics [NVIM 0.6 only]
 vim.diagnostic.config({
-    virtual_text = false,
-    underline = true,
-    float = {
-      source = "always",
-    },
-    severity_sort = true,
+	virtual_text = false,
+	underline = true,
+	float = {
+		source = 'always',
+	},
+	severity_sort = true,
 	--[[ virtual_text = {
       prefix = "»",
       spacing = 4,
     }, ]]
 	signs = true,
 	update_in_insert = false,
-  })
+})
 
 -- SET DIAG SIGNS
 local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
@@ -75,7 +75,7 @@ end
 vim.cmd('autocmd CursorMoved * :lua require("libraries._lsp").echo_diagnostic()')
 
 --CAPABILITIES
-Custom_capabilities = function()
+local custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
 	local coq = require('coq')
@@ -94,20 +94,17 @@ end
 
 --]]
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
-custom_attach =
-	function(client, bufnr) --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
-		-- INITS
-		require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
-		require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-		require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
-		-- require 'illuminate'.on_attach(client) --> ENABLES LSP INTEGRATION WITH vim-illluminate
-		-- require('lspfuzzy').setup {} --> FUZZY FINDER FOR LSP
-		-- require('lsp_signature').on_attach(client) --> Signature popups and info
-		-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
-		-- saga.init_lsp_saga() --> SETS UP SAGA ENHANCED LSP UX, REVISIT LATER
-	end
+local custom_attach = function(client, bufnr)
+    --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
+    -- INITS
+    require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
+    require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
+    require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+    -- require('lsp_signature').on_attach(client) --> Signature popups and info
+    -- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
+end
 
-custom_init = function()
+local custom_init = function()
 	-- DEBUGGING
 	-- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
 	-- SWAG
@@ -158,7 +155,7 @@ for _, server in ipairs(servers) do
 	lsp[server].setup({
 		on_attach = custom_attach,
 		on_init = custom_init,
-		capabilities = Custom_capabilities(),
+		capabilities = custom_capabilities(),
 	})
 end
 
@@ -174,23 +171,22 @@ for _, server in ipairs(servers_rootcwd) do
 	lsp[server].setup({
 		on_attach = custom_attach,
 		on_init = custom_init,
-		capabilities = Custom_capabilities(),
+		capabilities = custom_capabilities(),
 		root_dir = cwd,
 	})
 end
---mispeled words
 
 -- LANG CONFS
-require('lsp._null')
-require('lsp._lua')
-require('lsp._html')
-require('lsp._typescript')
-require('lsp._omnisharp')
+require('lsp._null') --Null ls, additional formatters, diags and more..
+require('lsp._lua').setup(custom_attach, custom_init)
+require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
+require('lsp._typescript').setup(custom_attach, custom_init)
+require('lsp._omnisharp').setup(custom_attach, custom_init)
+
 vim.cmd(
 	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
 ) -- NOTE: sets workspace per project..
 -- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
-
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------

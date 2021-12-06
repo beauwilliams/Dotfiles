@@ -1,3 +1,4 @@
+local M = {}
 local lsp = require('lspconfig')
 local lsputil = require('lspconfig/util')
 ---------------------------------------------------------------------------------------
@@ -10,6 +11,7 @@ local lsputil = require('lspconfig/util')
     /____/_/                         /_/
 --]]
 --INSTALL: -- npm i -g typescript typescript-language-server
+M.setup = function(custom_init, custom_attach)
 lsp.tsserver.setup({
 	on_attach = custom_attach,
 	on_init = custom_init,
@@ -18,6 +20,14 @@ lsp.tsserver.setup({
 		return lsputil.find_git_ancestor(fname) or lsputil.path.dirname(fname)
 	end,
 })
+end
+
+return M
+
+
+
+
+--ARCHIVE
 --root_dir = util.root_pattern('package.json', 'tsconfig.json', '.git') or cwd
 --root_dir = vim.loop.cwd --Sets global cwd
 

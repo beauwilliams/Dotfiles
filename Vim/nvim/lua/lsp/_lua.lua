@@ -8,9 +8,9 @@
 /_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
 
 --]]
+local M = {}
 local lsp = require('lspconfig')
 local lsputil = require('lspconfig/util')
--- local lspconfig = require ('lsp._lsp_config')
 
 ---------------------------------------------------------------------------------------
 --[[
@@ -40,6 +40,7 @@ local runtime_path = vim.split(package.path, ';')
 table.insert(runtime_path, 'lua/?.lua')
 table.insert(runtime_path, 'lua/?/init.lua')
 
+M.setup = function(custom_init, custom_attach)
 lsp.sumneko_lua.setup({
 	cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
 	on_init = custom_init,
@@ -89,3 +90,6 @@ lsp.sumneko_lua.setup({
 		},
 	},
 })
+end
+
+return M
