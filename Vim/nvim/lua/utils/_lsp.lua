@@ -114,9 +114,9 @@ local format_async_legacy = function(err, _, result, _, bufnr)
 		return
 	end
 	if not vim.api.nvim_buf_get_option(bufnr, 'modified') then
-		local view = fn.winsaveview()
+		local view = vim.fn.winsaveview()
 		vim.lsp.util.apply_text_edits(result, bufnr)
-		fn.winrestview(view)
+		vim.fn.winrestview(view)
 		vim.api.nvim_command('noautocmd :update')
 	end
 end
