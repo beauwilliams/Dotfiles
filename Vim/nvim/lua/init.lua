@@ -9,6 +9,7 @@ require("plugins._hexokinase")
 require("plugins._telescope")
 require("plugins._treesitter")
 require("plugins._nvimtree")
+require("plugins._discord")
 require("lsp._lsp_config")
 local statusline = require("statusline")
 statusline.enable = true

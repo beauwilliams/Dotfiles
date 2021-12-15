@@ -16,6 +16,7 @@
   (require :plugins._telescope)
   (require :plugins._treesitter)
   (require :plugins._nvimtree)
+  (require :plugins._discord)
   ;LSP
   (require :lsp._lsp_config)
   ;MY STATUSLINE

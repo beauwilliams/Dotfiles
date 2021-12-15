@@ -137,7 +137,7 @@ packer.startup({
 				require('focus').setup({
 					tmux = false,
 					hybridnumber = true,
-					excluded_filetypes = { 'fterm', 'term' },
+					excluded_filetypes = { 'fterm', 'term', 'diffviewfiles' },
 					signcolumn = 'number',
 					absolutenumber = false,
 					bufnew = true,
@@ -355,8 +355,7 @@ packer.startup({
 /_/     /_/ |_|  /_____/   /_____/   /____/  /___/   /_/     /_/     /_____/   /_/ |_|
  ]]
 		use({
-			'nvim-treesitter/nvim-treesitter',
-			branch = '0.5-compat',
+			'nvim-treesitter/nvim-treesitter'
 			--run = ":TSInstall all"
 		})
 		use('haringsrob/nvim_context_vt') --> Show treesitter context at end of functions etc
@@ -533,7 +532,7 @@ packer.startup({
 			-- help suggestions for key mappings
 			'folke/which-key.nvim',
 			config = function()
-				require('which-key').setup({})
+				require('plugins._which-key')
 			end,
 		})
 		-- VIM MOTION PLUGIN, s, S, f, F, t, T
@@ -618,6 +617,7 @@ packer.startup({
 --]]
 
 
+		use('andweeb/presence.nvim') -- discord presence
 		use 'tweekmonster/startuptime.vim'
 		--inc search box ui, making search more pretty
 		use {
@@ -676,7 +676,6 @@ packer.startup({
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
 		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
-		-- use('andweeb/presence.nvim') -- discall mkdp#util#install()call mkdp#util#install()cord presence
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
 		-- use 'jiangmiao/auto-pairs' --> replaced with delimited mate, bettr with compe
