@@ -10,10 +10,30 @@ function hasBinary() (
     if cmd=$(command -v $1); then echo TRUE; else echo FALSE; fi
 )
 
+function mdprint() {
+    #npm install -g markdown-pdf
+    markdown-pdf "$1"
+}
+
 function newtabi() {
   osascript \
     -e 'tell application "iTerm2" to tell current window to set newWindow to (create tab with default profile)'\
     -e "tell application \"iTerm2\" to tell current session of newWindow to write text \"$*\""
+}
+
+
+function titlei {
+    echo -ne "\033]0;"$*"\007"
+}
+
+
+function iterm {
+    local ARGS
+    itermCmds=( "newtabi" "titlei")
+    cmd=$(printf "%s\n" "${itermCmds[@]}" | fzf --reverse)
+    echo -n "enter chosen command args (if any) - enter for no args: "
+    read -r ARGS
+    eval "$cmd" "$ARGS"
 }
 
 function getFZFPreviewer() (
@@ -38,10 +58,10 @@ function fzf-awesome-list() {
 }
 
 ###CHEATSHEETS###
-function cheats() {
+function cheatsheets() {
     if [[ "$#" -eq 0 ]]; then
         local selected=$(find ~/.cheatsheet -maxdepth 1 -type f | fzf --multi)
-        nvim -- ~/.cheatsheet/$selected-cheatsheet.md
+        nvim $selected
     else
         nvim -- ~/.cheatsheet/$1-cheatsheet.md
     fi
@@ -197,12 +217,12 @@ aliases() {
 }
 
 funcs() {
-    if [ -f ~/.config/zsh/scripts/functions.sh ]; then
-        nvim ~/.config/zsh/scripts/functions.sh
+    if [ -f ~/.config/zsh/functions/functions.sh ]; then
+        nvim ~/.config/zsh/functions/functions.sh
     fi
 
-    if [ -f ~/.config/zsh/scripts/functions.sh.local ]; then
-        nvim ~/.config/zsh/scripts/functions.sh.local
+    if [ -f ~/.config/zsh/functions/functions.sh.local ]; then
+        nvim ~/.config/zsh/functions/functions.sh.local
     fi
 }
 
@@ -246,6 +266,12 @@ gwrf() { git worktree remove --force "$*"; }
 acp() {
     git add .
     git commit -m "$*"
+    git push -u origin HEAD
+}
+#Interactive git commit with KOJI
+acpi() {
+    git add .
+    koji
     git push -u origin HEAD
 }
 # No arguments: `git status`
@@ -808,3 +834,59 @@ extract() {
         shift
     done
 }
+
+
+
+tmux-2pane() {
+getHelp() (
+	echo "Creates a new detached tmux session with 2 panes"
+	echo "With an option to run a command in left and right pane"
+	echo " "
+	echo 'USAGE: ./tmux-2pane.sh foo_bar "echo foo" "echo bar"'
+	echo 'Creates a session named foo_bar, running echo commands in the left and right panes respectively'
+	echo " "
+	echo "options:"
+	echo "-h, --help                show brief help"
+	exit 0
+
+)
+
+if [[ "$#" -eq 0 ]]; then
+	getHelp
+	exit
+else
+	# while test $# -gt 0; do
+	case "$1" in
+	-h | --help)
+		getHelp
+		shift
+		;;
+	*)
+		tmux new-session -s "$1" -d
+		echo -n "Would you like to create a vertical or horizontal split (enter for h) v/h?: "
+		read -r REPLY
+
+		if [[ $REPLY == ^[Vv]$ ]]; then
+			tmux split-window -v
+		else
+			tmux split-window -h
+		fi
+		if [[ "$#" -gt 1 ]]; then
+			tmux send-keys -t "$1"".0" "$2" ENTER
+		fi
+		if [[ "$#" -gt 2 ]]; then
+			tmux send-keys -t "$1"".1" "$3" ENTER
+		fi
+		;;
+	esac
+	# done
+fi
+
+echo -n "Would you like to attach to the tmux session ""$1"" (enter for n) y/n?: "
+read -r REPLY
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+	tmux -2 attach-session -d
+fi
+}
+
