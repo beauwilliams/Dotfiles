@@ -6,11 +6,9 @@ alias nvimenv="~/.local/bin/nvim"
 alias n="nvim"
 alias vi="nvim"
 alias vim="nvim"
-alias n6="/Users/admin/Downloads/Temp/nvim0.6/nvim-osx64/bin/nvim"
-alias nvim="n6"
 
 ###MISC ALIASES###
-eval "$(thefuck --alias)"
+# eval "$(thefuck --alias)"
 
 ####NOTES####
 alias scratch="~/.config/zsh/commands/fzf-scratch.sh"
@@ -38,6 +36,7 @@ alias compile="./compile.sh"
 ###TMUX###
 alias attach='tmux attach -t'
 alias stop='tmux kill-session -t'
+alias 2pane='tmux-2pane'
 
 ###ZSH ###
 alias zshreload="source ~/.zshrc"
@@ -62,6 +61,7 @@ alias ....='cd ../../..'
 #alias bd="cd .."
 
 ###GIT ALIASES####
+alias gci='koji' #INTERACTIVE COMMITS
 alias ghelp="git help -a | fzf --reverse"
 alias gpo='git push -u origin HEAD'
 alias __git_find_subcommand='__git_find_on_cmdline'
@@ -71,7 +71,7 @@ alias gb='git branch'
 alias gba='git branch -a'
 # alias gc='git commit -v'
 alias gca='git commit -v -a'
-alias gci='git commit --interactive'
+# alias gci='git commit --interactive'
 # alias gcl='git clone'
 alias gcm='git commit -v -m'
 # alias gco='git checkout'
