@@ -8,11 +8,6 @@ call wilder#set_option('modes', ['/', '?', ':'])
 "DONT FUZZY MATCH COMMANDS IT IS ANNOYING (cmdpipeline)
 call wilder#set_option('pipeline', [
       \   wilder#branch(
-      \     wilder#python_file_finder_pipeline({
-      \       'file_command': ['rg', '--files'],
-      \       'dir_command': ['find', '.', '-type', 'd', '-printf', '%P\n'],
-      \       'filters': ['fuzzy_filter', 'difflib_sorter'],
-      \     }),
       \     wilder#cmdline_pipeline({
       \       'fuzzy': 1,
       \       'fuzzy_filter': wilder#vim_fuzzy_filter(),

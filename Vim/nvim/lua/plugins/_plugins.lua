@@ -137,7 +137,7 @@ packer.startup({
 				require('focus').setup({
 					tmux = false,
 					hybridnumber = true,
-					excluded_filetypes = { 'fterm', 'term', 'diffviewfiles' },
+					excluded_filetypes = { 'fterm', 'term', 'toggleterm' },
 					signcolumn = 'number',
 					absolutenumber = false,
 					bufnew = true,
@@ -168,7 +168,7 @@ packer.startup({
 		})
 
 		--NOTE:  HEX COLOUR PREVIEW
-		use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
+		-- use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
 
 		--NOTE:  CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
 		use({
@@ -276,8 +276,6 @@ packer.startup({
 			-- Use code formatters with nvim lsp formatting
 			'jose-elias-alvarez/null-ls.nvim',
 			config = function()
-				require('null-ls').config({})
-				require('lspconfig')['null-ls'].setup({})
 			end,
 			requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
 		})
@@ -491,7 +489,7 @@ packer.startup({
 		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
 		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
 		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen] (better than signify)
-		use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
+		-- use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
 		use({
 			'beauwilliams/blamer.nvim',
 			branch = 'patch-1',
@@ -541,7 +539,6 @@ packer.startup({
 			'ggandor/lightspeed.nvim',
 			config = function()
 				require('lightspeed').setup({
-					jump_to_first_match = true,
 					jump_on_partial_input_safety_timeout = 400,
 					-- This can get _really_ slow if the window has a lot of content,
 					-- turn it on only if your machine can always cope with it.
@@ -549,7 +546,6 @@ packer.startup({
 					grey_out_search_area = false,
 					match_only_the_start_of_same_char_seqs = true,
 					limit_ft_matches = 5,
-					full_inclusive_prefix_key = '<c-x>',
 					-- By default, the values of these will be decided at runtime,
 					-- based on `jump_to_first_match`.
 					-- labels = nil,
@@ -617,6 +613,7 @@ packer.startup({
 --]]
 
 
+		use 'beauwilliams/AutoWrite.vim'
 		use('andweeb/presence.nvim') -- discord presence
 		use 'tweekmonster/startuptime.vim'
 		--inc search box ui, making search more pretty

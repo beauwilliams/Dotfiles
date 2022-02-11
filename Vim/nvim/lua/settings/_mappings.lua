@@ -56,6 +56,8 @@ vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent
 -- Clear highlights quick! Removed for above
 -- utils.nnoremap(leader .. "/", ":nohlsearch<cr>")
 
+
+
 vim.api.nvim_set_keymap(
 	'n',
 	'<leader>o',
