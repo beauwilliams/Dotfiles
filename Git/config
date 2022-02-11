@@ -53,5 +53,9 @@
 	protocol = ssh
 [commit]
 	template = /Users/admin/.config/git/commitconventions.txt
+[init]
+	defaultBranch = main
 [credential]
 
+[pull]
+	ff = only
