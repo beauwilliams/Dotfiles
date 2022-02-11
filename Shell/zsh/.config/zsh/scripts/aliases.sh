@@ -29,9 +29,11 @@ alias gitconfig="nvim ~/.config/git/config"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
-alias start="zsh ./start.sh"
-alias deploy="zsh ./deploy.sh"
-alias compile="zsh ./compile.sh"
+alias start="bash ./start.sh"
+alias deploy="bash ./deploy.sh"
+alias compile="bash ./compile.sh"
+alias run="bash ./run.sh"
+alias init="bash ./init.sh"
 
 ###TMUX###
 alias attach='tmux attach -t'
