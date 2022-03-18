@@ -553,11 +553,8 @@ packer.startup({
 			'ggandor/lightspeed.nvim',
 			config = function()
 				require('lightspeed').setup({
-					jump_on_partial_input_safety_timeout = 400,
-					-- This can get _really_ slow if the window has a lot of content,
-					-- turn it on only if your machine can always cope with it.
-					highlight_unique_chars = false,
-					grey_out_search_area = false,
+					jump_to_unique_chars = false,
+					repeat_ft_with_target_char = true,
 					match_only_the_start_of_same_char_seqs = true,
 					limit_ft_matches = 5,
 					-- By default, the values of these will be decided at runtime,

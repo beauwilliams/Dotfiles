@@ -39,9 +39,10 @@ null_ls.setup({
 		b.diagnostics.shellcheck,
 
 		--LINTERS
-		require('null-ls.helpers').conditional(function(utils) --uses eslint fallback to prettier otherwise
-			return utils.root_has_file('.eslintrc.js') and b.formatting.eslint_d or b.formatting.prettier
-		end),
+		function()
+			local utils = require("null-ls.utils").make_conditional_utils()
+			return utils.root_has_file(".eslintrc.js") and b.formatting.eslint_d or b.formatting.prettier
+		end,
 		-- b.diagnostics.write_good,
 		-- b.diagnostics.markdownlint,
 

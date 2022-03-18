@@ -19,7 +19,7 @@ vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark = 'soft'
 vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
 -- vim.g.gruvbox_sign_column = "bg0"
--- vim.cmd('colorscheme gruvbox')
+vim.cmd('colorscheme gruvbox')
 
 -- NOTE: Automatic switching between dark and light mode
 local auto_dark_mode = require('auto-dark-mode')

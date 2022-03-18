@@ -40,6 +40,7 @@ tsconf.setup({
 	indent = {
 		enable = true,
 	},
+	-- NOTE: Not 0.7 nightly compatible for now
 	rainbow = {
 		--> VIA p00f/nvim-ts-rainbow
 		enable = true,
@@ -75,12 +76,13 @@ tsconf.setup({
 		select = {
 			enable = true,
 			keymaps = {
-				['iF'] = {
+			-- BUG: Causes query bug using below code
+				--[[ ['iF'] = {
 					python = '(function_definition) @function',
 					cpp = '(function_definition) @function',
 					c = '(function_definition) @function',
 					java = '(method_declaration) @function',
-				},
+				}, ]]
 				['af'] = '@function.outer',
 				['if'] = '@function.inner',
 				['aC'] = '@class.outer',
