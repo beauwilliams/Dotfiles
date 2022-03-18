@@ -97,6 +97,9 @@ packer.startup({
 --]]
 		--NOTE: THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
+		use 'mvpopuk/inspired-github.vim'
+		-- AUTO dark / light mode switch between github and gruvbox theme
+		use 'f-person/auto-dark-mode.nvim'
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
     use {'stevearc/dressing.nvim'} -- Neovim plugin to improve the default vim.ui interfaces
 		-- use 'ghifarit53/tokyonight-vim'
@@ -303,6 +306,17 @@ packer.startup({
 				vim.cmd([[ hi illuminatedCurWord cterm=none gui=none]])
 			end,
 		})
+
+
+		--NOTE: Dim unused variables
+		-- Lua
+		use {
+			"narutoxy/dim.lua",
+			requires = { "nvim-treesitter/nvim-treesitter", "neovim/nvim-lspconfig" },
+			config = function()
+				require('dim').setup()
+			end
+		}
 
 		--NOTE: NVIM LSP PLUGINS
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc

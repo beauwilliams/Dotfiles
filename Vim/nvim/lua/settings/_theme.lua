@@ -19,7 +19,23 @@ vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark = 'soft'
 vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
 -- vim.g.gruvbox_sign_column = "bg0"
-vim.cmd('colorscheme gruvbox') -- must come after gruvbox_italic
+-- vim.cmd('colorscheme gruvbox')
+
+-- NOTE: Automatic switching between dark and light mode
+local auto_dark_mode = require('auto-dark-mode')
+
+auto_dark_mode.setup({
+	update_interval = 1000,
+	set_dark_mode = function()
+		vim.api.nvim_set_option('background', 'dark')
+		vim.cmd('colorscheme gruvbox')
+	end,
+	set_light_mode = function()
+		vim.api.nvim_set_option('background', 'light')
+		vim.cmd('colorscheme inspired-github')
+	end,
+})
+auto_dark_mode.init()
 
 -- vim.cmd[[colorscheme gruvbox-flat]]
 -- match the fold column colors to the line number colum

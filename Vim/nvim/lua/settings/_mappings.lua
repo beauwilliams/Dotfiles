@@ -119,6 +119,10 @@ utils.vnoremap(leader .. 'g', ':Neogit<cr>')
 --Fugitive Shortcut
 vim.cmd([[cnoreabbrev git Git]])
 
+--Markdown Previwer
+vim.cmd([[cnoreabbrev mdp MarkdownPreview]])
+
+
 -- CODE FORMATTERS
 --Remove indents from code! (a simple code formatter)
 utils.nnoremap(leader .. 'i', 'gg=G<c-o>')
@@ -195,8 +199,10 @@ nnoremap <silent><leader>] <c-w>K
 -- ABBREVIATIONS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TOGGLE LIGHT/DARK THEME
-cmd([[cnoreabbrev light lua vim.o.background = 'light']])
-cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
+-- cmd([[cnoreabbrev light lua vim.o.background = 'light']])
+-- cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
+cmd([[cnoreabbrev light colorscheme inspired-github]])
+cmd([[cnoreabbrev dark colorscheme gruvbox <bar> lua vim.o.background = 'dark']])
 
 --CHEATSHEAT
 cmd([[cnoreabbrev cheat Cheatsheet]])
