@@ -134,6 +134,7 @@ function mv() {
 
         # NOTE. THIS IS A ZSH IMPLEMENTATION ONLY FOR NOW. VARED IS ZSH BUILTIN.
         # FOR BASH use something like read -p "enter a directory: "
+        echo "Use full path i.e /Users/admin/Git_Downloads/blog-sites"
         vared -p 'to whence shall be the files moved. state your target: ' -c TARGET
         if [ -z "$TARGET" ]; then
             echo 'no target specified'
@@ -890,3 +891,25 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 fi
 }
 
+function blog() {
+if [[ "$#" -eq 0 ]]; then
+    echo "Please provide Post name"
+else
+    echo -n "Enter blog post title: "
+    read -r title
+    echo -n "Enter blog post description: "
+    read -r description
+    date=$(date '+%d/%m/%Y')
+    cd ~/Git_Downloads/blog-sites/my-nextjs-blog/ &&
+cat <<EOF > ~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md && nvim ~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md +MarkdownPreview
+---
+title: $title
+description: $description
+date: $date
+---
+
+
+# A new blog about "$*"
+EOF
+fi
+}

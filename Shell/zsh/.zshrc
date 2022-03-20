@@ -163,6 +163,7 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 #SYSTEM
 # export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin #default path ls, mv etc
 export PATH="/usr/local/bin:$PATH"
+export MYBIN='/Users/admin/.local/bin' # For later reference to my BIN location for locally installed binaries
 export PATH="$PATH:/Users/admin/.local/bin" #MY CUSTOM BINARY LOCATION
 # export PATH="/usr/local/sbin:$PATH"
 

@@ -9,6 +9,7 @@ alias vim="nvim"
 
 ###MISC ALIASES###
 # eval "$(thefuck --alias)"
+alias comp3100='multipass exec comp3100 bash'
 
 ####NOTES####
 alias scratch="~/.config/zsh/commands/fzf-scratch.sh"
@@ -29,11 +30,14 @@ alias gitconfig="nvim ~/.config/git/config"
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
-alias start="bash ./start.sh"
-alias deploy="bash ./deploy.sh"
-alias compile="bash ./compile.sh"
-alias run="bash ./run.sh"
-alias init="bash ./init.sh"
+alias start='just start'
+alias deploy='just deploy'
+alias compile='just compile'
+alias run='just run'
+alias init='just init'
+alias build='just build'
+alias test='just test'
+alias lint='just lint'
 
 ###TMUX###
 alias attach='tmux attach -t'
@@ -105,7 +109,9 @@ alias mergecheatsheets="~/.cheatsheet/merge-cheatsheets.sh"
 alias mergehammer="echo merging hammerspon && cp ~/.hammerspoon/init.lua ~/Git_Downloads/Dotfiles/Hammerspoon"
 alias mergegit="~/.config/git/merge-git-config.sh"
 alias mergebrew="echo merging homebrew && cd ~/Git_Downloads/Dotfiles/Homebrew/ && brew bundle dump --force"
-alias mergeall="mergezsh && mergenvim && mergebrew && mergecheatsheets && mergegit && mergehammer && mergevim"
+alias mergeiterm="echo merging iterm && cp -r /Users/admin/Library/Application\ Support/iTerm2/Scripts/ ~/Git_Downloads/Dotfiles/Shell/iTerm/Scripts/"
+alias mergeall="mergezsh && mergenvim && mergebrew && mergecheatsheets && mergegit && mergehammer && mergevim && mergeiterm"
+
 
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)

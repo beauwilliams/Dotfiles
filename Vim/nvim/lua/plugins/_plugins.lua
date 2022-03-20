@@ -98,6 +98,7 @@ packer.startup({
 		--NOTE: THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
 		use 'mvpopuk/inspired-github.vim'
+		use "projekt0n/github-nvim-theme"
 		-- AUTO dark / light mode switch between github and gruvbox theme
 		use 'f-person/auto-dark-mode.nvim'
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
