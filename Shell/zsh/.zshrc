@@ -126,7 +126,10 @@ export CLICOLOR=1
 export CLICOLOR_FORCE=true
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 #ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
-export BAT_THEME='gruvbox'
+if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
+  then export BAT_THEME='gruvbox-dark'
+  else export BAT_THEME='gruvbox-light'
+fi;
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 #export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 #export LSCOLORS=exfxcxdxbxegedabagacad
