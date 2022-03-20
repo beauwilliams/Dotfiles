@@ -28,7 +28,6 @@ tsconf.setup({
 	disable = {},
 	-- ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
 	autotag = {
-		-- NOTE: Not working https://github.com/windwp/nvim-ts-autotag
 		enable = true,
 	},
 	highlight = {

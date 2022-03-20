@@ -11,6 +11,15 @@
 \____/   \____/  /_/ |_/   /_/       /___/   \____/
 
 --]]
+
+
+
+
+
+
+
+
+
 --[[
     ____     ___    ______    __ __    ______    ____            ____    _   __    ____  ______
    / __ \   /   |  / ____/   / //_/   / ____/   / __ \          /  _/   / | / /   /  _/ /_  __/
@@ -54,6 +63,15 @@ end
 -- vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '12')
 vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when there are changes to plugins
 
+
+
+
+
+
+
+
+
+
 --[[
     ____     __    __  __   ______    ____    _   __           ____    _   __    ____  ______   _____
    / __ \   / /   / / / /  / ____/   /  _/   / | / /          /  _/   / | / /   /  _/ /_  __/  / ___/
@@ -87,7 +105,15 @@ packer.startup({
 		--NOTE:  DEBUG STUFF
 		-- https://github.com/henriquehbr/nvim-startup.lua
 
-		--[[
+
+
+
+
+
+
+
+
+--[[
   ______    __  __    ______    __  ___    ______   _____          ___             __  __    ____
  /_  __/   / / / /   / ____/   /  |/  /   / ____/  / ___/         ( _ )           / / / /   /  _/
   / /     / /_/ /   / __/     / /|_/ /   / __/     \__ \         / __ \/|        / / / /    / /
@@ -97,7 +123,7 @@ packer.startup({
 --]]
 		--NOTE: THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
-		use 'mvpopuk/inspired-github.vim'
+		-- use 'mvpopuk/inspired-github.vim'
 		use "projekt0n/github-nvim-theme"
 		-- AUTO dark / light mode switch between github and gruvbox theme
 		use 'f-person/auto-dark-mode.nvim'
@@ -198,7 +224,13 @@ packer.startup({
 		})
 
 
-		--[[
+
+
+
+
+
+
+--[[
   ______   ____    ____     __  _       __    ____    _   __    ____    ____  _       __
  /_  __/  / __ \  / __ \   / / | |     / /   /  _/   / | / /   / __ \  / __ \| |     / /
   / /    / / / / / / / /  / /  | | /| / /    / /    /  |/ /   / / / / / / / /| | /| / /
@@ -228,7 +260,15 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+
+
+
+
+
+
+
+--[[
     ____     ____    ____    ______    ____     ___     __  ___    __  ___    ____    _   __   ______
    / __ \   / __ \  / __ \  / ____/   / __ \   /   |   /  |/  /   /  |/  /   /  _/   / | / /  / ____/
   / /_/ /  / /_/ / / / / / / / __    / /_/ /  / /| |  / /|_/ /   / /|_/ /    / /    /  |/ /  / / __
@@ -310,7 +350,6 @@ packer.startup({
 
 
 		--NOTE: Dim unused variables
-		-- Lua
 		use {
 			"narutoxy/dim.lua",
 			requires = { "nvim-treesitter/nvim-treesitter", "neovim/nvim-lspconfig" },
@@ -341,9 +380,6 @@ packer.startup({
 		-- https://github.com/rcarriga/nvim-dap-ui
 		-- https://github.com/theHamsta/nvim-dap-virtual-text
 
-		-- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
-		-- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
-		-- https://github.com/jubnzv/mdeval.nvim - RUN CODE SNIPPETS IN MARKDOWN FILE
 
 		-- NOTE: Pair Programming
 		-- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
@@ -354,13 +390,46 @@ packer.startup({
 			run = 'make install',
 		})
 
+    --NOTE: Search and replace (grep)
+    --fave
+		  use('windwp/nvim-spectre')
+    --minimal s&r
+    --[[ use {
+            's1n7ax/nvim-search-and-replace',
+            setup = function() require'nvim-search-and-replace'.setup() end,
+        } ]]
+
+
+
+		--NOTE: CODE TESTING PLUGINS
+		-- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
+
+
+		--NOTE: BUILD SYSTEM PLUGINS
+    --[[ use {
+      'pianocomposer321/yabs.nvim',
+      requires = { 'nvim-lua/plenary.nvim' }
+    } ]]
+
+
+
 		-- TODO: Review
+		-- use 'skywind3000/vim-rt-format' --> Prettify current line on ENTER
+		-- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
+		-- https://github.com/jubnzv/mdeval.nvim - RUN CODE SNIPPETS IN MARKDOWN FILE
 		-- use('ray-x/lsp_signature.nvim') --> LSP SignatureInformation
 		-- use  'glepnir/lspsaga.nvim'
 		-- use 'jubnzv/virtual-types.nvim'--> A Neovim plugin that shows type annotations as virtual text
 		-- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
 
-		--[[
+
+
+
+
+
+
+
+--[[
   ______    ____     ______    ______   _____    ____  ______  ______    ______    ____
  /_  __/   / __ \   / ____/   / ____/  / ___/   /  _/ /_  __/ /_  __/   / ____/   / __ \
   / /     / /_/ /  / __/     / __/     \__ \    / /    / /     / /     / __/     / /_/ /
@@ -373,7 +442,7 @@ packer.startup({
 		})
 		use('haringsrob/nvim_context_vt') --> Show treesitter context at end of functions etc
 		use('nvim-treesitter/nvim-treesitter-refactor') --> smart renaming and highlight definitions and scope
-		use('windwp/nvim-ts-autotag')
+		use('windwp/nvim-ts-autotag') --> Use treesitter to autoclose and autorename html tag
 		use('nvim-treesitter/nvim-treesitter-textobjects') -- treesitter text objects
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
@@ -388,9 +457,19 @@ packer.startup({
 		--   "nvim-treesitter/playground",
 		--   requires = "nvim-treesitter/nvim-treesitter"
 		-- }
-		use 'David-Kunz/treesitter-unit' -- use iu au to select units of code
-		use('mizlan/iswap.nvim') --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things. ]]
-		--[[
+		-- use 'David-Kunz/treesitter-unit' -- use iu au to select units of code
+		-- use('mizlan/iswap.nvim') --> Easily SWAP function variables using treesitter, USAGE: Run the command :ISwap when your cursor is in a location that is suitable for swapping around things. ]]
+
+
+
+
+
+
+
+
+
+
+--[[
     ______   __  __ _____ _______  __           ______    ____    _   __    ____     ____    _   __   ______
    / ____/  / / / //__  //__  /\ \/ /          / ____/   /  _/   / | / /   / __ \   /  _/   / | / /  / ____/
   / /_     / / / /   / /   / /  \  /          / /_       / /    /  |/ /   / / / /   / /    /  |/ /  / / __
@@ -465,7 +544,17 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+
+
+
+
+
+
+
+
+
+--[[
     ______    ____    __     ______           _   __    ___  _    __
    / ____/   /  _/   / /    / ____/          / | / /   /   || |  / /
   / /_       / /    / /    / __/            /  |/ /   / /| || | / /
@@ -494,7 +583,17 @@ packer.startup({
 			end
 		})
 
-		--[[
+
+
+
+
+
+
+
+
+
+
+--[[
    ______    ____  ______           ____     __    __  __   ______    ____    _   __   _____
   / ____/   /  _/ /_  __/          / __ \   / /   / / / /  / ____/   /  _/   / | / /  / ___/
  / / __     / /    / /            / /_/ /  / /   / / / /  / / __     / /    /  |/ /   \__ \
@@ -530,7 +629,15 @@ packer.startup({
 			end,
 		}) ]]
 
-		--[[
+
+
+
+
+
+
+
+
+--[[
     __  ___   ____   ______    ____   ____     _   __   _____
    /  |/  /  / __ \ /_  __/   /  _/  / __ \   / | / /  / ___/
   / /|_/ /  / / / /  / /      / /   / / / /  /  |/ /   \__ \
@@ -574,7 +681,15 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+
+
+
+
+
+
+
+--[[
     __  ___    ____   _____   ______           ____     __    __  __   ______    ____    _   __   _____
    /  |/  /   /  _/  / ___/  / ____/          / __ \   / /   / / / /  / ____/   /  _/   / | / /  / ___/
   / /|_/ /    / /    \__ \  / /              / /_/ /  / /   / / / /  / / __     / /    /  |/ /   \__ \
@@ -586,7 +701,12 @@ packer.startup({
 		use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS
 		use({ 'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' } }) -- Open HTTP files - a curl wrapper
 
-		--[[
+
+
+
+
+
+--[[
     ______    ____   _  __    ______   _____          ___              ____     ______    ____     ______
    / ____/   /  _/  | |/ /   / ____/  / ___/         ( _ )            / __ \   / ____/   / __ \   / ____/
   / /_       / /    |   /   / __/     \__ \         / __ \/|         / /_/ /  / __/     / /_/ /  / /_
@@ -616,7 +736,16 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+
+
+
+
+
+
+
+
+--[[
     ____     __    __  __   ______    ____    _   __   _____         ______    ______   _____  ______    ____    _   __   ______
    / __ \   / /   / / / /  / ____/   /  _/   / | / /  / ___/        /_  __/   / ____/  / ___/ /_  __/   /  _/   / | / /  / ____/
   / /_/ /  / /   / / / /  / / __     / /    /  |/ /   \__ \          / /     / __/     \__ \   / /      / /    /  |/ /  / / __
@@ -650,12 +779,9 @@ packer.startup({
 		} ]]
 
 
-		--[[ use {
-            's1n7ax/nvim-search-and-replace',
-            setup = function() require'nvim-search-and-replace'.setup() end,
-        } ]]
 		use('nvim-lua/plenary.nvim')
-		use('windwp/nvim-spectre')
+    --
+
 		use('MunifTanjim/nui.nvim') -- NOTE: We need this as its a dependency of something..
 		use('npxbr/glow.nvim') --> might ned to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()

@@ -201,7 +201,7 @@ nnoremap <silent><leader>] <c-w>K
 --TOGGLE LIGHT/DARK THEME
 -- cmd([[cnoreabbrev light lua vim.o.background = 'light']])
 -- cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
-cmd([[cnoreabbrev light colorscheme inspired-github]])
+cmd([[cnoreabbrev light colorscheme github_light]])
 cmd([[cnoreabbrev dark colorscheme gruvbox <bar> lua vim.o.background = 'dark']])
 
 --CHEATSHEAT

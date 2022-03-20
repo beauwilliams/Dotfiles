@@ -1,17 +1,18 @@
-local utils = require('libraries._set_options')
+local options = require('libraries._set_options')
+local utils = require('libraries._utils')
 
-utils.set_options('g', {
+options.set_options('g', {
 	mapleader = ' ',
 })
 
-utils.set_options( 'o', {
-	-- colorcolumn = 80, --80 column width marker for when we need it
-	-- signcolumn = "auto",
+options.set_options( 'o', {
+	-- colorcolumn = '80', --80 column width marker for when we need it
+	termguicolors = true, --uses your colorscheme and init. vim's gui values. CUSTOM COLORSCHEME NOT WORK RIGHT WITHOUT ME....
 	hlsearch = true, -- highlight matching search
 	wrapscan = true, -- begin search from top of the file when nothng is found
 	cursorline = true, -- enable cursorline
 	number = true, -- enable line numbers
-	signcolumn = 'number', -- show errors in number column
+	signcolumn = 'number', -- show errors in number column - or 'auto'
 	expandtab = true, -- this feature means that tabs are actually whitespaces so when we send code to friend indentation is not messed up
 	shiftwidth = 4, -- when we hit tab it moves 4 spaces
 	tabstop = 4, -- setting auto indent to 4 spaces
@@ -47,6 +48,11 @@ utils.set_options( 'o', {
 	-- cpoptions = vim.o.cpoptions .. 'x', -- stay at seach item when <esc> (ENTERS COMMAND WHEN HIT ESC from : MODE, DONT USE)
 })
 
+if utils.hasVersion("0.7") then
+	options.set_options( 'o', {
+		laststatus = 3
+	})
+end
 -- Disable providers we do not care a about
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0

@@ -1,10 +1,3 @@
-vim.cmd('syntax on')
-
--- NOTE: Global theme settings
-vim.o.termguicolors = true
-
-
-
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Auto dark/light & default theme settings
@@ -21,6 +14,7 @@ auto_dark_mode.setup({
 	set_dark_mode = function()
 		vim.api.nvim_set_option('background', 'dark')
 		vim.cmd('colorscheme gruvbox')
+		setGruvboxHighlights() --> NOTE: must come after :colorscheme gruvbox
 	end,
 	set_light_mode = function()
 		-- vim.api.nvim_set_option('background', 'light')
@@ -35,14 +29,12 @@ auto_dark_mode.init()
 
 
 
-
-
-
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Gruvbox theme settings
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
+-- NOTE: Globals must be set on init, not dynamically
 vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark = 'soft'
 vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
@@ -51,18 +43,9 @@ vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with sy
 --vim.g.gruvbox_invert_selection = 0
 --vim.g.gruvbox_number_column = 'dark0_hard'
 
--- NOTE: Gruvbox theme custom highlights rest of file..
--- Note: must come after colorscheme gruvbox
-
-
--- match the fold column colors to the line number colum
---vim.cmd("highlight clear FoldColumn")
--- vim.cmd("highlight! link FoldColumn LineNr")
-
-
--- removes Cursor light grey block where cusorline is
--- vim.cmd("hi! link CursorLineNr LineNr ")
-
+setGruvboxHighlights = function()
+-- CURSOR FLASH
+vim.cmd('highlight Beacon guibg=white ctermbg=15')
 -- treesitter highlights
 vim.cmd('highlight! link TSConstBuiltin Constant') -- None
 vim.cmd('highlight! link TSKeywordOperator Keyword') -- not, in
@@ -107,11 +90,34 @@ vim.cmd("highlight! link LspSagaSignatureHelpBorder GruvboxAqua")
 vim.cmd("highlight! link ProviderTruncateLine GruvboxGray")
 vim.cmd("highlight! link SagaShadow GruvboxBg1")
 vim.cmd("highlight! link TargetWord GruvboxRed")
+end
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- NOTE: END Gruvbox theme settings
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- NOTE: REST OF FILE IS FOR LATER REF
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+-- NOTE: Bug fixes..
+-- match the fold column colors to the line number colum
+--vim.cmd("highlight clear FoldColumn")
+-- vim.cmd("highlight! link FoldColumn LineNr")
+-- removes Cursor light grey block where cusorline is
+-- vim.cmd("hi! link CursorLineNr LineNr ")
 --vim.cmd('highlight ColorColumn ctermbg=0 guibg=lightgrey')
 --vim.cmd('highlight SignColumn guibg=#282828')
 
+--NOTE: Other treesitter highlights to consider.....
 -- vim.cmd("highlight! link TSPunctDelimiter Delimiter") -- , . etc
 -- vim.cmd("highlight! link TSPunctBracket Delimiter")
 -- vim.cmd("highlight! link TSPunctSpecial Delimiter")
@@ -164,8 +170,3 @@ vim.cmd("highlight! link TargetWord GruvboxRed")
 
 -- vim.cmd("highlight! link TSTag Label")
 -- vim.cmd("highlight! link TSTagDelimiter Delimiter")
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
--- NOTE: END Gruvbox theme settings
---------------------------------------------------------------------------------------------------------------
---------------------------------------------------------------------------------------------------------------
