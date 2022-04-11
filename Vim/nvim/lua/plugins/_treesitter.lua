@@ -24,9 +24,10 @@ parser_configs.norg = {
 }
 
 tsconf.setup({
-	ensure_installed = 'maintained', --> Installs ALL maintained packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
+	--NOTE: As of Apr 2022 maintained flag is deprecated
+	-- ensure_installed = 'all', --> Installs ALL maintained[] packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
 	disable = {},
-	-- ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml'},
+	ensure_installed = {'bash', 'c', 'cpp', 'go', 'java', 'javascript', 'json', 'lua', 'python', 'ruby', 'toml', 'solidity', 'norg'},
 	autotag = {
 		enable = true,
 	},

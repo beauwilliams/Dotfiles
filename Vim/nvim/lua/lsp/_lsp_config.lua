@@ -149,7 +149,6 @@ local servers = {
 	'rust_analyzer',
 	'pylsp',
 	'dockerls',
-    -- 'solidity_ls'
 }
 
 for _, server in ipairs(servers) do
@@ -179,7 +178,6 @@ end
 -- LANG CONFS
 require('lsp._null') --Null ls, additional formatters, diags and more..
 require('lsp._solang').setup(custom_attach, custom_init)
--- require('lsp._solc').setup(custom_attach, custom_init)
 require('lsp._lua').setup(custom_attach, custom_init)
 require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 require('lsp._typescript').setup(custom_attach, custom_init)

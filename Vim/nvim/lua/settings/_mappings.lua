@@ -117,6 +117,9 @@ vim.cmd([[cnoreabbrev diff DiffviewOpen]])
 utils.nnoremap(leader .. 'g', ':LazyGit<cr>')
 utils.vnoremap(leader .. 'g', ':LazyGit<cr>')
 vim.cmd([[cnoreabbrev gd LazyGit]])
+--api.nvim_add_user_command('LazyGitFloat', function()
+--   require('FTerm').run({'lazygit'})
+--end, { bang = true })
 
 
 --Fugitive Shortcut
@@ -263,6 +266,7 @@ vim.cmd('cnoreabbrev z Z')
 
 --PACKER
 cmd([[cnoreabbrev pc PackerCompile]])
+cmd([[cnoreabbrev pu PackerUpdate]])
 cmd([[cnoreabbrev pi PackerInstall]])
 cmd([[cnoreabbrev ps PackerSync]])
 cmd([[cnoreabbrev pcl PackerClean]])

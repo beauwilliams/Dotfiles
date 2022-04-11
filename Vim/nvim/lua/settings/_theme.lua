@@ -5,10 +5,6 @@
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Default colorscheme to load at startup before reading OS theme settings
 vim.cmd('colorscheme gruvbox')
-vim.g.gruvbox_italic = 1
-vim.g.gruvbox_contrast_dark = 'soft'
-vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
-vim.api.nvim_set_option('background', 'dark')
 
 -- NOTE: Automatic switching between dark and light mode
 local auto_dark_mode = require('auto-dark-mode')

@@ -130,8 +130,8 @@ endif
 "     endif
 " augroup END
 
-"LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GBlame to see who wrote the commit
-command! -range GBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
+"LEAN GIT BLAME OUTPUT IN COMMAND BAR --> Run :GitBlame to see who wrote the commit
+command! -range GitBlame echo join(systemlist("git -C " . shellescape(expand('%:p:h')) . " blame -L <line1>,<line2> " . expand('%:t')), "\n")
 
 
 

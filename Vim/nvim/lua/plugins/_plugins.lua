@@ -286,6 +286,7 @@ packer.startup({
 		use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' }) -- 9000+ Snippets
 		use({ 'ms-jpq/coq.thirdparty', branch = '3p' }) -- 9000+ Snippets
 		use('windwp/nvim-autopairs') -- compatible with COQ
+    use({'github/copilot.vim'}) -- Copilot is love. Copilot is life.
 		--COMPE
 		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
 		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
@@ -411,8 +412,6 @@ packer.startup({
       requires = { 'nvim-lua/plenary.nvim' }
     } ]]
 
-    --NOTE: Github Copilot
-    use 'github/copilot.vim'
 
 
 		-- TODO: Review
@@ -607,12 +606,11 @@ packer.startup({
 		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen] (better than signify)
     -- GIT INTEGRATION / DASHBOARD
     use({ -- or use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
-    "nvim-telescope/telescope.nvim",
-    requires = { { "nvim-lua/plenary.nvim" }, { "kdheepak/lazygit.nvim" } },
-    config = function()
+      "kdheepak/lazygit.nvim",
+      config = function()
         require("telescope").load_extension("lazygit")
-    end,
-})
+      end,
+    })
 
 		use({
 			'beauwilliams/blamer.nvim',
@@ -834,9 +832,11 @@ packer.startup({
 		--
 
 		use({
-			'vhyrro/neorg',
+			"nvim-neorg/neorg",
 			config = function()
 				require('neorg').setup({
+          ft = "norg",
+          after = {"nvim-treesitter", "telescope"}, -- You may want to specify Telescope here as well
 					-- Tell Neorg what modules to load
 					load = {
 						['core.defaults'] = {}, -- Load all the default modules
