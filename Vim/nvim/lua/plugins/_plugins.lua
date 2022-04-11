@@ -605,7 +605,15 @@ packer.startup({
 		use({ 'tpope/vim-fugitive' }) -- Adds 'native' git commands to vim. silent commands. e.g :Git add - won't prompt you to enter to confirm
 		use('mhinz/vim-signify') -- ASYNC GIT DIFF GUTTER, Diff view
 		use({ 'sindrets/diffview.nvim' }) -- Neovim enhanced diffview [:DiffviewOpen] (better than signify)
-		-- use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
+    -- GIT INTEGRATION / DASHBOARD
+    use({ -- or use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' } -- or tanvirtin/vgit.nvim
+    "nvim-telescope/telescope.nvim",
+    requires = { { "nvim-lua/plenary.nvim" }, { "kdheepak/lazygit.nvim" } },
+    config = function()
+        require("telescope").load_extension("lazygit")
+    end,
+})
+
 		use({
 			'beauwilliams/blamer.nvim',
 			branch = 'patch-1',

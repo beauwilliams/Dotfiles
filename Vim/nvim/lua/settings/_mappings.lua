@@ -113,9 +113,12 @@ utils.nnoremap(leader .. 'd', ':DiffviewOpen<cr>')
 utils.vnoremap(leader .. 'd', ':DiffviewOpen<cr>')
 vim.cmd([[cnoreabbrev diff DiffviewOpen]])
 
--- GIT (MAGIT/NEOGIT)
-utils.nnoremap(leader .. 'g', ':Neogit<cr>')
-utils.vnoremap(leader .. 'g', ':Neogit<cr>')
+-- GIT (MAGIT/NEOGIT/LazyGit)
+utils.nnoremap(leader .. 'g', ':LazyGit<cr>')
+utils.vnoremap(leader .. 'g', ':LazyGit<cr>')
+vim.cmd([[cnoreabbrev gd LazyGit]])
+
+
 --Fugitive Shortcut
 vim.cmd([[cnoreabbrev git Git]])
 
@@ -256,7 +259,7 @@ vim.cmd('cnoreabbrev Z z')
 vim.cmd('cnoreabbrev z Z')
 
 -- FUGITIVE/GIT
-vim.cmd('cnoreabbrev <silent>gp :G push')
+-- vim.cmd('cnoreabbrev <silent>gp :G push')
 
 --PACKER
 cmd([[cnoreabbrev pc PackerCompile]])
