@@ -411,6 +411,8 @@ packer.startup({
       requires = { 'nvim-lua/plenary.nvim' }
     } ]]
 
+    --NOTE: Github Copilot
+    use 'github/copilot.vim'
 
 
 		-- TODO: Review
