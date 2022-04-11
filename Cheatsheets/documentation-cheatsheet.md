@@ -8,3 +8,7 @@ JS based documentation tool
 
 Most Popular documentation tool
 <!-- Gitbook -->
+
+
+<!-- Create a Table of contents markdown easily -->
+https://github.com/thlorenz/doctoc
