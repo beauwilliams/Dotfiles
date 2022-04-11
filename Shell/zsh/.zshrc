@@ -1,3 +1,7 @@
+# Fig pre block. Keep at the top of this file.
+export PATH="${PATH}:${HOME}/.local/bin"
+eval "$(fig init zsh pre)"
+
 #     ____    _   __    ____  ______
 #    /  _/   / | / /   /  _/ /_  __/
 #    / /    /  |/ /    / /    / /
@@ -5,6 +9,9 @@
 # /___/   /_/ |_/   /___/   /_/
 
 
+#Allow more system resources and open files to the shell
+#Hopefully fix vim open files leaks
+ulimit -n 10240
 
 #Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
@@ -130,6 +137,15 @@ if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
   then export BAT_THEME='gruvbox-dark'
   else export BAT_THEME='gruvbox-light'
 fi;
+# update_theme() (
+# if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
+#   then export BAT_THEME='gruvbox-dark' && echo 'dark'
+#   else export BAT_THEME='gruvbox-light' && echo 'light'
+# fi;
+# )
+# precmd() { source ~/.config/zsh/theme/update_theme.sh && echo "hello" }
+
+
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 #export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
 #export LSCOLORS=exfxcxdxbxegedabagacad
@@ -162,6 +178,8 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 #GCC + CC
 #NOTE: gcc is symlinked to replace usr/bin/cc
 #ln -s /usr/local/Cellar/gcc/11.2.0/bin/gcc-11 /usr/local/bin/cc
+#Use GCC-11 by default
+export CC=gcc-11
 
 #SYSTEM
 # export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin #default path ls, mv etc
@@ -332,3 +350,7 @@ export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can u
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/admin/.sdkman"
 [[ -s "/Users/admin/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/admin/.sdkman/bin/sdkman-init.sh"
+
+# Fig post block. Keep at the bottom of this file.
+eval "$(fig init zsh post)"
+

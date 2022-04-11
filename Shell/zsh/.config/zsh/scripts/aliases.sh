@@ -21,6 +21,7 @@ alias chtsh='fzf-cheat'
 ###CONFIGS###
 alias vimconfig="nvim ~/.vimrc"
 alias zshconfig="nvim ~/.zshrc"
+alias zshenv="nvim ~/.zshenv"
 alias powerlineconfig="nvim ~/.config/zsh/.p10k.zsh"
 alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
@@ -66,7 +67,11 @@ alias ....='cd ../../..'
 #First alias I made
 #alias bd="cd .."
 
+###REMIX###
+alias remix=remixd -s . --remix-ide http://remix.ethereum.org && http://remix.ethereum.org
+
 ###GIT ALIASES####
+alias gd=lazygit #GIT DASHBOARD
 alias gci='koji' #INTERACTIVE COMMITS
 alias ghelp="git help -a | fzf --reverse"
 alias gpo='git push -u origin HEAD'
