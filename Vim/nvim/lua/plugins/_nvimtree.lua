@@ -69,6 +69,7 @@ exec(
 
 ------ NEW SETUP ---------
 
+-- exec("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif", "")
 local M = {
 	-- disables netrw completely
 	disable_netrw = true,
@@ -78,8 +79,6 @@ local M = {
 	open_on_setup = false,
 	-- will not open on setup if the filetype is in this list
 	ignore_ft_on_setup = { '.git', 'node_modules' },
-	-- closes neovim automatically when the tree is the last **WINDOW** in the view
-	auto_close = true,
 	-- false by default, opens the tree when typing `vim $DIR` or `vim`
 	auto_open = true,
 	-- opens the tree when changing/opening a new tab if the tree wasn't previously opened
