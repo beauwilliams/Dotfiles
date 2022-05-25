@@ -386,10 +386,10 @@ packer.startup({
 		-- use 'jbyuki/instant.nvim' --> Collaborative pair programming in NVIM
 
 		-- NOTE: Documentation search
-		use({
+		--[[ use({
 			'mrjones2014/dash.nvim',
 			run = 'make install',
-		})
+		}) ]]
 
     --NOTE: Search and replace (grep)
     --fave
