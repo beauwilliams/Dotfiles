@@ -50,21 +50,38 @@ vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 
 -- Diagnostics [NVIM 0.6 only]
 vim.diagnostic.config({
-	virtual_text = false,
+	-- virtual_text = false,
 	underline = true,
 	float = {
 		source = 'always',
 	},
 	severity_sort = true,
-	--[[ virtual_text = {
+	virtual_text = {
+     -- Could be '●', '▎', 'x', '■'
       prefix = "»",
       spacing = 4,
-    }, ]]
+    },
 	signs = true,
 	update_in_insert = false,
 })
 
--- SET DIAG SIGNS
+-- Creating a custom user command in 0.7
+-- Enable and disable diagnostics decorations
+local diagnostics_active = true
+vim.api.nvim_create_user_command("Diagnostics", function()
+  diagnostics_active = not diagnostics_active
+  if diagnostics_active then
+    vim.diagnostic.show()
+  else
+    vim.diagnostic.hide()
+  end
+end, {
+    nargs = "*",
+    desc = "Toggle neovim lsp in window diagnostics",
+})
+
+
+-- SET DIAG GUTTER SIGNS
 local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
 for type, icon in pairs(signs) do
 	local hl = 'LspDiagnosticsSign' .. type

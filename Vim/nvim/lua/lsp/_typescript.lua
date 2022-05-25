@@ -1,6 +1,6 @@
 local M = {}
-local lsp = require('lspconfig')
-local lsputil = require('lspconfig/util')
+local lsp = require("lspconfig")
+local lsputil = require("lspconfig/util")
 ---------------------------------------------------------------------------------------
 --[[
   ______                                _       __
@@ -10,8 +10,9 @@ local lsputil = require('lspconfig/util')
 /_/  \__, / .___/\___/____/\___/_/  /_/ .___/\__/
     /____/_/                         /_/
 --]]
+--NOTE: Default typescript setup just using lspconfig
 --INSTALL: -- npm i -g typescript typescript-language-server
-M.setup = function(custom_init, custom_attach)
+--[[ M.setup = function(custom_init, custom_attach)
 lsp.tsserver.setup({
 	on_attach = custom_attach,
 	on_init = custom_init,
@@ -22,10 +23,29 @@ lsp.tsserver.setup({
 })
 end
 
+return M ]]
+
+
+-- NOTE: Using https://github.com/jose-elias-alvarez/typescript.nvim to polyfill features
+M.setup = function(custom_init, custom_attach)
+    require("typescript").setup(
+        {
+            disable_commands = false, -- prevent the plugin from creating Vim commands
+            disable_formatting = false, -- disable tsserver's formatting capabilities
+            debug = false, -- enable debug logging for commands
+            server = {
+                -- pass options to lspconfig's setup method
+                on_attach = custom_attach,
+                on_init = custom_init,
+                settings = {documentFormatting = true},
+                root_dir = function(fname)
+                    return lsputil.find_git_ancestor(fname) or lsputil.path.dirname(fname)
+                end
+            }
+        }
+    )
+end
 return M
-
-
-
 
 --ARCHIVE
 --root_dir = util.root_pattern('package.json', 'tsconfig.json', '.git') or cwd

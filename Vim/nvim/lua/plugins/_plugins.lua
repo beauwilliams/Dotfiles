@@ -365,6 +365,7 @@ packer.startup({
 
 		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
+    use ('jose-elias-alvarez/typescript.nvim')
 		-- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
 		-- browse JSON gennaro-tedesco/nvim-jqx
 		-- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim && https://github.com/shift-d/crates.nvim
