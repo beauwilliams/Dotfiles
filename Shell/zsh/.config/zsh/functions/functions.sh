@@ -614,7 +614,7 @@ gs() {
             --preview '(git diff --color=always -- {-1} | delta | sed 1,4d; cat {-1}) | head -500' |
         cut -c4- | sed 's/.* -> //')
     if [[ $selected ]]; then
-        for prog in $selected; do git add "$prog"; done
+        for prog in $selected; do nvim "$prog"; done
     fi
 }
 

@@ -22,7 +22,7 @@ alias chtsh='fzf-cheat'
 alias vimconfig="nvim ~/.vimrc"
 alias zshconfig="nvim ~/.zshrc"
 alias zshenv="nvim ~/.zshenv"
-alias powerlineconfig="nvim ~/.config/zsh/.p10k.zsh"
+alias powerlineconfig="nvim ~/.config/zsh/configs/.p10k.zsh"
 alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
@@ -39,6 +39,7 @@ alias init='just init'
 alias build='just build'
 alias test='just test'
 alias lint='just lint'
+alias format='just format'
 
 ###TMUX###
 alias attach='tmux attach -t'
@@ -68,7 +69,7 @@ alias ....='cd ../../..'
 #alias bd="cd .."
 
 ###REMIX###
-alias remix=remixd -s . --remix-ide http://remix.ethereum.org && http://remix.ethereum.org
+alias remix='open http://remix.ethereum.org && remixd -s . --remix-ide http://remix.ethereum.org'
 
 ###GIT ALIASES####
 alias gd=lazygit #GIT DASHBOARD

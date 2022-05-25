@@ -1,7 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-export PATH="${PATH}:${HOME}/.local/bin"
-eval "$(fig init zsh pre)"
-
+. "$HOME/.fig/shell/zshrc.pre.zsh"
 #     ____    _   __    ____  ______
 #    /  _/   / | / /   /  _/ /_  __/
 #    / /    /  |/ /    / /    / /
@@ -55,6 +53,7 @@ eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I 
 # source ~/Git_Downloads/z/z.sh
 source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.config/zsh/plugins/.iterm2_shell_integration.zsh
+source ~/.config/zsh/plugins/git-auto-fetch.plugin.zsh
 source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
 source ~/.config/zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
@@ -352,5 +351,4 @@ export SDKMAN_DIR="/Users/admin/.sdkman"
 [[ -s "/Users/admin/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/admin/.sdkman/bin/sdkman-init.sh"
 
 # Fig post block. Keep at the bottom of this file.
-eval "$(fig init zsh post)"
-
+. "$HOME/.fig/shell/zshrc.post.zsh"
