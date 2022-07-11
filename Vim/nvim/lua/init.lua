@@ -15,4 +15,9 @@ local statusline = require("statusline")
 statusline.enable = true
 statusline.lsp_diagnostics = true
 statusline.ale_diagnostics = false
+vim.api.nvim_create_autocmd('BufEnter', {
+    command = "if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | echo 'hello' | endif",
+    nested = true,
+})
+
 return statusline

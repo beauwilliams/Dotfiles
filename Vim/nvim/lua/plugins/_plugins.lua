@@ -134,6 +134,9 @@ packer.startup({
 		-- another I would like to try https://github.com/sainnhe/everforest
 		--use 'eddyekofo94/gruvbox-flat.nvim'
 
+    -- NOTE: NOTIFICATIONS
+    use ('rcarriga/nvim-notify')
+
 		--NOTE: COLOURED BRACES
 		use('p00f/nvim-ts-rainbow') --> Treesitter compatible rainbow parentheses
 
@@ -279,6 +282,7 @@ packer.startup({
 		--NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
 		use 'ii14/lsp-command' -- USAGE: :h :Lsp
+    -- use {'j-hui/fidget.nvim', setup = require"fidget".setup{}} -- LSP server status widget bottom right corner
 
 		-- NOTE: LSP SERVERS
 		-- COQ
@@ -446,6 +450,11 @@ packer.startup({
 		use('nvim-treesitter/nvim-treesitter-refactor') --> smart renaming and highlight definitions and scope
 		use('windwp/nvim-ts-autotag') --> Use treesitter to autoclose and autorename html tag
 		use('nvim-treesitter/nvim-treesitter-textobjects') -- treesitter text objects
+    use ({'m-demare/hlargs.nvim',
+      config = function()
+        require('hlargs').setup()
+      end,
+    })
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
 		--[[ use {  -- This is rad, but stupid slow right now.

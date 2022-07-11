@@ -49,4 +49,5 @@ g.startify_bookmarks = {
 	{ g = '~/.gitconfig' },
 	{ s = '~/.ssh/config' },
 	{ vn = '/Users/admin/Library/Caches/Homebrew/neovim--git' },
+	{ ll = '~/.cache/nvim/lsp.log'}
 }

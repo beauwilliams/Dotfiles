@@ -33,10 +33,11 @@ null_ls.setup({
     }), ]]
 
 		--SPELL CHECK
-		--[[ b.diagnostics.misspell,
-	b.diagnostics.codespell,
-	b.diagnostics.cspell, ]]
+		-- b.diagnostics.misspell, --not work well
+		b.diagnostics.codespell, -- smart, but misses some
+		-- b.diagnostics.cspell, -- good, errors everywhere
 		b.diagnostics.shellcheck,
+		b.diagnostics.solhint,
 
 		--LINTERS
 		function()

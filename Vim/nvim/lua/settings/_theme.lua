@@ -18,6 +18,7 @@ auto_dark_mode.setup({
 	end,
 	set_light_mode = function()
 		-- vim.api.nvim_set_option('background', 'light')
+		  vim.cmd('hi clear')
 		vim.cmd('colorscheme github_light')
 	end,
 })
@@ -97,8 +98,25 @@ end
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 
+--THICC colomuns between splits
+vim.opt.fillchars = {
+  horiz     = '━',
+  horizup   = '┻',
+  horizdown = '┳',
+  vert      = '┃',
+  vertleft  = '┫',
+  vertright = '┣',
+  verthoriz = '╋',
+}
 
 
+-- NOTE: https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
+vim.opt.fillchars = "fold: "
+-- vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
+vim.opt.foldnestmax = 3
+vim.opt.foldminlines = 1
 
 
 

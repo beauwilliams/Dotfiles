@@ -71,6 +71,8 @@ exec(
 
 -- exec("autocmd BufEnter * ++nested if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif", "")
 local M = {
+	auto_reload_on_write = true,
+	reload_on_bufenter = true,
 	-- disables netrw completely
 	disable_netrw = true,
 	-- hijack netrw window on startup
@@ -80,7 +82,7 @@ local M = {
 	-- will not open on setup if the filetype is in this list
 	ignore_ft_on_setup = { '.git', 'node_modules' },
 	-- false by default, opens the tree when typing `vim $DIR` or `vim`
-	auto_open = true,
+	-- auto_open = true, NOTE: removed
 	-- opens the tree when changing/opening a new tab if the tree wasn't previously opened
 	open_on_tab = false,
 	-- hijack the cursor in the tree to put it at the start of the filename
@@ -90,7 +92,7 @@ local M = {
 	-- show lsp diagnostics in the signcolumn
 	-- lsp_diagnostics = false,
 	-- false by default, this option allows the cursor to be updated when entering a buffer
-	nvim_tree_follow = true,
+	-- nvim_tree_follow = true, NOTE: removed
 	-- update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file
 	update_focused_file = {
 		-- enables the feature
@@ -130,5 +132,13 @@ local M = {
 		},
 	},
 }
+
+--AUTO CLOSE IF LAST BUFFER
+--[[ vim.api.nvim_create_autocmd('Filetype', {
+    pattern = "NvimTree",
+    command = "if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif | echo 'hello'",
+    nested = true,
+}) ]]
+
 
 return M

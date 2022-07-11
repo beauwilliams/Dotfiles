@@ -50,24 +50,24 @@ vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
 
 -- Diagnostics [NVIM 0.6 only]
 vim.diagnostic.config({
-	-- virtual_text = false,
+    virtual_text=false,
 	underline = true,
 	float = {
 		source = 'always',
 	},
 	severity_sort = true,
-	virtual_text = {
      -- Could be '●', '▎', 'x', '■'
+	--[[ virtual_text = {
       prefix = "»",
       spacing = 4,
-    },
+    }, ]]
 	signs = true,
 	update_in_insert = false,
 })
 
 -- Creating a custom user command in 0.7
 -- Enable and disable diagnostics decorations
-local diagnostics_active = true
+local diagnostics_active = false
 vim.api.nvim_create_user_command("Diagnostics", function()
   diagnostics_active = not diagnostics_active
   if diagnostics_active then
@@ -89,7 +89,7 @@ for type, icon in pairs(signs) do
 end
 
 -- DISPLAY LSP DIAGS IN COMMAND LINE
-vim.cmd('autocmd CursorMoved * :lua require("libraries._lsp").echo_diagnostic()')
+vim.cmd [[ autocmd! CursorHold * lua require("libraries._lsp").echo_diagnostics() ]]
 
 --CAPABILITIES
 local custom_capabilities = function()
@@ -99,6 +99,12 @@ local custom_capabilities = function()
 	coq.lsp_ensure_capabilities()
 	return capabilities
 end
+
+
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+-- vim.o.updatetime = 250
+-- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -158,6 +164,7 @@ end
 -- npm install -g dockerfile-language-server-nodejs
 -- npm install -g vim-language-server
 -- cs install metals
+-- npm install -g yaml-language-server
 
 local servers = {
 	'bashls',
@@ -166,6 +173,8 @@ local servers = {
 	'rust_analyzer',
 	'pylsp',
 	'dockerls',
+    'yamlls',
+    'solc'
 }
 
 for _, server in ipairs(servers) do
@@ -194,7 +203,7 @@ end
 
 -- LANG CONFS
 require('lsp._null') --Null ls, additional formatters, diags and more..
-require('lsp._solang').setup(custom_attach, custom_init)
+-- require('lsp._solang').setup(custom_attach, custom_init)
 require('lsp._lua').setup(custom_attach, custom_init)
 require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 require('lsp._typescript').setup(custom_attach, custom_init)

@@ -6,6 +6,7 @@ https://github.com/haringsrob/nvim_context_vt
 https://github.com/windwp/nvim-ts-autotag
 https://github.com/lewis6991/spellsitter.nvim
 https://github.com/nvim-treesitter/nvim-tree-docs ]]
+local api = vim.api
 local tsconf = require("nvim-treesitter.configs")
 if not tsconf then
     vim.cmd([[ echom 'Cannot load `nvim-treesitter.configs`' ]])
@@ -150,6 +151,15 @@ function EnsureTSParserInstalled()
 end
 -- TODO: convert to auto group
 vim.cmd [[au FileType * :lua EnsureTSParserInstalled()]]
+
+
+api.nvim_create_autocmd("BufEnter", {
+    pattern = "*",
+    callback = function()
+				require("hlargs").setup {color = "#83a598"}
+    end,
+    desc = "Enabler HLArgs treesitter upon buffer enter",
+})
 
 --PRETTY SURE BELOW IS NOW DEPRECATED..
 --[[ require "nvim-treesitter.highlight"
