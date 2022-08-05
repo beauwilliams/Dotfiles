@@ -365,6 +365,72 @@ M.sudo_write = function(tmpfile, filepath)
 	vim.fn.delete(tmpfile)
 end
 
+
+M.TestInBufferOnWrite = function()
+-- TODO: Add nui popup to ask for pattern, create new buffer, with ft out
+	local bufnr = 16
+	vim.api.nvim_create_autocmd("BufWritePost", {
+		group = vim.api.nvim_create_augroup("TestInBufferOnWriteAuGroup", {clear = true}),
+		pattern = "*", --NOTE: Here we can feed in array of patterns chosen by user at runtime
+		callback = function()
+			vim.api.nvim_buf_call(16, function() vim.cmd("set ft=term") end)
+			vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { "-------------------OUTPUT------------------" })
+			-- vim.fn.jobs
+			vim.fn.jobstart({"echo","hello", "world"}, {
+				stdout_buffered = true,
+				on_stdout = function(_, data) --NOTE: Print stdout
+					if data and data[1] ~= "" then --NOTE: Ignore empty lines
+					vim.pretty_print(data)
+						vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
+						vim.api.nvim_buf_call(16, function() vim.cmd("norm G") end)
+
+					end
+				end,
+				on_stderr = function(_, data) --NOTE: print stderr
+					if data and data[1] ~= "" then
+					vim.pretty_print(data)
+						vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data ) --NOTE: use -1,-1 to append to bottom of buffer
+					end
+				end,
+			})
+		end
+	})
+end
+
+--[[ vim.o.confirm = true
+vim.api.nvim_create_autocmd("BufEnter", {
+	group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
+	callback = function()
+		local layout = vim.api.nvim_call_function("winlayout", {})
+		if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
+
+	end
+}) ]]
+
+--[[ get win layout,
+determine if [leaf, winnr]
+if leaf, determine if last tab (cur is 1)
+if so exit vim, not exit tab (or just :q which works for both closing tab and vim?)
+else do nothing ]]
+    -- run on winenter?
+
+--[[ vim.api.nvim_create_autocmd("BufEnter", {
+	group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
+	callback = function()
+		local layout = vim.api.nvim_call_function("winlayout", {})
+		if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("quit") end
+	end
+}) ]]
+
+-- lua local layout = vim.api.nvim_call_function("winlayout", {}) if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("quit")end
+
+    --[[ local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(M.sizes.current_window), "filetype")
+    local tabpage = api.nvim_get_current_tabpage()
+if tbl[i][1] == "leaf" then
+    ft = api.nvim_buf_get_option(api.nvim_win_get_buf(tbl[i][2]), "filetype")
+end ]]
+
+
 return M
 ---------
 ---EOF---

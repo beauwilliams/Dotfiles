@@ -15,5 +15,3 @@ endfunction
 command! -bang -nargs=1 Shell call <sid>RunInInteractiveShell(<f-args>, <bang>0)
 
 " abbreviations below allow us to quick run shell cmd without needing to use shift key :]
-cnoreabbrev shell Shell
-cnoreabbrev cmd Shell

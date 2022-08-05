@@ -10,11 +10,11 @@ g.nvim_tree_width = 35
 g.nvim_tree_auto_ignore_ft = { 'startify', 'dashboard' } -- empty by default, don't auto open tree on specific filetypes.
 
 -- 0 by default, will enable file highlight for git attributes (can be used without the icons).
-g.nvim_tree_git_hl = 1
+-- g.nvim_tree_git_hl = 1
 
 -- Updates nvimtree to current cwd always, and the cwd of buffer
 -- g.nvim_tree_update_cwd = 1
-g.nvim_tree_respect_buf_cwd = 1
+-- g.nvim_tree_respect_buf_cwd = 1
 
 --TODO:
 exec([[highlight NvimTreeFolderName ctermfg=none guifg=none]], '')
@@ -27,8 +27,8 @@ exec([[highlight NvimTreeFolderIcon guifg = #928374]], '')
 
 -- "Setting nvim tree folders to not have any guibg
 -- "hi Cursorline guibg=#424040 guifg=none
-
-g.nvim_tree_icons = {
+-- llowing options were moved to setup, see bit.ly/3vIpEOJ: nvim_tree_icons, nvim_tree_git_hl, nvim_tree_respect_buf_cwd
+--[[ g.nvim_tree_icons = {
 	default = '',
 	-- symlink = '',
 	git = {
@@ -42,7 +42,7 @@ g.nvim_tree_icons = {
 		default = '',
 		open = '',
 	},
-}
+} ]]
 
 -- 0 by default, this option shows indent markers when folders are open
 -- g.nvim_tree_indent_markers = 1
@@ -121,8 +121,6 @@ local M = {
 		width = 30,
 		-- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
 		side = 'left',
-		-- if true the tree will resize itself after opening a file
-		auto_resize = false,
 		mappings = {
 			-- custom only false will merge the list with the default mappings
 			-- if true, it will only use your list to set the mappings
@@ -131,14 +129,91 @@ local M = {
 			list = {},
 		},
 	},
+	renderer = {
+		add_trailing = false,
+		group_empty = false,
+		highlight_git = false,
+		full_name = false,
+		highlight_opened_files = "none",
+		root_folder_modifier = ":~",
+		indent_markers = {
+			enable = false,
+			icons = {
+				corner = "└",
+				edge = "│",
+				item = "│",
+				none = " ",
+			},
+		},
+		icons = {
+			webdev_colors = true,
+			git_placement = "before",
+			padding = " ",
+			symlink_arrow = " ➛ ",
+			show = {
+				file = true,
+				folder = true,
+				folder_arrow = true,
+				git = true,
+			},
+			glyphs = {
+				default = "",
+				symlink = "",
+				bookmark = "",
+				folder = {
+					arrow_closed = "",
+					arrow_open = "",
+					default = "",
+					open = "",
+					empty = "",
+					empty_open = "",
+					symlink = "",
+					symlink_open = "",
+				},
+				git = {
+					unstaged = 'M',
+					staged = 'A',
+					unmerged = '═',
+					renamed = 'R',
+					untracked = 'U',
+					deleted = "",
+					ignored = "◌",
+				},
+			},
+		},
+		special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md", "justfile", "package.json", ".env" },
+		symlink_destination = true,
+	},
+      hijack_directories = {
+        enable = true,
+        auto_open = true,
+      },
+	respect_buf_cwd = true,
+	diagnostics = {
+        enable = false,
+        show_on_dirs = false,
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        },
+      },
+	  quit_if_last_window = true,
+-- 0 by default, will enable file highlight for git attributes (can be used without the icons).
+	-- nvim_tree_git_hl = true
 }
 
 --AUTO CLOSE IF LAST BUFFER
---[[ vim.api.nvim_create_autocmd('Filetype', {
-    pattern = "NvimTree",
-    command = "if winnr('$') == 1 && bufname() == 'NvimTree_' . tabpagenr() | quit | endif | echo 'hello'",
-    nested = true,
+--[[ vim.o.confirm = true
+vim.api.nvim_create_autocmd("BufEnter", {
+	group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
+	callback = function()
+		local layout = vim.api.nvim_call_function("winlayout", {})
+		if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("quit") end
+	end
 }) ]]
+
 
 
 return M

@@ -164,8 +164,8 @@ packer.startup({
 		--NOTE: SPLITS
 		use({
 			'beauwilliams/focus.nvim',
-			--[[ cmd = { "FocusSplitNicely", "FocusSplitCycle" },
-			module = "focus", ]]
+			--cmd = { "FocusSplitNicely", "FocusSplitCycle" },
+			--module = "focus",
 			config = function()
 				require('focus').setup({
 					tmux = false,
@@ -177,6 +177,12 @@ packer.startup({
 				})
 			end,
 		})
+    --[[ use {
+      'lvim-tech/lvim-focus',
+      config = function()
+        require("lvim-focus").setup()
+      end
+    } ]]
 
 		--NOTE: MEME
 		-- use 'beauwilliams/imnotaquitter.nvim'
@@ -194,11 +200,32 @@ packer.startup({
 		-- or https://github.com/folke/persistence.nvim
 
 		--NOTE:  SMOOTH SCROLLING
-		use({
+		--[[ use({
 			-- OR psliwka/vim-smoothie
 			'karb94/neoscroll.nvim',
 			setup = require('neoscroll').setup(),
-		})
+    }) ]]
+    use {
+      'declancm/cinnamon.nvim',
+      config = function() require('cinnamon').setup{
+        -- KEYMAPS:
+        default_keymaps = true,   -- Create default keymaps.
+        extra_keymaps = true,    -- Create extra keymaps.
+        extended_keymaps = false, -- Create extended keymaps.
+        override_keymaps = false, -- The plugin keymaps will override any existing keymaps.
+
+        -- OPTIONS:
+        always_scroll = false,    -- Scroll the cursor even when the window hasn't scrolled.
+        centered = true,          -- Keep cursor centered in window when using window scrolling.
+        default_delay = 7,        -- The default delay (in ms) between each line when scrolling.
+        hide_cursor = false,      -- Hide the cursor while scrolling. Requires enabling termguicolors!
+        horizontal_scroll = true, -- Enable smooth horizontal scrolling when view shifts left or right.
+        max_length = -1,          -- Maximum length (in ms) of a command. The line delay will be
+        -- re-calculated. Setting to -1 will disable this option.
+        scroll_limit = 150,       -- Max number of lines moved before scrolling is skipped. Setting
+        -- to -1 will disable this option.
+      } end
+    }
 
 		--NOTE:  HEX COLOUR PREVIEW
 		-- use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
@@ -214,11 +241,14 @@ packer.startup({
 			end,
 		})
 
+    --NOTE:  TERMINAL CALLBACKS
+      use 'kassio/neoterm'
+
 		--NOTE: FLOATING TERMINAL
-		use({
 			-- OR "voldikss/vim-floaterm"
 			-- OR 'itmecho/neoterm.nvim',
-			'numToStr/FTerm.nvim', --> Floating terminal window
+		use({
+			'numToStr/FTerm.nvim',
 			config = function()
 				require('FTerm').setup({
 					border = 'single',
@@ -281,6 +311,11 @@ packer.startup({
 --]]
 		--NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
+    use ({'williamboman/mason.nvim', --> LSP, DAP etc installer
+      config = function()
+        require("mason").setup()
+      end
+    })
 		use 'ii14/lsp-command' -- USAGE: :h :Lsp
     -- use {'j-hui/fidget.nvim', setup = require"fidget".setup{}} -- LSP server status widget bottom right corner
 
@@ -491,7 +526,7 @@ packer.startup({
 		--NOTE:  FUZZY WILD MENU ENHANCEMENT
 		use('gelguy/wilder.nvim')
 		--NOTE:  FAST FUZZY SEARCH
-		use({ 'camspiers/snap' })
+		-- use({ 'camspiers/snap' })
 		--NOTE:  TELESCOPE
 		use({
 			'nvim-telescope/telescope.nvim',
@@ -772,6 +807,7 @@ packer.startup({
 --]]
 
 
+    use 'simnalamburt/vim-mundo' --> Vim undo tree
 		use 'beauwilliams/AutoWrite.vim'
 		use('andweeb/presence.nvim') -- discord presence
 		use 'tweekmonster/startuptime.vim'

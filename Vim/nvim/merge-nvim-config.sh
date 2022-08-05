@@ -16,4 +16,3 @@ cp ~/.config/nvim/init.vim ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/cheatsheet.txt ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/lua/lsp/launch_jdtls.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/guide.vim ~/Git_Downloads/Dotfiles/Vim/nvim/
-

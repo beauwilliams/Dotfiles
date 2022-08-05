@@ -76,12 +76,16 @@ lsp.sumneko_lua.setup({
 			workspace = {
 				-- Make the server aware of Neovim runtime files
 				-- vim.api.nvim_get_runtime_file("", true),
-				library = {
-					[vim.fn.expand('$VIMRUNTIME/lua')] = true,
-					[vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                    library = {
+                        [vim.fn.expand('$VIMRUNTIME/lua')] = true,
+                        [vim.fn.expand("$VIMRUNTIME/lua/lang")] = true,
+                        [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp')] = true,
+                        [vim.fn.stdpath("config") .. "/lua"] = true,
 					-- For when we want to write hammerspoon stuff
 					-- ['/Applications/Hammerspoon.app/Contents/Resources/extensions/hs/'] = true,
 				},
+                        maxPreload = 100000,
+                        preloadFileSize = 10000,
 			},
 			-- Do not send telemetry data containing a randomized but unique identifier
 			telemetry = {

@@ -1,5 +1,5 @@
 --TODO: Implement https://github.com/b0o/mapx.nvim
---Also add whichkey support
+ --Also add whichkey support
 
 local utils = require('libraries._set_mappings')
 local leader = '<space>'
@@ -16,6 +16,14 @@ g.mapleader = ' '
 cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --VIM NAVIGATION MAPPINGS
@@ -56,7 +64,27 @@ vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent
 -- Clear highlights quick! Removed for above
 -- utils.nnoremap(leader .. "/", ":nohlsearch<cr>")
 
+--Smart dd, don't replace yank register if deleting empty line in NORMAL MODE
+local function smart_dd_normal()
+  if vim.api.nvim_get_current_line():match("^%s*$") then
+    return "\"_dd"
+  else
+    return "dd"
+  end
+end
+--Smart dd, don't replace yank register if deleting empty line in VISUAL MODE
+local function smart_dd_visual()
+	local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+	for _, line in ipairs(vim.api.nvim_buf_get_lines(0, l - 1, l, true)) do
+		if line:match("^%s*$") then
+			return "\"_d"
+		end
+	end
+	return "d"
+end
 
+vim.keymap.set("v", "d", smart_dd_visual, { noremap = true, expr = true } )
+vim.keymap.set( "n", "dd", smart_dd_normal, { noremap = true, expr = true } )
 
 vim.api.nvim_set_keymap(
 	'n',
@@ -149,12 +177,6 @@ utils.nnoremap('c,', "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
 utils.nnoremap('d.', "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap('d,', "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
---TERMINAL MAPPINGS
--- utils.nnoremap(leader .. 't', '<CMD>lua require"neoterm".toggle()<CR>')
-utils.nnoremap(leader .. 't', '<CMD>lua require"FTerm".toggle()<CR>')
-utils.tnoremap(leader .. 't', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
-utils.tnoremap('<esc>', '<C-\\><C-n>')
-
 --WINDOW NAVIGATION
 local focusmap = function(direction)
 	vim.api.nvim_set_keymap(
@@ -198,8 +220,108 @@ nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
 nnoremap <silent><leader>[ <c-w>H
 nnoremap <silent><leader>] <c-w>K
 ]])
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+--TERMINAL MAPPINGS
+------------------------------------------------------------------------------------------------------------------------------------------------
+utils.tnoremap('<esc>', '<C-\\><C-n>') --Allows escape key to work correctly
+-- utils.nnoremap(leader .. 't', '<CMD>lua require"FTerm".toggle()<CR>')
+-- utils.tnoremap(leader .. 't', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
+utils.nnoremap(leader .. 'T', '<CMD>1Ttoggle<CR>') --NOTE: this has bug uysing toggle
+vim.api.nvim_set_keymap("n", "<leader>t", ":NeotermRunTaskCommand<CR>",{})
+vim.cmd[[let g:neoterm_default_mod='botright vnew']]
+vim.cmd[[let g:neoterm_keep_term_open=0]]
+
+
+-- NOTE: Currently using neoterm & nui
+local Input = require("nui.input")
+local event = require("nui.utils.autocmd").event
+local stored_task_command = nil
+
+local trigger_set_command_input = function(callback_fn)
+  local input_component = Input({
+    position = "50%",
+    size = {
+      width = 50,
+    },
+    border = {
+      style = "single",
+      text = {
+        top = "Command to run:",
+        top_align = "center",
+      },
+    },
+    win_options = {
+      winhighlight = "Normal:Normal,FloatBorder:Normal",
+    },
+  }, {
+    prompt = "> ",
+    default_value = "",
+    on_submit = function(value)
+      stored_task_command = value
+      callback_fn();
+    end,
+  })
+
+  input_component:mount()
+  input_component:on(event.BufLeave, function()
+    input_component:unmount()
+  end)
+end
+
+vim.api.nvim_create_user_command('TermSetTaskCommand', function()
+  trigger_set_command_input(function ()
+  end)
+end, {})
+
+vim.api.nvim_create_user_command('TermRunTaskThenExit', function(input)
+  local cmd = input.args
+  vim.api.nvim_command(":Tnew")
+  vim.api.nvim_command(":T " .. cmd .. " && exit")
+    vim.api.nvim_command(":stopinsert")
+end, { bang = true, nargs = '*' })
+
+vim.api.nvim_create_user_command('NeotermRunTaskCommand', function(input)
+  local execute = function(cmd)
+    vim.api.nvim_command(":1Tclear")
+    vim.api.nvim_command(":1T " .. cmd)
+    vim.api.nvim_command(":stopinsert")
+  end
+
+  local one_off_command = input.args
+
+  if one_off_command and string.len(one_off_command) > 0 then
+    execute(one_off_command)
+  elseif stored_task_command == nil then
+    trigger_set_command_input(function()
+      execute(stored_task_command)
+    end)
+  else
+    execute(stored_task_command)
+  end
+end, { nargs = '*' })
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- ABBREVIATIONS
@@ -280,6 +402,14 @@ cmd([[cnoreabbrev pcl PackerClean]])
 ) ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- HOT KEYS
@@ -400,6 +530,16 @@ cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --LSP MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -432,6 +572,17 @@ utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- COMPLETION/COQ MAPPINGS
@@ -498,6 +649,14 @@ vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = t
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TREESITTER MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -509,6 +668,14 @@ vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(tr
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
@@ -523,11 +690,21 @@ utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", n
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
+--ARCHIVED MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
---NOTE: ARCHIVE
 
 --FUZZYMENU (ctrl+p)
 -- utils.nmap(leader .. 'p', '<Plug>(Fzm)')

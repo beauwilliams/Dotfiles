@@ -8,6 +8,7 @@ options.set_options('g', {
 options.set_options( 'o', {
 	-- colorcolumn = '80', --80 column width marker for when we need it
 	termguicolors = true, --uses your colorscheme and init. vim's gui values. CUSTOM COLORSCHEME NOT WORK RIGHT WITHOUT ME....
+	-- confirm = true, --
 	hlsearch = true, -- highlight matching search
 	wrapscan = true, -- begin search from top of the file when nothng is found
 	cursorline = true, -- enable cursorline

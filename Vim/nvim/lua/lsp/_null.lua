@@ -26,11 +26,11 @@ null_ls.setup({
 		b.formatting.clang_format, --filetypes = { "c", "cpp", "cs", "java" }
 		b.formatting.stylua, --lua
 		-- if we want to only use stylua etc when stylua.toml file is in project etc.
-		--[[ b.formatting.stylua.with({
+		b.formatting.stylua.with({
         condition = function(utils)
             return utils.root_has_file("stylua.toml")
         end,
-    }), ]]
+    }),
 
 		--SPELL CHECK
 		-- b.diagnostics.misspell, --not work well
