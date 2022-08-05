@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-. "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 #     ____    _   __    ____  ______
 #    /  _/   / | / /   /  _/ /_  __/
 #    / /    /  |/ /    / /    / /
@@ -27,7 +27,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-export BAT=0
+# export BAT=0 why is this here?
 
 
 #     ____     __    __  __   ______    ____    _   __   _____
@@ -132,18 +132,19 @@ export CLICOLOR=1
 export CLICOLOR_FORCE=true
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 #ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
-if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
-  then export BAT_THEME='gruvbox-dark'
-  else export BAT_THEME='gruvbox-light'
-fi;
-# update_theme() (
 # if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
-#   then export BAT_THEME='gruvbox-dark' && echo 'dark'
-#   else export BAT_THEME='gruvbox-light' && echo 'light'
+#   else export BAT_THEME='gruvbox-light'
 # fi;
-# )
-# precmd() { source ~/.config/zsh/theme/update_theme.sh && echo "hello" }
-
+refresh-bat-theme() (
+if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
+  then echo 'gruvbox-dark'
+  else echo 'GitHub'
+fi;
+)
+export BAT_THEME=$(refresh-bat-theme)
+precmd() { export BAT_THEME=$(refresh-bat-theme) }
+# while true; do ~/.config/zsh/configs/theme.config; sleep 60; done
+# echo "bash $0" | at now +1 minutes -M
 
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 #export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
@@ -215,6 +216,11 @@ export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Cours
 export PATH="$PATH:$HOME/.langservers/solidity/llvm12.0/bin"
 export PATH="$PATH:$HOME/.langservers/solidity/"
 
+#GOLANG
+export GOPATH=$HOME/workspaces/golang #workspace
+export GOROOT=/usr/local/opt/go/libexec
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$GOROOT/bin
 
 
 #FLUTTER
@@ -350,5 +356,12 @@ export PATH=$HOME/.luarocks/bin:$PATH #sets luarocks local into path. So I can u
 export SDKMAN_DIR="/Users/admin/.sdkman"
 [[ -s "/Users/admin/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/admin/.sdkman/bin/sdkman-init.sh"
 
+# bun completions
+[ -s "/Users/admin/.bun/_bun" ] && source "/Users/admin/.bun/_bun"
+
+# Bun
+export BUN_INSTALL="/Users/admin/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # Fig post block. Keep at the bottom of this file.
-. "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"

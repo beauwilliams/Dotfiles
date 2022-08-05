@@ -10,7 +10,7 @@
 set -e
 #Note, must provide full path no ~
 # TODO: [beauwilliams] --> Make it so users can override the vars with their own configs
-export NOTES_DIR="/Users/admin/.notes/"
+export NOTES_DIR="/Users/admin/.scratch/"
 export NOTES_FILE_FORMAT="md"
 export BAT=true #optionally set cat as default output in preview
 

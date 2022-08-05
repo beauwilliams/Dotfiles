@@ -26,8 +26,13 @@ alias powerlineconfig="nvim ~/.config/zsh/configs/.p10k.zsh"
 alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
 alias sshconfig="nvim ~/.ssh/config"
+alias sshhosts="vim ~/.ssh/known_hosts"
 alias gitignore="nvim ~/.config/git/ignore"
 alias gitconfig="nvim ~/.config/git/config"
+
+###NETWORK ALIASES###
+alias speedtestlan="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress'"
+
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
 #CODING
@@ -158,5 +163,12 @@ alias luamake=/Users/admin/.config/nvim/.langservers/lua-language-server/3rd/lua
 #####UNI######
 alias mountIceberg='sshfs -o default_permissions mqserver2:/home/45456070/ ~/SSHFS/Iceberg/ && cd ~/SSHFS/Iceberg/'
 alias umountIceberg='cd ~/ && umount -f ~/SSHFS/Iceberg'
+
+####VNC SERVERS####
+alias vnc-nuc='open vnc://192.168.1.122:5900'
+
+#####SSH ALIASES#####
+alias sshnewkey='ssh-keygen -t ecdsa -b 521'
+alias sshsavekey='echo "ssh-add --apple-use-keychain ~/.ssh/[your-private-key]"'
 
 #==================================END ALIASES===================================
