@@ -1,5 +1,5 @@
 --TODO: Implement https://github.com/b0o/mapx.nvim
- --Also add whichkey support
+--Also add whichkey support
 
 local utils = require('libraries._set_mappings')
 local leader = '<space>'
@@ -58,7 +58,7 @@ vim.api.nvim_set_keymap('', '<PageUp>', '<C-U>', { silent = true })
 vim.api.nvim_set_keymap('', '<PageDown>', '<C-D>', { silent = true })
 
 --Disable highlights when cursor moved
-cmd([[autocmd cursormoved * set nohlsearch]])
+-- cmd([[autocmd cursormoved * set nohlsearch]])
 vim.api.nvim_set_keymap('n', 'n', 'n:set hlsearch<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent = true })
 -- Clear highlights quick! Removed for above
@@ -74,29 +74,29 @@ local function smart_dd_normal()
 end
 --Smart dd, don't replace yank register if deleting empty line in VISUAL MODE
 local function smart_dd_visual()
-	local l, c = unpack(vim.api.nvim_win_get_cursor(0))
-	for _, line in ipairs(vim.api.nvim_buf_get_lines(0, l - 1, l, true)) do
-		if line:match("^%s*$") then
-			return "\"_d"
-		end
-	end
-	return "d"
+  local l, c = unpack(vim.api.nvim_win_get_cursor(0))
+  for _, line in ipairs(vim.api.nvim_buf_get_lines(0, l - 1, l, true)) do
+    if line:match("^%s*$") then
+      return "\"_d"
+    end
+  end
+  return "d"
 end
 
 vim.keymap.set("v", "d", smart_dd_visual, { noremap = true, expr = true } )
 vim.keymap.set( "n", "dd", smart_dd_normal, { noremap = true, expr = true } )
 
 vim.api.nvim_set_keymap(
-	'n',
-	'<leader>o',
-	':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
-	{ noremap = true, silent = true }
+  'n',
+  '<leader>o',
+  ':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
+  { noremap = true, silent = true }
 )
 vim.api.nvim_set_keymap(
-	'n',
-	'<leader>O',
-	':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
-	{ noremap = true, silent = true }
+  'n',
+  '<leader>O',
+  ':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
+  { noremap = true, silent = true }
 )
 
 -- Explanation: The 0 (Zero) register is special because it only stores the last item you yank and only if you yank it, not if you delete it with any of d,x,c,s.
@@ -179,12 +179,12 @@ utils.nnoremap('d,', "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
 --WINDOW NAVIGATION
 local focusmap = function(direction)
-	vim.api.nvim_set_keymap(
-		'n',
-		'<Leader>' .. direction,
-		":lua require'focus'.split_command('" .. direction .. "')<CR>",
-		{ silent = true }
-	)
+  vim.api.nvim_set_keymap(
+    'n',
+    '<Leader>' .. direction,
+    ":lua require'focus'.split_command('" .. direction .. "')<CR>",
+    { silent = true }
+  )
 end
 -- Use `<Leader>h` to split the screen to the left, same as command FocusSplitLeft etc
 focusmap('h')
@@ -194,31 +194,31 @@ focusmap('l')
 
 -- TODO: Implement utils fn into FOCUS to do natural resizing of windows like tmux etc
 vim.cmd([[
-	"leader-w for SPLIT CYCLING (cycle current windows)
-"leader-W takes us anticlockwise
-nnoremap <silent> <leader>w :FocusSplitCycle<CR>
-vnoremap <silent> <leader>w :FocusSplitCycle<CR>
-tnoremap <silent> <leader>w :FocusSplitCycle<CR>
-nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-"Resize our splits with <leader> ;/'/,/.- easily
-nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
-nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
-nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
-nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
+  "leader-w for SPLIT CYCLING (cycle current windows)
+  "leader-W takes us anticlockwise
+  nnoremap <silent> <leader>w :FocusSplitCycle<CR>
+  vnoremap <silent> <leader>w :FocusSplitCycle<CR>
+  tnoremap <silent> <leader>w :FocusSplitCycle<CR>
+  nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+  vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+  tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
+  "Resize our splits with <leader> ;/'/,/.- easily
+  nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
+  nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
+  nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
+  nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
 
-" if nvim_win_get_width(window) > nvim_get_height(window)
-    "this means its a horizontal split, so we can resize the height
-    "
-" else
-    "this means its a vertical split, so we can resize the width
-" endif
-" nnoremap <silent> <leader>; :vertical resize -10<CR>
-" nnoremap <silent> <leader>' :vertical resize +10<CR>
-"CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-nnoremap <silent><leader>[ <c-w>H
-nnoremap <silent><leader>] <c-w>K
+  " if nvim_win_get_width(window) > nvim_get_height(window)
+  "this means its a horizontal split, so we can resize the height
+  "
+  " else
+  "this means its a vertical split, so we can resize the width
+  " endif
+  " nnoremap <silent> <leader>; :vertical resize -10<CR>
+  " nnoremap <silent> <leader>' :vertical resize +10<CR>
+  "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+  nnoremap <silent><leader>[ <c-w>H
+  nnoremap <silent><leader>] <c-w>K
 ]])
 
 
@@ -264,21 +264,34 @@ local trigger_set_command_input = function(callback_fn)
       },
     },
     win_options = {
-      winhighlight = "Normal:Normal,FloatBorder:Normal",
-    },
+    winblend = 10,
+    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+  },
   }, {
-    prompt = "> ",
-    default_value = "",
-    on_submit = function(value)
-      stored_task_command = value
-      callback_fn();
-    end,
-  })
+      prompt = "> ",
+      default_value = "",
+      on_submit = function(value)
+        stored_task_command = value
+        callback_fn();
+      end,
+      on_close = function()
+        print("Input Closed!")
+      end,
+    })
 
+  --NOTE: close on buf leave
   input_component:mount()
   input_component:on(event.BufLeave, function()
     input_component:unmount()
   end)
+  --NOTE: close on esc insert mode
+  input_component:map("i", "<Esc>", function()
+    input_component:unmount()
+  end, { noremap = true })
+  --NOTE: close on esc normal mode
+  input_component:map("i", "<Esc>", function()
+    input_component:unmount()
+  end, { noremap = true })
 end
 
 vim.api.nvim_create_user_command('TermSetTaskCommand', function()
@@ -290,7 +303,7 @@ vim.api.nvim_create_user_command('TermRunTaskThenExit', function(input)
   local cmd = input.args
   vim.api.nvim_command(":Tnew")
   vim.api.nvim_command(":T " .. cmd .. " && exit")
-    vim.api.nvim_command(":stopinsert")
+  vim.api.nvim_command(":stopinsert")
 end, { bang = true, nargs = '*' })
 
 vim.api.nvim_create_user_command('NeotermRunTaskCommand', function(input)
@@ -355,12 +368,12 @@ vim.cmd([[
 vim.cmd('cnoreabbrev <silent>spell :set spell!<cr>')
 vim.cmd([[
     function SpellAuto()
-        :EnableAutocorrect
-        :set spell
+    :EnableAutocorrect
+    :set spell
     endfunction
     function SpellOff()
-        :DisableAutocorrect
-        :set nospell
+    :DisableAutocorrect
+    :set nospell
     endfunction
 
 ]])
@@ -415,33 +428,33 @@ cmd([[cnoreabbrev pcl PackerClean]])
 -- HOT KEYS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 utils.nnoremap(
-	leader .. 1,
-	":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
+  leader .. 1,
+  ":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
 )
 
 utils.nnoremap(
-	leader .. '2',
-	":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. '2',
+  ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. '2',
-	":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. '2',
+  ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.nnoremap(
-	leader .. '3',
-	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
+  leader .. '3',
+  ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
 )
 utils.vnoremap(
-	leader .. '3',
-	":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
+  leader .. '3',
+  ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
 )
 utils.nnoremap(
-	leader .. '4',
-	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. '4',
+  ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. '4',
-	":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. '4',
+  ":lua require'telescope.builtin'.man_pages(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.nnoremap(leader .. '5', ':Startify<cr>')
 utils.vnoremap(leader .. '5', ':Startify<cr>')
@@ -456,61 +469,61 @@ utils.vnoremap(leader .. '5', ':Startify<cr>')
 -- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
 
 utils.nnoremap(
-	leader .. 's',
-	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
+  leader .. 's',
+  ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 utils.vnoremap(
-	leader .. 's',
-	":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
+  leader .. 's',
+  ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
 )
 
 utils.nnoremap(
-	leader .. 'S',
-	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'S',
+  ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'S',
-	":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'S',
+  ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
 )
 
 --[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
 utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
 --[[ utils.nnoremap(
-	leader .. 'gb',
-	":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'gb',
+  ":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'gb',
-	":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'gb',
+  ":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
 ) ]]
 utils.nnoremap(
-	leader .. 'b',
-	":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'b',
+  ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'b',
-	":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'b',
+  ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
 )
 
 utils.nnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 utils.vnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
 
 utils.nnoremap(
-	leader .. 'f',
-	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'f',
+  ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'f',
-	":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'f',
+  ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
 )
 
 utils.nnoremap(
-	leader .. 'y',
-	":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'y',
+  ":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
 )
 utils.vnoremap(
-	leader .. 'y',
-	":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
+  leader .. 'y',
+  ":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
 )
 --[[ utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
 utils.vnoremap(leader .. 'p', ':Telescope projects<cr>') ]]
@@ -552,8 +565,8 @@ utils.nnoremap(',h', ':lua require("lspsaga.hover").render_hover_doc()<CR>')
 utils.nnoremap(",'", ':lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.nnoremap(',;', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.nnoremap(
-	',c',
-	":lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_dropdown({}))<CR>"
+  ',c',
+  ":lua require'telescope.builtin'.lsp_code_actions(require('telescope.themes').get_dropdown({}))<CR>"
 )
 utils.nnoremap(',r', ':lua vim.lsp.buf.rename()<CR>')
 utils.nnoremap(',f', ':lua vim.lsp.buf.formatting()<CR>')
@@ -608,40 +621,40 @@ remap('n', leader .. '<tab>', '<c-h>', { noremap = false })
 _G.COQMaps = {}
 
 COQMaps.CR = function()
-	if vim.fn.pumvisible() ~= 0 then
-		if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-			return npairs.esc('<c-y>')
-		else
-			return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-		end
-	else
-		return npairs.autopairs_cr()
-	end
+  if vim.fn.pumvisible() ~= 0 then
+    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+      return npairs.esc('<c-y>')
+    else
+      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+    end
+  else
+    return npairs.autopairs_cr()
+  end
 end
 remap('i', '<cr>', 'v:lua.COQMaps.CR()', { expr = true, noremap = true })
 
 COQMaps.BS = function()
-	if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
-		return npairs.esc('<c-e>') .. npairs.autopairs_bs()
-	else
-		return npairs.autopairs_bs()
-	end
+  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
+  else
+    return npairs.autopairs_bs()
+  end
 end
 remap('i', '<bs>', 'v:lua.COQMaps.BS()', { expr = true, noremap = true })
 
 local t = function(str)
-	return vim.api.nvim_replace_termcodes(str, true, true, true)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
 
 --NOTE: Requires https://github.com/ms-jpq/coq_nvim/pull/249
 --[[ COQMaps.tab_complete = function()
-	if vim.fn.pumvisible() == 1 then
-		return t('<C-n>')
-	elseif _G.COQ.Marks_available() == true then
-		return t('<C-h>')
-	else
-		return t('<Tab>')
-	end
+  if vim.fn.pumvisible() == 1 then
+    return t('<C-n>')
+  elseif _G.COQ.Marks_available() == true then
+    return t('<C-h>')
+  else
+    return t('<Tab>')
+  end
 end
 vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = true }) ]]
 -- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
@@ -745,48 +758,48 @@ local file = config.file:with({ reverse = true, suffix = ' »', layout = snap.ge
 local vimgrep = config.vimgrep:with {limit = 50000, suffix = " »"}
 local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.baks/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}
 local args = {
-	'--follow',
-	'--hidden',
-	'-g',
-	'!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*',
+  '--follow',
+  '--hidden',
+  '-g',
+  '!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*',
 }
 
 snap.maps({
-	{
-		'<leader>s', file {
-			try = {
-				snap.get('producer.git.file').args({'--cached', '--others', '--exclude-standard'}),
-				snap.get('producer.ripgrep.file').args({"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}),
-			},
-			prompt = 'Files',
-		},
-	},
-	{"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
-	{"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
-	{"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
-	{
-		'<Leader>2',
-		file({
-			args = args,
-			try = {
-				snap.get('consumer.combine')(
-					snap.get('producer.ripgrep.file').args({}, '/Users/admin/.config/nvim'),
-					snap.get('producer.ripgrep.file').args({}, '/Users/admin/.config/zsh')
-				),
-			},
-			prompt = 'Search Dotfiles',
-		}),
-		{ command = 'search dotfiles' },
-	},
-	{"<Leader>df", vimgrep {
-		args = args,
-		{snap.get'consumer.combine'(
-			snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/nvim"),
-			snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/zsh")
-		)},
-		prompt = "Grep Dotfiles"
-	},
-		{command =  "grep dotfiles"}},
+  {
+    '<leader>s', file {
+      try = {
+        snap.get('producer.git.file').args({'--cached', '--others', '--exclude-standard'}),
+        snap.get('producer.ripgrep.file').args({"--follow", "--hidden", "-g", "!{.backup,.swap,.langservers,.session,.undo,.git,node_modules,vendor,.cache,.vscode-server,.Desktop,.Documents,classes,.DS_STORE}/*"}),
+      },
+      prompt = 'Files',
+    },
+  },
+  {"<Leader>f", vimgrep {prompt = "Grep"},{command =  "grep"}},
+  {"<Leader>S", file {producer = "vim.oldfile", prompt = "History"},{command =  "history"}},
+  {"<Leader>b", file {producer = "vim.buffer", prompt = "Buffers"},{command =  "buffers"}},
+  {
+    '<Leader>2',
+    file({
+      args = args,
+      try = {
+        snap.get('consumer.combine')(
+          snap.get('producer.ripgrep.file').args({}, '/Users/admin/.config/nvim'),
+          snap.get('producer.ripgrep.file').args({}, '/Users/admin/.config/zsh')
+        ),
+      },
+      prompt = 'Search Dotfiles',
+    }),
+    { command = 'search dotfiles' },
+  },
+  {"<Leader>df", vimgrep {
+    args = args,
+    {snap.get'consumer.combine'(
+      snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/nvim"),
+      snap.get'producer.ripgrep.vimgrep'.args({}, "/Users/admin/.config/zsh")
+    )},
+    prompt = "Grep Dotfiles"
+  },
+    {command =  "grep dotfiles"}},
 }) ]]
 
 ------------------------------------------------------------------------------------------------------------------------------------------------

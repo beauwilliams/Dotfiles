@@ -28,6 +28,25 @@ tsconf.setup(
     {
         --NOTE: As of Apr 2022 maintained flag is deprecated
         -- ensure_installed = 'all', --> Installs ALL maintained[] packages, probably better than "all" [note had issue with CSS performance, keep in mind..]
+                playground = {
+            enable = true,
+            disable = {},
+            updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+            persist_queries = false, -- Whether the query persists across vim sessions
+            keybindings = {
+                toggle_query_editor = "o",
+                toggle_hl_groups = "i",
+                toggle_injected_languages = "t",
+                toggle_anonymous_nodes = "a",
+                toggle_language_display = "I",
+                focus_language = "f",
+                unfocus_language = "F",
+                update = "R",
+                goto_node = "<cr>",
+                show_help = "?"
+            }
+        },
+
         disable = {},
         ensure_installed = {
             "bash",
@@ -123,7 +142,7 @@ tsconf.setup(
             lsp_interop = {
                 enable = true
             }
-        }
+        },
     }
 )
 
@@ -152,14 +171,16 @@ end
 -- TODO: convert to auto group
 vim.cmd [[au FileType * :lua EnsureTSParserInstalled()]]
 
-
-api.nvim_create_autocmd("BufEnter", {
-    pattern = "*",
-    callback = function()
-				require("hlargs").setup {color = "#83a598"}
-    end,
-    desc = "Enabler HLArgs treesitter upon buffer enter",
-})
+api.nvim_create_autocmd(
+    "BufEnter",
+    {
+        pattern = "*",
+        callback = function()
+            require("hlargs").setup {color = "#83a598"}
+        end,
+        desc = "Enabler HLArgs treesitter upon buffer enter"
+    }
+)
 
 --PRETTY SURE BELOW IS NOW DEPRECATED..
 --[[ require "nvim-treesitter.highlight"

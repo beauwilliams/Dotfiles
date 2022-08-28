@@ -6,10 +6,12 @@
   ;CORE
   (require :impatient ) ;Speed up require caching
   (require :settings._mappings )
+  (require :settings._commands )
   (require :plugins._plugins)
   (require :settings._theme)
   (require :settings._options)
   (require :settings._autocmds)
+  (require :settings._optimisations)
   ;PLUGINS
   (require :plugins._startify)
   (require :plugins._hexokinase)
@@ -17,6 +19,10 @@
   (require :plugins._treesitter)
   (require :plugins._nvimtree)
   (require :plugins._discord)
+  (require :plugins._goto-preview)
+  (require :plugins._nvim-notify)
+  (require :plugins._hydra)
+  (require :plugins._nvim-notify)
   ;LSP
   (require :lsp._lsp_config)
   ;MY STATUSLINE

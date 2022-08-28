@@ -66,6 +66,36 @@ local function setup()
 end
 setup()
 
+-- autocmds
+local autocmd = vim.api.nvim_create_autocmd
+local api = vim.api
+-- dont list quickfix buffers
+autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    vim.opt_local.buflisted = false
+  end,
+})
+
+-- Disable statusline in dashboard
+autocmd("FileType", {
+  pattern = {"alpha", "startify"},
+  callback = function()
+    vim.opt.laststatus = 0
+  end,
+})
+autocmd("BufUnload", {
+  buffer = 0,
+  callback = function()
+    vim.opt.laststatus = 3
+  end,
+})
+-- Don't auto commenting new lines
+autocmd("BufEnter", {
+  pattern = "*",
+  command = "set fo-=c fo-=r fo-=o",
+})
+
 --INSPO
 -- Auto save files when focus is lost
 -- cmd("au FocusLost * :wa")

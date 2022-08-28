@@ -1,5 +1,6 @@
 local actions = require('telescope.actions')
 local telescope = require('telescope')
+vim.cmd('autocmd FileType TelescopePrompt setl nocursorline')
 telescope.setup({
 	defaults = {
 		mappings = {

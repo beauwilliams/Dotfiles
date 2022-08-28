@@ -1,6 +1,9 @@
 -- lua alternative goolord/alpha-nvim
 local g = vim.g
 local fn = vim.fn
+local datetime = os.date "%A %d %B %Y, %T"
+local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
+local icons = require('libraries._icons')
 
 local ascii = {
 	[[   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗]],
@@ -9,8 +12,16 @@ local ascii = {
 	[[   ██║     ██╔══╝     ██║   ╚════██║    ██║   ██║██╔══╝     ██║       ██║   ██║   ╚═╝]],
 	[[   ███████╗███████╗   ██║   ███████║    ╚██████╔╝███████╗   ██║       ██║   ██║   ██╗]],
 	[[   ╚══════╝╚══════╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝   ╚═╝       ╚═╝   ╚═╝   ╚═╝]],
+	"",
+	"   "  .. icons.misc.RightUnfilledArrow .. "  Welcome, Beau",
+	"",
+	"   "  .. icons.misc.Branch .. "  Neovim Version: " .. version,
+	"",
+	"   "  .. icons.misc.Calendar .. "  " .. datetime
+	-- " " .. icons.misc.Plug .. " Plugins: " .. plugins,
 }
-
+--- Do not show <empty> and <quit>
+vim.g.startify_enable_special = 0
 g.startify_files_number = 10
 g.startify_change_to_dir = 1
 g.startify_session_dir = '~/.cache/nvim/.session'
@@ -18,7 +29,7 @@ g.startify_session_persistence = 1
 g.startify_change_to_dir = 1
 g.startify_change_to_vcs_root = 1
 g.startify_files_number = 10
-g.startify_padding_left = 3
+g.startify_padding_left = 2
 g.startify_session_number = 10
 g.startify_session_sort = 0 -- Sort sessions by modification time (when the session files were written)
 -- g.session_autosave = 'yes'
@@ -35,12 +46,16 @@ g.startify_lists = {
 	{ type = 'commands', header = { 'Commands' } },
 }
 
+
 g.startify_commands = {
 	{ ps = { 'Packer Sync', ':PackerSync' } },
 	{ pi = { 'Packer Install', ':PackerInstall' } },
 	{ pc = { 'Packer Clean', ':PackerClean' } },
 	{ ch = { 'Check Health', 'checkhealth' } },
+	{ h = { "Vim Help", ":Telescope help_tags" } },
+	{ e = { "New file", ":enew" } },
 }
+
 
 g.startify_bookmarks = {
 	{ n = '~/Dropbox/Software Eng/Workspaces/Neorg/index.norg' },
@@ -49,5 +64,6 @@ g.startify_bookmarks = {
 	{ g = '~/.gitconfig' },
 	{ s = '~/.ssh/config' },
 	{ vn = '/Users/admin/Library/Caches/Homebrew/neovim--git' },
-	{ ll = '~/.cache/nvim/lsp.log'}
+	{ ll = '~/.cache/nvim/lsp.log'},
+	{ ls = '~/.config/nvim/logs/startuptime/startup.log'}
 }

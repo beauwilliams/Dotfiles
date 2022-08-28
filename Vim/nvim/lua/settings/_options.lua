@@ -1,5 +1,6 @@
 local options = require('libraries._set_options')
 local utils = require('libraries._utils')
+local opt = vim.opt
 
 options.set_options('g', {
 	mapleader = ' ',
@@ -45,45 +46,23 @@ options.set_options( 'o', {
 	spelllang = 'en', -- Set NEOVIMS NATIVE spell lang for spellchecker
 	-- inccommand = 'nosplit', -- Deault in 0.6. This is Neovim only. inccommand shows you in realtime what changes your ex command should make. Right now it only supports s,but even that is incredibly useful. If you type :s/regex, it will highlight what matches regex. If you then add /change, it will show all matches replaced with change. This works with all of the regex properties, include backreferences and groups.
 	clipboard = 'unnamed', -- share system clipboard but also retain nvim clipboard (see += compared
-	-- mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
+	mouse = "a", -- allows me to scroll with my touchpad in two different splits just by hoevering the mouse in the split I wish to scroll
 	-- cpoptions = vim.o.cpoptions .. 'x', -- stay at seach item when <esc> (ENTERS COMMAND WHEN HIT ESC from : MODE, DONT USE)
 })
+
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+opt.whichwrap:append "<>[]hl"
+-- disable nvim intro
+opt.shortmess:append "sI"
 
 if utils.hasVersion("0.7") then
 	options.set_options( 'o', {
 		laststatus = 3
 	})
 end
--- Disable providers we do not care a about
-vim.g.loaded_ruby_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_node_provider = 0
 
--- Disable some in built plugins completely
-local disabled_built_ins = {
-	'netrw',
-	'netrwPlugin',
-	'netrwSettings',
-	'netrwFileHandlers',
-	'gzip',
-	'zip',
-	'zipPlugin',
-	'tar',
-	'tarPlugin',
-	'getscript',
-	'getscriptPlugin',
-	'vimball',
-	'vimballPlugin',
-	'2html_plugin',
-	'logipat',
-	'rrhelper',
-	'spellfile_plugin',
-	'matchit',
-	--'matchparen',
-}
-for _, plugin in pairs(disabled_built_ins) do
-	vim.g['loaded_' .. plugin] = 1
-end
+
 
 --[[ vim.g.markdown_fenced_languages = {
   'vim',

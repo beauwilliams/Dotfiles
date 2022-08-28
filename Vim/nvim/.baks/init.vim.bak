@@ -7,13 +7,37 @@ function! Test()
     return "test"
 endfunction
 
-"AUOTO SAVES HELP TAGS"
+"AUTO SAVES HELP TAGS"
 autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 
-function GlobalReplace(foo,bar)
-    exe 'grep '.a:foo
-    exe 'cdo %s/'.a:foo.'/'.a:bar.'/gc'
-endfunction
+" function GlobalReplace(foo,bar)
+"     exe 'grep '.a:foo
+"     exe 'cdo %s/'.a:foo.'/'.a:bar.'/gc'
+" endfunction
+
+" "Dump theme under cursor
+" function! SynGroup()
+"     let l:s = synID(line('.'), col('.'), 1)
+"     echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" endfun
+
+" " diagnostics {{{
+" if has('balloon_eval')
+"     nnoremap <F12>           : setl beval!<CR>
+"     set bexpr=InspectSynHL()
+" endif
+" fun! InspectSynHL()
+"     let l:synNames = []
+"     let l:idx = 0
+"     for id in synstack(v:beval_lnum, v:beval_col)
+"         call add(l:synNames, printf('%s%s', repeat(' ', idx), synIDattr(id, 'name')))
+"         let l:idx+=1
+"     endfor
+"     " return join(l:synNames, "\n")
+"     return 'hello'
+" endfun
+
+"}}}
 
 " let $ZSH_ENV="Users/admin/.zshrc"
 "

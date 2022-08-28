@@ -16,7 +16,10 @@ local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
 end
-local lsp_utils = require('libraries._lsp')
+local has_lsp_utils, lsp_utils = pcall(require, 'libraries._lsp')
+if not has_lsp_utils then
+    return
+end
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -65,6 +68,7 @@ vim.diagnostic.config({
 	update_in_insert = false,
 })
 
+
 -- Creating a custom user command in 0.7
 -- Enable and disable diagnostics decorations
 local diagnostics_active = false
@@ -89,7 +93,17 @@ for type, icon in pairs(signs) do
 end
 
 -- DISPLAY LSP DIAGS IN COMMAND LINE
-vim.cmd [[ autocmd! CursorHold * lua require("libraries._lsp").echo_diagnostics() ]]
+-- vim.cmd [[ autocmd! CursorHold * lua require("libraries._lsp").echo_diagnostics() ]]
+
+-- DISPLAY LSP DIAGS AS POPUP OVERLAY
+-- vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.open_float(nil,{focusable=false,scope="cursor"})]]
+
+-- DISPLAY LSP DIAGS AS VIRTUAL LINES
+vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.config({ virtual_lines = { only_current_line = true } })]]
+
+--DISPLAY LSP FN SIGNATURE POPUP OVERLAY
+vim.cmd [[autocmd InsertCharPre * Lspsaga signature_help]]
+
 
 --CAPABILITIES
 local custom_capabilities = function()
@@ -127,11 +141,14 @@ local custom_attach = function(client, bufnr)
     -- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 end
 
-local custom_init = function()
-	-- DEBUGGING
-	-- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
-	-- SWAG
-	print("LSP Started.. Let's get this bread")
+local custom_init = function(server)
+  -- DEBUGGING
+  -- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
+  -- SWAG
+  -- print("LSP Started.. Let's get this bread")
+  -- vim.notify("Started "..vim.lsp.get_active_clients()[3].config.name..". Let's get this bread!", 2 , { title = "Language Server"})
+  vim.notify("Started "..vim.bo.ft.." language server. Let's get this bread!", 2 , { title = "Language Server"})
+
 end
 
 ---------------------------------------------------------------------------------------
@@ -174,9 +191,10 @@ local servers = {
 	'pylsp',
 	'dockerls',
     'yamlls',
-    'gopls'
+    'gopls',
+    'marksman',
   -- 'solidity_ls'
-    -- 'solc'
+    'solc'
 }
 
 for _, server in ipairs(servers) do
@@ -205,7 +223,7 @@ end
 
 -- LANG CONFS
 require('lsp._null') --Null ls, additional formatters, diags and more..
-require('lsp._solang').setup(custom_attach, custom_init)
+-- require('lsp._solang').setup(custom_attach, custom_init)
 require('lsp._lua').setup(custom_attach, custom_init)
 require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 require('lsp._typescript').setup(custom_attach, custom_init)
@@ -230,22 +248,8 @@ vim.cmd(
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
---TODO: Add error handling?
---ERROR HANDLING INSPO
---if has_status then
---lsp_status.on_attach(client)
---end
 
---if has_diagnostic then
---diagnostic.on_attach()
---end
 
---if has_completion then
---completion.on_attach({
---sorter = 'alphabet',
---matcher = {'exact', 'fuzzy'}
---})
---end
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------

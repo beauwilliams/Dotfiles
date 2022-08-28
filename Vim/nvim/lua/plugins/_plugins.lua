@@ -123,19 +123,23 @@ packer.startup({
 --]]
 		--NOTE: THEMES/UX/UI PLUGINS
 		use('gruvbox-community/gruvbox')
+    use({'luisiacc/gruvbox-baby'})
+    use({'beauwilliams/flatbox'})
 		-- use 'mvpopuk/inspired-github.vim'
 		use "projekt0n/github-nvim-theme"
 		-- AUTO dark / light mode switch between github and gruvbox theme
 		use 'f-person/auto-dark-mode.nvim'
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
     use {'stevearc/dressing.nvim'} -- Neovim plugin to improve the default vim.ui interfaces
+    -- use 'meznaric/conmenu' --replacing for hydra aug 2022
+    use 'anuvyklack/hydra.nvim'
 		-- use 'ghifarit53/tokyonight-vim'
 		-- use "sainnhe/gruvbox-material"
 		-- another I would like to try https://github.com/sainnhe/everforest
 		--use 'eddyekofo94/gruvbox-flat.nvim'
 
     -- NOTE: NOTIFICATIONS
-    use ('rcarriga/nvim-notify')
+    use 'rcarriga/nvim-notify' --plugins.nvim-notify.lua
 
 		--NOTE: COLOURED BRACES
 		use('p00f/nvim-ts-rainbow') --> Treesitter compatible rainbow parentheses
@@ -170,7 +174,7 @@ packer.startup({
 				require('focus').setup({
 					tmux = false,
 					hybridnumber = true,
-					excluded_filetypes = { 'fterm', 'term', 'toggleterm' },
+					excluded_filetypes = { 'fterm', 'term', 'toggleterm', 'startify' },
 					signcolumn = 'number',
 					absolutenumber = false,
 					bufnew = true,
@@ -318,6 +322,23 @@ packer.startup({
     })
 		use 'ii14/lsp-command' -- USAGE: :h :Lsp
     -- use {'j-hui/fidget.nvim', setup = require"fidget".setup{}} -- LSP server status widget bottom right corner
+    use({ -- LSP UI Enhancements
+      "glepnir/lspsaga.nvim",
+      branch = "main",
+      config = function()
+        local saga = require("lspsaga")
+
+        saga.init_lsp_saga({
+          -- your configuration
+        })
+      end,
+    })
+    use({ -- LSP Diagnostic virtual lines
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
+      end,
+    })
 
 		-- NOTE: LSP SERVERS
 		-- COQ
@@ -401,6 +422,7 @@ packer.startup({
 		--NOTE: NVIM LSP PLUGINS
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc
 		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
+    use 'rmagatti/goto-preview' --> Go to definition preview in popup
 
 		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
@@ -459,7 +481,6 @@ packer.startup({
 		-- use 'michaelb/sniprun' --> RUN CODE SNIPPETS/BLOCKS
 		-- https://github.com/jubnzv/mdeval.nvim - RUN CODE SNIPPETS IN MARKDOWN FILE
 		-- use('ray-x/lsp_signature.nvim') --> LSP SignatureInformation
-		-- use  'glepnir/lspsaga.nvim'
 		-- use 'jubnzv/virtual-types.nvim'--> A Neovim plugin that shows type annotations as virtual text
 		-- use 'ojroques/nvim-lspfuzzy'  --> USE FZF FOR LSP NAVIGATION [CODE ACTION NOT WORKING..]
 
@@ -481,6 +502,7 @@ packer.startup({
 			'nvim-treesitter/nvim-treesitter'
 			--run = ":TSInstall all"
 		})
+    use 'nvim-treesitter/playground'
 		use('haringsrob/nvim_context_vt') --> Show treesitter context at end of functions etc
 		use('nvim-treesitter/nvim-treesitter-refactor') --> smart renaming and highlight definitions and scope
 		use('windwp/nvim-ts-autotag') --> Use treesitter to autoclose and autorename html tag

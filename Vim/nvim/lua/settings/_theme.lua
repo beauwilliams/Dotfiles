@@ -4,31 +4,32 @@
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Default colorscheme to load at startup before reading OS theme settings
-vim.cmd('colorscheme gruvbox')
+vim.cmd [[colorscheme flatbox]]
 
 -- NOTE: Automatic switching between dark and light mode
-local auto_dark_mode = require('auto-dark-mode')
+local auto_dark_mode = require("auto-dark-mode")
 
-auto_dark_mode.setup({
-	update_interval = 1000,
-	set_dark_mode = function()
-		vim.api.nvim_set_option('background', 'dark')
-		vim.cmd('colorscheme gruvbox')
-		setGruvboxHighlights() --> NOTE: must come after :colorscheme gruvbox
-	end,
-	set_light_mode = function()
-		-- vim.api.nvim_set_option('background', 'light')
-		  vim.cmd('hi clear')
-		vim.cmd('colorscheme github_light')
-	end,
-})
+auto_dark_mode.setup(
+    {
+        update_interval = 1000,
+        set_dark_mode = function()
+            vim.api.nvim_set_option("background", "dark")
+            vim.cmd("hi clear")
+            vim.cmd [[colorscheme flatbox]]
+            -- setGruvboxHighlights() --> NOTE: must come after :colorscheme gruvbox
+        end,
+        set_light_mode = function()
+            vim.api.nvim_set_option('background', 'light')
+            vim.cmd("hi clear")
+            vim.cmd("colorscheme github_light")
+        end
+    }
+)
 auto_dark_mode.init()
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
-
-
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
@@ -37,7 +38,7 @@ auto_dark_mode.init()
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Globals must be set on init, not dynamically
 vim.g.gruvbox_italic = 1
-vim.g.gruvbox_contrast_dark = 'soft'
+vim.g.gruvbox_contrast_dark = "soft"
 vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with syntax
 -- vim.g.gruvbox_sign_column = "bg0"
 --vim.g.gruvbox_sign_column = 'dark0_hard'
@@ -45,8 +46,9 @@ vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with sy
 --vim.g.gruvbox_number_column = 'dark0_hard'
 
 setGruvboxHighlights = function()
--- CURSOR FLASH
-vim.cmd('highlight Beacon guibg=white ctermbg=15')
+    --NOTE: Get highlights with :highlight
+    -- CURSOR FLASH
+    --[[ vim.cmd('highlight Beacon guibg=white ctermbg=15')
 -- treesitter highlights
 vim.cmd('highlight! link TSConstBuiltin Constant') -- None
 vim.cmd('highlight! link TSKeywordOperator Keyword') -- not, in
@@ -91,6 +93,7 @@ vim.cmd("highlight! link LspSagaSignatureHelpBorder GruvboxAqua")
 vim.cmd("highlight! link ProviderTruncateLine GruvboxGray")
 vim.cmd("highlight! link SagaShadow GruvboxBg1")
 vim.cmd("highlight! link TargetWord GruvboxRed")
+vim.cmd('highlight! link SearchBoxMatch Search') ]]
 end
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
@@ -100,26 +103,22 @@ end
 
 --THICC colomuns between splits
 vim.opt.fillchars = {
-  horiz     = '━',
-  horizup   = '┻',
-  horizdown = '┳',
-  vert      = '┃',
-  vertleft  = '┫',
-  vertright = '┣',
-  verthoriz = '╋',
+    horiz = "━",
+    horizup = "┻",
+    horizdown = "┳",
+    vert = "┃",
+    vertleft = "┫",
+    vertright = "┣",
+    verthoriz = "╋"
 }
 
-
 -- NOTE: https://www.reddit.com/r/neovim/comments/psl8rq/sexy_folds/
-vim.opt.fillchars = "fold: "
+-- vim.opt.fillchars = "fold: "
 -- vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldtext = [[substitute(getline(v:foldstart),'\\t',repeat('\ ',&tabstop),'g').'...'.trim(getline(v:foldend))]]
 vim.opt.foldnestmax = 3
 vim.opt.foldminlines = 1
-
-
-
 
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
