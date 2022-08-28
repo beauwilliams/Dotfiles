@@ -12,11 +12,11 @@ local vim = vim
 local fn = vim.fn
 local api = vim.api
 local cwd = vim.loop.cwd
-local has_lsp, lsp = pcall(require, 'lspconfig')
+local has_lsp, lsp = pcall(require, "lspconfig")
 if not has_lsp then
-	return
+    return
 end
-local has_lsp_utils, lsp_utils = pcall(require, 'libraries._lsp')
+local has_lsp_utils, lsp_utils = pcall(require, "libraries._lsp")
 if not has_lsp_utils then
     return
 end
@@ -49,47 +49,54 @@ end
 -- FORMATTING
 -- async formatting
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
-vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
+vim.lsp.handlers["textDocument/formatting"] = lsp_utils.get_async_format_fn()
 
 -- Diagnostics [NVIM 0.6 only]
-vim.diagnostic.config({
-    virtual_text=false,
-	underline = true,
-	float = {
-		source = 'always',
-	},
-	severity_sort = true,
-     -- Could be '●', '▎', 'x', '■'
-	--[[ virtual_text = {
+vim.diagnostic.config(
+    {
+        virtual_text = false,
+        underline = true,
+        float = {
+            source = "virtual",
+            border = "rounded",
+            header = "",
+            prefix = ""
+        },
+        severity_sort = true,
+        -- Could be '●', '▎', 'x', '■'
+        --[[ virtual_text = {
       prefix = "»",
       spacing = 4,
     }, ]]
-	signs = true,
-	update_in_insert = false,
-})
-
+        signs = true,
+        update_in_insert = false
+    }
+)
 
 -- Creating a custom user command in 0.7
 -- Enable and disable diagnostics decorations
 local diagnostics_active = false
-vim.api.nvim_create_user_command("Diagnostics", function()
-  diagnostics_active = not diagnostics_active
-  if diagnostics_active then
-    vim.diagnostic.show()
-  else
-    vim.diagnostic.hide()
-  end
-end, {
-    nargs = "*",
-    desc = "Toggle neovim lsp in window diagnostics",
-})
-
+vim.api.nvim_create_user_command(
+    "Diagnostics",
+    function()
+        diagnostics_active = not diagnostics_active
+        if diagnostics_active then
+            vim.diagnostic.show()
+        else
+            vim.diagnostic.hide()
+        end
+    end,
+    {
+        nargs = "*",
+        desc = "Toggle neovim lsp in window diagnostics"
+    }
+)
 
 -- SET DIAG GUTTER SIGNS
-local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
+local signs = {Error = "✘", Warning = "", Hint = "", Information = ""}
 for type, icon in pairs(signs) do
-	local hl = 'LspDiagnosticsSign' .. type
-	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+    local hl = "LspDiagnosticsSign" .. type
+    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ""})
 end
 
 -- DISPLAY LSP DIAGS IN COMMAND LINE
@@ -104,7 +111,6 @@ vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.config({ virtual_lines = { on
 --DISPLAY LSP FN SIGNATURE POPUP OVERLAY
 vim.cmd [[autocmd InsertCharPre * Lspsaga signature_help]]
 
-
 --CAPABILITIES
 local custom_capabilities = function()
     --[[ NOTE: COQ
@@ -112,10 +118,9 @@ local custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	local coq = require('coq')
 	coq.lsp_ensure_capabilities() ]]
-    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-	return capabilities
+    local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    return capabilities
 end
-
 
 -- You will likely want to reduce updatetime which affects CursorHold
 -- note: this setting is global and should be set only once
@@ -136,21 +141,21 @@ end
 local custom_attach = function(client, bufnr)
     --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
     -- INITS
-    require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
-    require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-    require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+    require("plugins._lightbulb") --> CODE ACTION LIGHTBULB
+    require("lsp-status").on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
+    require("lsp_basics").make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+    require("aerial").on_attach(client)
     -- require('lsp_signature').on_attach(client) --> Signature popups and info
     -- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 end
 
 local custom_init = function(server)
-  -- DEBUGGING
-  -- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
-  -- SWAG
-  -- print("LSP Started.. Let's get this bread")
-  -- vim.notify("Started "..vim.lsp.get_active_clients()[3].config.name..". Let's get this bread!", 2 , { title = "Language Server"})
-  vim.notify("Started "..vim.bo.ft.." language server. Let's get this bread!", 2 , { title = "Language Server"})
-
+    -- DEBUGGING
+    -- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
+    -- SWAG
+    -- print("LSP Started.. Let's get this bread")
+    -- vim.notify("Started "..vim.lsp.get_active_clients()[3].config.name..". Let's get this bread!", 2 , { title = "Language Server"})
+    vim.notify("Started " .. vim.bo.ft .. " language server. Let's get this bread!", 2, {title = "Language Server"})
 end
 
 ---------------------------------------------------------------------------------------
@@ -186,53 +191,57 @@ end
 -- npm install -g yaml-language-server
 
 local servers = {
-	'bashls',
-	'cssls',
-	'vimls',
-	'rust_analyzer',
-	'pylsp',
-	'dockerls',
-    'yamlls',
-    'gopls',
-    'marksman',
-  -- 'solidity_ls'
-    'solc'
+    "bashls",
+    "cssls",
+    "vimls",
+    "rust_analyzer",
+    "pylsp",
+    "dockerls",
+    "yamlls",
+    "gopls",
+    "marksman",
+    -- 'solidity_ls'
+    "solc"
 }
 
 for _, server in ipairs(servers) do
-	lsp[server].setup({
-		on_attach = custom_attach,
-		on_init = custom_init,
-		capabilities = custom_capabilities(),
-	})
+    lsp[server].setup(
+        {
+            on_attach = custom_attach,
+            on_init = custom_init,
+            capabilities = custom_capabilities()
+        }
+    )
 end
 
 -- these servers activate even when not in .git repo etc
 local servers_rootcwd = {
-	'metals',
-	'vimls',
-	'jsonls',
+    "metals",
+    "vimls",
+    "jsonls"
 }
 
 for _, server in ipairs(servers_rootcwd) do
-	lsp[server].setup({
-		on_attach = custom_attach,
-		on_init = custom_init,
-		capabilities = custom_capabilities(),
-		root_dir = cwd,
-	})
+    lsp[server].setup(
+        {
+            on_attach = custom_attach,
+            on_init = custom_init,
+            capabilities = custom_capabilities(),
+            root_dir = cwd
+        }
+    )
 end
 
 -- LANG CONFS
-require('lsp._null') --Null ls, additional formatters, diags and more..
+require("lsp._null") --Null ls, additional formatters, diags and more..
 -- require('lsp._solang').setup(custom_attach, custom_init)
-require('lsp._lua').setup(custom_attach, custom_init)
-require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
-require('lsp._typescript').setup(custom_attach, custom_init)
-require('lsp._omnisharp').setup(custom_attach, custom_init)
+require("lsp._lua").setup(custom_attach, custom_init)
+require("lsp._html").setup(custom_attach, custom_init, custom_capabilities)
+require("lsp._typescript").setup(custom_attach, custom_init)
+require("lsp._omnisharp").setup(custom_attach, custom_init)
 
 vim.cmd(
-	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
+    [[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
 ) -- NOTE: sets workspace per project..
 -- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
 ---------------------------------------------------------------------------------------
@@ -249,9 +258,6 @@ vim.cmd(
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
-
-
-
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------

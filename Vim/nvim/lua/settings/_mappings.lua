@@ -575,7 +575,7 @@ utils.nnoremap(',g', ':lua vim.lsp.buf.definition()<CR>')
 utils.nnoremap(',R', ":lua require'telescope.builtin'.lsp_references()<CR>")
 utils.nnoremap(',w', ":lua require'telescope.builtin'.workspace_symbols()<CR>")
 utils.nnoremap(',d', ":lua require'telescope.builtin'.document_symbols()<CR>")
-utils.nnoremap(',s', ':lua vim.lsp.buf.signature_help()<CR>')
+-- utils.nnoremap(',s', ':lua vim.lsp.buf.signature_help()<CR>')
 utils.nnoremap(',t', ':lua vim.lsp.buf.type_definition()<CR>')
 utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>')
 

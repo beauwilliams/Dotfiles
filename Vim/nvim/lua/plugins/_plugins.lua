@@ -341,8 +341,12 @@ packer.startup({
     })
 
 		-- NOTE: LSP COMPLETIONS
-    use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-cmdline', 'hrsh7th/cmp-buffer' } }
-    use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
+    use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-cmdline', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path' , 'dmitmel/cmp-cmdline-history'}}
+    use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } } --snippets engine for cmp
+        use({"petertriho/cmp-git", requires = "nvim-lua/plenary.nvim",
+      config = function() require("cmp_git").setup()
+      end,
+    }) --Git completions
     use "rafamadriz/friendly-snippets" --preconfigured snippets that work with luasnip
     use({'github/copilot.vim'}) -- Copilot is love. Copilot is life.
 
@@ -357,6 +361,9 @@ packer.startup({
 			'kkoomen/vim-doge',
 			run = 'vim.cmd("call doge#install()")',
 		}) ]]
+
+    -- NOTE: Code navigation
+    use {'stevearc/aerial.nvim'}
 
 		-- NOTE: Indenting
 		use('Darazaki/indent-o-matic') --Faster than vim-sleuth. Detects indent based on file. No performance impact

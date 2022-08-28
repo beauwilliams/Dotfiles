@@ -24,7 +24,7 @@
   (require :plugins._goto-preview)
   (require :plugins._nvim-notify)
   (require :plugins._hydra)
-  (require :plugins._nvim-notify)
+  (require :plugins._aerial)
   ;LSP
   (require :lsp._lsp_config)
   ;MY STATUSLINE
