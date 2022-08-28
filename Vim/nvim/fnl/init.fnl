@@ -13,6 +13,8 @@
   (require :settings._autocmds)
   (require :settings._optimisations)
   ;PLUGINS
+  ; (require :plugins._coq)
+  (require :plugins._cmp)
   (require :plugins._startify)
   (require :plugins._hexokinase)
   (require :plugins._telescope)

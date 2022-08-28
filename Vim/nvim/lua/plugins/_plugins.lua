@@ -340,31 +340,28 @@ packer.startup({
       end,
     })
 
-		-- NOTE: LSP SERVERS
-		-- COQ
-		use({ 'ms-jpq/coq_nvim', branch = 'coq' }) -- main one
-		use({ 'ms-jpq/coq.artifacts', branch = 'artifacts' }) -- 9000+ Snippets
-		use({ 'ms-jpq/coq.thirdparty', branch = '3p' }) -- 9000+ Snippets
-		use('windwp/nvim-autopairs') -- compatible with COQ
+		-- NOTE: LSP COMPLETIONS
+    use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-cmdline', 'hrsh7th/cmp-buffer' } }
+    use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }
+    use "rafamadriz/friendly-snippets" --preconfigured snippets that work with luasnip
     use({'github/copilot.vim'}) -- Copilot is love. Copilot is life.
-		--COMPE
-		--[[ use("hrsh7th/nvim-compe") --> COMPLETION MENU
-		use({ "tzachar/compe-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-compe" })
-		use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
-		use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
-		use("rafamadriz/friendly-snippets") --> Snippets library compatible with vim-vsnip ]]
+
+		-- use('windwp/nvim-autopairs') -- compatible with COQ
+		-- use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
+		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 		-- NOTE: DOCUMENTATION
-		use({
+		--[[ use({
 			-- OR.. nvim-treesitter/nvim-tree-docs
 			-- OR.. https://github.com/danymat/neogen
-			'kkoomen/vim-doge', -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
-			run = 'vim.cmd[[call doge#install()]]',
-		})
+      -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
+			'kkoomen/vim-doge',
+			run = 'vim.cmd("call doge#install()")',
+		}) ]]
 
 		-- NOTE: Indenting
 		use('Darazaki/indent-o-matic') --Faster than vim-sleuth. Detects indent based on file. No performance impact
 
-		--NOTE: Commenting
+		--NOTE: Commenting, Pairing and more..
 		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
 
 		-- NOTE: Cheat sheets
@@ -466,6 +463,7 @@ packer.startup({
 
 		--NOTE: CODE TESTING PLUGINS
 		-- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
+    --neotest
 
 
 		--NOTE: BUILD SYSTEM PLUGINS
@@ -546,7 +544,8 @@ packer.startup({
 ]]
 		--	-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
 		--NOTE:  FUZZY WILD MENU ENHANCEMENT
-		use('gelguy/wilder.nvim')
+		-- use('gelguy/wilder.nvim')
+
 		--NOTE:  FAST FUZZY SEARCH
 		-- use({ 'camspiers/snap' })
 		--NOTE:  TELESCOPE
@@ -775,6 +774,7 @@ packer.startup({
 		use('sedm0784/vim-you-autocorrect') -- Vim autocorrection
 		use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS
 		use({ 'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' } }) -- Open HTTP files - a curl wrapper
+		use('andweeb/presence.nvim') -- discord presence
 
 
 
@@ -830,8 +830,11 @@ packer.startup({
 
 
     use 'simnalamburt/vim-mundo' --> Vim undo tree
+		-- display last undos
+		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
+
 		use 'beauwilliams/AutoWrite.vim'
-		use('andweeb/presence.nvim') -- discord presence
+
 		use 'tweekmonster/startuptime.vim'
 		--inc search box ui, making search more pretty
 		use {
@@ -858,7 +861,6 @@ packer.startup({
 		use('nvim-lua/plenary.nvim')
     --
 
-		use('MunifTanjim/nui.nvim') -- NOTE: We need this as its a dependency of something..
 		use('npxbr/glow.nvim') --> might ned to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
 		use('thugcee/nvim-map-to-lua')
@@ -867,8 +869,6 @@ packer.startup({
 			'vuki656/package-info.nvim',
 			setup = require('package-info').setup(),
 		})
-		-- display last undos
-		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
 		-- display helpfiles
 		--[[ use {
             "lvim-tech/lvim-helper",

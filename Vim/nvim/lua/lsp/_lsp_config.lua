@@ -31,8 +31,8 @@ end
 \____/\____/_/ /_/ /_/ .___/_/\___/\__/_/\____/_/ /_/   \____/ .___/\__/_/\____/_/ /_/____/
                     /_/                                     /_/
 --]]
--- require("_compe") --> We load custom compe init in lua._compe.lua
-require('plugins._coq') --> We load custom coq init in lua._coq.lua
+--NOTE: COQ
+-- require('plugins._coq') --> We load custom coq init in lua._coq.lua
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -107,10 +107,12 @@ vim.cmd [[autocmd InsertCharPre * Lspsaga signature_help]]
 
 --CAPABILITIES
 local custom_capabilities = function()
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
+    --[[ NOTE: COQ
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	local coq = require('coq')
-	coq.lsp_ensure_capabilities()
+	coq.lsp_ensure_capabilities() ]]
+    local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 	return capabilities
 end
 

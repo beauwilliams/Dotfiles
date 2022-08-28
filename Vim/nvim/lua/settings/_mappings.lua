@@ -600,51 +600,51 @@ utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- COMPLETION/COQ MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
-local remap = vim.api.nvim_set_keymap
-local npairs = require('nvim-autopairs')
-
-npairs.setup({ map_bs = false })
-
-vim.g.coq_settings = { keymap = { recommended = false } }
-
--- these mappings are coq recommended mappings unrelated to nvim-autopairs
-remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
-remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
-remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
-remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
---NOTE: ,leader+tab is command to move to next snippet location
-remap('n', leader .. '<tab>', '<c-h>', { noremap = false })
-
--- remap('i', '<cr>', [[pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"]], { expr = true, noremap = true })
-
--- skip it, if you use another global object
-_G.COQMaps = {}
-
-COQMaps.CR = function()
-  if vim.fn.pumvisible() ~= 0 then
-    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
-      return npairs.esc('<c-y>')
-    else
-      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
-    end
-  else
-    return npairs.autopairs_cr()
-  end
-end
-remap('i', '<cr>', 'v:lua.COQMaps.CR()', { expr = true, noremap = true })
-
-COQMaps.BS = function()
-  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
-    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
-  else
-    return npairs.autopairs_bs()
-  end
-end
-remap('i', '<bs>', 'v:lua.COQMaps.BS()', { expr = true, noremap = true })
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
+--local remap = vim.api.nvim_set_keymap
+--local npairs = require('nvim-autopairs')
+--
+--npairs.setup({ map_bs = false })
+--
+--vim.g.coq_settings = { keymap = { recommended = false } }
+--
+---- these mappings are coq recommended mappings unrelated to nvim-autopairs
+--remap('i', '<esc>', [[pumvisible() ? "<c-e><esc>" : "<esc>"]], { expr = true, noremap = true })
+--remap('i', '<c-c>', [[pumvisible() ? "<c-e><c-c>" : "<c-c>"]], { expr = true, noremap = true })
+--remap('i', '<tab>', [[pumvisible() ? "<c-n>" : "<tab>"]], { expr = true, noremap = true })
+--remap('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<bs>"]], { expr = true, noremap = true })
+----NOTE: ,leader+tab is command to move to next snippet location
+--remap('n', leader .. '<tab>', '<c-h>', { noremap = false })
+--
+---- remap('i', '<cr>', [[pumvisible() ? (complete_info().selected == -1 ? "\<C-e><CR>" : "\<C-y>") : "\<CR>"]], { expr = true, noremap = true })
+--
+---- skip it, if you use another global object
+--_G.COQMaps = {}
+--
+--COQMaps.CR = function()
+--  if vim.fn.pumvisible() ~= 0 then
+--    if vim.fn.complete_info({ 'selected' }).selected ~= -1 then
+--      return npairs.esc('<c-y>')
+--    else
+--      return npairs.esc('<c-e>') .. npairs.autopairs_cr()
+--    end
+--  else
+--    return npairs.autopairs_cr()
+--  end
+--end
+--remap('i', '<cr>', 'v:lua.COQMaps.CR()', { expr = true, noremap = true })
+--
+--COQMaps.BS = function()
+--  if vim.fn.pumvisible() ~= 0 and vim.fn.complete_info({ 'mode' }).mode == 'eval' then
+--    return npairs.esc('<c-e>') .. npairs.autopairs_bs()
+--  else
+--    return npairs.autopairs_bs()
+--  end
+--end
+--remap('i', '<bs>', 'v:lua.COQMaps.BS()', { expr = true, noremap = true })
+--
+--local t = function(str)
+--  return vim.api.nvim_replace_termcodes(str, true, true, true)
+--end
 
 --NOTE: Requires https://github.com/ms-jpq/coq_nvim/pull/249
 --[[ COQMaps.tab_complete = function()
