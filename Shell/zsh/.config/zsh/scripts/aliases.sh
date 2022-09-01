@@ -6,6 +6,7 @@ alias nvimenv="~/.local/bin/nvim"
 alias n="nvim"
 alias vi="nvim"
 alias vim="nvim"
+alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
 
 ###MISC ALIASES###
 # eval "$(thefuck --alias)"
@@ -14,6 +15,25 @@ alias comp3100='multipass exec comp3100 bash'
 ####NOTES####
 alias scratch="~/.config/zsh/commands/fzf-scratch.sh"
 alias notes="~/.config/zsh/commands/fzf-scratch.sh"
+alias keycast="npx macos-key-cast"
+
+
+####MARKDOWN####
+#Adding a markdown previewer command to my terminal
+#From here: https://tosbourn.com/view-markdown-files-terminal/
+#rmd () {
+#  pandoc $1 | lynx -stdin
+#}
+#Does not matter what reader we usem remember one command! mdreader
+# NOTE: Current is https://github.com/ms-jpq/markdown-live-preview
+# alias mdreader='mdless'
+# alias mdreader='glow'
+alias mdrender='mdrender' #My script using github api to render 2 html
+alias mdpreview='mlp'
+alias mdp=mdpreview
+alias mdr=mdpreview
+alias mdreader=mdpreview
+
 
 ####CHEAT.SH####
 alias chtsh='fzf-cheat'
@@ -137,19 +157,6 @@ alias dymosdk="open /Library/Frameworks/DYMO/SDK/DYMO.DLS.Printing.Host.app"
 
 ###APP SHORTCUTS###
 alias activitymonitor="htop"
-#Adding a markdown previewer command to my terminal
-#From here: https://tosbourn.com/view-markdown-files-terminal/
-#rmd () {
-#  pandoc $1 | lynx -stdin
-#}
-#NOTE: Did not like above approach, replaced it with https://brettterpstra.com/2015/08/21/mdless-better-markdown-in-terminal/ - it is lighter and works better - use mdless to open .MD for previewing
-#Does not matter what reader we usem remember one command! mdreader
-# alias mdreader='mdless'
-# alias mdreader='glow'
-alias mdreader='mlp'
-alias mdr=mdreader
-alias mdpreview=mdreader
-alias mdp=mdreader
 
 ###PYTHON ALIASES###
 #Creating python3 and pip3 alias, essentially upgrading my system to python3

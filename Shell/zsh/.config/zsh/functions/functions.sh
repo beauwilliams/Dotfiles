@@ -5,9 +5,6 @@ AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
 # morhetz/gruvbox theme for FZF
 export FZF_DEFAULT_OPTS='--color=bg+:#3c3836,bg:#32302f,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
 
-
-
-
 #Test if user has binary installed
 function hasBinary() (
     if cmd=$(command -v $1); then echo TRUE; else echo FALSE; fi
@@ -19,20 +16,18 @@ function mdprint() {
 }
 
 function newtabi() {
-  osascript \
-    -e 'tell application "iTerm2" to tell current window to set newWindow to (create tab with default profile)'\
-    -e "tell application \"iTerm2\" to tell current session of newWindow to write text \"$*\""
+    osascript \
+        -e 'tell application "iTerm2" to tell current window to set newWindow to (create tab with default profile)' \
+        -e "tell application \"iTerm2\" to tell current session of newWindow to write text \"$*\""
 }
-
 
 function titlei {
     echo -ne "\033]0;"$*"\007"
 }
 
-
 function iterm {
     local ARGS
-    itermCmds=( "newtabi" "titlei")
+    itermCmds=("newtabi" "titlei")
     cmd=$(printf "%s\n" "${itermCmds[@]}" | fzf --reverse)
     echo -n "enter chosen command args (if any) - enter for no args: "
     read -r ARGS
@@ -82,7 +77,7 @@ path() {
 
 function mkcd() {
     mkdir -p -- "$1" &&
-        cd -P -- "$1" || return;
+        cd -P -- "$1" || return
 }
 
 #Create nice image of some code on your clipboard
@@ -348,6 +343,30 @@ gco() {
     fi
 }
 
+function work-on-issue() {
+    issue=$(gh issue list | fzf --header "PLEASE SELECT AN ISSUE TO WORK ON" | awk -F '\t' '{ print $1 }')
+    sanitized=$(gh issue view $issue --json "title" | jq -r ".title" | tr '[:upper:]' '[:lower:]' | tr -s -c "a-z0-9\n" "-" | head -c 60)
+    branchname=$issue-$sanitized
+    shortname=$(echo "$branchname" | head -c 30)
+    if [[ ! -z "$shortname" ]]; then
+        git fetch
+        existing=$(git branch -a | grep -v remotes | grep "$shortname" | head -n 1)
+        if [[ ! -z "$existing" ]]; then
+            sh -c "git switch $existing"
+        else
+            bold=$(tput bold)
+            normal=$(tput sgr0)
+            echo "${bold}Please confirm new branch name:${normal}"
+            vared branchname
+            base=$(git branch --show-current)
+            echo "${bold}Please confirm the base branch:${normal}"
+            vared base
+            git checkout -b "$branchname" origin/$base
+            git push --set-upstream origin "$branchname"
+        fi
+    fi
+}
+
 #quickly preview item in finder
 ql() {
     qlmanage -p $1 ^ /dev/null >/dev/null &
@@ -387,7 +406,7 @@ function fzf-find-files-alt() {
 function fzf-find-files() {
     local file=$(fzf --multi --reverse) #get file from fzf
     if [[ $file ]]; then
-        for prog in $(#open all the selected files
+        for prog in $( #open all the selected files
             echo $file
         ); do $EDITOR $prog; done
     else
@@ -839,72 +858,70 @@ extract() {
     done
 }
 
-
-
 tmux-2pane() {
-getHelp() (
-	echo "Creates a new detached tmux session with 2 panes"
-	echo "With an option to run a command in left and right pane"
-	echo " "
-	echo 'USAGE: ./tmux-2pane.sh foo_bar "echo foo" "echo bar"'
-	echo 'Creates a session named foo_bar, running echo commands in the left and right panes respectively'
-	echo " "
-	echo "options:"
-	echo "-h, --help                show brief help"
-	exit 0
+    getHelp() (
+        echo "Creates a new detached tmux session with 2 panes"
+        echo "With an option to run a command in left and right pane"
+        echo " "
+        echo 'USAGE: ./tmux-2pane.sh foo_bar "echo foo" "echo bar"'
+        echo 'Creates a session named foo_bar, running echo commands in the left and right panes respectively'
+        echo " "
+        echo "options:"
+        echo "-h, --help                show brief help"
+        exit 0
 
-)
+    )
 
-if [[ "$#" -eq 0 ]]; then
-	getHelp
-	exit
-else
-	# while test $# -gt 0; do
-	case "$1" in
-	-h | --help)
-		getHelp
-		shift
-		;;
-	*)
-		tmux new-session -s "$1" -d
-		echo -n "Would you like to create a vertical or horizontal split (enter for h) v/h?: "
-		read -r REPLY
+    if [[ "$#" -eq 0 ]]; then
+        getHelp
+        exit
+    else
+        # while test $# -gt 0; do
+        case "$1" in
+        -h | --help)
+            getHelp
+            shift
+            ;;
+        *)
+            tmux new-session -s "$1" -d
+            echo -n "Would you like to create a vertical or horizontal split (enter for h) v/h?: "
+            read -r REPLY
 
-		if [[ $REPLY == ^[Vv]$ ]]; then
-			tmux split-window -v
-		else
-			tmux split-window -h
-		fi
-		if [[ "$#" -gt 1 ]]; then
-			tmux send-keys -t "$1"".0" "$2" ENTER
-		fi
-		if [[ "$#" -gt 2 ]]; then
-			tmux send-keys -t "$1"".1" "$3" ENTER
-		fi
-		;;
-	esac
-	# done
-fi
+            if [[ $REPLY == ^[Vv]$ ]]; then
+                tmux split-window -v
+            else
+                tmux split-window -h
+            fi
+            if [[ "$#" -gt 1 ]]; then
+                tmux send-keys -t "$1"".0" "$2" ENTER
+            fi
+            if [[ "$#" -gt 2 ]]; then
+                tmux send-keys -t "$1"".1" "$3" ENTER
+            fi
+            ;;
+        esac
+        # done
+    fi
 
-echo -n "Would you like to attach to the tmux session ""$1"" (enter for n) y/n?: "
-read -r REPLY
+    echo -n "Would you like to attach to the tmux session ""$1"" (enter for n) y/n?: "
+    read -r REPLY
 
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-	tmux -2 attach-session -d
-fi
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        tmux -2 attach-session -d
+    fi
 }
 
 function blog() {
-if [[ "$#" -eq 0 ]]; then
-    echo "Please provide Post name"
-else
-    echo -n "Enter blog post title: "
-    read -r title
-    echo -n "Enter blog post description: "
-    read -r description
-    date=$(date '+%d/%m/%Y')
-    cd ~/Git_Downloads/blog-sites/my-nextjs-blog/ &&
-cat <<EOF > ~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md && nvim ~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md +MarkdownPreview
+    if [[ "$#" -eq 0 ]]; then
+        echo "Please provide Post name"
+    else
+        echo -n "Enter blog post title: "
+        read -r title
+        echo -n "Enter blog post description: "
+        read -r description
+        date=$(date '+%d/%m/%Y')
+        cd ~/Git_Downloads/blog-sites/my-nextjs-blog/ &&
+            cat <<EOF >~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md && nvim ~/Git_Downloads/blog-sites/my-nextjs-blog/posts/"$*".md +MarkdownPreview
 ---
 title: $title
 description: $description
@@ -914,11 +931,12 @@ date: $date
 
 # A new blog about "$*"
 EOF
-fi
+    fi
 }
 
 function justinit() (
-cat <<EOF > ./justfile
+    cat <<EOF >./justfile
+#NOTE: Autogenerated template by @beauwilliams
 # Declaratively set shell recipes a.k.a commands should run in
 set shell := ["bash", "-uc"]
 
@@ -975,4 +993,10 @@ _bold_squares message:
 EOF
 )
 
-
+mdrender() {
+    HTMLFILE="$(mktemp -u).html"
+        jq --slurp --raw-input '{"text": "\(.)", "mode": "markdown"}' "$1" |
+        curl -s --data @- https://api.github.com/markdown >"$HTMLFILE"
+    echo Opening "$HTMLFILE"
+    open "$HTMLFILE"
+}

@@ -27,7 +27,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# export BAT=0 why is this here?
+#dump zsh shell colours
+function colours() (
+for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would look like%f"
+  )
 
 
 #     ____     __    __  __   ______    ____    _   __   _____
