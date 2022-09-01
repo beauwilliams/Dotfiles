@@ -295,27 +295,26 @@ Hydra_Actions =
     }
 )
 
-local aerial = require("aerial")
-
-
 local hint_lsp =
     [[
-^                            ^[LSP]
+^                                  ^[LSP]
 
- ⠀⠀⠀⢀⣴⣷⡀⠀⠀⠀⠀⠀⢸⣦⡀⠀⠀⠀
- ⠀⠀⡐⣿⣿⣿⣿⣄⠀⠀⠀⠀⢸⣿⣿⣦⡀⠀   _d_: Next Diag       _D_: Prev Diag
- ⠀⢸⠈⢎⢿⣿⣿⣿⣦⠀⠀⠀⢸⣿⣿⣿⡇⠀   _s_: Next Symbol     _S_: Prev Symbol
- ⠀⢸⠀⠀⠢⡻⣿⣿⣿⣷⡀⠀⢸⣿⣿⣿⡇⠀   _c_: Code Action     _t_: Symbol Tree
- ⠀⢸⠀⠀⠀⡇⠙⣿⣿⣿⣿⣄⢸⣿⣿⣿⡇⠀   _r_: Rename          _g_: Go To Defn
- ⠀⢸⠀⠀⠀⡇⠀⠈⢿⣿⣿⣿⣮⢻⣿⣿⡇⠀   _h_: Hover Doc       _f_: LSP Finder
- ⠀⢸⠀⠀⠀⡇⠀⠀⠀⠻⣿⣿⣿⣷⡹⣿⡇⠀   _?_: help            _q_: quit
- ⠀⠈⠢⡀⠀⡇⠀⠀⠀⠀⠙⣿⣿⣿⣿⠜⠁⠀
- ⠀⠀⠀⠈⠢⡇⠀⠀⠀⠀⠀⠈⢿⠟⠁⠀⠀⠀   _<Enter>_: Go To Defn   _<Esc>_: Quit^  ^
+ ⠀⠀⠀⢀⣴⣷⡀⠀⠀⠀⠀⠀⢸⣦⡀⠀⠀⠀    _d_: Next Diagnostic        _D_: Prev Diagnostic
+ ⠀⠀⡐⣿⣿⣿⣿⣄⠀⠀⠀⠀⢸⣿⣿⣦⡀⠀    _e_: Toggle Diagnostics     _E_: List Diagnostics
+ ⠀⢸⠈⢎⢿⣿⣿⣿⣦⠀⠀⠀⢸⣿⣿⣿⡇⠀    _s_: Next Symbol            _S_: Prev Symbol
+ ⠀⢸⠀⠀⠢⡻⣿⣿⣿⣷⡀⠀⢸⣿⣿⣿⡇⠀    _t_: Toggle Symbol Outline  _T_: Toggle Symbol Tree
+ ⠀⢸⠀⠀⠀⡇⠙⣿⣿⣿⣿⣄⢸⣿⣿⣿⡇⠀    _r_: Rename                 _f_: Format
+  ⢸⠀⠀⠀⡇⠀⠈⢿⣿⣿⣿⣮⢻⣿⣿⡇     _a_: Code Action            _h_: Hover Doc
+  ⢸⠀⠀⠀⡇⠀⠀⠀⠻⣿⣿⣿⣷⡹⣿⡇     _g_: Preview Definitions    _G_: Go To Definition    ⠀⠀
+  ⠈⠢⡀⠀⡇⠀⠀⠀⠀⠙⣿⣿⣿⣿⠜⠁                                     ⠀⠀
+⠀⠀  ⠈⠢⡇⠀⠀⠀⠀⠀⠈⢿⠟⠁⠀⠀
+                 ⠀⠀    _q_: Quit                   _<Esc>_: Quit^           ^
 
 ]]
 
-
-for _, value in pairs({",,", ",d", ",D", ",s"}) do
+local saga_ok, diag = pcall(require, "lspsaga.diagnostic")
+local code_outline_ok, code_outline = pcall(require, "aerial")
+for _, value in pairs({",", ",d", ",D", ",s"}) do
     Hydra(
         {
             hint = hint_lsp,
@@ -323,92 +322,185 @@ for _, value in pairs({",,", ",d", ",D", ",s"}) do
             config = {
                 invoke_on_body = true,
                 color = "pink",
-                hint =
-                    {
+                hint = {
                     position = "bottom",
                     border = "rounded"
                 },
                 on_enter = function()
                     if value == ",d" then
                         -- diag.goto_next()
-                            vim.cmd[[lua vim.diagnostic.goto_next({float = false})]]
+                        vim.cmd [[lua vim.diagnostic.goto_next({float = false})]]
                     elseif value == ",D" then
                         -- diag.goto_prev()
-                            vim.cmd[[lua vim.diagnostic.goto_prev({float = false})]]
+                        vim.cmd [[lua vim.diagnostic.goto_prev({float = false})]]
                     elseif value == ",s" then
-                        aerial.open()
+                        code_outline.open()
                     end
-
                 end,
                 on_exit = function()
-                    aerial.close()
+                    -- NOTE: Schedule to prevent conflicts set/unset keymaps with plugins
+                    vim.schedule(function()
+
+                    code_outline.close()
+                    vim.cmd[[SymbolsOutlineClose]]
+                    end)
                 end
             },
             mode = {"n"},
             body = value,
             heads = {
-                {"r", cmd 'Lspsaga rename', {desc = "Rename", exit = true}},
-                {"g", cmd 'Lspsaga preview_definition', {desc = "Go To Definition"}},
-                {"?", cmd 'lua require"hydra".spawn("Hydra_Options")', {desc = "Help"}},
-                {"h", cmd 'Lspsaga hover_doc', {desc = "Hover Doc"}},
-                {"f", cmd 'Lspsaga lsp_finder', {desc = "LSP Finder", exit = true}},
+                {"r", cmd "Lsp rename", {desc = "Rename Symbols", exit = true}},
+                {"T", cmd "LSPSymbolsTree", {desc = "Toggle Symbols Tree"}},
+                {"g", cmd "Lspsaga lsp_finder", {desc = "Preview References"}},
+                {"G", cmd "Lsp definition", {desc = "Go To Definition"}},
+                {"e", cmd "LSPDiagnosticsToggle", {desc = "Toggle Diagnostics"}},
+                {"E", cmd "LSPDiagnosticsList", {desc = "List Diagnostics"}},
+                {"h", cmd "Lspsaga hover_doc", {desc = "Hover Doc"}},
+                {"f", cmd "Lsp format", {desc = "Format Code", exit = true}},
                 --[[ {"j", action.smart_scroll_with_saga(-1), {desc = "Scroll Up"}},
                 {"k", action.smart_scroll_with_saga(1), {desc = "Scroll Down"}}, ]]
-                {"<Enter>", cmd "Telescope", {exit = true, desc = "list all pickers"}},
+                -- {"<Enter>", cmd "Lspsaga lsp_finder", {desc = "Preview References"}},
                 {"<Esc>", nil, {exit = true, nowait = true}},
                 {"q", nil, {exit = true, nowait = true}},
                 {
                     "d",
                     function()
-                        --[[ if ok then
+                        --[[ if saga_ok then
                             diag.goto_next()
                         else ]]
-                            vim.diagnostic.goto_next({float = false})
+                        vim.diagnostic.goto_next({float = false})
                         -- end
                     end
                 },
                 {
                     "D",
                     function()
-                        --[[ if ok then
+                        --[[ if saga_ok then
                             diag.goto_prev()
                         else ]]
-                            vim.diagnostic.goto_prev({float = false})
+                        vim.diagnostic.goto_prev({float = false})
                         -- end
                     end
                 },
                 {
                     "s",
                     function()
-                        aerial.next()
+                        if code_outline_ok then
+                            code_outline.next()
+                        end
                     end
                 },
                 {
                     "S",
                     function()
-                        aerial.next(-1)
+                        if code_outline_ok then
+                            code_outline.next(-1)
+                        end
                     end
                 },
                 {
                     "t",
                     function()
-                        if aerial.is_open() then
-                            aerial.close()
-                        else
-                            aerial.open()
+                        if code_outline_ok then
+                            if code_outline.is_open() then
+                                code_outline.close()
+                            else
+                                code_outline.open()
+                            end
                         end
                     end
                 },
                 {
-                    "c",
+                    "a",
                     function()
-                        if ok then
-                            require("lspsaga.codeaction").range_code_action()
-                        else
-                            vim.lsp.buf.code_action()
-                        end
+                            vim.cmd [[LSPCodeActionMenu]]
                         return "<Ignore>"
+                    end,
+                    {exit = false, nowait = true}
+                },
+                {
+                    "q",
+                    nil,
+                    {exit = true, nowait = true}
+                }
+            }
+        }
+    )
+end
+
+local dap_ok, dap = pcall(require, "dap")
+local dapui_ok, dapui = pcall(require, "dapui")
+
+local hint_dap =
+    [[
+ _b_: toggle breakpoint _c_: run/continue  _r_: open repl
+ _o_: step over         _i_: step into     _B_: breakpoint condition
+ _L_: log point         _R_: run last      _e_: eval
+ ^                      _q_: exit
+]]
+
+if dap_ok and dapui_ok then
+    Hydra(
+        {
+            hint = hint_dap,
+            name = "DAP Hydra",
+            config = {
+                invoke_on_body = true,
+                color = "pink",
+                hint = {
+                    position = "top-right",
+                    border = "rounded"
+                },
+                on_enter = function()
+                    dapui.open()
+                end,
+                on_exit = function()
+                    dap.terminate()
+                    dapui.close()
+                end
+            },
+            mode = {"n"},
+            body = "<C-D>",
+            heads = {
+                {
+                    "b",
+                    dap.toggle_breakpoint
+                },
+                {
+                    "B",
+                    function()
+                        dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
                     end
+                },
+                {
+                    "L",
+                    function()
+                        dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+                    end
+                },
+                {
+                    "c",
+                    dap.continue
+                },
+                {
+                    "o",
+                    dap.step_over
+                },
+                {
+                    "i",
+                    dap.step_into
+                },
+                {
+                    "r",
+                    dap.repl.open
+                },
+                {
+                    "R",
+                    dap.run_last
+                },
+                {
+                    "e",
+                    dapui.eval
                 },
                 {
                     "q",

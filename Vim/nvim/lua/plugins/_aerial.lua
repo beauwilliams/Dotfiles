@@ -1,4 +1,13 @@
 -- Call the setup function to change the default behavior
+local icon_status_ok, icons = pcall(require, "libraries._icons")
+local kind_icons
+if not icon_status_ok then
+    print("Failed to set up aerial, check config")
+    return
+else
+    kind_icons = icons.kind
+end
+
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
@@ -46,7 +55,8 @@ require("aerial").setup({
   -- A list of all symbols to display. Set to false to display all symbols.
   -- This can be a filetype map (see :help aerial-filetype-map)
   -- To see all available values, see :help SymbolKind
-  filter_kind = {
+  filter_kind = false,
+  --[[ filter_kind = {
     "Class",
     "Constructor",
     "Enum",
@@ -55,7 +65,7 @@ require("aerial").setup({
     "Module",
     "Method",
     "Struct",
-  },
+  }, ]]
 
   -- Enum: split_width, full_width, last, none
   -- Determines line highlighting mode when multiple splits are visible.
@@ -85,7 +95,7 @@ require("aerial").setup({
   -- "nerd_font" option below.
   -- If you have lspkind-nvim installed, it will be the default icon set.
   -- This can be a filetype map (see :help aerial-filetype-map)
-  icons = {},
+  icons = {kind_icons},
 
   -- Control which windows and buffers aerial should ignore.
   -- If close_behavior is "global", focusing an ignored window/buffer will
@@ -160,7 +170,7 @@ require("aerial").setup({
   close_on_select = false,
 
   -- Show box drawing characters for the tree hierarchy
-  show_guides = false,
+  show_guides = true,
 
   -- The autocmds that trigger symbols update (not used for LSP backend)
   update_events = "TextChanged,InsertLeave",

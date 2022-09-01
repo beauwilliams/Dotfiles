@@ -1,6 +1,15 @@
 require("init")
 
 --TODO: Refactor these to lua
+-- vim.o.spell = false
+-- vim.o.spellfile = vim.fn.stdpath 'config' .. '/spellfile.utf-8.add'
+
+-- vim.o.undofile = true
+-- vim.o.undodir = vim.fn.stdpath 'cache' .. '/undo'
+
+-- vim.o.backup = true
+-- vim.o.backupdir = vim.fn.stdpath 'data' .. '/backup'
+
 vim.cmd([[
 if !isdirectory($HOME . "/.cache/nvim/.backup")
     call mkdir($HOME . "/.cache/nvim/.backup", "p", 0700)

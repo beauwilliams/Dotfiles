@@ -17,6 +17,7 @@ require("plugins._goto-preview")
 require("plugins._nvim-notify")
 require("plugins._hydra")
 require("plugins._aerial")
+require("plugins._symbols-outline")
 require("lsp._lsp_config")
 local statusline = require("statusline")
 statusline.enable = true

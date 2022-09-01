@@ -24,19 +24,6 @@ end
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
-   ______                      __     __  _                ____        __  _
-  / ____/___  ____ ___  ____  / /__  / /_(_)___  ____     / __ \____  / /_(_)___  ____  _____
- / /   / __ \/ __ `__ \/ __ \/ / _ \/ __/ / __ \/ __ \   / / / / __ \/ __/ / __ \/ __ \/ ___/
-/ /___/ /_/ / / / / / / /_/ / /  __/ /_/ / /_/ / / / /  / /_/ / /_/ / /_/ / /_/ / / / (__  )
-\____/\____/_/ /_/ /_/ .___/_/\___/\__/_/\____/_/ /_/   \____/ .___/\__/_/\____/_/ /_/____/
-                    /_/                                     /_/
---]]
---NOTE: COQ
--- require('plugins._coq') --> We load custom coq init in lua._coq.lua
-
----------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------
---[[
     __    _____    ____           ______                   ____    _
    / /   / ___/   / __ \         / ____/  ____    ____    / __/   (_)   ____ _   _____
   / /    \__ \   / /_/ /        / /      / __ \  / __ \  / /_    / /   / __ `/  / ___/
@@ -45,71 +32,6 @@ end
                                                                      /____/
 --]]
 --UI CONFIG ref: https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter
-
--- FORMATTING
--- async formatting
--- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
-vim.lsp.handlers["textDocument/formatting"] = lsp_utils.get_async_format_fn()
-
--- Diagnostics [NVIM 0.6 only]
-vim.diagnostic.config(
-    {
-        virtual_text = false,
-        underline = true,
-        float = {
-            source = "virtual",
-            border = "rounded",
-            header = "",
-            prefix = ""
-        },
-        severity_sort = true,
-        -- Could be '●', '▎', 'x', '■'
-        --[[ virtual_text = {
-      prefix = "»",
-      spacing = 4,
-    }, ]]
-        signs = true,
-        update_in_insert = false
-    }
-)
-
--- Creating a custom user command in 0.7
--- Enable and disable diagnostics decorations
-local diagnostics_active = false
-vim.api.nvim_create_user_command(
-    "Diagnostics",
-    function()
-        diagnostics_active = not diagnostics_active
-        if diagnostics_active then
-            vim.diagnostic.show()
-        else
-            vim.diagnostic.hide()
-        end
-    end,
-    {
-        nargs = "*",
-        desc = "Toggle neovim lsp in window diagnostics"
-    }
-)
-
--- SET DIAG GUTTER SIGNS
-local signs = {Error = "✘", Warning = "", Hint = "", Information = ""}
-for type, icon in pairs(signs) do
-    local hl = "LspDiagnosticsSign" .. type
-    vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ""})
-end
-
--- DISPLAY LSP DIAGS IN COMMAND LINE
--- vim.cmd [[ autocmd! CursorHold * lua require("libraries._lsp").echo_diagnostics() ]]
-
--- DISPLAY LSP DIAGS AS POPUP OVERLAY
--- vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.open_float(nil,{focusable=false,scope="cursor"})]]
-
--- DISPLAY LSP DIAGS AS VIRTUAL LINES
-vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.config({ virtual_lines = { only_current_line = true } })]]
-
---DISPLAY LSP FN SIGNATURE POPUP OVERLAY
-vim.cmd [[autocmd InsertCharPre * Lspsaga signature_help]]
 
 --CAPABILITIES
 local custom_capabilities = function()
@@ -139,7 +61,6 @@ end
 --]]
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
 local custom_attach = function(client, bufnr)
-    --> Added client,bufnr works also without, inspo from https://github.com/kuator/nvim/blob/master/lua/plugins/lsp.lua
     -- INITS
     require("plugins._lightbulb") --> CODE ACTION LIGHTBULB
     require("lsp-status").on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
@@ -147,6 +68,8 @@ local custom_attach = function(client, bufnr)
     require("aerial").on_attach(client)
     -- require('lsp_signature').on_attach(client) --> Signature popups and info
     -- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
+
+    -- vim.cmd [[autocmd! CursorHold * lua if #vim.lsp.buf_get_clients() > 0 then vim.lsp.buf.signature_help() end]]
 end
 
 local custom_init = function(server)
@@ -156,6 +79,63 @@ local custom_init = function(server)
     -- print("LSP Started.. Let's get this bread")
     -- vim.notify("Started "..vim.lsp.get_active_clients()[3].config.name..". Let's get this bread!", 2 , { title = "Language Server"})
     vim.notify("Started " .. vim.bo.ft .. " language server. Let's get this bread!", 2, {title = "Language Server"})
+    -- FORMATTING
+    -- async formatting
+    -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
+    vim.lsp.handlers["textDocument/formatting"] = lsp_utils.get_async_format_fn()
+
+    -- Diagnostics [NVIM 0.6 only]
+    vim.diagnostic.config(
+        {
+            virtual_text = false,
+            -- Could be '●', '▎', 'x', '■'
+            -- virtual_text = {
+            -- prefix = "»",
+            -- spacing = 4
+            -- },
+            underline = true,
+            float = {
+                focusable = false,
+                style = "minimal",
+                source = "always",
+                border = "rounded",
+                header = "",
+                prefix = ""
+            },
+            severity_sort = true,
+            signs = true,
+            update_in_insert = false
+        }
+    )
+    --Rounded borders for floating windows
+    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {border = "rounded", focusable = false})
+    vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {border = "rounded", focusable = false})
+
+
+    -- SET DIAG GUTTER SIGNS
+    local signs = {Error = "✘", Warning = "", Hint = "", Information = ""}
+    for type, icon in pairs(signs) do
+        local hl = "LspDiagnosticsSign" .. type
+        vim.fn.sign_define(hl, {text = icon, texthl = hl, numhl = ""})
+    end
+
+    -- DISPLAY LSP DIAGS IN COMMAND LINE
+    -- vim.cmd [[ autocmd! CursorHold * lua require("libraries._lsp").echo_diagnostics() ]]
+
+    -- DISPLAY LSP DIAGS AS POPUP OVERLAY
+    -- vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.open_float(nil,{focusable=false,scope="cursor"})]]
+
+    -- DISPLAY LSP DIAGS AS VIRTUAL LINES
+    vim.cmd [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
+
+    --DISPLAY LSP FN SIGNATURE POPUP OVERLAY
+    -- vim.cmd [[autocmd! CursorHold * silent! execute "Lsp signature"]]
+    -- vim.cmd [[autocmd! CursorHold * silent! execute "lua if #vim.lsp.buf_get_clients() > 0 then vim.lsp.buf.signature_help() end]]
+
+        vim.cmd [[autocmd CursorHold * lua if #vim.lsp.buf_get_clients() > 0 then vim.lsp.buf.hover() end]]
+
+
+    --https://gitlab.com/ranjithshegde/dotbare/-/blob/master/.config/nvim/lua/r/lsp/signature.lua
 end
 
 ---------------------------------------------------------------------------------------

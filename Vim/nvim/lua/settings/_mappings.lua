@@ -561,7 +561,7 @@ cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('
 -- vim.cmd[[autocmd CursorHold * silent :lua vim.lsp.buf.hover()]] -- NOTE: Auto open on hover
 
 --  Shortcut Actions
-utils.nnoremap(',h', ':lua require("lspsaga.hover").render_hover_doc()<CR>')
+--[[ utils.nnoremap(',h', ':lua require("lspsaga.hover").render_hover_doc()<CR>')
 utils.nnoremap(",'", ':lua vim.lsp.diagnostic.goto_next()<CR>')
 utils.nnoremap(',;', ':lua vim.lsp.diagnostic.goto_prev()<CR>')
 utils.nnoremap(
@@ -577,7 +577,7 @@ utils.nnoremap(',w', ":lua require'telescope.builtin'.workspace_symbols()<CR>")
 utils.nnoremap(',d', ":lua require'telescope.builtin'.document_symbols()<CR>")
 -- utils.nnoremap(',s', ':lua vim.lsp.buf.signature_help()<CR>')
 utils.nnoremap(',t', ':lua vim.lsp.buf.type_definition()<CR>')
-utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>')
+utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>') ]]
 
 --Archived
 -- utils.nnoremap(".c", ":lua require('jdtls').code_action()<CR>") -- NOTE: We need to use jdtls version, works with other lsps fine eg lua

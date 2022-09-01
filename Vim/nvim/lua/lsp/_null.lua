@@ -24,7 +24,7 @@ null_ls.setup({
 		b.formatting.shfmt, -- bash
 		b.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
 		b.formatting.clang_format, --filetypes = { "c", "cpp", "cs", "java" }
-		b.formatting.stylua, --lua
+		-- b.formatting.stylua, --lua
 		-- if we want to only use stylua etc when stylua.toml file is in project etc.
 		b.formatting.stylua.with({
         condition = function(utils)

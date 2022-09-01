@@ -25,6 +25,7 @@
   (require :plugins._nvim-notify)
   (require :plugins._hydra)
   (require :plugins._aerial)
+  (require :plugins._symbols-outline)
   ;LSP
   (require :lsp._lsp_config)
   ;MY STATUSLINE

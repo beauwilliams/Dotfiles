@@ -89,12 +89,13 @@ cmp.setup {
         end
     },
     sources = {
+        { name = 'nvim_lsp_signature_help'},
         {name = "luasnip"},
         {name = "path"},
-        {name = "nvim_lsp"},
+        {name = "cmdline"},
         {name = "nvim_lua"},
+        {name = "nvim_lsp"},
         {name = "buffer"},
-        {name = "cmdline"}
     },
     confirm_opts = {
         behavior = cmp.ConfirmBehavior.Replace,
@@ -191,10 +192,10 @@ cmp.setup.cmdline(
                 vim_item.abbr = vim.fn.strcharpart(vim_item.abbr, 0, 50) -- hack to clamp cmp-cmdline-history len
                 vim_item.menu =
                     ({
-                    cmdline_history = "[his]",
                     cmdline = "[cmd]",
                     fuzzy_path = "[pat]",
-                    buffer = "[buf]"
+                    buffer = "[buf]",
+                    cmdline_history = "[his]"
                 })[entry.source.name]
                 return vim_item
             end
