@@ -50,3 +50,15 @@ endfunction
 "AUTO SAVES HELP TAGS"
 autocmd BufWritePost ~/.config/nvim/doc/* :helptags ~/.config/nvim/doc
 ]])
+
+--NOTE: This refuses to work in /ftplugin /ftdetect
+vim.api.nvim_create_autocmd(
+  {"BufNewFile", "BufRead"},
+  {
+    pattern = {"*.prisma"},
+    callback = function()
+      vim.bo.filetype = "prisma"
+    end
+  }
+)
+

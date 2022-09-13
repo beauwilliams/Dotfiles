@@ -28,7 +28,7 @@ local function setup()
             -- Open non vim files (binaries etc) in their respective applications
             {
                 "BufRead",
-                "*.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc*,*.rtf",
+                "*.png,*.jpg,*.pdf,*.gif,*.xls*,*.ppt*,*.doc,*.docx,*.rtf",
                 'sil exe "!open " . shellescape(expand("%:p")) | bd | let &ft=&ft'
             },
             -- Auto open vim and move cursor to last known location

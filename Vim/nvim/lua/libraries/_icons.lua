@@ -4,6 +4,7 @@ local kind_source = "default"
 
 local kind = {
     default = {
+        Copilot = "",
         Class = " ",
         Color = " ",
         Constant = " ",
