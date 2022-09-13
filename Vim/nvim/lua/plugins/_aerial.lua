@@ -41,7 +41,7 @@ require("aerial").setup({
   --   auto    - aerial window will stay open as long as there is a visible
   --             buffer to attach to
   --   global  - same as 'persist', and will always show symbols for the current buffer
-  close_behavior = "auto",
+  -- close_behavior = "auto", NOTE: Deprecated
 
   -- Set to false to remove the default keybindings for the aerial buffer
   default_bindings = true,
