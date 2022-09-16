@@ -28,14 +28,15 @@ cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --VIM NAVIGATION MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
---Toggle between 0 and ^ with JUST 0 =D. Does not work well with wrap off and side scrolling..
--- vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 --i've been using the shift key w my pinky so much lately its getting sore realised leader leader is free so its now an easy way to enter cmd mode
 utils.map('n', leader .. leader, ':')
 
 --KOMMENTARY MAPPINGS, COMMENT WITH CMD+/
 utils.nmap('++', '<Plug>kommentary_line_default')
 utils.vmap('++', '<Plug>kommentary_visual_default')
+
+--Toggle between 0 and ^ with JUST 0. Does not work well with wrap off and side scrolling..
+vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 
 -- Keep selection when shifting
 vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
@@ -86,12 +87,15 @@ end
 vim.keymap.set("v", "d", smart_dd_visual, { noremap = true, expr = true } )
 vim.keymap.set( "n", "dd", smart_dd_normal, { noremap = true, expr = true } )
 
+--TODO: command refactor
+--Insert lines above
 vim.api.nvim_set_keymap(
   'n',
   '<leader>o',
   ':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
   { noremap = true, silent = true }
 )
+--Insert lines below
 vim.api.nvim_set_keymap(
   'n',
   '<leader>O',
@@ -117,6 +121,7 @@ utils.inoremap('<c-l>', '<esc>la')
 utils.nnoremap('<Tab>', 'w')
 utils.nnoremap('<s-Tab>', 'b')
 
+--TODO: command refactor
 --TOGGLE AND INCREMENT NUMBERS EASILY
 utils.nnoremap(leader .. '0', ':ToggleAlternate<cr>')
 vim.cmd([[
@@ -126,37 +131,47 @@ vim.cmd([[
     vmap <space>- <Plug>(dial-decrement)
 ]])
 
+--TODO: command refactor
 --FILE TREE
 utils.nnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
 utils.vnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
 
+--TODO: command refactor
 -- DOCUMENTATION GENERATION
 vim.cmd('let g:doge_enable_mappings=0') -- disable leader-d default
 utils.nnoremap(leader .. 'D', ':DogeGenerate<cr>')
 utils.vnoremap(leader .. 'D', ':DogeGenerate<cr>')
+--TODO: ABBREVIATIONS refactor
 vim.cmd([[cnoreabbrev dgen DogeGenerate]])
 
+--TODO: command refactor
 -- DIFFVIEW
 utils.nnoremap(leader .. 'd', ':DiffviewOpen<cr>')
 utils.vnoremap(leader .. 'd', ':DiffviewOpen<cr>')
+--TODO: ABBREVIATIONS refactor
 vim.cmd([[cnoreabbrev diff DiffviewOpen]])
 
+--TODO: command refactor
 -- GIT (MAGIT/NEOGIT/LazyGit)
 utils.nnoremap(leader .. 'g', ':LazyGit<cr>')
 utils.vnoremap(leader .. 'g', ':LazyGit<cr>')
+--TODO: ABBREVIATIONS refactor
 vim.cmd([[cnoreabbrev gd LazyGit]])
 --api.nvim_add_user_command('LazyGitFloat', function()
 --   require('FTerm').run({'lazygit'})
 --end, { bang = true })
 
 
+--TODO: ABBREVIATIONS refactor
 --Fugitive Shortcut
 vim.cmd([[cnoreabbrev git Git]])
 
+--TODO: ABBREVIATIONS refactor
 --Markdown Previwer
 vim.cmd([[cnoreabbrev mdp MarkdownPreview]])
 
 
+--TODO: command refactor
 -- CODE FORMATTERS
 --Remove indents from code! (a simple code formatter)
 utils.nnoremap(leader .. 'i', 'gg=G<c-o>')
@@ -165,6 +180,7 @@ utils.nnoremap(leader .. 'F', ':Neoformat<CR>')
 vim.cmd('cnoreabbrev fmt Neoformat')
 vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.formatting()')
 
+--TODO: command refactor
 -- SEARCH AND REPLACE
 -- replace word under cursor
 utils.nnoremap(leader .. 'r', ':lua require("spectre").open()<cr>')
@@ -177,6 +193,7 @@ utils.nnoremap('c,', "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
 utils.nnoremap('d.', "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap('d,', "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
+--TODO: command refactor
 --WINDOW NAVIGATION
 local focusmap = function(direction)
   vim.api.nvim_set_keymap(
@@ -239,94 +256,11 @@ vim.cmd([[
 utils.tnoremap('<esc>', '<C-\\><C-n>') --Allows escape key to work correctly
 -- utils.nnoremap(leader .. 't', '<CMD>lua require"FTerm".toggle()<CR>')
 -- utils.tnoremap(leader .. 't', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
+--TODO: command refactor
 utils.nnoremap(leader .. 'T', '<CMD>1Ttoggle<CR>') --NOTE: this has bug uysing toggle
-vim.api.nvim_set_keymap("n", "<leader>t", ":NeotermRunTaskCommand<CR>",{})
+vim.api.nvim_set_keymap("n", "<leader>t", ":MyTermRunTaskCommand<CR>",{})
 vim.cmd[[let g:neoterm_default_mod='botright vnew']]
 vim.cmd[[let g:neoterm_keep_term_open=0]]
-
-
--- NOTE: Currently using neoterm & nui
-local Input = require("nui.input")
-local event = require("nui.utils.autocmd").event
-local stored_task_command = nil
-
-local trigger_set_command_input = function(callback_fn)
-  local input_component = Input({
-    position = "50%",
-    size = {
-      width = 50,
-    },
-    border = {
-      style = "single",
-      text = {
-        top = "Command to run:",
-        top_align = "center",
-      },
-    },
-    win_options = {
-    winblend = 10,
-    winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
-  },
-  }, {
-      prompt = "> ",
-      default_value = "",
-      on_submit = function(value)
-        stored_task_command = value
-        callback_fn();
-      end,
-      on_close = function()
-        print("Input Closed!")
-      end,
-    })
-
-  --NOTE: close on buf leave
-  input_component:mount()
-  input_component:on(event.BufLeave, function()
-    input_component:unmount()
-  end)
-  --NOTE: close on esc insert mode
-  input_component:map("i", "<Esc>", function()
-    input_component:unmount()
-  end, { noremap = true })
-  --NOTE: close on esc normal mode
-  input_component:map("i", "<Esc>", function()
-    input_component:unmount()
-  end, { noremap = true })
-end
-
-vim.api.nvim_create_user_command('TermSetTaskCommand', function()
-  trigger_set_command_input(function ()
-  end)
-end, {})
-
-vim.api.nvim_create_user_command('TermRunTaskThenExit', function(input)
-  local cmd = input.args
-  vim.api.nvim_command(":Tnew")
-  vim.api.nvim_command(":T " .. cmd .. " && exit")
-  vim.api.nvim_command(":stopinsert")
-end, { bang = true, nargs = '*' })
-
-vim.api.nvim_create_user_command('NeotermRunTaskCommand', function(input)
-  local execute = function(cmd)
-    vim.api.nvim_command(":1Tclear")
-    vim.api.nvim_command(":1T " .. cmd)
-    vim.api.nvim_command(":stopinsert")
-  end
-
-  local one_off_command = input.args
-
-  if one_off_command and string.len(one_off_command) > 0 then
-    execute(one_off_command)
-  elseif stored_task_command == nil then
-    trigger_set_command_input(function()
-      execute(stored_task_command)
-    end)
-  else
-    execute(stored_task_command)
-  end
-end, { nargs = '*' })
-
-
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -336,75 +270,6 @@ end, { nargs = '*' })
 
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------
--- ABBREVIATIONS
-------------------------------------------------------------------------------------------------------------------------------------------------
---TOGGLE LIGHT/DARK THEME
--- cmd([[cnoreabbrev light lua vim.o.background = 'light']])
--- cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
-cmd([[cnoreabbrev light colorscheme github_light]])
-cmd([[cnoreabbrev dark colorscheme gruvbox <bar> lua vim.o.background = 'dark']])
-
---CHEATSHEAT
-cmd([[cnoreabbrev cheat Cheatsheet]])
-cmd([[cnoreabbrev cheatedit CheatsheetEdit]])
-
---Clipboard
-cmd([[cnoreabbrev clipboard lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))]])
-
---SESSION MANAGEMENT (VIA STARTIFY)
-vim.cmd([[
-    cnoreabbrev mks SSave
-    cnoreabbrev mksession SSave
-    cnoreabbrev lds SLoad
-    cnoreabbrev ldsession SLoad
-    cnoreabbrev dls SDelete
-    cnoreabbrev dlsession SDelete
-]])
-
---SPELLING
--- NOTE: plgn is vim-you/autocorrect
--- Note we are using neovims built in spellcheck and dictionary
-vim.cmd('cnoreabbrev <silent>spell :set spell!<cr>')
-vim.cmd([[
-    function SpellAuto()
-    :EnableAutocorrect
-    :set spell
-    endfunction
-    function SpellOff()
-    :DisableAutocorrect
-    :set nospell
-    endfunction
-
-]])
-vim.cmd('cnoreabbrev <silent> spellauto exe SpellAuto()')
-vim.cmd('cnoreabbrev <silent> spelloff exe SpellOff()')
-vim.cmd('cnoreabbrev spelladd spell')
-
--- Enable use to write to ----READONLY---- files using --> w!! (i.e. Add an extra !)
--- utils.cnoremap('w!!', "<esc>:lua require'_utils'.sudo_write()<CR>")
-vim.cmd('cnoreabbrev w!! lua require"libraries._utils".sudo_write()')
--- vim.cmd('cnoreabbrev w!! SudaWrite')
-
--- MARKDOWN RENDERER [glow.nvim]
-vim.cmd('cnoreabbrev mdreader MarkdownPreview')
-
---  Saves the shift key I force quit a lot!
-vim.cmd('cnoreabbrev qq q!')
-
---  zoxide vim and :y print command switching
-vim.cmd('cnoreabbrev Z z')
-vim.cmd('cnoreabbrev z Z')
-
--- FUGITIVE/GIT
--- vim.cmd('cnoreabbrev <silent>gp :G push')
-
---PACKER
-cmd([[cnoreabbrev pc PackerCompile]])
-cmd([[cnoreabbrev pu PackerUpdate]])
-cmd([[cnoreabbrev pi PackerInstall]])
-cmd([[cnoreabbrev ps PackerSync]])
-cmd([[cnoreabbrev pcl PackerClean]])
 
 -- INCREMENTAL SEARCH UI
 --[[ vim.api.nvim_set_keymap(
@@ -424,9 +289,12 @@ cmd([[cnoreabbrev pcl PackerClean]])
 
 
 
+--TODO: command refactor
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- HOT KEYS
 ------------------------------------------------------------------------------------------------------------------------------------------------
+vim.api.nvim_set_keymap('n', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
 utils.nnoremap(
   leader .. 1,
   ":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
@@ -462,84 +330,39 @@ utils.vnoremap(leader .. '5', ':Startify<cr>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+
+
+
+
+
+
+
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TELESCOPE MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
--- OLD VERSION -- utils.vnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true}))<cr>")
--- TESTING NEW VERSION WITH RG OPTS JUN2021 utils.nnoremap(leader..'s', ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>")
-
-utils.nnoremap(
-  leader .. 's',
-  ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
-)
-utils.vnoremap(
-  leader .. 's',
-  ":lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}}))<cr>"
-)
-
-utils.nnoremap(
-  leader .. 'S',
-  ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. 'S',
-  ":lua require'telescope.builtin'.oldfiles(require('telescope.themes').get_dropdown({}))<cr>"
-)
-
---[[ utils.nnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>")
-utils.vnoremap(leader..'gf', ":lua require'telescope.builtin'.git_files(require('telescope.themes').get_dropdown({}))<cr>") ]]
---[[ utils.nnoremap(
-  leader .. 'gb',
-  ":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. 'gb',
-  ":lua require('plugins._telescope').git_branches(require('telescope.themes').get_dropdown({}))<cr>"
-) ]]
-utils.nnoremap(
-  leader .. 'b',
-  ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. 'b',
-  ":lua require'telescope.builtin'.buffers(require('telescope.themes').get_dropdown({}))<cr>"
-)
-
-utils.nnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
-utils.vnoremap(leader .. 'c', ":lua require'telescope.builtin'.commands()<cr>")
-
-utils.nnoremap(
-  leader .. 'f',
-  ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. 'f',
-  ":lua require'telescope.builtin'.live_grep(require('telescope.themes').get_dropdown({}))<cr>"
-)
-
-utils.nnoremap(
-  leader .. 'y',
-  ":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. 'y',
-  ":lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))<cr>"
-)
---[[ utils.nnoremap(leader .. 'p', ':Telescope projects<cr>')
-utils.vnoremap(leader .. 'p', ':Telescope projects<cr>') ]]
+vim.api.nvim_set_keymap('n', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
+--[[ vim.api.nvim_set_keymap('n', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true }) ]]
+vim.api.nvim_set_keymap('n', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
+--TODO: ABBREVIATIONS refactor
 cmd('cnoreabbrev <silent>tel Telescope')
-cmd('cnoreabbrev <silent>clip Telescope neoclip')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
 cmd("cnoreabbrev <silent>gwl lua require('telescope').extensions.git_worktree.git_worktrees()")
---[[ cmd("cnoreabbrev <silent>tmaps lua require'telescope.builtin'.keymaps(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>tbrowse lua require'telescope.builtin'.file_browser(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>tcomm lua require'telescope.builtin'.commands(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>ttags lua require'telescope.builtin'.tags(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>tmarks lua require'telescope.builtin'.marks(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>tlocs lua require'telescope.builtin'.loclist(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>topts lua require'telescope.builtin'.options(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>tcmds lua require'telescope.builtin'.autocommands(require('telescope.themes').get_dropdown({}))")
-cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('telescope.themes').get_dropdown({}))") ]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -553,6 +376,7 @@ cmd("cnoreabbrev <silent>thl lua require'telescope.builtin'.highlights(require('
 
 
 
+--TODO: command refactor
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --LSP MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -594,8 +418,56 @@ utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>') ]]
 
 
 
+--TODO: command refactor
+------------------------------------------------------------------------------------------------------------------------------------------------
+--TREESITTER MAPPINGS
+------------------------------------------------------------------------------------------------------------------------------------------------
+--smart_rename = "'rn",
+vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', { noremap = true })
+vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', { noremap = true })
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+
+
+
+
+
+
+
+--TODO: command refactor
+------------------------------------------------------------------------------------------------------------------------------------------------
+--TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
+------------------------------------------------------------------------------------------------------------------------------------------------
+utils.nnoremap(leader .. 'qq', ':lua require("toolwindow").close()<cr>')
+utils.nnoremap(leader .. 'qd', ':lua require("toolwindow").open_window("trouble", nil)<cr>')
+utils.nnoremap(leader .. 'qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
+utils.nnoremap(leader .. 'qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
+utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
+-- utils.nnoremap(leader..'qc', ':TodoTrouble<cr>')
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+--ARCHIVED MAPPINGS
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- COMPLETION/COQ MAPPINGS
@@ -660,63 +532,6 @@ vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = t
 -- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
---TREESITTER MAPPINGS
-------------------------------------------------------------------------------------------------------------------------------------------------
---smart_rename = "'rn",
-vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', { noremap = true })
-vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', { noremap = true })
-vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap = true })
-vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', { noremap = true })
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
---TOOLWINDOW/TROUBLE/QUICKFIX/LOCLIST MAPPINGS
-------------------------------------------------------------------------------------------------------------------------------------------------
-utils.nnoremap(leader .. 'qq', ':lua require("toolwindow").close()<cr>')
-utils.nnoremap(leader .. 'qd', ':lua require("toolwindow").open_window("trouble", nil)<cr>')
-utils.nnoremap(leader .. 'qf', ':lua require("toolwindow").open_window("quickfix", nil)<cr>')
-utils.nnoremap(leader .. 'qt', ':lua require("toolwindow").open_window("term", nil)<cr>')
-utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", nil)<cr>')
--- utils.nnoremap(leader..'qc', ':TodoTrouble<cr>')
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
---ARCHIVED MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
 --FUZZYMENU (ctrl+p)

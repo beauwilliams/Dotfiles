@@ -7,6 +7,7 @@
   (require :impatient ) ;Speed up require caching
   (require :settings._mappings )
   (require :settings._commands )
+  (require :settings._abbreviations )
   (require :plugins._plugins)
   (require :settings._theme)
   (require :settings._options)
@@ -19,6 +20,7 @@
   (require :plugins._hexokinase)
   (require :plugins._telescope)
   (require :plugins._treesitter)
+  (require :plugins._my_terminal)
   (require :plugins._nvimtree)
   (require :plugins._discord)
   (require :plugins._goto-preview)

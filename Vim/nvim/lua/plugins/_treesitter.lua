@@ -23,7 +23,7 @@ parser_configs.norg = {
         branch = "main"
     }
 }
-
+require'nvim-treesitter.install'.compilers = { "gcc-12" }
 tsconf.setup(
     {
         --NOTE: As of Apr 2022 maintained flag is deprecated

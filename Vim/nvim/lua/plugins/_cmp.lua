@@ -85,6 +85,7 @@ cmp.setup({
 		format = function(entry, vim_item)
 			vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
 			vim_item.menu = ({
+				copilot = '[cop]',
 				buffer = '[buf]',
 				nvim_lsp = '[lsp]',
 				nvim_lua = '[api]',

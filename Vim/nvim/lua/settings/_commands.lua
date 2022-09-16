@@ -92,3 +92,172 @@ create_user_command(
         desc = "Toggle symbols tree"
     }
 )
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+-- PICKERS / SEARCH COMMANDS
+------------------------------------------------------------------------------------------------------------------------------------------------
+local function my_dropdown(opts)
+    return require("plugins._telescope").my_dropdown({opts})
+end
+
+local telescope_file_search_opts = "hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}"
+create_user_command(
+    "MySearchFiles",
+    function()
+    require'telescope.builtin'.find_files(my_dropdown({telescope_file_search_opts}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for files"
+    }
+)
+
+create_user_command(
+    "MySearchFilesHistory",
+    function()
+    require'telescope.builtin'.oldfiles(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for files in history"
+    }
+)
+
+create_user_command(
+    "MySearchGrep",
+    function()
+    require'telescope.builtin'.live_grep(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for symbols using live grep"
+    }
+)
+
+create_user_command(
+    "MySearchBuffers",
+    function()
+    require'telescope.builtin'.buffers(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for buffers"
+    }
+)
+
+create_user_command(
+    "MySearchCommands",
+    function()
+    require'telescope.builtin'.commands(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for commands"
+    }
+)
+
+create_user_command(
+    "MySearchYankHistory",
+    function()
+      require('telescope').extensions.neoclip.default(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for yank history / clipboard"
+    }
+)
+
+create_user_command(
+    "MySearchGitFiles",
+    function()
+    require'telescope.builtin'.oldfiles(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for git files"
+    }
+)
+
+create_user_command(
+    "MySearchGitBranches",
+    function()
+    require'telescope.builtin'.git_branches(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for git branches"
+    }
+)
+
+create_user_command(
+    "MySearchProjects",
+    function()
+      require('telescope').extensions.projects.projects(my_dropdown({}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search for projects history"
+    }
+)
+
+create_user_command(
+    "MySearchDotfiles",
+    function()
+	require('telescope.builtin').find_files(my_dropdown({
+		prompt_title = '< VimRC >',
+		find_command={ 'rg', '--files'},
+		search_dirs = { vim.fn.stdpath('config'), '~/.config/zsh/scripts', '~/.config/zsh/commands/', '~/.config/zsh/configs/' },
+	}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search dotfiles nvim and zsh"
+    }
+)
+
+
+local root_path_plugins = vim.fn.stdpath('data') .. '/site/pack/packer/'
+create_user_command(
+    "MySearchNvimPlugins",
+    function()
+require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = vim.fn.stdpath('data') .. '/site/pack/packer/', search_dirs = { root_path_plugins .. 'start/', root_path_plugins .. 'opt/' }}))
+    end,
+    {
+        bang = false,
+        nargs = 0,
+        desc = "Search nvim plugins directory"
+    }
+)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+-- SPELL CHECK COMMANDS
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+--SPELLING
+-- NOTE: plgn is vim-you/autocorrect
+-- Note we are using neovims built in spellcheck and dictionary
+cmd('cnoreabbrev <silent>spell :set spell!<cr>')
+cmd([[
+    function SpellAuto()
+    :EnableAutocorrect
+    :set spell
+    endfunction
+    function SpellOff()
+    :DisableAutocorrect
+    :set nospell
+    endfunction
+
+]])

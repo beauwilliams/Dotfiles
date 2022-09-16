@@ -3,16 +3,6 @@ local api = vim.api
 local cmd = vim.cmd
 local M = {}
 
--- NOTE: DEBUG
-P = function(stuff)
-	return print(vim.inspect(stuff))
-end
--- help to inspect results, e.g.:
--- ':lua _G.dump(vim.fn.getwininfo())'
-function _G.dump(...)
-	local objects = vim.tbl_map(vim.inspect, { ... })
-	print(unpack(objects))
-end
 
 function _G.reload(package)
 	package.loaded[package] = nil
@@ -84,8 +74,7 @@ M.translate = function(lang)
 			contents = {
 				{
 					language = 'txt',
-					-- TODO(elianiva): support this for other language, though I don't
-					-- think I would use this outside of English and Japanese
+					-- currently only support think English and Japanese
 					value = lang == 'en' and 'Japanese ⟶  English' or 'English ⟶  Japanese',
 				},
 				result,

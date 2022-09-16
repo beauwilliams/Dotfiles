@@ -38,7 +38,6 @@ null_ls.setup({
 		b.diagnostics.codespell, -- smart, but misses some
 		-- b.diagnostics.cspell, -- good, errors everywhere
 		b.diagnostics.shellcheck,
-
 		b.diagnostics.solhint.with({
 			condition = function(utils)
 				return utils.root_has_file('solhint.json')

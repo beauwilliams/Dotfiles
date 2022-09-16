@@ -187,8 +187,9 @@ local servers = {
 	'yamlls',
 	'gopls',
 	'marksman',
-	-- 'solidity_ls'
-	'solc',
+	-- 'solidity',
+	'solidity_ls'
+	-- 'solc',
 }
 
 for _, server in ipairs(servers) do

@@ -24,7 +24,7 @@ telescope.setup({
 		-- layout_config.prompt_position = "top",
 		-- prompt_prefix = ">",
 		-- path_display = { 'absolute', 'shorten'}, -- only display the first character of each directory e.g --> s/n/main.c
-		-- layout_strategy = "vertical",
+		layout_strategy = "vertical",
 		layout_config = {
 			horizontal = {
 				mirror = false,
@@ -32,12 +32,12 @@ telescope.setup({
 				width = 0.75,
 				height = 0.75,
 				preview_cutoff = 120,
-				results_height = 1,
-				results_width = 0.8,
 			},
 			vertical = {
-				mirror = false, -- makes prompt on top
-			},
+				prompt_position = 'top',
+				width = 0.5,
+				mirror = true, -- makes prompt on top
+			}
 		},
 		initial_mode = 'insert',
 		selection_strategy = 'reset',
@@ -99,16 +99,6 @@ vim.cmd([[highlight TelescopeSelection guifg=#ffffff guibg=#393939 gui=bold]])
 vim.cmd([[highlight TelescopeSelectionCaret guifg=#749484 gui=bold]])
 
 local M = {}
-M.search_dotfiles = function()
-	require('telescope.builtin').find_files({
-		prompt_title = '< VimRC >',
-		-- winblend = 5,
-		-- border = true,
-		-- cwd = '$HOME/.config/nvim/',
-		-- find_command={ 'rg', '--files'},
-		search_dirs = { vim.fn.stdpath('config'), '~/.config/zsh/scripts', '~/.config/zsh/commands/', '~/.config/zsh/configs/' },
-	})
-end
 
 M.git_branches = function()
 	require('telescope.builtin').git_branches({
@@ -127,6 +117,47 @@ M.installed_plugins = function()
 		border = true,
 		cwd = vim.fn.stdpath('data') .. '/site/pack/packer/start/',
 	}))
+end
+
+
+function M.my_dropdown(opts)
+  opts = opts or {}
+
+  local theme_opts = {
+    theme = "dropdown",
+
+    results_title = false,
+
+    sorting_strategy = "ascending",
+    layout_strategy = "center",
+    layout_config = {
+      preview_cutoff = 1, -- Preview should always show (unless previewer = false)
+
+      width = function(_, max_columns, _)
+        return math.min(max_columns, 100)
+      end,
+
+      height = function(_, _, max_lines)
+        return math.min(max_lines, 20)
+      end,
+    },
+
+    border = true,
+    borderchars = {
+      prompt = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+      results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    },
+  }
+  if opts.layout_config and opts.layout_config.prompt_position == "bottom" then
+    theme_opts.borderchars = {
+      prompt = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+      results = { "─", "│", "─", "│", "╭", "╮", "┤", "├" },
+      preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+    }
+  end
+
+  return vim.tbl_deep_extend("force", theme_opts, opts)
 end
 
 return M
