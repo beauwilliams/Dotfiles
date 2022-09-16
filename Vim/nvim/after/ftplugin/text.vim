@@ -1,3 +1,3 @@
-setlocal spell "Enabling spell checking when editing md files
+setlocal spell "Enabling spell checking when editing txt files
 :EnableAutocorrect
 

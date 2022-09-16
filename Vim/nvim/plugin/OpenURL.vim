@@ -9,5 +9,5 @@ function! HandleURL()
     echo "No URI found in line."
   endif
 endfunction
-command! Open :call HandleURL()
-cnoreabbrev open Open
+
+command! OpenURL :call HandleURL()
