@@ -15,6 +15,7 @@ cp -r ~/.config/nvim/after ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp -r ~/.config/nvim/doc ~/Git_Downloads/Dotfiles/Vim/nvim/
 
 #single files
+cp ~/.config/nvim/.editorconfig ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/init.lua ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/justfile ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/stylua.toml ~/Git_Downloads/Dotfiles/Vim/nvim/
