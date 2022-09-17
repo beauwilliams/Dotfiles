@@ -8,14 +8,16 @@
   (require :settings._mappings )
   (require :settings._commands )
   (require :settings._abbreviations )
-  (require :plugins._plugins)
   (require :settings._theme)
   (require :settings._options)
   (require :settings._autocmds)
   (require :settings._optimisations)
+  ;LIBRARIES
+  (require :libraries._module)
   ;PLUGINS
-  ; (require :plugins._coq)
+  (require :plugins._plugins)
   (require :plugins._cmp)
+  (require :plugins._mason)
   (require :plugins._startify)
   (require :plugins._hexokinase)
   (require :plugins._telescope)

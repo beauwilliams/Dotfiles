@@ -1,17 +1,3 @@
----------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------
---[[
-    __                     __   _    __
-   / /   ____  _________ _/ /  | |  / /___ ___________
-  / /   / __ \/ ___/ __ `/ /   | | / / __ `/ ___/ ___/
- / /___/ /_/ / /__/ /_/ / /    | |/ / /_/ / /  (__  )
-/_____/\____/\___/\__,_/_/     |___/\__,_/_/  /____/
-
---]]
-local vim = vim
-local fn = vim.fn
-local api = vim.api
-local cwd = vim.loop.cwd
 local has_lsp, lsp = pcall(require, 'lspconfig')
 if not has_lsp then
 	return
@@ -20,6 +6,9 @@ local has_lsp_utils, lsp_utils = pcall(require, 'libraries._lsp')
 if not has_lsp_utils then
 	return
 end
+
+local vim = vim
+local cwd = vim.loop.cwd
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -31,8 +20,6 @@ end
 /_____//____/  /_/             \____/   \____/ /_/ /_/ /_/     /_/    \__, /  /____/
                                                                      /____/
 --]]
---UI CONFIG ref: https://github.com/neovim/nvim-lspconfig/wiki/UI-customization#change-diagnostic-symbols-in-the-sign-column-gutter
-
 --CAPABILITIES
 local custom_capabilities = function()
 	--[[ NOTE: COQ
@@ -68,23 +55,26 @@ local custom_attach = function(client, bufnr)
 	require('aerial').on_attach(client)
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
+	--test
+	local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+	if client.supports_method('textDocument/formatting') then
+		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+		vim.api.nvim_create_autocmd('BufWritePre', {
+			group = augroup,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr })
+			end,
+		})
+	end
 
-	-- vim.cmd [[autocmd! CursorHold * lua if #vim.lsp.buf_get_clients() > 0 then vim.lsp.buf.signature_help() end]]
 end
 
 local custom_init = function(server)
 	-- DEBUGGING
 	-- vim.lsp.set_log_level('debug') --> ENABLE LOGGING, located in ~/.cache
 	-- SWAG
-	-- print("LSP Started.. Let's get this bread")
-	-- vim.notify("Started "..vim.lsp.get_active_clients()[3].config.name..". Let's get this bread!", 2 , { title = "Language Server"})
-	vim.notify('Started ' .. vim.bo.ft .. " language server. Let's get this bread!", 2, { title = 'Language Server' })
-	-- FORMATTING
-	-- async formatting
-	-- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
-	vim.lsp.handlers['textDocument/formatting'] = lsp_utils.get_async_format_fn()
-
-	-- Diagnostics [NVIM 0.6 only]
+	vim.notify(' Started ' .. vim.bo.ft .. " language server. Let's get this bread!", 2, { title = 'Language Server' })
 	vim.diagnostic.config({
 		virtual_text = false,
 		-- Could be '●', '▎', 'x', '■'
@@ -106,14 +96,10 @@ local custom_init = function(server)
 		update_in_insert = false,
 	})
 	--Rounded borders for floating windows
-	vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-		vim.lsp.handlers.hover,
-		{ border = 'rounded', focusable = false }
-	)
-	vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-		vim.lsp.handlers.signature_help,
-		{ border = 'rounded', focusable = false }
-	)
+	vim.lsp.handlers['textDocument/hover'] =
+		vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
+	vim.lsp.handlers['textDocument/signatureHelp'] =
+		vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded', focusable = false })
 
 	-- SET DIAG GUTTER SIGNS
 	local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
@@ -129,7 +115,9 @@ local custom_init = function(server)
 	-- vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.open_float(nil,{focusable=false,scope="cursor"})]]
 
 	-- DISPLAY LSP DIAGS AS VIRTUAL LINES
-	vim.cmd([[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]])
+	vim.cmd(
+		[[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
+	)
 
 	--DISPLAY LSP FN SIGNATURE POPUP OVERLAY
 	-- vim.cmd [[autocmd! CursorHold * silent! execute "Lsp signature"]]
@@ -141,8 +129,6 @@ local custom_init = function(server)
 	--	.. hover_supported_lsp
 	--	.. [[ lua if #vim.lsp.buf_get_clients() > 0 then vim.lsp.buf.hover() end]]
 	--)
-
-	--httpV
 end
 
 ---------------------------------------------------------------------------------------
@@ -188,7 +174,7 @@ local servers = {
 	'gopls',
 	'marksman',
 	-- 'solidity',
-	'solidity_ls'
+	'solidity_ls',
 	-- 'solc',
 }
 
@@ -216,18 +202,16 @@ for _, server in ipairs(servers_rootcwd) do
 	})
 end
 
--- LANG CONFS
-require('lsp._null') --Null ls, additional formatters, diags and more..
--- require('lsp._solang').setup(custom_attach, custom_init)
+-- CUSTOM LANG CONFS
+require('lsp._null_ls') --Null ls, additional formatters, diags and more..
 require('lsp._lua').setup(custom_attach, custom_init)
 require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 require('lsp._typescript').setup(custom_attach, custom_init)
-require('lsp._omnisharp').setup(custom_attach, custom_init)
-
-vim.cmd(
+-- require('lsp._omnisharp').setup(custom_attach, custom_init)
+-- require('lsp._solang').setup(custom_attach, custom_init)
+vim.cmd( -- NOTE: sets workspace per project..
 	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
-) -- NOTE: sets workspace per project..
--- vim.cmd[[au FileType java lua require('jdtls').start_or_attach({cmd = {'launch_jdtls.sh'},on_init = custom_init, on_attach = custom_attach})]]
+)
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------

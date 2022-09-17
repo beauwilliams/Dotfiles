@@ -1,12 +1,11 @@
 -- Call the setup function to change the default behavior
 local icon_status_ok, icons = pcall(require, "libraries._icons")
-local kind_icons
 if not icon_status_ok then
-    print("Failed to set up aerial, check config")
+  vim.schedule(vim.notify(string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), '')))
     return
-else
-    kind_icons = icons.kind
 end
+
+local kind_icons = icons.kind
 
 require("aerial").setup({
   -- Priority list of preferred backends for aerial.

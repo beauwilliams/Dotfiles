@@ -247,14 +247,12 @@ packer.startup({
 --]]
 		--NOTE: Editor config
 		-- use 'editorconfig/editorconfig-vim'
+		--NOTE: LSP / LINTERS / FORMATTERS INSTALLERS
+		use	('williamboman/mason.nvim') --> LSP, DAP etc installer
+        use ('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
+
 		--NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
-		use({
-			'williamboman/mason.nvim', --> LSP, DAP etc installer
-			config = function()
-				require('mason').setup()
-			end,
-		})
 		use('ii14/lsp-command') -- USAGE: :h :Lsp
 		use({
 			'lewis6991/hover.nvim',
@@ -342,22 +340,22 @@ packer.startup({
 				'hrsh7th/cmp-nvim-lsp-signature-help',
 			},
 		})
-use {
-	"zbirenbaum/copilot.lua",
-	event = {"VimEnter"},
-	config = function()
-		vim.defer_fn(function()
-			require("copilot").setup()
-		end, 100)
-	end,
-}
-use {
-	"zbirenbaum/copilot-cmp",
-	after = { "copilot.lua" },
-	config = function ()
-		require("copilot_cmp").setup()
-	end
-}
+		use({
+			'zbirenbaum/copilot.lua',
+			event = { 'VimEnter' },
+			config = function()
+				vim.defer_fn(function()
+					require('copilot').setup()
+				end, 100)
+			end,
+		})
+		use({
+			'zbirenbaum/copilot-cmp',
+			after = { 'copilot.lua' },
+			config = function()
+				require('copilot_cmp').setup()
+			end,
+		})
 
 		use({ 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }) --snippets engine for cmp
 		use({
@@ -521,6 +519,7 @@ use {
 				require('hlargs').setup()
 			end,
 		})
+		-- use 'David-Kunz/markid' --A Neovim extension to highlight same-name identifiers with the same color NOTE: bit disorienting...
 		-- mfussenegger/nvim-ts-hint-textobject
 		-- romgrk/nvim-treesitter-context
 		--[[ use {  -- This is rad, but stupid slow right now.

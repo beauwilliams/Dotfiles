@@ -4,11 +4,6 @@ local cmd = vim.cmd
 local M = {}
 
 
-function _G.reload(package)
-	package.loaded[package] = nil
-	return require(package)
-end
-
 function M._echo_multiline(msg)
 	for _, s in ipairs(vim.fn.split(msg, '\n')) do
 		vim.cmd("echom '" .. s:gsub("'", "''") .. "'")
