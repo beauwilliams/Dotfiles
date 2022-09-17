@@ -1,9 +1,16 @@
--- NOTE: Load telescope extension
-require("telescope").load_extension("notify")
+local telescope = safe_require('telescope')
+local notify = safe_require('notify')
+local stages_util = safe_require('notify.stages.util')
 
+if not telescope or not notify or not stages_util then
+  return
+end
+
+-- NOTE: Load telescope extension
+telescope.load_extension("notify")
 
 -- NOTE: Make sure windows are not focusable
---As I have a custom implementation below it is set there for now
+-- Have a custom implementation below it is set there for now
 --[[ require("notify").setup({
   on_open = function (win)
     vim.api.nvim_win_set_config(win, { focusable = false })
@@ -12,10 +19,7 @@ require("telescope").load_extension("notify")
 
 
 
-local notify = require('notify')
 
-
-local stages_util = require("notify.stages.util")
 
 local function bottom_up() return {
   function(state)

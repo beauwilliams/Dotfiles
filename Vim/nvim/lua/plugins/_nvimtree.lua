@@ -2,10 +2,9 @@
 local g = vim.g
 local exec = vim.api.nvim_exec
 
-local present, nvimtree = pcall(require, "nvim-tree")
-
-if not present then
-  return
+local nvimtree = safe_require('nvim-tree')
+if not nvimtree then
+	return
 end
 
 -- g.nvim_tree_side = "left"

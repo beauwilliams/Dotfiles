@@ -1,6 +1,11 @@
 -- NOTE: Currently using neoterm & nui
-local Input = require("nui.input")
-local event = require("nui.utils.autocmd").event
+local Input = safe_require('nui.input')
+local event = safe_require('nui.input')
+
+if not Input or not event then
+    return
+end
+
 local stored_task_command = nil
 
 local trigger_set_command_input = function(callback_fn)

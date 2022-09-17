@@ -1,10 +1,14 @@
 --LIGHTBULB, A CODE ACTION LIGHTBULB LIKE VSC
 local vim = vim --> DON'T CALL GLOBAL EACH TIME
 
-require('nvim-lightbulb').get_status_text()
+local nvimlightbulb = safe_require('nvim-lightbulb')
+if not nvimlightbulb then
+	return
+end
+nvimlightbulb.get_status_text()
 vim.cmd([[ autocmd CursorHold,CursorHoldI * lua LightBulbFunction() ]])
 LightBulbFunction = function()
-	require('nvim-lightbulb').update_lightbulb({
+	nvimlightbulb.update_lightbulb({
 		sign = {
 			enabled = false,
 			-- Priority of the gutter sign

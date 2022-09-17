@@ -1,5 +1,11 @@
-local Hydra = require("hydra")
-local cmd = require("hydra.keymap-util").cmd
+local Hydra = safe_require('hydra')
+local cmd = safe_require('hydra.keymap-util').cmd
+local diag = safe_require('lspsaga.diagnostic').cmd
+local code_outline = safe_require('aerial')
+
+if not Hydra or not cmd or not diag or not code_outline then
+    return
+end
 
 -- NOTE: For key mappings we use this
 Hydra.spawn = function(head)
@@ -312,8 +318,6 @@ local hint_lsp =
 
 ]]
 
-local saga_ok, diag = pcall(require, "lspsaga.diagnostic")
-local code_outline_ok, code_outline = pcall(require, "aerial")
 for _, value in pairs({",", ",d", ",D", ",s"}) do
     Hydra(
         {
@@ -365,49 +369,31 @@ for _, value in pairs({",", ",d", ",D", ",s"}) do
                 {
                     "d",
                     function()
-                        --[[ if saga_ok then
-                            diag.goto_next()
-                        else ]]
                         vim.diagnostic.goto_next({float = false})
-                        -- end
                     end
                 },
                 {
                     "D",
                     function()
-                        --[[ if saga_ok then
-                            diag.goto_prev()
-                        else ]]
                         vim.diagnostic.goto_prev({float = false})
-                        -- end
                     end
                 },
                 {
                     "s",
-                    function()
-                        if code_outline_ok then
                             code_outline.next()
-                        end
-                    end
                 },
                 {
                     "S",
-                    function()
-                        if code_outline_ok then
                             code_outline.next(-1)
-                        end
-                    end
                 },
                 {
                     "t",
                     function()
-                        if code_outline_ok then
                             if code_outline.is_open() then
                                 code_outline.close()
                             else
                                 code_outline.open()
                             end
-                        end
                     end
                 },
                 {

@@ -1,4 +1,9 @@
-require('presence'):setup({
+local presence = safe_require('presence')
+if not presence then
+	return
+end
+
+presence:setup({
 	-- This config table shows all available config options with their default values
 	auto_update = true, -- Update activity based on autocmd events (if `false`, map or manually execute `:lua Presence:update()`)
 	editing_text = 'Editing %s', -- Editing format string (either string or function(filename, path): string)

@@ -1,3 +1,13 @@
+local api = vim.api
+
+local tsconf = safe_require('nvim-treesitter.configs')
+local parser_configs = safe_require('nvim-treesitter.parsers')
+local treesitter_install = safe_require('nvim-treesitter.install')
+
+if not tsconf or not parser_configs or not treesitter_install then
+    return
+end
+
 --[[ Cool github configs
 https://github.com/RRethy/nvim-treesitter-textsubjects
 https://github.com/nvim-treesitter/nvim-treesitter-textobjects
@@ -6,15 +16,11 @@ https://github.com/haringsrob/nvim_context_vt
 https://github.com/windwp/nvim-ts-autotag
 https://github.com/lewis6991/spellsitter.nvim
 https://github.com/nvim-treesitter/nvim-tree-docs ]]
-local api = vim.api
-local tsconf = require("nvim-treesitter.configs")
-if not tsconf then
-    vim.cmd([[ echom 'Cannot load `nvim-treesitter.configs`' ]])
-    return
-end
+
+
 
 -- FOR NEORG USAGE: run :TSInstall norg
-local parser_configs = require("nvim-treesitter.parsers").get_parser_configs()
+parser_configs.get_parser_configs()
 
 parser_configs.norg = {
     install_info = {
@@ -23,7 +29,11 @@ parser_configs.norg = {
         branch = "main"
     }
 }
-require'nvim-treesitter.install'.compilers = { "gcc-12" }
+
+
+treesitter_install.compilers = { "gcc-12" }
+
+
 tsconf.setup(
     {
         --NOTE: As of Apr 2022 maintained flag is deprecated

@@ -3,7 +3,10 @@ local g = vim.g
 local fn = vim.fn
 local datetime = os.date "%A %d %B %Y, %T"
 local version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch
-local icons = require('libraries._icons')
+local icons = safe_require('libraries._icons')
+if not icons then
+	return
+end
 
 local ascii = {
 	[[   ██╗     ███████╗████████╗███████╗     ██████╗ ███████╗████████╗    ██╗████████╗██╗]],

@@ -1,5 +1,10 @@
-local snap = require('snap')
-local config = require('snap.config')
+local snap = safe_require('snap')
+local config = safe_require('snap.config')
+
+if not snap or not config then
+	return
+end
+
 local file = config.file:with({ reverse = true, suffix = ' »', layout = snap.get('layout').center })
 local vimgrep = config.vimgrep:with({ limit = 50000, suffix = ' »' })
 -- local args = {"--hidden", "--iglob", "!**/.git/*", "--iglob", "!**/.baks/*", "--iglob", "!**/.langservers/*", "--iglob", "!**/.undo/*", "--iglob", "!**/.session/*", "--iglob", "!**/coc/**","--ignore-case", "--follow",}

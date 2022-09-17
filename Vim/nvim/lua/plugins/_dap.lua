@@ -1,7 +1,11 @@
 local M = {}
 local vim_fn = vim.fn
 local api = vim.api
-local dap = require('dap')
+local dap = safe_require('dap')
+if not dap then
+	return
+end
+
 -- INSTALLER FOR DAP https://github.com/Pocco81/DAPInstall.nvim
 dap.adapters.python = {
 	type = 'executable',

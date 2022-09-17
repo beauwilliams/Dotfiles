@@ -1,6 +1,13 @@
 local M = {}
-local lsp = require("lspconfig")
-local lsputil = require("lspconfig/util")
+
+local lsp = safe_require('lspconfig')
+local lsputil = safe_require('lspconfig/util')
+local typescript = safe_require('typescript')
+
+
+if not lsp or not lsputil or not typescript then
+    return
+end
 ---------------------------------------------------------------------------------------
 --[[
   ______                                _       __
@@ -28,7 +35,7 @@ return M ]]
 
 -- NOTE: Using https://github.com/jose-elias-alvarez/typescript.nvim to polyfill features
 M.setup = function(custom_init, custom_attach)
-    require("typescript").setup(
+    typescript.setup(
         {
             disable_commands = false, -- prevent the plugin from creating Vim commands
             disable_formatting = false, -- disable tsserver's formatting capabilities

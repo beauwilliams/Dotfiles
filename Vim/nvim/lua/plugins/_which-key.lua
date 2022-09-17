@@ -1,6 +1,6 @@
-local status_ok, which_key = pcall(require, "which-key")
-if not status_ok then
-  return
+local which_key = safe_require('which-key')
+if not which_key then
+	return
 end
 
 local setup = {

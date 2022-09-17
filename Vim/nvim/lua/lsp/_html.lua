@@ -9,7 +9,11 @@
 
 --]]
 local M = {}
-local lsp = require('lspconfig')
+local lsp = safe_require('lspconfig')
+if not lsp then
+	return
+end
+
 ---------------------------------------------------------------------------------------
 --[[
     __  __  ______    __  ___    __

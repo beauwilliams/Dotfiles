@@ -9,9 +9,13 @@
 
 --]]
 local M = {}
-local lsp = require('lspconfig')
-local lsputil = require('lspconfig/util')
+local lsp = safe_require('lspconfig')
+local lsputil = safe_require('lspconfig/util')
 
+
+if not lsp or not lsputil then
+	return
+end
 ---------------------------------------------------------------------------------------
 --[[
     __

@@ -9,7 +9,13 @@ vim.g.coq_settings = {
 
 -- More here https://github.com/ms-jpq/coq.thirdparty
 
-require('coq_3p')({
+local coq3p = safe_require('coq-3p')
+if not coq3p then
+	return
+end
+
+
+coq3p({
 	-- conf_only :: Maybe bool :: only return results if current document is relative to $NVIM_HOME, default yes
 	{ src = 'nvimlua', short_name = 'nLUA', conf_only = false },
 	-- { src = "vimtex", short_name = "vTEX" },

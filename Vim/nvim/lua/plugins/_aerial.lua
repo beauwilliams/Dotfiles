@@ -1,13 +1,13 @@
--- Call the setup function to change the default behavior
-local icon_status_ok, icons = pcall(require, "libraries._icons")
-if not icon_status_ok then
-  vim.schedule(vim.notify(string.gsub(vim.api.nvim_buf_get_name(0), vim.loop.cwd(), '')))
+local aerial = safe_require('aerial')
+local icons = safe_require('libraries._icons')
+
+if not aerial or not icons then
     return
 end
 
 local kind_icons = icons.kind
 
-require("aerial").setup({
+aerial.setup({
   -- Priority list of preferred backends for aerial.
   -- This can be a filetype map (see :help aerial-filetype-map)
   backends = { "treesitter", "lsp", "markdown" },

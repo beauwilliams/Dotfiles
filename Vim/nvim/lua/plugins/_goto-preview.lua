@@ -1,4 +1,9 @@
-require("goto-preview").setup {
+local gotopreview = safe_require('goto-preview')
+if not gotopreview then
+	return
+end
+
+gotopreview.setup {
     width = 120, -- Width of the floating window
     height = 25, -- Height of the floating window
     border = { "↖", "─", "┐", "│", "┘", "─", "└", "│" },

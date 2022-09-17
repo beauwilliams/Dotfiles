@@ -1,5 +1,8 @@
 local M = {}
-local lsp = require('lspconfig')
+local lsp = safe_require('lspconfig')
+if not lsp then
+	return
+end
 
 local pid = vim.fn.getpid()
 -- On linux/darwin if using a release build, otherwise under scripts/OmniSharp(.Core)(.cmd)

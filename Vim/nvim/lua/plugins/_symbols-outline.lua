@@ -60,4 +60,8 @@ local opts = {
   }
 }
 
-require("symbols-outline").setup(opts)
+local symbolsoutline = safe_require('symbols-outline')
+if not symbolsoutline then
+	return
+end
+symbolsoutline.setup(opts)

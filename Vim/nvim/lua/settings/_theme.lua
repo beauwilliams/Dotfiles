@@ -4,11 +4,13 @@
 --------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------------------------------------------
 -- NOTE: Default colorscheme to load at startup before reading OS theme settings
-vim.cmd [[colorscheme flatbox]]
+vim.cmd [[colorscheme github_light]]
 
 -- NOTE: Automatic switching between dark and light mode
-local auto_dark_mode = require("auto-dark-mode")
-
+local auto_dark_mode = safe_require('auto-dark-mode')
+if not auto_dark_mode then
+	return
+end
 auto_dark_mode.setup(
     {
         update_interval = 1000,
@@ -45,7 +47,7 @@ vim.g.gruvbox_invert_selection = 0 --disables coloured visual highlights with sy
 --vim.g.gruvbox_invert_selection = 0
 --vim.g.gruvbox_number_column = 'dark0_hard'
 
-setGruvboxHighlights = function()
+local setGruvboxHighlights = function()
     --NOTE: Get highlights with :highlight
     -- CURSOR FLASH
     --[[ vim.cmd('highlight Beacon guibg=white ctermbg=15')

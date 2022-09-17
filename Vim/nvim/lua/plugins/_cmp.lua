@@ -1,25 +1,17 @@
-local cmp_status_ok, cmp = pcall(require, 'cmp')
-if not cmp_status_ok then
-	print('Failed to set up completion, check config')
-	return
-end
-local snip_status_ok, luasnip = pcall(require, 'luasnip')
-if not snip_status_ok then
-	print('Failed to set up completion, check config')
+local icons = safe_require('libraries._icons')
+local cmp = safe_require('cmp')
+local cmp_comparators = safe_require('copilot_cmp.comparators')
+local luasnip = safe_require('luasnip')
+local luasnip_vscode = safe_require('luasnip.loaders.from_vscode')
+
+
+if not icons or not cmp or not cmp_comparators or not luasnip or not luasnip_vscode then
 	return
 end
 
-local icon_status_ok, icons = pcall(require, 'libraries._icons')
-local kind_icons
-if not icon_status_ok then
-	print('Failed to set up completion, check config')
-	return
-else
-	kind_icons = icons.kind
-end
 
---Vscode-like: To use existing vs-code style snippets from a plugin (eg. rafamadriz/friendly-snippets) simply install the plugin and then add
-require('luasnip.loaders.from_vscode').lazy_load()
+local kind_icons = icons.kind
+luasnip_vscode.lazy_load()
 
 local check_backspace = function()
 	local col = vim.fn.col('.') - 1

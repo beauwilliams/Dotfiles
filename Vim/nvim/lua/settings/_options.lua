@@ -1,6 +1,12 @@
-local options = require("libraries._set_options")
-local utils = require("libraries._utils")
 local o = vim.opt
+
+local options = safe_require('libraries._set_options')
+local utils = safe_require('libraries._utils')
+
+if not options or not utils then
+    return
+end
+
 
 options.set_options(
     "g",

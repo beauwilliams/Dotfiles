@@ -1,9 +1,14 @@
---INFO: https://github.com/nanotee/nvim-lua-guide/blob/a118d6f585683a94364167d46274595b1959f089/README.md#defining-user-commands
-local create_user_command = vim.api.nvim_create_user_command
 local cmd = vim.cmd
-local telescope_custom = require("plugins._telescope")
-local telescope_builtin = require("telescope.builtin")
 local nvim_lsp = vim.lsp.buf
+local create_user_command = vim.api.nvim_create_user_command
+
+local telescope = safe_require('telescope')
+local telescope_builtin = safe_require('telescope.builtin')
+local telescope_custom = safe_require('plugins._telescope')
+
+if not telescope or not telescope_builtin or not telescope_custom then
+    return
+end
 
 create_user_command(
     "Hello",
@@ -98,15 +103,16 @@ create_user_command(
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- PICKERS / SEARCH COMMANDS
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
 local function my_dropdown(opts)
-    return require("plugins._telescope").my_dropdown({opts})
+    return telescope_custom.my_dropdown({opts})
 end
 
 local telescope_file_search_opts = "hidden = true, find_command = {'rg', '--files', '--hidden', '--glob=!.git'}"
 create_user_command(
     "MySearchFiles",
     function()
-    require'telescope.builtin'.find_files(my_dropdown({telescope_file_search_opts}))
+    telescope_builtin.find_files(my_dropdown({telescope_file_search_opts}))
     end,
     {
         bang = false,
@@ -118,7 +124,7 @@ create_user_command(
 create_user_command(
     "MySearchFilesHistory",
     function()
-    require'telescope.builtin'.oldfiles(my_dropdown({}))
+    telescope_builtin.oldfiles(my_dropdown({}))
     end,
     {
         bang = false,
@@ -130,7 +136,7 @@ create_user_command(
 create_user_command(
     "MySearchGrep",
     function()
-    require'telescope.builtin'.live_grep(my_dropdown({}))
+    telescope_builtin.live_grep(my_dropdown({}))
     end,
     {
         bang = false,
@@ -142,7 +148,7 @@ create_user_command(
 create_user_command(
     "MySearchBuffers",
     function()
-    require'telescope.builtin'.buffers(my_dropdown({}))
+    telescope_builtin.buffers(my_dropdown({}))
     end,
     {
         bang = false,
@@ -154,7 +160,7 @@ create_user_command(
 create_user_command(
     "MySearchCommands",
     function()
-    require'telescope.builtin'.commands(my_dropdown({}))
+    telescope_builtin.commands(my_dropdown({}))
     end,
     {
         bang = false,
@@ -166,7 +172,7 @@ create_user_command(
 create_user_command(
     "MySearchYankHistory",
     function()
-      require('telescope').extensions.neoclip.default(my_dropdown({}))
+      telescope.extensions.neoclip.default(my_dropdown({}))
     end,
     {
         bang = false,
@@ -178,7 +184,7 @@ create_user_command(
 create_user_command(
     "MySearchGitFiles",
     function()
-    require'telescope.builtin'.oldfiles(my_dropdown({}))
+    telescope_builtin.oldfiles(my_dropdown({}))
     end,
     {
         bang = false,
@@ -190,7 +196,7 @@ create_user_command(
 create_user_command(
     "MySearchGitBranches",
     function()
-    require'telescope.builtin'.git_branches(my_dropdown({}))
+    telescope_builtin.git_branches(my_dropdown({}))
     end,
     {
         bang = false,
@@ -202,7 +208,7 @@ create_user_command(
 create_user_command(
     "MySearchProjects",
     function()
-      require('telescope').extensions.projects.projects(my_dropdown({}))
+      telescope.extensions.projects.projects(my_dropdown({}))
     end,
     {
         bang = false,
@@ -232,7 +238,7 @@ local root_path_plugins = vim.fn.stdpath('data') .. '/site/pack/packer/'
 create_user_command(
     "MySearchNvimPlugins",
     function()
-require('telescope.builtin').find_files(require('telescope.themes').get_dropdown({cwd = vim.fn.stdpath('data') .. '/site/pack/packer/', search_dirs = { root_path_plugins .. 'start/', root_path_plugins .. 'opt/' }}))
+telescope_builtin.find_files(my_dropdown({cwd = vim.fn.stdpath('data') .. '/site/pack/packer/', search_dirs = { root_path_plugins .. 'start/', root_path_plugins .. 'opt/' }}))
     end,
     {
         bang = false,

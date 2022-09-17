@@ -1,14 +1,13 @@
-local has_lsp, lsp = pcall(require, 'lspconfig')
-if not has_lsp then
-	return
-end
-local has_lsp_utils, lsp_utils = pcall(require, 'libraries._lsp')
-if not has_lsp_utils then
-	return
-end
-
 local vim = vim
 local cwd = vim.loop.cwd
+
+local lsp = safe_require('lspconfig')
+local lsp_utils = safe_require('libraries._lsp')
+local cmp_nvim_lsp = safe_require('cmp_nvim_lsp')
+
+if not lsp or not lsp_utils or not cmp_nvim_lsp then
+	return
+end
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -27,7 +26,7 @@ local custom_capabilities = function()
 	local capabilities = vim.lsp.protocol.make_client_capabilities()
 	local coq = require('coq')
 	coq.lsp_ensure_capabilities() ]]
-	local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 	return capabilities
 end
 
@@ -49,10 +48,10 @@ end
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
 local custom_attach = function(client, bufnr)
 	-- INITS
-	require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
-	require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-	require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
-	require('aerial').on_attach(client)
+	safe_require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
+	safe_require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
+	safe_require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
+	safe_require('aerial').on_attach(client)
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 	--test
@@ -203,10 +202,10 @@ for _, server in ipairs(servers_rootcwd) do
 end
 
 -- CUSTOM LANG CONFS
-require('lsp._null_ls') --Null ls, additional formatters, diags and more..
-require('lsp._lua').setup(custom_attach, custom_init)
-require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
-require('lsp._typescript').setup(custom_attach, custom_init)
+safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
+safe_require('lsp._lua').setup(custom_attach, custom_init)
+safe_require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
+safe_require('lsp._typescript').setup(custom_attach, custom_init)
 -- require('lsp._omnisharp').setup(custom_attach, custom_init)
 -- require('lsp._solang').setup(custom_attach, custom_init)
 vim.cmd( -- NOTE: sets workspace per project..

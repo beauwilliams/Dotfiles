@@ -1,5 +1,10 @@
-local actions = require('telescope.actions')
-local telescope = require('telescope')
+local telescope = safe_require('telescope')
+local actions = safe_require('telescope.actions')
+
+if not telescope or not actions then
+	return
+end
+
 vim.cmd('autocmd FileType TelescopePrompt setl nocursorline')
 telescope.setup({
 	defaults = {

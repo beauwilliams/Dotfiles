@@ -2,7 +2,7 @@ local null_ls = safe_require('null-ls')
 if not null_ls then
 	return
 end
-local builtins = null_ls.builtins
+
 local utils = safe_require('null-ls.utils').make_conditional_utils()
 if not utils then
 	return
@@ -23,6 +23,8 @@ local function setup_if_config_exist_in_root(ls, files, null_ls_utils)
 
 	end
 end
+
+local builtins = null_ls.builtins
 
 null_ls.setup({
 	sources = {

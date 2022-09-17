@@ -1,10 +1,8 @@
-;inspo https://github.com/Gavinok/dotneovim/blob/main/fnl/init.fnl
-;https://github.com/tsbohc/.garden/tree/master/etc/nvim/config/fnl
-
-;frameworks: hotpot, aniseed, zest
-; (fn init []
-  ;CORE
+(fn init []
+  ;REQUIRE
   (require :impatient ) ;Speed up require caching
+  (require :libraries._module)
+  ;CORE
   (require :settings._mappings )
   (require :settings._commands )
   (require :settings._abbreviations )
@@ -12,10 +10,9 @@
   (require :settings._options)
   (require :settings._autocmds)
   (require :settings._optimisations)
-  ;LIBRARIES
-  (require :libraries._module)
   ;PLUGINS
   (require :plugins._plugins)
+  (require :plugins._statusline)
   (require :plugins._cmp)
   (require :plugins._mason)
   (require :plugins._startify)
@@ -32,13 +29,15 @@
   (require :plugins._symbols-outline)
   ;LSP
   (require :lsp._lsp_config)
-  ;MY STATUSLINE
-  (local statusline (require :statusline))
-   (set statusline.enable true)
-   (set statusline.lsp_diagnostics true)
-   (set statusline.ale_diagnostics false)
-;   (a.assoc vim.o
-;         :mouse          :a)
-  statusline
-  ; )
-; (init)
+  ;(a.assoc vim.o
+  ;:mouse :a)
+  )
+(init)
+
+;fennel frameworks:
+;hotpot, aniseed, zest
+
+;inspo:
+;https://github.com/Gavinok/dotneovim/blob/main/fnl/init.fnl
+;https://github.com/tsbohc/.garden/tree/master/etc/nvim/config/fnl
+
