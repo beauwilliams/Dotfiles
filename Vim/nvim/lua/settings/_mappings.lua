@@ -1,10 +1,11 @@
---TODO: Implement https://github.com/b0o/mapx.nvim
---Also add whichkey support
+local utils = safe_require('libraries._set_mappings')
+if not utils then
+    return
+end
 
-local utils = require('libraries._set_mappings')
 local leader = '<space>'
 local g = vim.g
----@diagnostic disable-next-line: unused-local
+--- @diagnostic disable-next-line: unused-local
 local api = vim.api
 local cmd = vim.cmd
 
@@ -16,14 +17,6 @@ g.mapleader = ' '
 cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --VIM NAVIGATION MAPPINGS

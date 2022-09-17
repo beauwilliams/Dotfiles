@@ -248,8 +248,8 @@ packer.startup({
 		--NOTE: Editor config
 		-- use 'editorconfig/editorconfig-vim'
 		--NOTE: LSP / LINTERS / FORMATTERS INSTALLERS
-		use	('williamboman/mason.nvim') --> LSP, DAP etc installer
-        use ('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
+		use('williamboman/mason.nvim') --> LSP, DAP etc installer
+		use('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
 
 		--NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
@@ -273,6 +273,14 @@ packer.startup({
 
 				-- setup keymaps
 				vim.keymap.set('n', 'gk', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+			end,
+		})
+
+		-- A simple plugin to apply a highlight group to unused variables and functions i.e dim them
+		use({
+			'Kasama/nvim-custom-diagnostic-highlight',
+			config = function()
+				require('nvim-custom-diagnostic-highlight').setup({})
 			end,
 		})
 		-- use {'j-hui/fidget.nvim', setup = require"fidget".setup{}} -- LSP server status widget bottom right corner

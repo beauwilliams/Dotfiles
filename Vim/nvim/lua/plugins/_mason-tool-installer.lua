@@ -2,13 +2,12 @@ local mason_tools_installer = safe_require('mason-tool-installer')
 if not mason_tools_installer then
 	return
 end
+
 mason_tools_installer.setup({
 
 	-- a list of all tools you want to ensure are installed upon
 	-- start; they should be the names Mason uses for each tool
 	ensure_installed = {
-		'gopls',
-		'golangci-lint',
 		'stylua',
 		'shellcheck',
 		'luacheck',
@@ -20,21 +19,23 @@ mason_tools_installer.setup({
 		-- { 'bash-language-server', auto_update = true },
 
 		--[[ 'lua-language-server',
-    'vim-language-server', ]]
-		--[[ 'editorconfig-checker',
-    'gofumpt',
-    'golines',
-    'gomodifytags',
-    'gotests',
-    'impl',
-    'json-to-struct',
-    'luacheck',
-    'misspell',
-    'revive',
-    'shellcheck',
-    'shfmt',
-    'staticcheck',
-    'vint', ]]
+		'vim-language-server',
+		'editorconfig-checker',
+		'gopls',
+		'golangci-lint',
+		'gofumpt',
+		'golines',
+		'gomodifytags',
+		'gotests',
+		'impl',
+		'json-to-struct',
+		'luacheck',
+		'misspell',
+		'revive',
+		'shellcheck',
+		'shfmt',
+		'staticcheck',
+		'vint', ]]
 	},
 
 	-- if set to true this will check each tool for updates. If updates
