@@ -51,8 +51,8 @@ vim.api.nvim_set_keymap('o', 'p', 'i(|', { noremap = true })
 vim.api.nvim_set_keymap('', '<PageUp>', '<C-U>', { silent = true })
 vim.api.nvim_set_keymap('', '<PageDown>', '<C-D>', { silent = true })
 
---Disable highlights when cursor moved
--- cmd([[autocmd cursormoved * set nohlsearch]])
+--Disable highlights when cursor moved, enable then on n/N
+cmd([[autocmd cursormoved * set nohlsearch]])
 vim.api.nvim_set_keymap('n', 'n', 'n:set hlsearch<cr>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent = true })
 -- Clear highlights quick! Removed for above

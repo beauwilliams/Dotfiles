@@ -149,12 +149,13 @@ packer.startup({
 		-- or https://github.com/folke/persistence.nvim
 
 		--NOTE:  SMOOTH SCROLLING
+		use('joeytwiddle/sexy_scroller.vim')
 		--[[ use({
 			-- OR psliwka/vim-smoothie
 			'karb94/neoscroll.nvim',
 			setup = require('neoscroll').setup(),
-    }) ]]
-		use({
+			}) ]]
+		--[[ use({
 			'declancm/cinnamon.nvim',
 			config = function()
 				require('cinnamon').setup({
@@ -175,7 +176,7 @@ packer.startup({
 					-- to -1 will disable this option.
 				})
 			end,
-		})
+		}) ]]
 
 		--NOTE:  HEX COLOUR PREVIEW
 		-- use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
@@ -276,13 +277,6 @@ packer.startup({
 			end,
 		})
 
-		-- A simple plugin to apply a highlight group to unused variables and functions i.e dim them
-		use({
-			'Kasama/nvim-custom-diagnostic-highlight',
-			config = function()
-				require('nvim-custom-diagnostic-highlight').setup({})
-			end,
-		})
 		-- use {'j-hui/fidget.nvim', setup = require"fidget".setup{}} -- LSP server status widget bottom right corner
 		use({
 			-- LSP UI Enhancements
@@ -440,12 +434,18 @@ packer.startup({
 
 		--NOTE: Dim unused variables
 		use({
+			'Kasama/nvim-custom-diagnostic-highlight',
+			config = function()
+				require('nvim-custom-diagnostic-highlight').setup({})
+			end,
+		})
+		--[[ use({
 			'narutoxy/dim.lua',
 			requires = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
 			config = function()
 				require('dim').setup()
 			end,
-		})
+		}) ]]
 
 		--NOTE: NVIM LSP PLUGINS
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc
@@ -636,7 +636,7 @@ packer.startup({
 ]]
 		-- Allows us to do cool UNIX CLI stuff like :Rename, Delete, Move, Mkdir, Chmod
 		use({ 'tpope/vim-eunuch' })
-		-- PREVIEW LINE IN BUFFER --> e.g :35 will show you line 35, without having to hit enter, close command pallette and you are back
+		-- PREVIEW LINE IN BUFFER --> e.g :35 will show you line 35, without having to hit enter, close command palette and you are back
 		use({ 'nacro90/numb.nvim', config = "require('numb').setup()" })
 		-- ENHANCED SEARCH --> Adds count numbers etc
 		-- use({ "kevinhwang91/nvim-hlslens" })
@@ -755,6 +755,8 @@ packer.startup({
 				require('plugins._which-key')
 			end,
 		})
+        --Motions f/F (auto-highlight
+		-- use 'jinh0/eyeliner.nvim'
 		-- VIM MOTION PLUGIN, s, S, f, F, t, T
 		-- OR phaazon/hop.nvim OR quickscope.nvim
 		use({

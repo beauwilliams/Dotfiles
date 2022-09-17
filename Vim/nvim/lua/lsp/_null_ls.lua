@@ -12,7 +12,7 @@ local function setup_if_config_exist_in_root(ls, files, null_ls_utils)
 	if null_ls_utils.root_has_file(files) then
 		vim.defer_fn(function()
 			vim.schedule(function()
-			vim.notify(' Detected ' .. vim.inspect(files) .. ' in project root', 'info', { title = 'Null LS' })
+				vim.notify(' Detected ' .. vim.inspect(files) .. ' in project root', 'info', { title = 'Null LS' })
 			end)
 		end, 1000)
 		return ls.with({
@@ -20,7 +20,6 @@ local function setup_if_config_exist_in_root(ls, files, null_ls_utils)
 				return utils.root_has_file(files)
 			end,
 		})
-
 	end
 end
 
@@ -51,7 +50,34 @@ null_ls.setup({
 
 		-- setup_if_config_exist_in_root(builtins.formatting.eslint_d, '.eslintrc.js', utils),
 		-- setup_if_config_exist_in_root(builtins.formatting.prettierd, '.prettierrc.js', utils),
-		setup_if_config_exist_in_root(builtins.formatting.stylua, {'stylua.toml', '.stylua.toml'}, utils),
+		setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
+		builtins.formatting.prettier.with({
+			filetypes = { 'graphql' },
+			condition = function()
+				return utils.root_has_file('.prettierrc.json')
+			end,
+			command = './node_modules/.builtinsin/prettier',
+		}),
+		builtins.diagnostics.stylelint.with({
+			filetypes = { 'css', 'scss', 'vue' },
+			condition = function()
+				return utils.root_has_file('.stylelintrc.json')
+			end,
+			command = './node_modules/.bin/stylelint',
+		}),
+		builtins.formatting.stylelint.with({
+			filetypes = { 'css', 'scss' },
+			condition = function()
+				return utils.root_has_file('.stylelintrc.json')
+			end,
+			command = './node_modules/.bin/stylelint',
+		}),
+
+		builtins.formatting.stylua.with({
+			condition = function()
+				return utils.root_has_file('stylua.toml')
+			end,
+		}),
 		-- if we want to only use stylua etc when stylua.toml file is in project etc.
 
 		--------------------------------------------------------------------------------
