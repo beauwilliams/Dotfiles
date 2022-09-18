@@ -4,7 +4,7 @@ _G.safe_require = function(module_name)
 	if not package_exists then
 		vim.defer_fn(function()
 			vim.schedule(function()
-				vim.notify('Could not load module: ' .. module_name, 'error', { title = 'Module Not Found' })
+				vim.notify(' Could not load module: ' .. module_name, 'error', { title = 'Module Not Found' })
 			end)
 		end, 1000)
 		return nil
@@ -15,6 +15,6 @@ end
 
 -- @USAGE: :lua safe_reload('foo')
 function _G.safe_reload(module)
-	module.loaded[module] = nil
+	package.loaded[module] = nil
 	return safe_require(module)
 end

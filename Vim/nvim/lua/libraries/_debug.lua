@@ -1,11 +1,19 @@
---Print stuff
-P = function(stuff)
-	return print(vim.inspect(stuff))
+-- Inspector
+-- ':lua printi(vim.fn.getwininfo())'
+_G.printi = function(stuff)
+	return vim.inspect(stuff)
 end
 
--- help to inspect results, e.g.:
--- ':lua _G.dump(vim.fn.getwininfo())'
-function _G.dump(...)
+-- Pwetty
+-- ':lua printd(fn.get_value())'
+_G.printp = function(stuff)
+	return vim.pretty_print(stuff)
+end
+
+
+-- Dumper
+-- ':lua printd(vim.fn.getwininfo())'
+function _G.printd(...)
 	local objects = vim.tbl_map(vim.inspect, { ... })
 	print(unpack(objects))
 end

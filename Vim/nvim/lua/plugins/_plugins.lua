@@ -5,9 +5,6 @@
  / ____/  / ___ |/ /___    / /| |   / /___    / _, _/         _/ /    / /|  /   _/ /    / /
 /_/      /_/  |_|\____/   /_/ |_|  /_____/   /_/ |_|         /___/   /_/ |_/   /___/   /_/
 
---/*
---* INSTALL PACKER, LUA BASED PACKAGE MANAGER. USE/DEPENDENCY BASED PACKAGE MGMT
---*/
 --]]
 local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
 
@@ -25,8 +22,21 @@ if not packer_exists then
 	return
 end
 
+local packer = require('packer')
+packer.init({
+	--FIXES ISSUE WHERE WON'T UPDATE OTHERWISE
+	max_jobs = 4,
+	git = {
+		clone_timeout = 300, -- 5 mins
+	},
+	profile = {
+		enable = true,
+	},
+})
+
 -- FOR LUAROCKS TO INSTALL RIGHT
 -- vim.fn.setenv('MACOSX_DEPLOYMENT_TARGET', '12')
+
 vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when there are changes to plugins
 
 --[[
@@ -37,17 +47,6 @@ vim.cmd('autocmd BufWritePost _plugins.lua PackerCompile') -- Auto compile when 
 /_/      /_____/\____/   \____/   /___/   /_/ |_/          /___/   /_/ |_/   /___/   /_/     /____/
 
 ]]
-local packer = require('packer')
-packer.init({
-	--FIXES ISSUE WHERE WONT UPDATE OTHERWISE
-	max_jobs = 4,
-	git = {
-		clone_timeout = 300, -- 5 mins
-	},
-	profile = {
-		enable = true,
-	},
-})
 
 --PACKER IS CAPABLE OF MANAGING ITSELF. IT INITS FIRST THEN CALLS REST OF OUR PLUGINS
 packer.startup({
@@ -69,8 +68,8 @@ packer.startup({
 
 --]]
 		--NOTE: THEMES/UX/UI PLUGINS
-		use('gruvbox-community/gruvbox')
-		use({ 'luisiacc/gruvbox-baby' })
+		-- use('gruvbox-community/gruvbox')
+		-- use({ 'luisiacc/gruvbox-baby' })
 		use({ 'beauwilliams/flatbox' })
 		-- use 'mvpopuk/inspired-github.vim'
 		use('projekt0n/github-nvim-theme')
@@ -94,12 +93,12 @@ packer.startup({
 		--NOTE: INDENT LINES
 		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
 		--NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
-		--[[ use({
-			"lukas-reineke/headlines.nvim",
-			config = function()
-				require("headlines").setup()
-			end,
-		}) ]]
+        use { --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
+            'lukas-reineke/headlines.nvim',
+            config = function()
+                require('headlines').setup()
+            end,
+        }
 		--NOTE: STATUSLINE
 		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
 		--NOTE: TABLINE
@@ -397,7 +396,7 @@ packer.startup({
 		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
 
 		-- NOTE: FILETYPE SYNTAX
-		use('sheerun/vim-polyglot')
+		-- use('sheerun/vim-polyglot')
 
 		-- NOTE: CODE FORMATTING
 		use('sbdchd/neoformat') -- Code formatting plugin
