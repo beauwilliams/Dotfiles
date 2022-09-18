@@ -444,7 +444,7 @@ packer.startup({
 				require('nvim-custom-diagnostic-highlight').setup({})
 			end,
 		})
-		--[[ use({
+		--[[ use({ --> better version of dim.lua --> https://github.com/zbirenbaum/neodim
 			'narutoxy/dim.lua',
 			requires = { 'nvim-treesitter/nvim-treesitter', 'neovim/nvim-lspconfig' },
 			config = function()
@@ -495,6 +495,8 @@ packer.startup({
 		--NOTE: CODE TESTING PLUGINS
 		-- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
 		--neotest
+		-- NOTE: CODE TEST COVERAGE DISPLAY
+		-- use 'andythigpen/nvim-coverage'
 
 		--NOTE: BUILD SYSTEM PLUGINS
 		-- use {

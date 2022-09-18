@@ -7,6 +7,11 @@ if not Hydra or not cmd or not diag or not code_outline then
     return
 end
 
+-- NOTE: inspo
+-- https://github.com/zakharykaplan/dotfiles/blob/7153f0196529f55985238f986f9ec2700b526e06/apps/nvim/lua/plugins/hydra.lua
+-- https://github.com/mintelm/dotfiles/blob/b7044cd1b6d4e0956c67242027492a0d2133e65b/nvim/lua/mm/plugins/config/hydra.lua
+
+
 -- NOTE: For key mappings we use this
 Hydra.spawn = function(head)
     if head == "Hydra_Telescope" then
@@ -515,4 +520,38 @@ name = 'Side scroll',
 	  { 'H', 'zH' },
 	  { 'L', 'zL', { desc = 'half screen ←/→' } },
    }
+}) ]]
+
+
+--NOTE: Quick case changing
+--[[ local head = function(key, operator_name, desc)
+    return {
+        key,
+        function()
+            require("textcase").operator(operator_name)
+        end,
+        { desc = desc },
+    }
+end
+
+hydra({
+    config = {
+        exit = true,
+    },
+    name = "Change case",
+    mode = "n",
+    body = "gyc",
+    heads = {
+        head("_", "to_snake_case", "snake_case"),
+        head("-", "to_dash_case", "dash-case"),
+        head("C", "to_constant_case", "CONSTANT_CASE"),
+        head(".", "to_dot_case", "dot.case"),
+        head("c", "to_camel_case", "camelCase"),
+        head("t", "to_title_case", "Title Case"),
+        head("/", "to_path_case", "path/case"),
+        head("s", "to_phrase_case", "Sentence case"),
+        head("m", "to_pascal_case", "MixedCase"),
+
+        { "<Esc>", nil, { exit = true } },
+    },
 }) ]]
