@@ -78,11 +78,19 @@ packer.startup({
 		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
 		use({ 'stevearc/dressing.nvim' }) -- Neovim plugin to improve the default vim.ui interfaces
 		-- use 'meznaric/conmenu' --replacing for hydra aug 2022
-		use('anuvyklack/hydra.nvim')
-		-- use 'ghifarit53/tokyonight-vim'
+		use('anuvyklack/hydra.nvim') -- use 'ghifarit53/tokyonight-vim'
 		-- use "sainnhe/gruvbox-material"
 		-- another I would like to try https://github.com/sainnhe/everforest
 		--use 'eddyekofo94/gruvbox-flat.nvim'
+		-- NOTE: theme editor
+        -- :CustomTheme (Will open all highlights to split windown)
+        -- :CustomThemeReset (Will revert your changes how it was)
+		--[[ use({
+			'Djancyp/custom-theme.nvim',
+			config = function()
+				require('custom-theme').setup()
+			end,
+		}) ]]
 
 		-- NOTE: NOTIFICATIONS
 		use('rcarriga/nvim-notify') --plugins.nvim-notify.lua
@@ -93,7 +101,7 @@ packer.startup({
 		--NOTE: INDENT LINES
 		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
 		--NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
-            -- 'lukas-reineke/headlines.nvim' --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
+		-- 'lukas-reineke/headlines.nvim' --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
 		--NOTE: STATUSLINE
 		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
 		--NOTE: TABLINE
@@ -243,6 +251,9 @@ packer.startup({
 		--NOTE: Editor config
 		-- use 'editorconfig/editorconfig-vim'
 		--NOTE: LSP / LINTERS / FORMATTERS INSTALLERS
+		--TODO:
+		--[[ https://github.com/jayp0521/mason-null-ls.nvim
+		https://github.com/williamboman/mason-lspconfig.nvim#configuration ]]
 		use('williamboman/mason.nvim') --> LSP, DAP etc installer
 		use('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
 
@@ -751,7 +762,7 @@ packer.startup({
 				require('plugins._which-key')
 			end,
 		})
-        --Motions f/F (auto-highlight
+		--Motions f/F (auto-highlight
 		-- use 'jinh0/eyeliner.nvim'
 		-- VIM MOTION PLUGIN, s, S, f, F, t, T
 		-- OR phaazon/hop.nvim OR quickscope.nvim
