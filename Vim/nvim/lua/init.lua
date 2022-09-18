@@ -24,6 +24,7 @@ local function init()
   require("plugins._hydra")
   require("plugins._aerial")
   require("plugins._symbols-outline")
+  require("plugins._dial")
   require("lsp._lsp_config")
   return nil
 end

@@ -741,7 +741,9 @@ packer.startup({
 		use('tpope/vim-surround') -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
 		use('tpope/vim-repeat') -- repeat surround motions with .
 		use('chaoren/vim-wordmotion') --> IMPROVED VIM WORD MOTIONS, now includes under_scores and camelCase etc.
-		use('monaqa/dial.nvim') -- BETTER INCREMENTING IN VIM (TO BE TESTED)
+		use('monaqa/dial.nvim') -- BETTER INCREMENTING IN VIM, bools, nums, dates, and/or etc
+		-- use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS, NO LONGER NEEDED DIAL DOES IT ALL
+
 		use({
 			-- help suggestions for key mappings
 			'folke/which-key.nvim',
@@ -785,7 +787,6 @@ packer.startup({
 --]]
 		use('michaelb/vim-tips') -- Display vim tip at startup
 		use('sedm0784/vim-you-autocorrect') -- Vim autocorrection
-		use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS
 		use({ 'NTBBloodbath/rest.nvim', requires = { 'nvim-lua/plenary.nvim' } }) -- Open HTTP files - a curl wrapper
 		use('andweeb/presence.nvim') -- discord presence
 

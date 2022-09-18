@@ -116,8 +116,7 @@ utils.nnoremap('<Tab>', 'w')
 utils.nnoremap('<s-Tab>', 'b')
 
 --TODO: command refactor
---TOGGLE AND INCREMENT NUMBERS EASILY
-utils.nnoremap(leader .. '0', ':ToggleAlternate<cr>')
+--TOGGLE AND INCREMENT NUMBERS, BOOLS ETC EASILY
 set_keymap('n', '<leader>=', require('dial.map').inc_normal(), {})
 set_keymap('n', '<leader>-', require('dial.map').dec_normal(), {})
 set_keymap('v', '<leader>=', require('dial.map').inc_visual(), {})
