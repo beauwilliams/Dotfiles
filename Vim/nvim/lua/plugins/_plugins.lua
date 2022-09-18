@@ -93,12 +93,7 @@ packer.startup({
 		--NOTE: INDENT LINES
 		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
 		--NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
-        use { --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
-            'lukas-reineke/headlines.nvim',
-            config = function()
-                require('headlines').setup()
-            end,
-        }
+            -- 'lukas-reineke/headlines.nvim' --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
 		--NOTE: STATUSLINE
 		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
 		--NOTE: TABLINE
@@ -396,7 +391,7 @@ packer.startup({
 		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
 
 		-- NOTE: FILETYPE SYNTAX
-		-- use('sheerun/vim-polyglot')
+		use('sheerun/vim-polyglot')
 
 		-- NOTE: CODE FORMATTING
 		use('sbdchd/neoformat') -- Code formatting plugin
