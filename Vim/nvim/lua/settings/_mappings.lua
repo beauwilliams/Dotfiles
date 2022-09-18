@@ -8,6 +8,7 @@ local g = vim.g
 --- @diagnostic disable-next-line: unused-local
 local api = vim.api
 local cmd = vim.cmd
+local set_keymap = vim.keymap.set
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --SET LEADER GLOBALLY
@@ -29,32 +30,32 @@ utils.nmap('++', '<Plug>kommentary_line_default')
 utils.vmap('++', '<Plug>kommentary_visual_default')
 
 --Toggle between 0 and ^ with JUST 0. Does not work well with wrap off and side scrolling..
-vim.api.nvim_set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
+set_keymap('n', '0', "getline('.')[0 : col('.') - 2] =~# '^\\s\\+$' ? '0' : '^'", {silent = true, noremap = true, expr = true})
 
 -- Keep selection when shifting
-vim.api.nvim_set_keymap('v', '>', '>gv', { noremap = true })
-vim.api.nvim_set_keymap('v', '<', '<gv', { noremap = true })
+set_keymap('v', '>', '>gv', { noremap = true })
+set_keymap('v', '<', '<gv', { noremap = true })
 
 -- Switch Between Buffers with backspace and retain cursor location and center to cursor
-vim.api.nvim_set_keymap('n', '<bs>', '<c-^>zz', { silent = true, noremap = true })
--- vim.api.nvim_set_keymap('n', '<bs>', '<c-^>\'"zz', { silent = true, noremap = true })
+set_keymap('n', '<bs>', '<c-^>zz', { silent = true, noremap = true })
+-- set_keymap('n', '<bs>', '<c-^>\'"zz', { silent = true, noremap = true })
 
 --Bring search results to middle of screen, zv at end makes this compatible with folds
-vim.api.nvim_set_keymap('n', 'n', 'nzzzv', { noremap = true })
-vim.api.nvim_set_keymap('n', 'N', 'Nzzzv', { noremap = true })
+set_keymap('n', 'n', 'nzzzv', { noremap = true })
+set_keymap('n', 'N', 'Nzzzv', { noremap = true })
 
 --whenever you're in parentheses, you can simple invoke dp or cp to wipe it's contents (same for brackets, but db or cb).
-vim.api.nvim_set_keymap('o', 'b', 'i[|', { noremap = true })
-vim.api.nvim_set_keymap('o', 'p', 'i(|', { noremap = true })
+set_keymap('o', 'b', 'i[|', { noremap = true })
+set_keymap('o', 'p', 'i(|', { noremap = true })
 
 --PAGEUP/PAGEDN ONLY HALF PAGE AT A TIME
-vim.api.nvim_set_keymap('', '<PageUp>', '<C-U>', { silent = true })
-vim.api.nvim_set_keymap('', '<PageDown>', '<C-D>', { silent = true })
+set_keymap('', '<PageUp>', '<C-U>', { silent = true })
+set_keymap('', '<PageDown>', '<C-D>', { silent = true })
 
 --Disable highlights when cursor moved, enable then on n/N
 cmd([[autocmd cursormoved * set nohlsearch]])
-vim.api.nvim_set_keymap('n', 'n', 'n:set hlsearch<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent = true })
+set_keymap('n', 'n', 'n:set hlsearch<cr>', { noremap = true, silent = true })
+set_keymap('n', 'N', 'N:set hlsearch<cr>', { noremap = true, silent = true })
 -- Clear highlights quick! Removed for above
 -- utils.nnoremap(leader .. "/", ":nohlsearch<cr>")
 
@@ -77,19 +78,19 @@ local function smart_dd_visual()
   return "d"
 end
 
-vim.keymap.set("v", "d", smart_dd_visual, { noremap = true, expr = true } )
-vim.keymap.set( "n", "dd", smart_dd_normal, { noremap = true, expr = true } )
+set_keymap("v", "d", smart_dd_visual, { noremap = true, expr = true } )
+set_keymap( "n", "dd", smart_dd_normal, { noremap = true, expr = true } )
 
 --TODO: command refactor
 --Insert lines above
-vim.api.nvim_set_keymap(
+set_keymap(
   'n',
   '<leader>o',
   ':<C-u>call append(line("."), repeat([""], v:count1))<CR>',
   { noremap = true, silent = true }
 )
 --Insert lines below
-vim.api.nvim_set_keymap(
+set_keymap(
   'n',
   '<leader>O',
   ':<C-u>call append(line(".")-1, repeat([""], v:count1))<CR>',
@@ -117,13 +118,10 @@ utils.nnoremap('<s-Tab>', 'b')
 --TODO: command refactor
 --TOGGLE AND INCREMENT NUMBERS EASILY
 utils.nnoremap(leader .. '0', ':ToggleAlternate<cr>')
-vim.cmd([[
-    nmap <space>= <Plug>(dial-increment)
-    nmap <space>- <Plug>(dial-decrement)
-    vmap <space>= <Plug>(dial-increment)
-    vmap <space>- <Plug>(dial-decrement)
-]])
-
+set_keymap('n', '<leader>=', require('dial.map').inc_normal(), {})
+set_keymap('n', '<leader>-', require('dial.map').dec_normal(), {})
+set_keymap('v', '<leader>=', require('dial.map').inc_visual(), {})
+set_keymap('v', '<leader>-', require('dial.map').dec_visual(), {})
 --TODO: command refactor
 --FILE TREE
 utils.nnoremap(leader .. 'n', ':NvimTreeToggle<cr>')
@@ -186,50 +184,26 @@ utils.nnoremap('c,', "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
 utils.nnoremap('d.', "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
 utils.nnoremap('d,', "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
---TODO: command refactor
---WINDOW NAVIGATION
-local focusmap = function(direction)
-  vim.api.nvim_set_keymap(
-    'n',
-    '<Leader>' .. direction,
-    ":lua require'focus'.split_command('" .. direction .. "')<CR>",
-    { silent = true }
-  )
-end
--- Use `<Leader>h` to split the screen to the left, same as command FocusSplitLeft etc
-focusmap('h')
-focusmap('j')
-focusmap('k')
-focusmap('l')
+-- NOTE: WINDOW NAVIGATION
+-- leader-w for SPLIT CYCLING (cycle current windows)
+-- leader-W takes us anticlockwise
+set_keymap('n', '<Leader>k', ':FocusSplitUp<CR>', { noremap = true, silent = true })
+set_keymap('n', '<Leader>j', ':FocusSplitDown<CR>', { noremap = true, silent = true })
+set_keymap('n', '<Leader>h', ':FocusSplitLeft<CR>', { noremap = true, silent = true })
+set_keymap('n', '<Leader>l', ':FocusSplitRight<CR>', { noremap = true, silent = true })
+set_keymap('n', '<Leader>w', ':FocusSplitCycle<CR>', { noremap = true, silent = true})
+set_keymap('n', '<Leader>W', ':FocusSplitCycle reverse<CR>', { noremap = true, silent = true})
 
--- TODO: Implement utils fn into FOCUS to do natural resizing of windows like tmux etc
-vim.cmd([[
-  "leader-w for SPLIT CYCLING (cycle current windows)
-  "leader-W takes us anticlockwise
-  nnoremap <silent> <leader>w :FocusSplitCycle<CR>
-  vnoremap <silent> <leader>w :FocusSplitCycle<CR>
-  tnoremap <silent> <leader>w :FocusSplitCycle<CR>
-  nnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-  vnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-  tnoremap <silent> <leader>W :FocusSplitCycle reverse<CR>
-  "Resize our splits with <leader> ;/'/,/.- easily
-  nnoremap <silent> <Leader>. :exe "resize " . (winheight(0) * 5/3)<CR>
-  nnoremap <silent> <Leader>, :exe "resize " . (winheight(0) * 2/4)<CR>
-  nnoremap <silent> <leader>; :exe "vertical resize " . (winwidth(0) * 2/4)<CR>
-  nnoremap <silent> <leader>' :exe "vertical resize " . (winwidth(0) * 5/3)<CR>
+-- Resize our splits with <leader> ;/'/,/.- easily
+set_keymap("n", "<Leader>.", ":exe \"resize \" . (winheight(0) * 4/3)<CR>", { silent = true, noremap = true, })
+set_keymap("n", "<Leader>,", ":exe \"resize \" . (winheight(0) * 3/4)<CR>", { silent = true, noremap = true, })
+set_keymap("n", "<leader>;", ":exe \"vertical resize \" . (winwidth(0) * 3/4)<CR>", { silent = true, noremap = true, })
+set_keymap("n", "<leader>'", ":exe \"vertical resize \" . (winwidth(0) * 4/3)<CR>", { silent = true, noremap = true, })
 
-  " if nvim_win_get_width(window) > nvim_get_height(window)
-  "this means its a horizontal split, so we can resize the height
-  "
-  " else
-  "this means its a vertical split, so we can resize the width
-  " endif
-  " nnoremap <silent> <leader>; :vertical resize -10<CR>
-  " nnoremap <silent> <leader>' :vertical resize +10<CR>
-  "CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
-  nnoremap <silent><leader>[ <c-w>H
-  nnoremap <silent><leader>] <c-w>K
-]])
+-- CHANGE A SPLIT ORENTATION FROM HORIZONTAL TO VERTICAL AND VICE VERSA
+set_keymap("n", "<leader>[", "<c-w>H", { silent = true, noremap = true, })
+set_keymap("n", "<leader>]", "<c-w>K", { silent = true, noremap = true, })
+
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -251,7 +225,7 @@ utils.tnoremap('<esc>', '<C-\\><C-n>') --Allows escape key to work correctly
 -- utils.tnoremap(leader .. 't', '<C-\\><C-n><CMD>lua require"FTerm".toggle()<CR>')
 --TODO: command refactor
 utils.nnoremap(leader .. 'T', '<CMD>1Ttoggle<CR>') --NOTE: this has bug uysing toggle
-vim.api.nvim_set_keymap("n", "<leader>t", ":MyTermRunTaskCommand<CR>",{})
+set_keymap("n", "<leader>t", ":MyTermRunTaskCommand<CR>",{})
 vim.cmd[[let g:neoterm_default_mod='botright vnew']]
 vim.cmd[[let g:neoterm_keep_term_open=0]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -265,7 +239,7 @@ vim.cmd[[let g:neoterm_keep_term_open=0]]
 
 
 -- INCREMENTAL SEARCH UI
---[[ vim.api.nvim_set_keymap(
+--[[ set_keymap(
   'n',
   '/',
   '<cmd>lua require("searchbox").incsearch()<CR>',
@@ -286,8 +260,8 @@ vim.cmd[[let g:neoterm_keep_term_open=0]]
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- HOT KEYS
 ------------------------------------------------------------------------------------------------------------------------------------------------
-vim.api.nvim_set_keymap('n', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>2', ':MySearchDotfiles<CR>', { noremap = true, silent = true })
 utils.nnoremap(
   leader .. 1,
   ":lua require('telescope').extensions.frecency.frecency(require('telescope.themes').get_dropdown({}))<CR>"
@@ -334,24 +308,24 @@ utils.vnoremap(leader .. '5', ':Startify<cr>')
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --TELESCOPE MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
-vim.api.nvim_set_keymap('n', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
---[[ vim.api.nvim_set_keymap('n', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true }) ]]
-vim.api.nvim_set_keymap('n', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>s', ':MySearchFiles<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>S', ':MySearchFilesHistory<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>f', ':MySearchGrep<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>b', ':MySearchBuffers<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>c', ':MySearchCommands<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>y', ':MySearchYankHistory<CR>', { noremap = true, silent = true })
+--[[ set_keymap('n', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>g', ':MySearchGitFiles<CR>', { noremap = true, silent = true })
+set_keymap('n', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>b', ':MySearchGitBranches<CR>', { noremap = true, silent = true }) ]]
+set_keymap('n', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
+set_keymap('v', '<leader>p', ':MySearchProjects<CR>', { noremap = true, silent = true })
 --TODO: ABBREVIATIONS refactor
 cmd('cnoreabbrev <silent>tel Telescope')
 cmd("cnoreabbrev <silent>gwa lua require('telescope').extensions.git_worktree.create_git_worktree()")
@@ -416,10 +390,10 @@ utils.nnoremap(',i', ':lua vim.lsp.buf.implementation()<CR>') ]]
 --TREESITTER MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
 --smart_rename = "'rn",
-vim.api.nvim_set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', { noremap = true })
-vim.api.nvim_set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', { noremap = true })
-vim.api.nvim_set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap = true })
-vim.api.nvim_set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', { noremap = true })
+set_keymap('x', 'iu', ':lua require"treesitter-unit".select()<CR>', { noremap = true })
+set_keymap('x', 'au', ':lua require"treesitter-unit".select(true)<CR>', { noremap = true })
+set_keymap('o', 'iu', ':<c-u>lua require"treesitter-unit".select()<CR>', { noremap = true })
+set_keymap('o', 'au', ':<c-u>lua require"treesitter-unit".select(true)<CR>', { noremap = true })
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -465,7 +439,7 @@ utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", n
 ------------------------------------------------------------------------------------------------------------------------------------------------
 -- COMPLETION/COQ MAPPINGS
 ------------------------------------------------------------------------------------------------------------------------------------------------
---local remap = vim.api.nvim_set_keymap
+--local remap = set_keymap
 --local npairs = require('nvim-autopairs')
 --
 --npairs.setup({ map_bs = false })
@@ -521,8 +495,8 @@ utils.nnoremap(leader .. 'qc', ':lua require("toolwindow").open_window("todo", n
     return t('<Tab>')
   end
 end
-vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = true }) ]]
--- vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+set_keymap('i', '<Tab>', 'v:lua.COQMaps.tab_complete()', { expr = true }) ]]
+-- set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -614,10 +588,10 @@ snap.maps({
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
---[[ vim.api.nvim_set_keymap('i', '<C-=>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-=>"', { silent = true, expr = true })
-vim.api.nvim_set_keymap('s', '<C-=>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-=>"', { silent = true, expr = true })
-vim.api.nvim_set_keymap('i', '<C-->', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-->"', { silent = true, expr = true })
-vim.api.nvim_set_keymap('s', '<C-->', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-->"', { silent = true, expr = true }) ]]
+--[[ set_keymap('i', '<C-=>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-=>"', { silent = true, expr = true })
+set_keymap('s', '<C-=>', 'vsnip#jumpable(1) ? "<Plug>(vsnip-jump-next)" : "<C-=>"', { silent = true, expr = true })
+set_keymap('i', '<C-->', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-->"', { silent = true, expr = true })
+set_keymap('s', '<C-->', 'vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)" : "<C-->"', { silent = true, expr = true }) ]]
 --VSNIP, EXPAND, JUMP
 --[[ imap <expr> <C-j> vsnip#available(1) ? "<Plug>(vsnip-expand-or-jump)" : "<C-j>"
 imap <expr> <C-k> vsnip#jumpable(-1) ? "<Plug>(vsnip-jump-prev)"      : "<C-k>"
@@ -695,7 +669,7 @@ _G.s_tab_complete = function()
     end
 end
 
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}) ]]
+set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true}) ]]

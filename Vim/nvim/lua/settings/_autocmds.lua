@@ -158,6 +158,29 @@ autocmd(
     }
 )
 
+
+-- AUTO SAVES HELP TAGS
+autocmd(
+    "BufWritePost",
+    {
+        pattern = os.getenv("HOME").."/.config/nvim/doc/*",
+        group = augroup,
+        command = ":helptags ~/.config/nvim/doc"
+    }
+)
+
+--NOTE: This refuses to work in /ftplugin /ftdetect
+autocmd(
+  {"BufNewFile", "BufRead"},
+  {
+    pattern = {"*.prisma"},
+    callback = function()
+      vim.bo.filetype = "prisma"
+    end
+  }
+)
+
+
 --INSPO
 -- Auto save files when focus is lost
 -- cmd("au FocusLost * :wa")
