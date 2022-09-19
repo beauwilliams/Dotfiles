@@ -39,8 +39,16 @@ opt.tabpagemax = 50 --> max number of tabs
 opt.writebackup = true -- enabled default
 opt.backup = true -- overwrites previous backups instead of making new one
 
+
+--NOTE: Theme/UI
+  -- uses your colorscheme and init. vim's gui values. CUSTOM COLORSCHEME NOT WORK RIGHT WITHOUT ME....
+if vim.fn.has("termguicolors") == 1 then
+  vim.o.termguicolors = true
+end
+
+
+
 -- colorcolumn = '80' --80 column width marker for when we need it
-opt.termguicolors = true --uses your colorscheme and init. vim's gui values. CUSTOM COLORSCHEME NOT WORK RIGHT WITHOUT ME....
 opt.confirm = true -- When 'confirm' is on, certain operations that would normally fail because of unsaved changes to a buffer, e.g. ":q" and ":e", instead raise a dialog asking if you wish to save the current file(s).
 opt.hlsearch = true -- highlight matching search
 opt.wrapscan = true -- begin search from top of the file when nothng is found
@@ -72,7 +80,7 @@ opt.sidescroll = 2 -- make scrolling better, instead of wrap we sroll horizontal
 opt.wrap = false -- dont wrap lines
 opt.encoding = 'UTF-8' -- REQUIRED BY DEV ICONS PLUGIN
 opt.history = 200 -- keep 200 hungy commands in the stash
-opt.updatetime = 1000 -- If this many milliseconds nothing is typed the swap file will be written to disk (see |crash-recovery|).  Also used for the |CursorHold| autocommand event. Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable " delays and poor user experience. FOR ASYNC STUFF ONLY
+opt.updatetime = 1000 -- affects CursorHold speed and subsequently things like highlighting Code Actions
 opt.timeoutlen = 400 -- faster timeout wait time
 opt.redrawtime = 10000 -- Time in milliseconds for redrawing the display.  Applies to 'hlsearch', 'inccommand', |:match| highlighting and syntax highlighting.
 opt.lazyredraw = false -- When this option is set, the screen will not be redrawn while executing macros, registers and other commands that have not been typed.  Also, updating the window title is postponed.  To force an
@@ -89,6 +97,11 @@ opt.menuitems = 20 --Maximum number of items to use in a menu.  Used for menus t
 -- opt.winblend = 10 -- (default 0) local to window Enables pseudo-transparency for a floating window. Valid values are in the range of 0 for fully opaque window (disabled) to 100 for fully transparent background. Values between 0-30 are typically most useful.
 opt.shortmess:append('csa') -- This option helps to avoid all the |hit-enter| prompts caused by file messages
 opt.matchpairs:append({ '<:>,「:」,『:』,【:】,“:”,‘:’,《:》' }) -- Characters that form pairs. The % command jumps from one to the other
+
+
+--NOTE: ripgrep
+opt.grepprg = "rg --vimgrep"
+
 
 -- NOTE: enable global statusline
 if utils.hasVersion('0.7') then

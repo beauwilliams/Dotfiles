@@ -2,10 +2,11 @@ local vim = vim
 local cwd = vim.loop.cwd
 
 local lsp = safe_require('lspconfig')
+local mason_lsp = safe_require('mason-lspconfig')
 local lsp_utils = safe_require('libraries._lsp')
 local cmp_nvim_lsp = safe_require('cmp_nvim_lsp')
 
-if not lsp or not lsp_utils or not cmp_nvim_lsp then
+if not lsp or not lsp_utils or not cmp_nvim_lsp or not mason_lsp then
 	return
 end
 
@@ -21,19 +22,10 @@ end
 --]]
 --CAPABILITIES
 local custom_capabilities = function()
-	--[[ NOTE: COQ
-	capabilities.textDocument.completion.completionItem.snippetSupport = true
-	local capabilities = vim.lsp.protocol.make_client_capabilities()
-	local coq = require('coq')
-	coq.lsp_ensure_capabilities() ]]
 	local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 	return capabilities
 end
 
--- You will likely want to reduce updatetime which affects CursorHold
--- note: this setting is global and should be set only once
--- vim.o.updatetime = 250
--- vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -66,7 +58,6 @@ local custom_attach = function(client, bufnr)
 			end,
 		})
 	end
-
 end
 
 local custom_init = function(server)
@@ -140,66 +131,45 @@ end
 /_____/\__,_/  /_/ /_/  \__, /  \__,_/  \__,_/   \__, /  \___/        \____/   \____/ /_/ /_/ /_/     /_/    \__, /  /____/
                        /____/                   /____/                                                      /____/
 --]]
---NOTE: The rest of this file deals with language specific configurations
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
---SERVER INSTALLATION NOTES
---NOTE: VIMLS Installed by lspconfig, copy in .langservers, get it here https://github.com/iamcco/vim-language-server
---NOTE: Must install rust-analyzer first and add it to your path --> kept in .langservers
---curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
---chmod +x ~/.local/bin/rust-analyzer
--- INSTALL COMMANDS
--- npm i -g vscode-langservers-extracted [installs html,css,json with most up to date from vscode]
--- pip3 install 'python-language-server[all]' - DEPRECATED
--- pipx install 'python-lsp-server[all]'
--- npm i -g typescript typescript-language-server
--- npm i -g bash-language-server
--- npm install -g vim-language-server
--- npm i -g vscode-langservers-extracted
--- npm install -g dockerfile-language-server-nodejs
--- npm install -g vim-language-server
--- cs install metals
--- npm install -g yaml-language-server
 
-local servers = {
-	'bashls',
-	'cssls',
-	'vimls',
-	'rust_analyzer',
-	'pylsp',
-	'dockerls',
-	'yamlls',
-	'gopls',
-	'marksman',
-	-- 'solidity',
-	'solidity_ls',
-	-- 'solc',
-}
+mason_lsp.setup({
+	ensure_installed = {
+		'bashls',
+		'cssls',
+		'vimls',
+		'rust_analyzer',
+		'pylsp',
+		'dockerls',
+		'yamlls',
+		'gopls',
+		'marksman',
+		'yaml-language-server',
+		'yamllint',
+		'jsonls', --> might need root_cwd
+		'metals', --> might need root_cwd
+		'solidity_ls',
+		-- 'solidity',
+		-- 'solc',
+		--'eslint-lsp',
+		--'rome',
+		--'terraform-ls',
+		--'tflint',
+		--'typescript-language-server',
+	},
+})
+mason_lsp.setup_handlers({
+	function(server_name)
+		require('lspconfig')[server_name].setup({
+			on_attach = custom_attach,
+			on_init = custom_init,
+			capabilities = custom_capabilities(),
+		})
+	end,
+})
 
-for _, server in ipairs(servers) do
-	lsp[server].setup({
-		on_attach = custom_attach,
-		on_init = custom_init,
-		capabilities = custom_capabilities(),
-	})
-end
-
--- these servers activate even when not in .git repo etc
-local servers_rootcwd = {
-	'metals',
-	'vimls',
-	'jsonls',
-}
-
-for _, server in ipairs(servers_rootcwd) do
-	lsp[server].setup({
-		on_attach = custom_attach,
-		on_init = custom_init,
-		capabilities = custom_capabilities(),
-		root_dir = cwd,
-	})
-end
 
 -- CUSTOM LANG CONFS
 safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
@@ -239,5 +209,82 @@ end ]]
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
+
+-- NOTE: Archiving lsp config setup without mason
+--SERVER INSTALLATION NOTES
+--VIMLS Installed by lspconfig, copy in .langservers, get it here https://github.com/iamcco/vim-language-server
+--Must install rust-analyzer first and add it to your path --> kept in .langservers
+--curl -L https://github.com/rust-analyzer/rust-analyzer/releases/latest/download/rust-analyzer-mac -o ~/.local/bin/rust-analyzer
+--chmod +x ~/.local/bin/rust-analyzer
+-- INSTALL COMMANDS
+-- npm i -g vscode-langservers-extracted [installs html,css,json with most up to date from vscode]
+-- pip3 install 'python-language-server[all]' - DEPRECATED
+-- pipx install 'python-lsp-server[all]'
+-- npm i -g typescript typescript-language-server
+-- npm i -g bash-language-server
+-- npm install -g vim-language-server
+-- npm i -g vscode-langservers-extracted
+-- npm install -g dockerfile-language-server-nodejs
+-- npm install -g vim-language-server
+-- cs install metals
+-- npm install -g yaml-language-server
+
+
+--[[ local servers = {
+	'bashls',
+	'cssls',
+	'vimls',
+	'rust_analyzer',
+	'pylsp',
+	'dockerls',
+	'yamlls',
+	'gopls',
+	'marksman',
+	-- 'solidity',
+	'solidity_ls',
+	-- 'solc',
+}
+
+for _, server in ipairs(servers) do
+	lsp[server].setup({
+		on_attach = custom_attach,
+		on_init = custom_init,
+		capabilities = custom_capabilities(),
+	})
+end ]]
+
+-- these servers activate even when not in .git repo etc
+--[[ local servers_rootcwd = {
+	'metals',
+	'vimls',
+	'jsonls',
+}
+
+for _, server in ipairs(servers_rootcwd) do
+	lsp[server].setup({
+		on_attach = custom_attach,
+		on_init = custom_init,
+		capabilities = custom_capabilities(),
+		root_dir = cwd,
+	})
+end ]]
+
+
+--NOTE: Archiving COQ custom_capabilities
+	--CAPABILITIES
+--[[ local custom_capabilities = function()
+	--NOTE: COQ
+	capabilities.textDocument.completion.completionItem.snippetSupport = true
+	local capabilities = vim.lsp.protocol.make_client_capabilities()
+	local coq = require('coq')
+	coq.lsp_ensure_capabilities()
+	return capabilities
+end ]]
+
+
+
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
+
+
+

@@ -83,8 +83,8 @@ packer.startup({
 		-- another I would like to try https://github.com/sainnhe/everforest
 		--use 'eddyekofo94/gruvbox-flat.nvim'
 		-- NOTE: theme editor
-        -- :CustomTheme (Will open all highlights to split windown)
-        -- :CustomThemeReset (Will revert your changes how it was)
+		-- :CustomTheme (Will open all highlights to split windown)
+		-- :CustomThemeReset (Will revert your changes how it was)
 		--[[ use({
 			'Djancyp/custom-theme.nvim',
 			config = function()
@@ -188,9 +188,10 @@ packer.startup({
 			--NOTE: TODO: try edluffy/specs.nvim
 			'danilamihailov/beacon.nvim',
 			config = function()
-				vim.g.beacon_size = 90
+				vim.g.beacon_size = 20
 				vim.g.beacon_minimal_jump = 25
-				vim.g.beacon_shrink = 0
+				vim.g.beacon_shrink = 1
+				vim.g.beacon_fade = 1
 			end,
 		})
 
@@ -254,7 +255,10 @@ packer.startup({
 		--TODO:
 		--[[ https://github.com/jayp0521/mason-null-ls.nvim
 		https://github.com/williamboman/mason-lspconfig.nvim#configuration ]]
-		use('williamboman/mason.nvim') --> LSP, DAP etc installer
+		use({ --> LSP, DAP etc installer
+			'williamboman/mason.nvim',
+			'williamboman/mason-lspconfig.nvim',
+		})
 		use('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
 
 		--NOTE: LSP CONFIG

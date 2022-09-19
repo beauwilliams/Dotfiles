@@ -267,14 +267,6 @@ utils.nnoremap(
 )
 
 utils.nnoremap(
-  leader .. '2',
-  ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.vnoremap(
-  leader .. '2',
-  ":lua require('plugins._telescope').search_dotfiles(require('telescope.themes').get_dropdown({}))<cr>"
-)
-utils.nnoremap(
   leader .. '3',
   ":lua require'telescope.builtin'.symbols(require('telescope.themes').get_dropdown({sources = {'emoji'}}))<cr>"
 )
