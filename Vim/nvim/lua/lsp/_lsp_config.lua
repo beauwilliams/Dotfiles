@@ -37,6 +37,19 @@ end
 /_/  |_\__/\__/\__,_/\___/_/ /_/  /_/    \__,_/_/ /_/\___/\__/_/\____/_/ /_/
 
 --]]
+
+local lsp_formatting = function(bufnr)
+	vim.lsp.buf.format({
+		filter = function(client)
+			-- apply whatever logic you want (in this example, we'll only use null-ls)
+			return client.name == "null-ls"
+		end,
+		bufnr = bufnr,
+	}, 1000)
+end
+
+
+
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
 local custom_attach = function(client, bufnr)
 	-- INITS
@@ -46,7 +59,9 @@ local custom_attach = function(client, bufnr)
 	safe_require('aerial').on_attach(client)
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
-	--test
+
+
+	--NOTE: auto formatting, with builtin lsp formatter disabled
 	local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 	if client.supports_method('textDocument/formatting') then
 		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
@@ -54,7 +69,7 @@ local custom_attach = function(client, bufnr)
 			group = augroup,
 			buffer = bufnr,
 			callback = function()
-				vim.lsp.buf.format({ bufnr = bufnr })
+				lsp_formatting(bufnr)
 			end,
 		})
 	end
