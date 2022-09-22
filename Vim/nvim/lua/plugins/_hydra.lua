@@ -1,6 +1,6 @@
 local Hydra = safe_require('hydra')
 local cmd = safe_require('hydra.keymap-util').cmd
-local diag = safe_require('lspsaga.diagnostic').cmd
+local diag = safe_require('lspsaga.diagnostic')
 local code_outline = safe_require('aerial')
 
 if not Hydra or not cmd or not diag or not code_outline then

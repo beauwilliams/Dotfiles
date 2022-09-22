@@ -42,7 +42,7 @@ cmp.setup({
 		['<C-j>'] = cmp.mapping.select_next_item(),
 		['<up>'] = cmp.mapping.select_prev_item(),
 		['<down>'] = cmp.mapping.select_next_item(),
-		['<CR>'] = cmp.mapping.confirm({ select = true }),
+		['<CR>'] = cmp.mapping.confirm({ select = false }),
 		['<Tab>'] = cmp.mapping(function(fallback)
 			if cmp.visible() and has_words_before() then
 				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })

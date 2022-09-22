@@ -198,8 +198,8 @@ local M = {
   },
     respect_buf_cwd = true,
     diagnostics = {
-        enable = false,
-        show_on_dirs = false,
+        enable = true,
+        show_on_dirs = true,
         icons = {
             hint = "",
             info = "",

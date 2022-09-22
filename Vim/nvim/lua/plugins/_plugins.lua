@@ -761,7 +761,7 @@ packer.startup({
 		use('monaqa/dial.nvim') -- BETTER INCREMENTING IN VIM, bools, nums, dates, and/or etc
 		-- use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS, NO LONGER NEEDED DIAL DOES IT ALL
 
-		use({
+		use({ --> altrenative --> https://github.com/linty-org/key-menu.nvim
 			-- help suggestions for key mappings
 			'folke/which-key.nvim',
 			config = function()

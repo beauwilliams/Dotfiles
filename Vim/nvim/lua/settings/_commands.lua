@@ -168,16 +168,16 @@ end, {
 })
 
 create_user_command('MySearchDotfiles', function()
-	require('telescope.builtin').find_files(my_dropdown({
+	require('telescope.builtin').find_files({
 		prompt_title = '< VimRC >',
-		find_command = { 'rg', '--files' },
+		-- find_command = { 'rg', '--files' },
 		search_dirs = {
 			vim.fn.stdpath('config'),
 			'~/.config/zsh/scripts',
 			'~/.config/zsh/commands/',
 			'~/.config/zsh/configs/',
 		},
-	}))
+	})
 end, {
 	bang = false,
 	nargs = 0,
