@@ -69,6 +69,7 @@ local custom_attach = function(client, bufnr)
 			group = augroup,
 			buffer = bufnr,
 			callback = function()
+				vim.notify("Automatically formatting...")
 				lsp_formatting(bufnr)
 			end,
 		})
@@ -151,6 +152,7 @@ end
 
 
 mason_lsp.setup({
+	automatic_installation = true,
 	ensure_installed = {
 		'bashls',
 		'cssls',
@@ -166,6 +168,7 @@ mason_lsp.setup({
 		'jsonls', --> might need root_cwd
 		'metals', --> might need root_cwd
 		'solidity_ls',
+		'bash_ls'
 		-- 'solidity',
 		-- 'solc',
 		--'eslint-lsp',

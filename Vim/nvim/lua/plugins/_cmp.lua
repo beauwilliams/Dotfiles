@@ -11,7 +11,8 @@ end
 
 
 local kind_icons = icons.kind
-luasnip_vscode.lazy_load()
+luasnip_vscode.lazy_load() --> loads friendly snippets
+require("luasnip.loaders.from_vscode").lazy_load({paths = {vim.fn.stdpath("config") .. "/snippets/vscode-snippets"}})
 
 local check_backspace = function()
 	local col = vim.fn.col('.') - 1
@@ -78,12 +79,14 @@ cmp.setup({
 			vim_item.kind = string.format('%s', kind_icons[vim_item.kind])
 			vim_item.menu = ({
 				copilot = '[cop]',
+				nvim_lsp_signature_help = '[sig]',
 				buffer = '[buf]',
 				nvim_lsp = '[lsp]',
 				nvim_lua = '[api]',
 				luasnip = '[spt]',
 				path = '[pat]',
 				tn = '[tb9]',
+				cmdline = '[cmd]',
 			})[entry.source.name]
 			return vim_item
 		end,
@@ -95,7 +98,6 @@ cmp.setup({
 		{ name = 'path' , group_index = 2 },
 		{ name = 'nvim_lsp', group_index = 2 },
 		{ name = 'nvim_lua', group_index = 2 },
-		{ name = 'cmdline' , group_index = 2 },
 		{ name = 'buffer', group_index = 2 },
 	},
 	confirm_opts = {

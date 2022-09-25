@@ -20,7 +20,7 @@
   (require :plugins._cmp)
   (require :plugins._mason)
   (require :plugins._startify)
-  (require :plugins._hexokinase)
+  ; (require :plugins._hexokinase)
   (require :plugins._telescope)
   (require :plugins._treesitter)
   (require :plugins._my_terminal)

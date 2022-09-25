@@ -53,10 +53,10 @@ packer.startup({
 	function(use)
 		use({ 'wbthomason/packer.nvim', opt = true })
 
-		--NOTE: SPEED UP NVIM REQUIRE AND STARTUP TIME
+		-- NOTE: SPEED UP NVIM REQUIRE AND STARTUP TIME
 		use({ 'lewis6991/impatient.nvim', rocks = 'mpack' })
 
-		--NOTE:  DEBUG STUFF
+		-- NOTE:  DEBUG STUFF
 		-- https://github.com/henriquehbr/nvim-startup.lua
 
 		--[[
@@ -67,22 +67,18 @@ packer.startup({
 /_/     /_/ /_/   /_____/   /_/  /_/   /_____/   /____/         \____/\/        \____/   /___/
 
 --]]
-		--NOTE: THEMES/UX/UI PLUGINS
-		-- use('gruvbox-community/gruvbox')
-		-- use({ 'luisiacc/gruvbox-baby' })
-		use({ 'beauwilliams/flatbox' })
-		-- use 'mvpopuk/inspired-github.vim'
-		use('projekt0n/github-nvim-theme')
-		-- AUTO dark / light mode switch between github and gruvbox theme
-		use('f-person/auto-dark-mode.nvim')
-		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
-		use({ 'stevearc/dressing.nvim' }) -- Neovim plugin to improve the default vim.ui interfaces
-		-- use 'meznaric/conmenu' --replacing for hydra aug 2022
-		use('anuvyklack/hydra.nvim') -- use 'ghifarit53/tokyonight-vim'
+		-- NOTE: THEMES
+		use('f-person/auto-dark-mode.nvim') --> AUTO dark / light mode switch between themes
+		use({ 'beauwilliams/flatbox' }) --> dark
+		use('projekt0n/github-nvim-theme') --> light
+		-- use('gruvbox-community/gruvbox') --> best gruvbox theme
 		-- use "sainnhe/gruvbox-material"
-		-- another I would like to try https://github.com/sainnhe/everforest
 		--use 'eddyekofo94/gruvbox-flat.nvim'
-		-- NOTE: theme editor
+		-- use 'ghifarit53/tokyonight-vim'
+		-- use 'mvpopuk/inspired-github.vim'
+		-- https://github.com/sainnhe/everforest
+
+		-- NOTE: THEME EDITOR
 		-- :CustomTheme (Will open all highlights to split windown)
 		-- :CustomThemeReset (Will revert your changes how it was)
 		--[[ use({
@@ -92,29 +88,34 @@ packer.startup({
 			end,
 		}) ]]
 
+		-- NOTE: UI PLUGINS
+		use('folke/lsp-colors.nvim') -- Plugin that creates missing LSP diagnostics highlight groups for color schemes that don't yet support the Neovim 0.5 builtin LSP client.
+		use({ 'stevearc/dressing.nvim' }) -- Neovim plugin to improve the default vim.ui interfaces
+		-- use 'meznaric/conmenu' --replacing for hydra aug 2022
+		use('anuvyklack/hydra.nvim')
+
+		-- NOTE: STATUSLINE
+		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
+
+		-- NOTE: TABLINE
+		-- https://github.com/rafcamlet/tabline-framework.nvim
+		-- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
+		-- "jose-elias-alvarez/buftabline.nvim",
+
 		-- NOTE: NOTIFICATIONS
 		use('rcarriga/nvim-notify') --plugins.nvim-notify.lua
 
-		--NOTE: COLOURED BRACES
+		-- NOTE: COLOURED BRACES
 		use('p00f/nvim-ts-rainbow') --> Treesitter compatible rainbow parentheses
 
-		--NOTE: INDENT LINES
+		-- NOTE: INDENT LINES
 		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
-		--NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
+
+		-- NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
 		-- 'lukas-reineke/headlines.nvim' --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
-		--NOTE: STATUSLINE
-		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
-		--NOTE: TABLINE
-		--TODO: Try below
-		--https://github.com/rafcamlet/tabline-framework.nvim
-		--
-		-- use 'romgrk/barbar.nvim' --> better tab bars using my own happy with it tho
-		--[[ use {
-      "jose-elias-alvarez/buftabline.nvim",
-      requires = {"kyazdani42/nvim-web-devicons"}, -- optional!
-      config = function() require("buftabline").setup {} end
-    } ]]
-		--NOTE: SPLITS
+
+		-- NOTE: SPLITS + WINDOW MANAGEMENT
+        -- Similar to focus = {'lvim-tech/lvim-focus', 'anuvyklack/windows.nvim'}
 		use({
 			'beauwilliams/focus.nvim',
 			--cmd = { "FocusSplitNicely", "FocusSplitCycle" },
@@ -130,19 +131,14 @@ packer.startup({
 				})
 			end,
 		})
-		--[[ use {
-      'lvim-tech/lvim-focus',
-      config = function()
-        require("lvim-focus").setup()
-      end
-    } ]]
-		--NOTE: MEME
+
+		-- NOTE: MEME
 		-- use 'beauwilliams/imnotaquitter.nvim'
 
-		--NOTE:  SCROLL BARS
+		-- NOTE:  SCROLL BARS
 		use('dstein64/nvim-scrollview')
 
-		--NOTE:  STARIFY / SESSIONS
+		-- NOTE:  STARIFY / SESSIONS
 		use({
 			'mhinz/vim-startify',
 			requires = 'ryanoasis/vim-devicons',
@@ -150,7 +146,7 @@ packer.startup({
 		-- Alternative lua version (not yet tested) https://github.com/rmagatti/auto-session
 		-- or https://github.com/folke/persistence.nvim
 
-		--NOTE:  SMOOTH SCROLLING
+		-- NOTE:  SMOOTH SCROLLING
 		use('joeytwiddle/sexy_scroller.vim')
 		--[[ use({
 			-- OR psliwka/vim-smoothie
@@ -180,12 +176,12 @@ packer.startup({
 			end,
 		}) ]]
 
-		--NOTE:  HEX COLOUR PREVIEW
-		-- use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with litle square
+		-- NOTE:  HEX COLOUR PREVIEW
+		-- use({ 'rrethy/vim-hexokinase' }) --, run = "make hexokinase" }) -- preview hex colors with little square
 
-		--NOTE:  CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
+		-- NOTE:  CURSOR FLASH --> helps orientate quicker switching windows etc cursorline flash when switch
 		use({
-			--NOTE: TODO: try edluffy/specs.nvim
+			-- NOTE: TODO: try edluffy/specs.nvim
 			'danilamihailov/beacon.nvim',
 			config = function()
 				vim.g.beacon_size = 20
@@ -195,10 +191,10 @@ packer.startup({
 			end,
 		})
 
-		--NOTE:  TERMINAL CALLBACKS
+		-- NOTE:  TERMINAL CALLBACKS
 		use('kassio/neoterm')
 
-		--NOTE: FLOATING TERMINAL
+		-- NOTE: FLOATING TERMINAL
 		-- OR "voldikss/vim-floaterm"
 		-- OR 'itmecho/neoterm.nvim',
 		use({
@@ -210,7 +206,8 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+--[[
   ______   ____    ____     __  _       __    ____    _   __    ____    ____  _       __
  /_  __/  / __ \  / __ \   / / | |     / /   /  _/   / | / /   / __ \  / __ \| |     / /
   / /    / / / / / / / /  / /  | | /| / /    / /    /  |/ /   / / / / / / / /| | /| / /
@@ -241,7 +238,8 @@ packer.startup({
 			end,
 		})
 
-		--[[
+
+--[[
     ____     ____    ____    ______    ____     ___     __  ___    __  ___    ____    _   __   ______
    / __ \   / __ \  / __ \  / ____/   / __ \   /   |   /  |/  /   /  |/  /   /  _/   / | / /  / ____/
   / /_/ /  / /_/ / / / / / / / __    / /_/ /  / /| |  / /|_/ /   / /|_/ /    / /    /  |/ /  / / __
@@ -249,10 +247,7 @@ packer.startup({
 /_/      /_/ |_|  \____/  \____/   /_/ |_|  /_/  |_|/_/  /_/   /_/  /_/   /___/   /_/ |_/   \____/
 
 --]]
-		--NOTE: Editor config
-		-- use 'editorconfig/editorconfig-vim'
-		--NOTE: LSP / LINTERS / FORMATTERS INSTALLERS
-		--TODO:
+		-- NOTE: PACKAGE MANAGER: LSP / LINTERS / FORMATTERS
 		--[[ https://github.com/jayp0521/mason-null-ls.nvim
 		https://github.com/williamboman/mason-lspconfig.nvim#configuration ]]
 		use({ --> LSP, DAP etc installer
@@ -261,7 +256,7 @@ packer.startup({
 		})
 		use('WhoIsSethDaniel/mason-tool-installer.nvim') --> Auto install based on defined list with mason
 
-		--NOTE: LSP CONFIG
+		-- NOTE: LSP CONFIG
 		use('neovim/nvim-lspconfig') --> PREMADE LSPCONFIGS
 		use('ii14/lsp-command') -- USAGE: :h :Lsp
 		use({
@@ -351,6 +346,7 @@ packer.startup({
 				'hrsh7th/cmp-nvim-lsp-signature-help',
 			},
 		})
+		-- use({ 'github/copilot.vim' }) -- Copilot is love. Copilot is life.
 		use({
 			'zbirenbaum/copilot.lua',
 			event = { 'VimEnter' },
@@ -359,51 +355,36 @@ packer.startup({
 					require('copilot').setup()
 				end, 100)
 			end,
-		})
+		}) --> Copilot but a lua rewrite
 		use({
 			'zbirenbaum/copilot-cmp',
 			after = { 'copilot.lua' },
 			config = function()
 				require('copilot_cmp').setup()
 			end,
-		})
+		}) --> Copilot for cmp
 
-		use({ 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }) --snippets engine for cmp
 		use({
 			'petertriho/cmp-git',
 			requires = 'nvim-lua/plenary.nvim',
 			config = function()
 				require('cmp_git').setup()
 			end,
-		}) --Git completions
-		use('rafamadriz/friendly-snippets') --preconfigured snippets that work with luasnip
-		-- use({ 'github/copilot.vim' }) -- Copilot is love. Copilot is life.
+		}) --> Git for cmp
 
-		-- use('windwp/nvim-autopairs') -- compatible with COQ
+		-- NOTE: Snippets
+		use({ 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip', 'rafamadriz/friendly-snippets' } }) --> incl. snippets engine for cmp + friendly snippets library of snippets
 		-- use("hrsh7th/vim-vsnip") --> FAST SNIPPETS FOR NVIM COMPATIBLE WITH COMPE
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
-		-- NOTE: DOCUMENTATION
-		--[[ use({
-			-- OR.. nvim-treesitter/nvim-tree-docs
-			-- OR.. https://github.com/danymat/neogen
-      -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
-			'kkoomen/vim-doge',
-			run = 'vim.cmd("call doge#install()")',
-		}) ]]
-		-- NOTE: Code navigation / Symbol Tree
-		use({ 'stevearc/aerial.nvim' })
-		use('simrat39/symbols-outline.nvim')
+
+		-- NOTE: Auto pairs
+		-- use('windwp/nvim-autopairs') -- compatible with COQ
+
+		-- NOTE: Commenting
+		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
 
 		-- NOTE: Indenting
 		use('Darazaki/indent-o-matic') --Faster than vim-sleuth. Detects indent based on file. No performance impact
-
-		--NOTE: Commenting, Pairing and more..
-		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
-
-		-- NOTE: Cheat sheets
-		use('RishabhRD/popfix') -- cheat.sh integration for neovim in elegant way
-		use('RishabhRD/nvim-cheat.sh')
-		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
 
 		-- NOTE: FILETYPE SYNTAX
 		use('sheerun/vim-polyglot')
@@ -416,6 +397,27 @@ packer.startup({
 			config = function() end,
 			requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
 		})
+
+		-- NOTE: Editor config
+		-- use 'editorconfig/editorconfig-vim'
+
+		-- NOTE: DOCUMENTATION
+		--[[ use({
+			-- OR.. nvim-treesitter/nvim-tree-docs
+			-- OR.. https://github.com/danymat/neogen
+      -- DOcumentation GEnerator, Must run :call doge#install() first time for now TODO: fix
+			'kkoomen/vim-doge',
+			run = 'vim.cmd("call doge#install()")',
+		}) ]]
+
+		-- NOTE: Code navigation / Symbol Tree
+		use({ 'stevearc/aerial.nvim' })
+		use('simrat39/symbols-outline.nvim')
+
+		-- NOTE: Cheat sheets
+		use('RishabhRD/popfix') -- cheat.sh integration for neovim in elegant way
+		use('RishabhRD/nvim-cheat.sh')
+		-- use('dbeniamine/cheat.sh-vim') --> E.G :Howin javascript open file || :Cheat! factory [takes &ft e.g lua/factory]
 
 		-- NOTE: REPL
 		use({
@@ -432,7 +434,7 @@ packer.startup({
 			end,
 		})
 
-		--NOTE: Highlight word under cursor
+		-- NOTE: Highlight word under cursor
 		use({
 			'RRethy/vim-illuminate', --> Highlight word under cursor
 			config = function()
@@ -441,7 +443,7 @@ packer.startup({
 			end,
 		})
 
-		--NOTE: Dim unused variables
+		-- NOTE: Dim unused variables
 		use({
 			'Kasama/nvim-custom-diagnostic-highlight',
 			config = function()
@@ -456,7 +458,7 @@ packer.startup({
 			end,
 		}) ]]
 
-		--NOTE: NVIM LSP PLUGINS
+		-- NOTE: NVIM LSP PLUGINS
 		use('nanotee/nvim-lsp-basics') -->  Adds :LspRename commands etc
 		use('kosayoda/nvim-lightbulb') --> CODE ACTION LIGHTBULB
 		use('rmagatti/goto-preview') --> Go to definition preview in popup
@@ -471,10 +473,7 @@ packer.startup({
 		-- SQL https://github.com/tami5/sql.nvim
 		-- REFACTORING https://github.com/ThePrimeagen/refactoring.nvim
 
-		--NOTE:  LSP INSTALLERS
-		-- alexaandru/nvim-lspupdate OR kabouzeid/nvim-lspinstall
-
-		--NOTE:  DEBUGGING PLUGINS
+		-- NOTE:  DEBUGGING PLUGINS
 		-- use 'Pocco81/DAPInstall.nvim' --> Install debugger automatically -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation
 		-- https://github.com/mfussenegger/nvim-dap
 		-- https://github.com/rcarriga/nvim-dap-ui
@@ -488,21 +487,17 @@ packer.startup({
 		--'mrjones2014/dash.nvim',
 		--run = 'make install',
 		--})
-		--NOTE: Search and replace (grep)
-		--fave
-		use('windwp/nvim-spectre')
-		--minimal s&r
-		-- use {
-		--'s1n7ax/nvim-search-and-replace',
-		--setup = function() require'nvim-search-and-replace'.setup() end,
-		--}
-		--NOTE: CODE TESTING PLUGINS
+		-- NOTE: Search and replace (grep)
+		use('windwp/nvim-spectre') --> favourite
+		-- minimal s&r --> s1n7ax/nvim-search-and-replace
+
+		-- NOTE: CODE TESTING PLUGINS
 		-- use { "rcarriga/vim-ultest", requires = {"vim-test/vim-test"}, run = ":UpdateRemotePlugins" }
 		--neotest
 		-- NOTE: CODE TEST COVERAGE DISPLAY
 		-- use 'andythigpen/nvim-coverage'
 
-		--NOTE: BUILD SYSTEM PLUGINS
+		-- NOTE: BUILD SYSTEM PLUGINS
 		-- use {
 		--'pianocomposer321/yabs.nvim',
 		--requires = { 'nvim-lua/plenary.nvim' }
@@ -564,12 +559,12 @@ packer.startup({
 
 ]]
 		--	-- https://github.com/ThePrimeagen/harpoon -- skip fuzzy finding, TODO: try out
-		--NOTE:  FUZZY WILD MENU ENHANCEMENT
+		-- NOTE:  FUZZY WILD MENU ENHANCEMENT
 		-- use('gelguy/wilder.nvim')
 
-		--NOTE:  FAST FUZZY SEARCH
+		-- NOTE:  FAST FUZZY SEARCH
 		-- use({ 'camspiers/snap' })
-		--NOTE:  TELESCOPE
+		-- NOTE:  TELESCOPE
 		use({
 			'nvim-telescope/telescope.nvim',
 			requires = { { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' } },
@@ -581,7 +576,7 @@ packer.startup({
 			end,
 			requires = { 'tami5/sql.nvim' },
 		})
-		--NOTE:  TELESCOPE Z INTEGRATION
+		-- NOTE:  TELESCOPE Z INTEGRATION
 		use({
 			'nvim-telescope/telescope-z.nvim',
 			requires = {
@@ -598,7 +593,7 @@ packer.startup({
 		--   "cljoly/telescope-repo.nvim",
 		--    config = require "telescope".load_extension "repo"
 		--}
-		--NOTE:  CHEATSHEETS
+		-- NOTE:  CHEATSHEETS
 		use({
 			'sudormrfbin/cheatsheet.nvim', --> Telescope Based Cheatsheet
 			requires = {
@@ -610,7 +605,7 @@ packer.startup({
 		})
 		use('nvim-telescope/telescope-fzy-native.nvim')
 		use('nvim-telescope/telescope-symbols.nvim')
-		--NOTE:  Telescope projects
+		-- NOTE:  Telescope projects
 		-- ROOT PATH .GIT ETC, ALSO A TELESCOPE EXTENSION TO DISPLAY PROJECTS PREVIOUSLY VISITED
 		use({
 			'ahmedkhalf/project.nvim',
@@ -620,7 +615,7 @@ packer.startup({
 			end,
 		})
 
-		--NOTE:  Clipboard manager neovim plugin with telescope integration
+		-- NOTE:  Clipboard manager neovim plugin with telescope integration
 		-- :Telescope neoclip
 		use({
 			'AckslD/nvim-neoclip.lua',
@@ -874,7 +869,7 @@ packer.startup({
 		use('nvim-lua/plenary.nvim')
 		--
 
-		use('npxbr/glow.nvim') --> might ned to run :GlowInstall --> :mdreader to read md
+		use('npxbr/glow.nvim') --> might need to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
 		use('thugcee/nvim-map-to-lua')
 		use('nanotee/zoxide.vim') -- :Z command in vim, quickly jump to recent dirs

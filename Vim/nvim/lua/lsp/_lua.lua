@@ -58,7 +58,7 @@ lsp.sumneko_lua.setup({
 		textDocument = {
 			completion = {
 				completionItem = {
-					snippetSupport = true,
+					snippetSupport = false,
 				},
 			},
 		},

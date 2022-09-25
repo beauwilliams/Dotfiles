@@ -168,7 +168,7 @@ utils.nnoremap(leader .. 'i', 'gg=G<c-o>')
 -- Run Neoformat
 utils.nnoremap(leader .. 'F', ':Neoformat<CR>')
 vim.cmd('cnoreabbrev fmt Neoformat')
-vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.formatting_sync()')
+vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.format()')
 
 --TODO: command refactor
 -- SEARCH AND REPLACE

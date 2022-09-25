@@ -36,7 +36,7 @@ null_ls.setup({
 		builtins.formatting.rustfmt, -- rust
 		builtins.formatting.uncrustify, -- c, cpp, cs, java
 		builtins.formatting.shfmt, -- bash
-		builtins.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
+	builtins.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
 		builtins.code_actions.eslint_d, -- javascript, javascriptreact, typescript, typescriptreact, vue
 		builtins.formatting.clang_format, --filetypes = { "c", "cpp", "cs", "java" }
 		--[[ builtins.formatting.stylua.with({
@@ -50,7 +50,7 @@ null_ls.setup({
 
 		-- setup_if_config_exist_in_root(builtins.formatting.eslint_d, '.eslintrc.js', utils),
 		-- setup_if_config_exist_in_root(builtins.formatting.prettierd, '.prettierrc.js', utils),
-		setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
+		-- setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
 		builtins.formatting.prettier.with({
 			filetypes = { 'graphql' },
 			condition = function()
