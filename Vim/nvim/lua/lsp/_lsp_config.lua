@@ -121,9 +121,13 @@ local custom_init = function(server)
 	-- vim.cmd [[autocmd! CursorHold * lua vim.diagnostic.open_float(nil,{focusable=false,scope="cursor"})]]
 
 	-- DISPLAY LSP DIAGS AS VIRTUAL LINES
-	vim.cmd(
-		[[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
-	)
+	--current line only, fed into lsplines.nvim
+	vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
+	--all lines
+	-- vim.cmd(
+		-- [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
+	-- )
+
 
 	--DISPLAY LSP FN SIGNATURE POPUP OVERLAY
 	-- vim.cmd [[autocmd! CursorHold * silent! execute "Lsp signature"]]
@@ -167,10 +171,9 @@ mason_lsp.setup({
 		'yamllint',
 		'jsonls', --> might need root_cwd
 		'metals', --> might need root_cwd
-		'solidity_ls',
-		'bash_ls'
-		-- 'solidity',
+		'bash_ls',
 		-- 'solc',
+		'solidity',
 		--'eslint-lsp',
 		--'rome',
 		--'terraform-ls',

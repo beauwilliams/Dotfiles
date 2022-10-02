@@ -39,7 +39,7 @@ local trigger_set_command_input = function(callback_fn)
 
   --NOTE: close on buf leave
   input_component:mount()
-  input_component:on(event.BufLeave, function()
+  input_component:on('BufLeave', function()
     input_component:unmount()
   end)
   --NOTE: close on esc insert mode

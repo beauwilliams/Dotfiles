@@ -32,38 +32,19 @@ null_ls.setup({
 		--------------------------------------------------------------------------------
 		-- builtins.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal", "zsh" } }),
 		builtins.formatting.scalafmt, -- scala
+		builtins.formatting.gofmt,
 		builtins.formatting.autopep8, -- python
 		builtins.formatting.rustfmt, -- rust
 		builtins.formatting.uncrustify, -- c, cpp, cs, java
 		builtins.formatting.shfmt, -- bash
-	builtins.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
+		builtins.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
 		builtins.code_actions.eslint_d, -- javascript, javascriptreact, typescript, typescriptreact, vue
 		builtins.formatting.clang_format, --filetypes = { "c", "cpp", "cs", "java" }
-		--[[ builtins.formatting.stylua.with({
+		builtins.formatting.prettierd.with({
+			extra_filetypes = { 'graphql', 'solidity' },
 			condition = function()
-				return utils.root_has_file({ 'stylua.toml', '.stylua.toml' })
+				return utils.root_has_file({'.prettierrc', '.prettierrc.json'})
 			end,
-		}),
-		function()
-			return utils.root_has_file('.eslintrc.js') and builtins.formatting.eslint_d or builtins.formatting.prettierd
-		end, ]]
-
-		-- setup_if_config_exist_in_root(builtins.formatting.eslint_d, '.eslintrc.js', utils),
-		-- setup_if_config_exist_in_root(builtins.formatting.prettierd, '.prettierrc.js', utils),
-		-- setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
-		builtins.formatting.prettier.with({
-			filetypes = { 'graphql' },
-			condition = function()
-				return utils.root_has_file('.prettierrc.json')
-			end,
-			command = './node_modules/.builtinsin/prettier',
-		}),
-		builtins.diagnostics.stylelint.with({
-			filetypes = { 'css', 'scss', 'vue' },
-			condition = function()
-				return utils.root_has_file('.stylelintrc.json')
-			end,
-			command = './node_modules/.bin/stylelint',
 		}),
 		builtins.formatting.stylelint.with({
 			filetypes = { 'css', 'scss' },
@@ -78,11 +59,29 @@ null_ls.setup({
 				return utils.root_has_file('stylua.toml')
 			end,
 		}),
-		-- if we want to only use stylua etc when stylua.toml file is in project etc.
+		--[[ builtins.formatting.stylua.with({
+			condition = function()
+				return utils.root_has_file({ 'stylua.toml', '.stylua.toml' })
+			end,
+		}),
+		function()
+			return utils.root_has_file('.eslintrc.js') and builtins.formatting.eslint_d or builtins.formatting.prettierd
+		end, ]]
+
+		-- setup_if_config_exist_in_root(builtins.formatting.eslint_d, '.eslintrc.js', utils),
+		-- setup_if_config_exist_in_root(builtins.formatting.prettierd, '.prettierrc.js', utils),
+		-- setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
 
 		--------------------------------------------------------------------------------
 		-- DIAGNOSTICS
 		--------------------------------------------------------------------------------
+		builtins.diagnostics.stylelint.with({
+			filetypes = { 'css', 'scss', 'vue' },
+			condition = function()
+				return utils.root_has_file('.stylelintrc.json')
+			end,
+			command = './node_modules/.bin/stylelint',
+		}),
 		builtins.diagnostics.solhint.with({
 			condition = function()
 				return utils.root_has_file('solhint.json')

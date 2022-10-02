@@ -3,11 +3,14 @@ local cmp = safe_require('cmp')
 local cmp_comparators = safe_require('copilot_cmp.comparators')
 local luasnip = safe_require('luasnip')
 local luasnip_vscode = safe_require('luasnip.loaders.from_vscode')
+local cmp_autopairs = safe_require('nvim-autopairs.completion.cmp')
 
 
-if not icons or not cmp or not cmp_comparators or not luasnip or not luasnip_vscode then
+if not icons or not cmp or not cmp_comparators or not luasnip or not luasnip_vscode or not cmp_autopairs then
 	return
 end
+
+
 
 
 local kind_icons = icons.kind
@@ -197,6 +200,15 @@ cmp.setup.cmdline(':', {
 		{ name = 'buffer', priority = 1, group_index = 2 },
 	}),
 })
+
+
+--NOTE: nvim-autopairs code snippet setup for cmp
+-- If you want insert `(` after select function or method item
+cmp.event:on(
+  'confirm_done',
+  cmp_autopairs.on_confirm_done()
+)
+
 
 -- Add vim-dadbod-completion in sql files
 --_ =

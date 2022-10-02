@@ -135,6 +135,7 @@ autocmd(
         group = augroup,
         callback = function()
             vim.opt.laststatus = 0
+            vim.cmd[[IndentBlanklineDisable]]
         end
     }
 )

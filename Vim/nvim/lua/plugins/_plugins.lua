@@ -378,7 +378,11 @@ packer.startup({
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 
 		-- NOTE: Auto pairs
-		-- use('windwp/nvim-autopairs') -- compatible with COQ
+        use { --> compatible with COQ, CMP, auto pairs ()[]'' etc
+            "windwp/nvim-autopairs",
+            config = function() require("nvim-autopairs").setup {} end
+        }
+
 
 		-- NOTE: Commenting
 		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
