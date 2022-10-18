@@ -108,6 +108,11 @@ if utils.hasVersion('0.7') then
 	opt.laststatus = 3
 end
 
+-- NOTE: enable hidden cmd bar at bottom
+--[[ if utils.hasVersion('0.8') then
+	opt.cmdheight = 0
+end ]]
+
 --[[ opt.list = true -- List hidden chars mode: By default, show tabs as ">", trailing spaces as "-", and
 opt.listchars = {
     tab = '▷─',

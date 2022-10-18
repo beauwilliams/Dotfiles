@@ -156,7 +156,7 @@ end
 
 
 mason_lsp.setup({
-	automatic_installation = true,
+	automatic_installation = false,
 	ensure_installed = {
 		'bashls',
 		'cssls',

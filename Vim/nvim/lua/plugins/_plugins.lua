@@ -115,7 +115,7 @@ packer.startup({
 		-- 'lukas-reineke/headlines.nvim' --> This plugin adds highlights for text filetypes, like markdown, orgmode, and neorg
 
 		-- NOTE: SPLITS + WINDOW MANAGEMENT
-        -- Similar to focus = {'lvim-tech/lvim-focus', 'anuvyklack/windows.nvim'}
+		-- Similar to focus = {'lvim-tech/lvim-focus', 'anuvyklack/windows.nvim'}
 		use({
 			'beauwilliams/focus.nvim',
 			--cmd = { "FocusSplitNicely", "FocusSplitCycle" },
@@ -206,8 +206,7 @@ packer.startup({
 			end,
 		})
 
-
---[[
+		--[[
   ______   ____    ____     __  _       __    ____    _   __    ____    ____  _       __
  /_  __/  / __ \  / __ \   / / | |     / /   /  _/   / | / /   / __ \  / __ \| |     / /
   / /    / / / / / / / /  / /  | | /| / /    / /    /  |/ /   / / / / / / / /| | /| / /
@@ -238,8 +237,7 @@ packer.startup({
 			end,
 		})
 
-
---[[
+		--[[
     ____     ____    ____    ______    ____     ___     __  ___    __  ___    ____    _   __   ______
    / __ \   / __ \  / __ \  / ____/   / __ \   /   |   /  |/  /   /  |/  /   /  _/   / | / /  / ____/
   / /_/ /  / /_/ / / / / / / / __    / /_/ /  / /| |  / /|_/ /   / /|_/ /    / /    /  |/ /  / / __
@@ -378,11 +376,12 @@ packer.startup({
 		-- use("Raimondi/delimitMate") --> Compatible with compe auto braces etc
 
 		-- NOTE: Auto pairs
-        use { --> compatible with COQ, CMP, auto pairs ()[]'' etc
-            "windwp/nvim-autopairs",
-            config = function() require("nvim-autopairs").setup {} end
-        }
-
+		use({ --> compatible with COQ, CMP, auto pairs ()[]'' etc
+			'windwp/nvim-autopairs',
+			config = function()
+				require('nvim-autopairs').setup({})
+			end,
+		})
 
 		-- NOTE: Commenting
 		use('b3nj5m1n/kommentary') -- HIGHLY DOCUMENTED AND HACKABLE LUA BASED COMMENTING PLUGIN
@@ -857,13 +856,25 @@ packer.startup({
 				{ 'MunifTanjim/nui.nvim' },
 			},
 		})
-		--cmd line in center of display
 		use({
+			'folke/noice.nvim',
+			event = 'VimEnter',
+			config = function()
+				require('noice').setup()
+			end,
+			requires = {
+				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+				'MunifTanjim/nui.nvim',
+				'rcarriga/nvim-notify',
+			},
+		})
+		--cmd line in center of display
+		--[[ use({
 			'VonHeikemen/fine-cmdline.nvim',
 			requires = {
 				{ 'MunifTanjim/nui.nvim' },
 			},
-		})
+		}) ]]
 		--color column virtual text
 		--[[ use {"lukas-reineke/virt-column.nvim",
 			setup = function()
@@ -873,6 +884,21 @@ packer.startup({
 		use('nvim-lua/plenary.nvim')
 		--
 
+		use({
+			'axelvc/templater.nvim', --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS
+			config = function()
+				require('template-string').setup({
+					filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' }, -- filetypes where the plugin is active
+					jsx_brackets = true, -- must add brackets to jsx attributes
+					remove_template_string = false, -- remove backticks when there are no template string
+					restore_quotes = {
+						-- quotes used when "remove_template_string" option is enabled
+						normal = [[']],
+						jsx = [["]],
+					},
+				})
+			end,
+		}) --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS'})
 		use('npxbr/glow.nvim') --> might need to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
 		use('thugcee/nvim-map-to-lua')

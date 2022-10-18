@@ -32,7 +32,7 @@ create_user_command('Upper', function() end, {
 -- NOTE: THEME Commands
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-create_user_command('HighlightsUnderCursor', function(input)
+create_user_command('MyHighlightsUnderCursor', function(input)
 	local args = input.args
 	cmd('TSHighlightCapturesUnderCursor')
 end, { bang = false, nargs = 0, desc = 'Highlights all captures under cursor' })
@@ -41,7 +41,7 @@ end, { bang = false, nargs = 0, desc = 'Highlights all captures under cursor' })
 -- NOTE: LSP Commands
 ------------------------------------------------------------------------------------------------------------------------------------------------
 
-create_user_command('LSPDiagnosticsList', function()
+create_user_command('MyLSPDiagnosticsList', function()
 	telescope_builtin.diagnostics(telescope_themes.get_dropdown({}))
 end, {
 	bang = false,
@@ -50,7 +50,7 @@ end, {
 })
 
 local diagnostics_active = true --Enabled by default
-create_user_command('LSPDiagnosticsToggle', function()
+create_user_command('MyLSPDiagnosticsToggle', function()
 	diagnostics_active = not diagnostics_active
 	if diagnostics_active then
 		vim.diagnostic.show()
@@ -65,7 +65,7 @@ end, {
 	desc = 'Toggle neovim lsp in window diagnostics',
 })
 
-create_user_command('LSPSymbolsTree', function()
+create_user_command('MyLSPSymbolsTree', function()
 	vim.cmd([[SymbolsOutline]])
 end, {
 	bang = false,
@@ -73,7 +73,7 @@ end, {
 	desc = 'Toggle symbols tree',
 })
 
-create_user_command('LSPCodeActionMenu', function()
+create_user_command('MyLSPCodeActionMenu', function()
 	nvim_lsp.code_action()
 end, {
 	bang = false,

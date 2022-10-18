@@ -12,6 +12,13 @@ mason_tools_installer.setup({
 		'shellcheck',
 		'luacheck',
 		'codespell',
+		'gofumpt',
+		'golines',
+		'goimports',
+		'goimports-reviser',
+		'gotests',
+		'golangci-lint',
+		'staticcheck',
 
 		-- you can pin a tool to a particular version
 		-- { 'golangci-lint', version = 'v1.47.0' },
@@ -24,9 +31,7 @@ mason_tools_installer.setup({
 		--'gopls',
 		--'golangci-lint',
 		--'gofumpt',
-		--'golines',
 		--'gomodifytags',
-		--'gotests',
 		--'impl',
 		--'json-to-struct',
 		--'luacheck',

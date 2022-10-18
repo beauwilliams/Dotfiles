@@ -32,14 +32,13 @@ null_ls.setup({
 		--------------------------------------------------------------------------------
 		-- builtins.formatting.trim_whitespace.with({ filetypes = { "tmux", "teal", "zsh" } }),
 		builtins.formatting.scalafmt, -- scala
-		builtins.formatting.gofmt,
 		builtins.formatting.autopep8, -- python
 		builtins.formatting.rustfmt, -- rust
 		builtins.formatting.uncrustify, -- c, cpp, cs, java
 		builtins.formatting.shfmt, -- bash
 		builtins.formatting.prettierd, -- javascript, javascriptreact, typescript, typescriptreact, vue, svelte, css, scss, html, json, yaml, markdown
-		builtins.code_actions.eslint_d, -- javascript, javascriptreact, typescript, typescriptreact, vue
 		builtins.formatting.clang_format, --filetypes = { "c", "cpp", "cs", "java" }
+		builtins.formatting.goimports, builtins.formatting.gofumpt, builtins.formatting.goimports_reviser, -- golang
 		builtins.formatting.prettierd.with({
 			extra_filetypes = { 'graphql', 'solidity' },
 			condition = function()
@@ -72,9 +71,14 @@ null_ls.setup({
 		-- setup_if_config_exist_in_root(builtins.formatting.prettierd, '.prettierrc.js', utils),
 		-- setup_if_config_exist_in_root(builtins.formatting.stylua, { 'stylua.toml', '.stylua.toml' }, utils),
 
+
+
+
 		--------------------------------------------------------------------------------
 		-- DIAGNOSTICS
 		--------------------------------------------------------------------------------
+		-- builtins.diagnostics.golangci_lint,
+		builtins.diagnostics.staticcheck,
 		builtins.diagnostics.stylelint.with({
 			filetypes = { 'css', 'scss', 'vue' },
 			condition = function()
@@ -92,6 +96,9 @@ null_ls.setup({
 		-- builtins.diagnostics.teal,
 		-- builtins.code_actions.gitsigns,
 
+
+
+
 		--------------------------------------------------------------------------------
 		--SPELL CHECK
 		--------------------------------------------------------------------------------
@@ -99,5 +106,13 @@ null_ls.setup({
 		builtins.diagnostics.codespell, -- smart, but misses some
 		-- builtins.diagnostics.cspell, -- good, errors everywhere
 		builtins.diagnostics.shellcheck,
+
+
+
+		--------------------------------------------------------------------------------
+		--CODE ACTIONS
+		--------------------------------------------------------------------------------
+		builtins.code_actions.eslint_d, -- javascript, javascriptreact, typescript, typescriptreact, vue
+
 	},
 })

@@ -170,6 +170,10 @@ utils.nnoremap(leader .. 'F', ':Neoformat<CR>')
 vim.cmd('cnoreabbrev fmt Neoformat')
 vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.format()')
 
+
+--Dismiss messages
+vim.keymap.set('',  '<Esc>', "<ESC>:noh<CR>:lua require('notify').dismiss()<CR>", {silent = true})
+
 --TODO: command refactor
 -- SEARCH AND REPLACE
 -- replace word under cursor
