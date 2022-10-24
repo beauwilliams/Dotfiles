@@ -138,6 +138,18 @@ packer.startup({
 		-- NOTE:  SCROLL BARS
 		use('dstein64/nvim-scrollview')
 
+
+		--NOTE: MINIMAP / CODE WINDOW
+		--[[ use({
+			'gorbit99/codewindow.nvim',
+			config = function()
+				local codewindow = require('codewindow')
+				codewindow.setup()
+				codewindow.apply_default_keybinds()
+			end,
+		}) ]]
+
+
 		-- NOTE:  STARIFY / SESSIONS
 		use({
 			'mhinz/vim-startify',
@@ -885,7 +897,7 @@ packer.startup({
 		--
 
 		use({
-			'axelvc/templater.nvim', --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS
+			'axelvc/template-string.nvim', --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS
 			config = function()
 				require('template-string').setup({
 					filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' }, -- filetypes where the plugin is active
