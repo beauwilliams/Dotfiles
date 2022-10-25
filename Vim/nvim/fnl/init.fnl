@@ -32,6 +32,7 @@
   (require :plugins._aerial)
   (require :plugins._symbols-outline)
   (require :plugins._dial)
+  (require :plugins._noice)
   ;LSP
   (require :lsp._lsp_config)
   ;OPTIONS

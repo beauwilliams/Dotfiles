@@ -22,7 +22,7 @@ end
 --]]
 --CAPABILITIES
 local custom_capabilities = function()
-	local capabilities = cmp_nvim_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+	local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
 	return capabilities
 end
 
@@ -167,11 +167,10 @@ mason_lsp.setup({
 		'yamlls',
 		'gopls',
 		'marksman',
-		'yaml-language-server',
-		'yamllint',
+		-- 'yaml-language-server',
+		-- 'yamllint',
 		'jsonls', --> might need root_cwd
-		'metals', --> might need root_cwd
-		'bash_ls',
+		-- 'metals', --> might need root_cwd
 		-- 'solc',
 		'solidity',
 		--'eslint-lsp',

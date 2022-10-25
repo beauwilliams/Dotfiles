@@ -73,7 +73,8 @@ tsconf.setup(
             "solidity",
             "norg",
             "tsx",
-            "typescript"
+            "typescript",
+            "regex"
         },
         autotag = {
             enable = true

@@ -233,4 +233,4 @@ cmp.event:on(
 --]]
 
 -- Setup lspconfig. NOTE: This snippet is saved here but placed in lspconfig
--- local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
