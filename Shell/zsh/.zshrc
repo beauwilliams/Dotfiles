@@ -1,11 +1,37 @@
 # Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 #     ____    _   __    ____  ______
 #    /  _/   / | / /   /  _/ /_  __/
 #    / /    /  |/ /    / /    / /
 #  _/ /    / /|  /   _/ /    / /
 # /___/   /_/ |_/   /___/   /_/
 
+GITSTATUS_LOG_LEVEL=DEBUG
+
+#TODO: solve the pesky auto quote issue with acp command
+# https://superuser.com/questions/1508079/auto-quote-arguments-in-zshhttps://superuser.com/questions/1508079/auto-quote-arguments-in-zsh
+# https://zsh.sourceforge.io/Guide/zshguide05.html
+function quote-accept-line() {
+    local -a starts_with=("python -c ")
+    for str ($starts_with) {
+        if [[ ${(M)BUFFER#$str} ]] {
+            BUFFER=$str${(qq)BUFFER#$str}
+        }
+    }
+    zle accept-line
+}
+zle -N quote-accept-line
+# bind it to "Enter"
+bindkey "^M" quote-accept-line
+
+
+# https://sgeb.io/posts/zsh-zle-custom-widgets/
+function _git-status {
+    zle kill-whole-line
+    zle -U "git status"
+    zle accept-line
+}
+zle -N _git-status
 
 #Allow more system resources and open files to the shell
 #Hopefully fix vim open files leaks
@@ -80,6 +106,8 @@ fpath=(~/.config/zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh comp
 # \____/  /_/      /_/     /___/   \____/  /_/ |_/   /____/
 
 
+# NOTE: functions imported in zshenv
+
 # funcs and aliases and other scripts
 for file (~/.config/zsh/scripts/*); do
   source $file
@@ -132,7 +160,7 @@ ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into
 #THEME CONFIG - COLOR LS -- switching back to plain old ls as more portable.
 export ZSH_THEME='powerlevel10k/powerlevel10k'
 export CLICOLOR=1
-export CLICOLOR_FORCE=true
+# export CLICOLOR_FORCE=true
 export LSCOLORS=gxfxbEaEBxxEhEhBaDaCaD
 #ALLOWS SYNTAX HIGHLIGHTING IN VIM USING BAT (cat replcmnt)
 # if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = "Dark" ];
@@ -216,12 +244,12 @@ export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Cours
 
 #SOLIDITY
 #NOTE: Use solc-select binary to change / install solidity versions
-export PATH="$PATH:$HOME/.langservers/solidity/llvm12.0/bin"
-export PATH="$PATH:$HOME/.langservers/solidity/"
+# export PATH="$PATH:$HOME/.langservers/solidity/llvm12.0/bin"
+# export PATH="$PATH:$HOME/.langservers/solidity/"
 
 #GOLANG
 export GOPATH=$HOME/workspaces/golang #workspace
-export GOROOT=/usr/local/opt/go/libexec
+export GOROOT=/opt/homebrew/opt/go/libexec/
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
 
@@ -238,12 +266,13 @@ export PATH=$PATH:$GOROOT/bin
 
 
 ###VIM PATHS###
+# NOTE: Using mason now, no need to manually manage binaries, but keep here if needed in future
 #Path for vim man pages extension https://github.com/jez/vim-superman
 # export PATH="$PATH:$HOME/.vim/bundle/vim-superman/bin"
 # compdef vman="man" #adds autocompletion for the command
-export PATH="$PATH:$HOME/.langservers" #my langservers
+# export PATH="$PATH:$HOME/.langservers" #my langservers
 # export PATH="$PATH:$HOME/.langservers/omnisharp-osx/bin/" # C#  omnisharp-roslyn
-export PATH="$PATH:$HOME/.formatters" #my formatters
+# export PATH="$PATH:$HOME/.formatters" #my formatters
 
 #RUBY / RVM
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
@@ -366,5 +395,7 @@ export SDKMAN_DIR="/Users/admin/.sdkman"
 export BUN_INSTALL="/Users/admin/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
+#export PATH=/opt/homebrew/bin:/Users/admin/.rvm/gems/ruby-2.7.0/bin:/Users/admin/.rvm/gems/ruby-2.7.0@global/bin:/Users/admin/.rvm/rubies/ruby-2.7.0/bin:/Users/admin/.bun/bin:/Users/admin/.sdkman/candidates/scala/current/bin:/Users/admin/.sdkman/candidates/sbt/current/bin:/Users/admin/.luarocks/bin:/usr/local/php5/bin:/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home/bin:/Users/admin/Library/Haskell/bin:/Users/admin/.cabal/bin:/Users/admin/.ghcup/bin:/Users/admin/.nvm/versions/node/v16.13.1/bin:/usr/local/bin:/Users/admin/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/git/bin:/Users/admin/.fig/bin:/Users/admin/.local/bin:/usr/local/opt/fzf/bin:/Users/admin/.local/bin:/Users/admin/Library/Application Support/Coursier/bin:/Users/admin/.langservers/solidity/llvm12.0/bin:/Users/admin/.langservers/solidity/:/Users/admin/workspaces/golang/bin:/usr/local/opt/go/libexec/bin:/Users/admin/.langservers:/Users/admin/.formatters:/Users/admin/.rvm/bin
+
 # Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

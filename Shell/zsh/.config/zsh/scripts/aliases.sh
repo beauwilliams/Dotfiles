@@ -7,6 +7,8 @@ alias n="nvim"
 alias vi="nvim"
 alias vim="nvim"
 alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
+# alias nn="~/Downloads/Temp/nvim-nightly/nvim-0.8-nightly/bin/nvim"
+# alias nvim=nn #NOTE: Using nightly because of segfaults on 0.7.2
 
 ###MISC ALIASES###
 # eval "$(thefuck --alias)"
@@ -29,10 +31,12 @@ alias keycast="npx macos-key-cast"
 # alias mdreader='mdless'
 # alias mdreader='glow'
 alias mdrender='mdrender' #My script using github api to render 2 html
-alias mdpreview='mlp'
-alias mdp=mdpreview
-alias mdr=mdpreview
-alias mdreader=mdpreview
+alias mlp='gh markdown-preview -p 6969'
+alias mdpreview=mlp
+alias mdp=mlp
+alias mdr=mlp
+alias mdreader=mlp
+alias mlpr=mlp
 
 
 ####CHEAT.SH####
@@ -42,6 +46,7 @@ alias chtsh='fzf-cheat'
 alias vimconfig="nvim ~/.vimrc"
 alias zshconfig="nvim ~/.zshrc"
 alias zshenv="nvim ~/.zshenv"
+alias zshprofile="nvim ~/.zprofile"
 alias powerlineconfig="nvim ~/.config/zsh/configs/.p10k.zsh"
 alias hammerconfig="nvim ~/.hammerspoon/init.lua"
 alias nvimconfig="nvim ~/.config/nvim/init.vim"
@@ -65,6 +70,11 @@ alias build='just build'
 alias test='just test'
 alias lint='just lint'
 alias format='just format'
+
+
+###PAIR PROGRAMMING###
+alias pairprogramming='tmate'
+
 
 ###TMUX###
 alias attach='tmux attach -t'
@@ -96,7 +106,18 @@ alias ....='cd ../../..'
 ###REMIX###
 alias remix='open http://remix.ethereum.org && remixd -s . --remix-ide http://remix.ethereum.org'
 
-###GIT ALIASES####
+###ETHEREUM###
+alias erc20eth='npx notar-cli -i ERC20 -n ethereum'
+alias erc721eth='npx notar-cli -i ERC721 -n ethereum'
+alias afriland='npx notar-cli -i ERC721 -n ethereum 0x7def54f662dd53b1713e9c4127d3769a0aa191d8'
+
+### GITHUB ALIASES ####
+alias fuckthisnoise='git reset --hard HEAD && git clean -df'
+alias ghn='gh notify -a' #Using meiji163/gh-notify
+alias gha='gh actions-status $(git config --get remote.origin.url | sed "s/.\*:\(.\*\)\\/.\*/\\1/\)"'
+alias gha='cecho "@b@green❰ LISTING ACTIONS FOR THIS REPO ❱" && gh workflow list -a && cecho "@b@green❰ LISTING RECENT RUNS OF ACTIONS FOR THIS REPO ❱" && gh run list'
+alias ghd='gh dash'
+### GIT ALIASES ####
 alias gd=lazygit #GIT DASHBOARD
 alias gci='koji' #INTERACTIVE COMMITS
 alias ghelp="git help -a | fzf --reverse"
@@ -147,7 +168,7 @@ alias mergeall="mergezsh && mergenvim && mergebrew && mergecheatsheets && mergeg
 ###MAC ALIASES###
 #TOGGLE THEME ON YOUR MAC WITH THIS SCRIPT =)
 alias toggleosxtheme="osascript -e 'tell app \"System Events\" to tell appearance preferences to set dark mode to not dark mode'"
-alias finder="open $(pwd)"
+alias finder="open \$(pwd)"
 alias afk="open -a /System/Library/CoreServices/ScreenSaverEngine.app"
 alias cpu='top -o cpu'   # CPU
 alias mem='top -o rsize' # Memory

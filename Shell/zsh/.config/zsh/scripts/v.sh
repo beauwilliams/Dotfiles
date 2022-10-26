@@ -12,29 +12,29 @@ GREY='\033[1;34m'
 # python --version
 # lua -v
 # go version
-VERSIONS_1=(node nvm java python3 virtualenv cargo nvim)
-VERSIONS_2=(lua)
-VERSIONS_3=(go)
+VERSIONS_1=(node nvm java python3 virtualenv cargo nvim) #$ --version
+VERSIONS_2=(lua) #$ -v
+VERSIONS_3=(go) #$ version
 # Our 4th version, solc for example, prints the version on the second line
 VERSIONS_4=(solc)
 
 v() (
-for v in ${VERSIONS_1[@]}; do
+for v in "${VERSIONS_1[@]}"; do
 printf "${GREY}Current $v version\n"
 printf "${GREEN}$($v --version | sed -n '1 p')\n"
 done
 
-for v in ${VERSIONS_2[@]}; do
+for v in "${VERSIONS_2[@]}"; do
 printf "${GREY}Current $v version\n"
 printf "${GREEN}$($v -v | sed -n '1 p')\n"
 done
 
-for v in ${VERSIONS_3[@]}; do
+for v in "${VERSIONS_3[@]}"; do
 printf "${GREY}Current $v version\n"
 printf "${GREEN}$($v version | sed -n '1 p')\n"
 done
 
-for v in ${VERSIONS_4[@]}; do
+for v in "${VERSIONS_4[@]}"; do
 printf "${GREY}Current $v version\n"
 printf "${GREEN}$($v --version | sed -n '2 p')\n"
 done
