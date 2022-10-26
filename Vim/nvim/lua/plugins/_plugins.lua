@@ -138,7 +138,6 @@ packer.startup({
 		-- NOTE:  SCROLL BARS
 		use('dstein64/nvim-scrollview')
 
-
 		--NOTE: MINIMAP / CODE WINDOW
 		--[[ use({
 			'gorbit99/codewindow.nvim',
@@ -149,7 +148,6 @@ packer.startup({
 			end,
 		}) ]]
 
-
 		-- NOTE:  STARIFY / SESSIONS
 		use({
 			'mhinz/vim-startify',
@@ -159,7 +157,7 @@ packer.startup({
 		-- or https://github.com/folke/persistence.nvim
 
 		-- NOTE:  SMOOTH SCROLLING
-		use('joeytwiddle/sexy_scroller.vim')
+		use('beauwilliams/sexy_scroller.vim')
 		--[[ use({
 			-- OR psliwka/vim-smoothie
 			'karb94/neoscroll.nvim',
@@ -871,13 +869,20 @@ packer.startup({
 		use({
 			'folke/noice.nvim',
 			event = 'VimEnter',
-			config = function()
-			end,
+			config = function() end,
 			requires = {
 				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 				'MunifTanjim/nui.nvim',
 				'rcarriga/nvim-notify',
 			},
+		})
+
+		use({
+			'narutoxy/silicon.lua',
+			requires = { 'nvim-lua/plenary.nvim' },
+			config = function()
+				require('silicon').setup({})
+			end,
 		})
 		--cmd line in center of display
 		--[[ use({
