@@ -93,6 +93,16 @@ packer.startup({
 		use({ 'stevearc/dressing.nvim' }) -- Neovim plugin to improve the default vim.ui interfaces
 		-- use 'meznaric/conmenu' --replacing for hydra aug 2022
 		use('anuvyklack/hydra.nvim')
+		use({
+			'folke/noice.nvim',
+			event = 'VimEnter',
+			config = function() end,
+			requires = {
+				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+				'MunifTanjim/nui.nvim',
+				'rcarriga/nvim-notify',
+			},
+		})
 
 		-- NOTE: STATUSLINE
 		use({ 'beauwilliams/statusline.lua', requires = 'nvim-lua/lsp-status.nvim' })
@@ -477,10 +487,33 @@ packer.startup({
 		use('rmagatti/goto-preview') --> Go to definition preview in popup
 
 		-- NOTE: LANGUAGE SPECIFIC SPLUGINS
+		--Java
 		use('mfussenegger/nvim-jdtls') --> Better jdtls setup than lspconfig
+		--Javascript
 		use('jose-elias-alvarez/typescript.nvim')
-		-- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
+		use({ --view, install, manage npm modules from package.json
+			'vuki656/package-info.nvim',
+			setup = require('package-info').setup(),
+		})
+		use({
+			'axelvc/template-string.nvim', --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS
+			config = function()
+				require('template-string').setup({
+					filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' }, -- filetypes where the plugin is active
+					jsx_brackets = true, -- must add brackets to jsx attributes
+					remove_template_string = false, -- remove backticks when there are no template string
+					restore_quotes = {
+						-- quotes used when "remove_template_string" option is enabled
+						normal = [[']],
+						jsx = [["]],
+					},
+				})
+			end,
+		}) --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS'})
+
 		-- browse JSON gennaro-tedesco/nvim-jqx
+		--Python
+		-- use 'HallerPatrick/py_lsp.nvim' --> Better python setup than lspconfig
 		-- better rust support (rust-analyzer) https://github.com/simrat39/rust-tools.nvim && https://github.com/shift-d/crates.nvim
 		-- better YAML https://github.com/cuducos/yaml.nvim
 		-- SQL https://github.com/tami5/sql.nvim
@@ -763,8 +796,8 @@ packer.startup({
  / /  / /  / /_/ /  / /     _/ /   / /_/ /  / /|  /   ___/ /
 /_/  /_/   \____/  /_/     /___/   \____/  /_/ |_/   /____/
 ]]
+		use('tpope/vim-repeat') -- repeat surround + more motions with .
 		use('tpope/vim-surround') -- all we need to remember is s, for surround. cs\" for ex OR ysiw' to surround current word with ''
-		use('tpope/vim-repeat') -- repeat surround motions with .
 		use('chaoren/vim-wordmotion') --> IMPROVED VIM WORD MOTIONS, now includes under_scores and camelCase etc.
 		use('monaqa/dial.nvim') -- BETTER INCREMENTING IN VIM, bools, nums, dates, and/or etc
 		-- use('rmagatti/alternate-toggler') --:ToggleAlternate -- TOGGLE BOOLS, NO LONGER NEEDED DIAL DOES IT ALL
@@ -781,27 +814,37 @@ packer.startup({
 		-- VIM MOTION PLUGIN, s, S, f, F, t, T
 		-- OR phaazon/hop.nvim OR quickscope.nvim
 		use({
-			'ggandor/lightspeed.nvim',
+			'ggandor/leap.nvim',
+			requires = {
+				{ 'ggandor/flit.nvim' },
+			},
 			config = function()
-				require('lightspeed').setup({
-					jump_to_unique_chars = false,
-					repeat_ft_with_target_char = true,
-					match_only_the_start_of_same_char_seqs = true,
-					limit_ft_matches = 5,
-					-- By default, the values of these will be decided at runtime,
-					-- based on `jump_to_first_match`.
-					-- labels = nil,
-				})
-				vim.api.nvim_exec(
-					[[
-                    highlight LightspeedCursor guibg=#ffffff guifg=#000000
-                    highlight LightspeedOneCharMatch guibg=#fb4934 guifg=#fbf1c7
-
-                    ]],
-					false
-				)
+				require('leap').add_default_mappings()
+				require('flit').setup({})
 			end,
 		})
+		--		use({
+		--			'ggandor/lightspeed.nvim',
+		--			config = function()
+		--				require('lightspeed').setup({
+		--					jump_to_unique_chars = true,
+		--					repeat_ft_with_target_char = true,
+		--					match_only_the_start_of_same_char_seqs = true,
+		--					limit_ft_matches = 5,
+		--					-- By default, the values of these will be decided at runtime,
+		--					-- based on `jump_to_first_match`.
+		--					-- labels = nil,
+		--				})
+		--				vim.api.nvim_exec(
+		--					[[
+		--                    highlight LightspeedCursor guibg=#ffffff guifg=#000000
+		--                    highlight LightspeedOneCharMatch guibg=#fb4934 guifg=#fbf1c7
+		--
+		--                    ]],
+		--					false
+		--				)
+		--			end,
+		--		})
 
 		--[[
     __  ___    ____   _____   ______           ____     __    __  __   ______    ____    _   __   _____
@@ -822,6 +865,10 @@ packer.startup({
  / __/     _/ /    /   |   / /___    ___/ /        / /_/  <         / ____/  / /___    / _, _/  / __/
 /_/       /___/   /_/|_|  /_____/   /____/         \____/\/        /_/      /_____/   /_/ |_|  /_/
  ]]
+
+		--STARTUP ANALYSIS
+		-- use('tweekmonster/startuptime.vim')
+
 		use({
 			'antoinemadec/FixCursorHold.nvim',
 			config = function()
@@ -852,13 +899,13 @@ packer.startup({
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
-		use('simnalamburt/vim-mundo') --> Vim undo tree
 		-- display last undos
+		use('simnalamburt/vim-mundo') --> Vim undo tree
 		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
 
+		--Enable autowrite mode for markdown live editor
 		use('beauwilliams/AutoWrite.vim')
 
-		use('tweekmonster/startuptime.vim')
 		--inc search box ui, making search more pretty
 		use({
 			'VonHeikemen/searchbox.nvim',
@@ -866,17 +913,8 @@ packer.startup({
 				{ 'MunifTanjim/nui.nvim' },
 			},
 		})
-		use({
-			'folke/noice.nvim',
-			event = 'VimEnter',
-			config = function() end,
-			requires = {
-				-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-				'MunifTanjim/nui.nvim',
-				'rcarriga/nvim-notify',
-			},
-		})
 
+		--Make pretty code snippets jpg
 		use({
 			'narutoxy/silicon.lua',
 			requires = { 'nvim-lua/plenary.nvim' },
@@ -897,32 +935,10 @@ packer.startup({
 				require("virt-column").setup()
 			end
 		} ]]
-		use('nvim-lua/plenary.nvim')
-		--
-
-		use({
-			'axelvc/template-string.nvim', --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS
-			config = function()
-				require('template-string').setup({
-					filetypes = { 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' }, -- filetypes where the plugin is active
-					jsx_brackets = true, -- must add brackets to jsx attributes
-					remove_template_string = false, -- remove backticks when there are no template string
-					restore_quotes = {
-						-- quotes used when "remove_template_string" option is enabled
-						normal = [[']],
-						jsx = [["]],
-					},
-				})
-			end,
-		}) --> autocompletes 'foo ${|}  to  `foo ${}|` for JS/TS'})
 		use('npxbr/glow.nvim') --> might need to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
 		use('thugcee/nvim-map-to-lua')
 		use('nanotee/zoxide.vim') -- :Z command in vim, quickly jump to recent dirs
-		use({
-			'vuki656/package-info.nvim',
-			setup = require('package-info').setup(),
-		})
 		-- display helpfiles
 		--[[ use {
             "lvim-tech/lvim-helper",
