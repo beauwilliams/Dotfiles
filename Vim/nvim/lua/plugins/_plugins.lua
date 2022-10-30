@@ -903,18 +903,7 @@ packer.startup({
 		use('simnalamburt/vim-mundo') --> Vim undo tree
 		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
 
-		--Enable autowrite mode for markdown live editor
-		use('beauwilliams/AutoWrite.vim')
-
-		--inc search box ui, making search more pretty
-		use({
-			'VonHeikemen/searchbox.nvim',
-			requires = {
-				{ 'MunifTanjim/nui.nvim' },
-			},
-		})
-
-		--Make pretty code snippets jpg
+		--NOTE: Make pretty code snippets jpg
 		use({
 			'narutoxy/silicon.lua',
 			requires = { 'nvim-lua/plenary.nvim' },
@@ -922,40 +911,27 @@ packer.startup({
 				require('silicon').setup({})
 			end,
 		})
-		--cmd line in center of display
-		--[[ use({
-			'VonHeikemen/fine-cmdline.nvim',
-			requires = {
-				{ 'MunifTanjim/nui.nvim' },
-			},
-		}) ]]
 		--color column virtual text
 		--[[ use {"lukas-reineke/virt-column.nvim",
 			setup = function()
 				require("virt-column").setup()
 			end
 		} ]]
+		-- NOTE: Markdown
 		use('npxbr/glow.nvim') --> might need to run :GlowInstall --> :mdreader to read md
 		use('iamcco/markdown-preview.nvim') --> need to run :call mkdp#util#install()
-		use('thugcee/nvim-map-to-lua')
+		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
+
+		-- NOTE: Enable autowrite mode for markdown live editor
+		use('beauwilliams/AutoWrite.vim')
+
+		--NOTE: z integration
 		use('nanotee/zoxide.vim') -- :Z command in vim, quickly jump to recent dirs
-		-- display helpfiles
-		--[[ use {
-            "lvim-tech/lvim-helper",
-            setup = function()
-                local home = os.getenv('HOME')
-                require('lvim-helper').setup({
-                    files = {
-                        "/"..home .. '/.config/nvim/helpfiles/treesitter.md',
-                    }
-                })
-            end
-        } ]]
+
 		-- use('ojroques/nvim-bufdel') --> Unhanced :BufDel commands
 		-- use 'abecodes/tabout.nvim' -- USAGE: <Tab> between objects such as {} [] etc
 		-- use 'kevinhwang91/nvim-bqf' --> BETTER QF
 		-- use 'danth/pathfinder.vim' --> SUGGEST BETTER normal mode commands to navigate vim! [not working]
-		-- use 'oknozor/illumination' --> :Illuminate, :IlluminateClose [MARKDOWN RENDERERER]
 		-- use 'drzel/vim-repo-edit' --> PREVIEW GIT REPO [:RepoEdit https://github.com/drzel/vim-repo-edit]
 		-- use {"lifepillar/vim-cheat40"} -- Adds configurable cheat sheet with <leader>? great for remembering my mappings and custom commands
 		-- use { 'ThePrimeagen/vim-be-good', {'do': './install.sh'} "A vim game
@@ -966,8 +942,6 @@ packer.startup({
 		-- bfredl/nvim-luadev Lua like REPL for nvim dev from the cheifman himself bfredl
 		-- use 'notomo/lreload.nvim' --> Hot reloading for lua development
 		-- use 'wadackel/nvim-syntax-info' Display highlight links etc using :SyntaxInfo
-
-		--
 
 		use({
 			'nvim-neorg/neorg',
@@ -1001,10 +975,12 @@ packer.startup({
 			requires = 'nvim-lua/plenary.nvim',
 		})
 
-		---------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 	end, --> End of the packer(use) function
 })
----------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
 
 --[[
     ___     ____    ______    __  __    ____ _    __    ______
@@ -1014,6 +990,35 @@ packer.startup({
 /_/  |_|/_/ |_|  \____/   /_/ /_/   /___/   |___/   /_____/
  ]]
 
+		-- NOTE: display helpfiles
+		--[[ use {
+            "lvim-tech/lvim-helper",
+            setup = function()
+                local home = os.getenv('HOME')
+                require('lvim-helper').setup({
+                    files = {
+                        "/"..home .. '/.config/nvim/helpfiles/treesitter.md',
+                    }
+                })
+            end
+        } ]]
+		--NOTE: cmd line in center of display
+		--[[ use({
+			'VonHeikemen/fine-cmdline.nvim',
+			requires = {
+				{ 'MunifTanjim/nui.nvim' },
+			},
+		}) ]]
+		-- NOTE: Convert vim maps to lua
+		-- use('thugcee/nvim-map-to-lua')
+
+		--NOTE: inc search box ui, making search more pretty
+		--[[ use({
+			'VonHeikemen/searchbox.nvim',
+			requires = {
+				{ 'MunifTanjim/nui.nvim' },
+			},
+		}) ]]
 --		use({
 --			-- ALE CONFIG --> LANGUAGE ERROR DETECTION AND LINTING SERVICE
 --			--  Shorten error/warning flags
