@@ -6,7 +6,7 @@ safe_require('noice').setup({
 				padding = { 0, 1 },
 			},
 			position = {
-				row = '30%',
+				row = '25%',
 				col = '50%',
 			},
 			size = {
