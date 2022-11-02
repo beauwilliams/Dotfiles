@@ -40,7 +40,12 @@ ulimit -n 10240
 #Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
 
+# Init Homebrew, which adds environment variables
+eval "$(brew shellenv)"
 #ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
+#Add homebrew completions
+fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+#Set up the completions
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 autoload -U bashcompinit
