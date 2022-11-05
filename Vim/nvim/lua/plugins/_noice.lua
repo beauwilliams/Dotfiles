@@ -10,7 +10,7 @@ safe_require('noice').setup({
 				col = '50%',
 			},
 			size = {
-				width = '40%',
+				width = '50%',
 				height = 'auto',
 			},
 			-- filter_options = {},
