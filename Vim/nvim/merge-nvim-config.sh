@@ -21,3 +21,4 @@ cp ~/.config/nvim/justfile ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/stylua.toml ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/merge-nvim-config.sh ~/Git_Downloads/Dotfiles/Vim/nvim/
 cp ~/.config/nvim/cheatsheet.txt ~/Git_Downloads/Dotfiles/Vim/nvim/
+cp ~/.config/nvim/Makefile ~/Git_Downloads/Dotfiles/Vim/nvim/
