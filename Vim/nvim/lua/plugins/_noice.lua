@@ -19,7 +19,7 @@ safe_require('noice').setup({
 			-- },
 		},
 		popupmenu = {
-			enabled = true,
+			enabled = false,
 		},
 	},
 	cmdline = {
