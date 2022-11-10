@@ -899,6 +899,8 @@ packer.startup({
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
+		-- Delay repeat execution of certain keys
+		use('ja-ford/delaytrain.nvim')
 		-- display last undos
 		use('simnalamburt/vim-mundo') --> Vim undo tree
 		use({ 'mbbill/undotree', opt = true, cmd = { 'UndotreeToggle' } })
@@ -975,8 +977,8 @@ packer.startup({
 			requires = 'nvim-lua/plenary.nvim',
 		})
 
-------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------------------------------------------------------------
+		------------------------------------------------------------------------------------------------------------------------------------------------
+		------------------------------------------------------------------------------------------------------------------------------------------------
 	end, --> End of the packer(use) function
 })
 ------------------------------------------------------------------------------------------------------------------------------------------------
@@ -990,8 +992,8 @@ packer.startup({
 /_/  |_|/_/ |_|  \____/   /_/ /_/   /___/   |___/   /_____/
  ]]
 
-		-- NOTE: display helpfiles
-		--[[ use {
+-- NOTE: display helpfiles
+--[[ use {
             "lvim-tech/lvim-helper",
             setup = function()
                 local home = os.getenv('HOME')
@@ -1002,18 +1004,18 @@ packer.startup({
                 })
             end
         } ]]
-		--NOTE: cmd line in center of display
-		--[[ use({
+--NOTE: cmd line in center of display
+--[[ use({
 			'VonHeikemen/fine-cmdline.nvim',
 			requires = {
 				{ 'MunifTanjim/nui.nvim' },
 			},
 		}) ]]
-		-- NOTE: Convert vim maps to lua
-		-- use('thugcee/nvim-map-to-lua')
+-- NOTE: Convert vim maps to lua
+-- use('thugcee/nvim-map-to-lua')
 
-		--NOTE: inc search box ui, making search more pretty
-		--[[ use({
+--NOTE: inc search box ui, making search more pretty
+--[[ use({
 			'VonHeikemen/searchbox.nvim',
 			requires = {
 				{ 'MunifTanjim/nui.nvim' },
