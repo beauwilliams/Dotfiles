@@ -33,7 +33,7 @@
   (safe_require :plugins._symbols-outline)
   (safe_require :plugins._dial)
   (safe_require :plugins._noice)
-  (safe_require :plugins._delaytrain)
+  ; (safe_require :plugins._delaytrain)
   ;LSP
   (safe_require :lsp._lsp_config)
   ;OPTIONS
