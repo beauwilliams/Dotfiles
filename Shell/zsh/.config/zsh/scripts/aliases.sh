@@ -10,6 +10,14 @@ alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
 # alias nn="~/Downloads/Temp/nvim-nightly/nvim-0.8-nightly/bin/nvim"
 # alias nvim=nn #NOTE: Using nightly because of segfaults on 0.7.2
 
+
+###WIFI SPEED TEST###
+ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress
+
+
+###NPM###
+# alias npm='ni'
+
 ###MISC ALIASES###
 # eval "$(thefuck --alias)"
 alias comp3100='multipass exec comp3100 bash'
