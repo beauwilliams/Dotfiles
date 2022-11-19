@@ -12,7 +12,7 @@ alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
 
 
 ###WIFI SPEED TEST###
-ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress
+alias speedtestwifi="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress"
 
 
 ###NPM###
