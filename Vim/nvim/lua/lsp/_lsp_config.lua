@@ -102,10 +102,10 @@ local custom_init = function(server)
 		update_in_insert = false,
 	})
 	--Rounded borders for floating windows
-	vim.lsp.handlers['textDocument/hover'] =
+	--[[ vim.lsp.handlers['textDocument/hover'] =
 		vim.lsp.with(vim.lsp.handlers.hover, { border = 'rounded', focusable = false })
 	vim.lsp.handlers['textDocument/signatureHelp'] =
-		vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded', focusable = false })
+		vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded', focusable = false }) ]]
 
 	-- SET DIAG GUTTER SIGNS
 	local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
