@@ -13,7 +13,7 @@
     diffFilter = delta --color-onlyhelper = store
 [delta]
     features = line-numbers decorations
-    syntax-theme = Gruvbox
+    ; syntax-theme = Gruvbox
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path =
@@ -58,6 +58,6 @@
 [credential]
 
 [pull]
-	ff = only
+	; ff = only
 [safe]
 	directory = /github/workspace
