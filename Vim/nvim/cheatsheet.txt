@@ -19,6 +19,7 @@ Change in parenthesis | cp
 Change in brackets | cb
 Swap true/false yes/no +/- 0/1 </> | :swap
 
+
 ## Misc
 File tree | <leader>n
 Documentation generation | <leader>D , :dgen
