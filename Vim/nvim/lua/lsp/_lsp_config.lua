@@ -56,7 +56,6 @@ local custom_attach = function(client, bufnr)
 	safe_require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
 	safe_require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
 	safe_require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
-	safe_require('aerial').on_attach(client)
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 
