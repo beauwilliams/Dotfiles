@@ -61,3 +61,5 @@
 	; ff = only
 [safe]
 	directory = /github/workspace
+[help]
+	autocorrect = 15
