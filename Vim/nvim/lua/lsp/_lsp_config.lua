@@ -121,11 +121,12 @@ local custom_init = function(server)
 
 	-- DISPLAY LSP DIAGS AS VIRTUAL LINES
 	--current line only, fed into lsplines.nvim
-	vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
+	-- vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
 	--all lines
 	-- vim.cmd(
 		-- [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
 	-- )
+
 
 
 	--DISPLAY LSP FN SIGNATURE POPUP OVERLAY

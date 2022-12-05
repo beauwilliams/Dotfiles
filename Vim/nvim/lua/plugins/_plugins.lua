@@ -457,14 +457,14 @@ packer.startup({
 			end,
 		})
 
-		-- NOTE: Highlight word under cursor
-		use({
-			'RRethy/vim-illuminate', --> Highlight word under cursor
-			config = function()
-				vim.cmd([[ hi illuminatedWord guibg=#4c4c44 guifg=none "cterm=grey gui=grey]])
-				vim.cmd([[ hi illuminatedCurWord cterm=none gui=none]])
-			end,
-		})
+		-- NOTE: Highlight word under cursor, using own plugin
+		--use({
+		--	'RRethy/vim-illuminate', --> Highlight word under cursor
+		--	config = function()
+		--		vim.cmd([[ hi illuminatedWord guibg=#4c4c44 guifg=none "cterm=grey gui=grey]])
+		--		vim.cmd([[ hi illuminatedCurWord cterm=none gui=none]])
+		--	end,
+		--})
 
 		-- NOTE: Dim unused variables
 		use({

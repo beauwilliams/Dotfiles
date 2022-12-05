@@ -24,6 +24,7 @@
   (safe_require :plugins._telescope)
   (safe_require :plugins._treesitter)
   (safe_require :plugins._my_terminal)
+  (safe_require :plugins._my_highlight_cursor)
   (safe_require :plugins._nvimtree)
   (safe_require :plugins._discord)
   (safe_require :plugins._goto-preview)
