@@ -81,6 +81,7 @@ local custom_init = function(server)
 	-- SWAG
 	vim.notify(' Started ' .. vim.bo.ft .. " language server. Let's get this bread!", 2, { title = 'Language Server' })
 	vim.diagnostic.config({
+		virtual_lines = { only_current_line = true },
 		virtual_text = false,
 		-- Could be '●', '▎', 'x', '■'
 		-- virtual_text = {
@@ -121,12 +122,10 @@ local custom_init = function(server)
 
 	-- DISPLAY LSP DIAGS AS VIRTUAL LINES
 	--current line only, fed into lsplines.nvim
-	-- vim.diagnostic.config({ virtual_lines = { only_current_line = true } })
 	--all lines
 	-- vim.cmd(
 		-- [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
 	-- )
-
 
 
 	--DISPLAY LSP FN SIGNATURE POPUP OVERLAY
