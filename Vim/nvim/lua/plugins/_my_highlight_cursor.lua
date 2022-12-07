@@ -95,8 +95,8 @@ function M.matchadd(insert_mode)
   end
 
   cursor_word = fn.escape(cursor_word, [[~"\.^$[]*]])
-  vim.cmd('hi! CURSOR_RGB gui=NONE guibg=' .. vim.g.cursor_rgb)
-  vim.w.cursor_word_match_id = fn.matchadd('CURSOR_RGB', [[\<]] .. cursor_word .. [[\>]], -1)
+  vim.cmd('hi! CursorHighlight gui=undercurl guibg=' .. vim.g.cursor_rgb)
+  vim.w.cursor_word_match_id = fn.matchadd('CursorHighlight', [[\<]] .. cursor_word .. [[\>]], -1)
 end
 
 function M.matchdelete()
@@ -105,7 +105,7 @@ function M.matchdelete()
 end
 
 M.setup({
-  cursor_rgb = '#DCDCDC', -- default to '#393939'
+  cursor_rgb = 'NONE', -- default to '#393939'
   max_len = 80, -- maximum word-length to highlight
   -- min_len = 3,
   -- disable_on_lines = 2000, -- to prevent lagging on large files. Default to 2000 lines.
