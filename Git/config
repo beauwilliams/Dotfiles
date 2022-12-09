@@ -35,7 +35,7 @@
 [color]
   # Use colors in Git commands that are capable of colored output when
   # outputting to the terminal. (This is the default setting in Git ≥ 1.8.4.)
-	ui = auto
+	ui = 1
 [color "branch"]
   current = yellow reverse
   local = yellow
