@@ -6,7 +6,7 @@
 #  _/ /    / /|  /   _/ /    / /
 # /___/   /_/ |_/   /___/   /_/
 
-GITSTATUS_LOG_LEVEL=DEBUG
+# GITSTATUS_LOG_LEVEL=DEBUG
 
 #TODO: solve the pesky auto quote issue with acp command
 # https://superuser.com/questions/1508079/auto-quote-arguments-in-zshhttps://superuser.com/questions/1508079/auto-quote-arguments-in-zsh
