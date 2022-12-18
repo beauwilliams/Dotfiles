@@ -13,6 +13,8 @@ alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
 
 ###WIFI SPEED TEST###
 alias speedtestwifi="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress"
+###NETWORK ALIASES###
+alias speedtestlan="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress'"
 
 
 ###NPM###
@@ -63,8 +65,6 @@ alias sshhosts="vim ~/.ssh/known_hosts"
 alias gitignore="nvim ~/.config/git/ignore"
 alias gitconfig="nvim ~/.config/git/config"
 
-###NETWORK ALIASES###
-alias speedtestlan="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress'"
 
 
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
