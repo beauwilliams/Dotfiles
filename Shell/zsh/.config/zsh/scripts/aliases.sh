@@ -11,10 +11,9 @@ alias nvimnorc="nvim -u NONE -U NONE -N -i NONE"
 # alias nvim=nn #NOTE: Using nightly because of segfaults on 0.7.2
 
 
-###WIFI SPEED TEST###
+###HOME NETWORK ALIASES###
 alias speedtestwifi="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress"
-###NETWORK ALIASES###
-alias speedtestlan="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress'"
+alias speedtestlan="ssh nuc 'dd if=/dev/zero bs=1GB count=3 2>/dev/null' | dd of=/dev/null status=progress"
 
 
 ###NPM###
