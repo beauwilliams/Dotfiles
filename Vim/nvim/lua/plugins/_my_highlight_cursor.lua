@@ -115,7 +115,7 @@ M.setup({
     function()
       -- Close floating diag. and make it triggerable again.
       vim.cmd('doautocmd InsertEnter')
-      vim.w.diag_shown = false
+      vim.w.diag_shown = true
     end,
   },
 })

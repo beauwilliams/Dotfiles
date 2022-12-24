@@ -176,7 +176,7 @@ mason_lsp.setup({
 		--'rome',
 		--'terraform-ls',
 		--'tflint',
-		--'typescript-language-server',
+		'typescript-language-server',
 	},
 })
 mason_lsp.setup_handlers({
