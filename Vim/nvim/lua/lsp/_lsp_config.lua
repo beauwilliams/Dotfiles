@@ -26,7 +26,6 @@ local custom_capabilities = function()
 	return capabilities
 end
 
-
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 --[[
@@ -42,13 +41,11 @@ local lsp_formatting = function(bufnr)
 	vim.lsp.buf.format({
 		filter = function(client)
 			-- apply whatever logic you want (in this example, we'll only use null-ls)
-			return client.name == "null-ls"
+			return client.name == 'null-ls'
 		end,
 		bufnr = bufnr,
 	}, 1000)
 end
-
-
 
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
 local custom_attach = function(client, bufnr)
@@ -59,20 +56,19 @@ local custom_attach = function(client, bufnr)
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
 
-
 	--NOTE: auto formatting, with builtin lsp formatter disabled
 	local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-	if client.supports_method('textDocument/formatting') then
-		vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-		vim.api.nvim_create_autocmd('BufWritePre', {
-			group = augroup,
-			buffer = bufnr,
-			callback = function()
-				vim.notify("Automatically formatting...")
-				lsp_formatting(bufnr)
-			end,
-		})
-	end
+	-- if client.supports_method('textDocument/formatting') then
+	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+	vim.api.nvim_create_autocmd('BufWritePre', {
+		group = augroup,
+		buffer = bufnr,
+		callback = function()
+			vim.notify('Automatically formatting...')
+			lsp_formatting(bufnr)
+		end,
+	})
+	-- end
 end
 
 local custom_init = function(server)
@@ -124,9 +120,8 @@ local custom_init = function(server)
 	--current line only, fed into lsplines.nvim
 	--all lines
 	-- vim.cmd(
-		-- [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
+	-- [[autocmd CursorHold * lua if diagnostics_active then vim.diagnostic.config({ virtual_lines = { only_current_line = true } }) end]]
 	-- )
-
 
 	--DISPLAY LSP FN SIGNATURE POPUP OVERLAY
 	-- vim.cmd [[autocmd! CursorHold * silent! execute "Lsp signature"]]
@@ -153,7 +148,6 @@ end
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
-
 mason_lsp.setup({
 	automatic_installation = false,
 	ensure_installed = {
@@ -171,12 +165,12 @@ mason_lsp.setup({
 		'jsonls', --> might need root_cwd
 		-- 'metals', --> might need root_cwd
 		-- 'solc',
-		'solidity',
+		-- 'solidity',
 		--'eslint-lsp',
 		--'rome',
 		--'terraform-ls',
 		--'tflint',
-		'typescript-language-server',
+		'tsserver',
 	},
 })
 mason_lsp.setup_handlers({
@@ -189,11 +183,11 @@ mason_lsp.setup_handlers({
 	end,
 })
 
-
 -- CUSTOM LANG CONFS
 safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
-safe_require('lsp._lua').setup(custom_attach, custom_init)
+safe_require('lsp._lua').setup(custom_init, custom_attach)
 safe_require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
+safe_require('lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
 safe_require('lsp._typescript').setup(custom_attach, custom_init)
 -- require('lsp._omnisharp').setup(custom_attach, custom_init)
 -- require('lsp._solang').setup(custom_attach, custom_init)
@@ -228,7 +222,6 @@ end ]]
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
 
-
 -- NOTE: Archiving lsp config setup without mason
 --SERVER INSTALLATION NOTES
 --VIMLS Installed by lspconfig, copy in .langservers, get it here https://github.com/iamcco/vim-language-server
@@ -247,7 +240,6 @@ end ]]
 -- npm install -g vim-language-server
 -- cs install metals
 -- npm install -g yaml-language-server
-
 
 --[[ local servers = {
 	'bashls',
@@ -288,9 +280,8 @@ for _, server in ipairs(servers_rootcwd) do
 	})
 end ]]
 
-
 --NOTE: Archiving COQ custom_capabilities
-	--CAPABILITIES
+--CAPABILITIES
 --[[ local custom_capabilities = function()
 	--NOTE: COQ
 	capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -300,10 +291,5 @@ end ]]
 	return capabilities
 end ]]
 
-
-
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
-
-
-
