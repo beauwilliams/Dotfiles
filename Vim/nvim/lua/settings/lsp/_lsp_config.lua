@@ -131,19 +131,28 @@ mason_lsp.setup({
 	automatic_installation = false,
 	ensure_installed = {
 		'lua_ls',
+		'ts_ls',
+		'eslint',
 		'typescript',
+		'tailwindcss',
+		'isort', -- python formatter
+		'black', -- python formatter
+		'pylint',
 		'bashls',
-		-- 'cssls',
 		'vimls',
 		'rust_analyzer',
 		'pylsp',
 		'dockerls',
 		'yamlls',
-		--'gopls',
 		'marksman',
+		'jsonls',
+		'solidity_ls_nomicfoundation',
+		'yamlls',
+		'html',
+		-- 'cssls',
+		--'gopls',
 		-- 'yaml-language-server',
 		-- 'yamllint',
-		'jsonls', --> might need root_cwd
 		-- 'metals', --> might need root_cwd
 		-- 'solc',
 		-- 'solidity',
@@ -151,7 +160,6 @@ mason_lsp.setup({
 		--'rome',
 		--'terraform-ls',
 		--'tflint',
-		'tsserver',
 	},
 })
 mason_lsp.setup_handlers({
@@ -165,7 +173,7 @@ mason_lsp.setup_handlers({
 })
 
 -- CUSTOM LANG CONFS
-safe_require('settings.lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
+--safe_require('settings.lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
 --safe_require('settings.lsp._typescript').setup(custom_init, custom_attach)
 --safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
 --safe_require('settings.lsp._lua').setup(custom_init, custom_attach)
