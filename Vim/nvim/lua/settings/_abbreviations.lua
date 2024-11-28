@@ -6,15 +6,17 @@ local cmd = vim.cmd
 --TOGGLE LIGHT/DARK THEME
 -- cmd([[cnoreabbrev light lua vim.o.background = 'light']])
 -- cmd([[cnoreabbrev dark lua vim.o.background = 'dark']])
-cmd([[cnoreabbrev light colorscheme github_light]])
-cmd([[cnoreabbrev dark colorscheme gruvbox <bar> lua vim.o.background = 'dark']])
+-- cmd([[cnoreabbrev light colorscheme github_light]])
+-- cmd([[cnoreabbrev dark colorscheme gruvbox <bar> lua vim.o.background = 'dark']])
 
 --CHEATSHEAT
 cmd([[cnoreabbrev cheat Cheatsheet]])
 cmd([[cnoreabbrev cheatedit CheatsheetEdit]])
 
 --Clipboard
-cmd([[cnoreabbrev clipboard lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))]])
+cmd(
+	[[cnoreabbrev clipboard lua require('telescope').extensions.neoclip.default(require('telescope.themes').get_dropdown({}))]]
+)
 
 --SESSION MANAGEMENT (VIA STARTIFY)
 cmd([[
@@ -25,7 +27,6 @@ cmd([[
     cnoreabbrev dls SDelete
     cnoreabbrev dlsession SDelete
 ]])
-
 
 cmd('cnoreabbrev <silent> spellauto exe SpellAuto()')
 cmd('cnoreabbrev <silent> spelloff exe SpellOff()')

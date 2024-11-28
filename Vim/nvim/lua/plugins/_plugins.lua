@@ -6,21 +6,22 @@
 /_/      /_/  |_|\____/   /_/ |_|  /_____/   /_/ |_|         /___/   /_/ |_/   /___/   /_/
 
 --]]
-local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
-
-if not packer_exists then
-	if vim.fn.input('Download Packer? (y for yes)') ~= 'y' then
-		return
-	end
-	local directory = string.format('%s/site/pack/packer/opt/', vim.fn.stdpath('data'))
-	vim.fn.mkdir(directory, 'p')
-	local out = vim.fn.system(
-		string.format('git clone %s %s', 'https://github.com/wbthomason/packer.nvim', directory .. '/packer.nvim')
-	)
-	print(out)
-	print('Downloading packer.nvim...')
-	return
-end
+-- BOOTSTRAP. NOT Working last tested migrate to new laptop
+--local packer_exists = pcall(vim.cmd, [[packadd packer.nvim]])
+--
+--if not packer_exists then
+--	if vim.fn.input('Download Packer? (y for yes)') ~= 'y' then
+--		return
+--	end
+--	local directory = string.format('%s/site/pack/packer/opt/', vim.fn.stdpath('data'))
+--	vim.fn.mkdir(directory, 'p')
+--	local out = vim.fn.system(
+--		string.format('git clone %s %s', 'https://github.com/wbthomason/packer.nvim', directory .. '/packer.nvim')
+--	)
+--	print(out)
+--	print('Downloading packer.nvim...')
+--	return
+--end
 
 local packer = require('packer')
 packer.init({
@@ -119,6 +120,7 @@ packer.startup({
 		use('p00f/nvim-ts-rainbow') --> Treesitter compatible rainbow parentheses
 
 		-- NOTE: INDENT LINES
+        --0.1 DEP
 		use({ 'lukas-reineke/indent-blankline.nvim', config = "vim.g.indent_blankline_char = '│'" })
 
 		-- NOTE: HORIZONTAL LINES --> Looks bad.. Not working right
@@ -127,17 +129,40 @@ packer.startup({
 		-- NOTE: SPLITS + WINDOW MANAGEMENT
 		-- Similar to focus = {'lvim-tech/lvim-focus', 'anuvyklack/windows.nvim'}
 		use({
-			'beauwilliams/focus.nvim',
+			'nvim-focus/focus.nvim',
 			--cmd = { "FocusSplitNicely", "FocusSplitCycle" },
 			--module = "focus",
 			config = function()
 				require('focus').setup({
-					tmux = false,
-					hybridnumber = true,
-					excluded_filetypes = { 'fterm', 'term', 'toggleterm', 'startify' },
-					signcolumn = 'number',
-					absolutenumber = false,
-					bufnew = true,
+					enable = true, -- Enable module
+					commands = true, -- Create Focus commands
+					autoresize = {
+						enable = true, -- Enable or disable auto-resizing of splits
+						width = 0, -- Force width for the focused window
+						height = 0, -- Force height for the focused window
+						minwidth = 0, -- Force minimum width for the unfocused window
+						minheight = 0, -- Force minimum height for the unfocused window
+						height_quickfix = 10, -- Set the height of quickfix panel
+					},
+					split = {
+						bufnew = true, -- Create blank buffer for new split windows
+						tmux = false, -- Create tmux splits instead of neovim splits
+					},
+					ui = {
+						number = false, -- Display line numbers in the focussed window only
+						relativenumber = false, -- Display relative line numbers in the focussed window only
+						hybridnumber = true, -- Display hybrid line numbers in the focussed window only
+						absolutenumber_unfocussed = false, -- Preserve absolute numbers in the unfocussed windows
+
+						cursorline = true, -- Display a cursorline in the focussed window only
+						cursorcolumn = false, -- Display cursorcolumn in the focussed window only
+						colorcolumn = {
+							enable = false, -- Display colorcolumn in the foccused window only
+							list = '+1', -- Set the comma-saperated list for the colorcolumn
+						},
+						signcolumn = true, -- Display signcolumn in the focussed window only
+						winhighlight = false, -- Auto highlighting for focussed/unfocussed windows
+					},
 				})
 			end,
 		})
@@ -885,12 +910,12 @@ packer.startup({
 			end,
 		})
 		-- AUTO DETECT LANGUAGES IN NEW BUFFERS WITH NO FT SET
-		use({
+		--[[ use({
 			'spywhere/detect-language.nvim',
 			config = function()
 				require('detect-language').setup({})
 			end,
-		})
+		}) ]]
 
 		--[[
     ____     __    __  __   ______    ____    _   __   _____         ______    ______   _____  ______    ____    _   __   ______
@@ -899,6 +924,9 @@ packer.startup({
  / ____/  / /___/ /_/ /  / /_/ /   _/ /    / /|  /   ___/ /         / /     / /___    ___/ /  / /     _/ /    / /|  /  / /_/ /
 /_/      /_____/\____/   \____/   /___/   /_/ |_/   /____/         /_/     /_____/   /____/  /_/     /___/   /_/ |_/   \____/
 --]]
+
+		--TESTING SUITE FOR NVIM PLUGIN DEVELOPMENT
+		use({ 'echasnovski/mini.test', branch = 'stable' })
 		-- Delay repeat execution of certain keys
 		use('ja-ford/delaytrain.nvim')
 		-- display last undos

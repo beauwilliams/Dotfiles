@@ -152,7 +152,7 @@ mason_lsp.setup({
 	automatic_installation = false,
 	ensure_installed = {
 		'bashls',
-		'cssls',
+		-- 'cssls',
 		'vimls',
 		'rust_analyzer',
 		'pylsp',
@@ -188,7 +188,7 @@ safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
 safe_require('lsp._lua').setup(custom_init, custom_attach)
 safe_require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 safe_require('lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
-safe_require('lsp._typescript').setup(custom_attach, custom_init)
+safe_require('lsp._typescript').setup(custom_init, custom_attach)
 -- require('lsp._omnisharp').setup(custom_attach, custom_init)
 -- require('lsp._solang').setup(custom_attach, custom_init)
 vim.cmd( -- NOTE: sets workspace per project..

@@ -12,13 +12,13 @@ mason_tools_installer.setup({
 		'shellcheck',
 		'luacheck',
 		'codespell',
-		'gofumpt',
-		'golines',
-		'goimports',
-		'goimports-reviser',
-		'gotests',
-		'golangci-lint',
-		'staticcheck',
+		-- 'gofumpt',
+		-- 'golines',
+		-- 'goimports',
+		-- 'goimports-reviser',
+		-- 'gotests',
+		-- 'golangci-lint',
+		-- 'staticcheck',
 
 		-- you can pin a tool to a particular version
 		-- { 'golangci-lint', version = 'v1.47.0' },
@@ -66,7 +66,11 @@ vim.api.nvim_create_autocmd('User', {
 	pattern = 'MasonToolsUpdateCompleted',
 	callback = function()
 		vim.schedule(function()
-			vim.notify(' Mason-tool-installer has finished updating packages', 'info', { title = 'Mason Tool Installer' })
+			vim.notify(
+				' Mason-tool-installer has finished updating packages',
+				'info',
+				{ title = 'Mason Tool Installer' }
+			)
 		end)
 	end,
 })

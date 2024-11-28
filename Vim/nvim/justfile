@@ -26,3 +26,6 @@ default:
     @just --list --unsorted --list-heading $'{{BOLD}}{{GREEN}}Available recipes:{{NEWLINE}}{{RESET}}'
 startuptime:
     nvim --startuptime ~/.config/nvim/logs/startuptime/startup.log && cat ~/.config/nvim/logs/startuptime/startup.log
+compile:
+    @make
+
