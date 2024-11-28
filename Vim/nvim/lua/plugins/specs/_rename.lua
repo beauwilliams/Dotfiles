@@ -1,0 +1,1 @@
+return { { 'windwp/nvim-spectre' } }

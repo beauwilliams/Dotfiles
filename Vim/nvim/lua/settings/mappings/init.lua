@@ -4,8 +4,9 @@ local hotkeys = safe_require('settings.mappings._hotkeys')
 local splits = safe_require('settings.mappings._splits')
 local terminal = safe_require('settings.mappings._terminal')
 local formatter = safe_require('settings.mappings._formatter')
+local replace = safe_require('settings.mappings._replace')
 
-if not utils or not telescope or not hotkeys or not splits or not terminal or not formatter then
+if not utils or not telescope or not hotkeys or not splits or not terminal or not formatter or not replace then
 	return
 end
 
@@ -168,19 +169,6 @@ vim.cmd([[cnoreabbrev mdp MarkdownPreview]])
 
 --Dismiss messages
 vim.keymap.set('', '<Esc>', "<ESC>:noh<CR>:lua require('notify').dismiss()<CR>", { silent = true })
-
---TODO: command refactor
--- SEARCH AND REPLACE
--- replace word under cursor
-utils.nnoremap(leader .. 'r', ':lua require("spectre").open()<cr>')
-utils.vnoremap(leader .. 'r', ':lua require("spectre").open()<cr>')
-utils.nnoremap('R', ':%s/\\<<C-r><C-w>\\>//g<Left><Left><C-r><C-w>')
--- Replace/Delete words quick! ONE BY ONE.
--- c. c, d. d,
-utils.nnoremap('c.', "/\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgn")
-utils.nnoremap('c,', "?\\<<C-R>=expand('<cword>')<CR>\\>\\C<CR>``cgN")
-utils.nnoremap('d.', "/\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgn")
-utils.nnoremap('d,', "?\\<<C-r>=expand('<cword>')<CR>\\>\\C<CR>``dgN")
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------------------------------------------------
