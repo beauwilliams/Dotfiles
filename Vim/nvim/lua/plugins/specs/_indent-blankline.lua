@@ -2,6 +2,7 @@ return {
 	-- NOTE: INDENT LINES
 	{
 		'lukas-reineke/indent-blankline.nvim',
+		  event = { "BufReadPre", "BufNewFile" },
 		main = 'ibl',
 		---@module "ibl"
 		---@type ibl.config
@@ -12,7 +13,7 @@ return {
 		},
 		config = function()
 			local opts = {
-				indent = { char = '│', smart_indent_cap = true },
+				indent = { char = '┊', smart_indent_cap = true },
 				scope = { enabled = true }, -- Enable scope, which requires Treesitter
 			}
 

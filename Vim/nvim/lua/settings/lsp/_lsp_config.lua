@@ -37,39 +37,16 @@ end
 
 --]]
 
-local lsp_formatting = function(bufnr)
-	vim.lsp.buf.format({
-		filter = function(client)
-			-- apply whatever logic you want (in this example, we'll only use null-ls)
-			return client.name == 'null-ls'
-		end,
-		bufnr = bufnr,
-	}, 1000)
-end
-
 --When our LSP starts, this is what happens. Completion enabled, set some mappings, print lsp starting message
 local custom_attach = function(client, bufnr)
 	-- INITS
-  --TODO: FIXME10
+	--TODO: FIXME10
 	--safe_require('plugins._lightbulb') --> CODE ACTION LIGHTBULB
 	safe_require('lsp-status').on_attach(client) --> REQUIRED for lsp statusbar current function.. WROTE MY OWN..
-  --TODO: FIXME10
+	--TODO: FIXME10
 	--safe_require('lsp_basics').make_lsp_commands(client, bufnr) --> adds commands such as :LspFormat
 	-- require('lsp_signature').on_attach(client) --> Signature popups and info
 	-- require('virtualtypes').on_attach() -- A Neovim plugin that shows type annotations as virtual text
-
-	--NOTE: auto formatting, with builtin lsp formatter disabled
-	local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
-	-- if client.supports_method('textDocument/formatting') then
-	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-	vim.api.nvim_create_autocmd('BufWritePre', {
-		group = augroup,
-		buffer = bufnr,
-		callback = function()
-			vim.notify('Automatically formatting...')
-			lsp_formatting(bufnr)
-		end,
-	})
 	-- end
 end
 
@@ -153,8 +130,8 @@ end
 mason_lsp.setup({
 	automatic_installation = false,
 	ensure_installed = {
-    'lua_ls',
-    'typescript',
+		'lua_ls',
+		'typescript',
 		'bashls',
 		-- 'cssls',
 		'vimls',

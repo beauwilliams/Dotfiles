@@ -1,4 +1,4 @@
--- local Job = require('plenary.job')
+local Job = require('plenary.job')
 local api = vim.api
 local cmd = vim.cmd
 local M = {}
@@ -50,31 +50,31 @@ M.hasVersion = function(version)
 	return api.nvim_call_function('has', { 'nvim-' .. version }) == 1
 end
 
---M.translate = function(lang)
---	local word = M.get_visual()
---	local job = Job:new({
---		command = 'trans',
---		args = { '-b', ':' .. (lang or 'en'), word },
---	})
---
---	local ok, result = pcall(function()
---		return vim.trim(job:sync()[1])
---	end)
---
---	if ok then
---		vim.lsp.handlers['textDocument/hover'](nil, 'textDocument/hover', {
---			contents = {
---				{
---					language = 'txt',
---					-- currently only support think English and Japanese
---					value = lang == 'en' and 'Japanese ⟶  English' or 'English ⟶  Japanese',
---				},
---				result,
---			},
---		})
---	end
---end
---vim.cmd('command! -range -nargs=1 Translate call v:lua.Util.translate(<f-args>)')
+M.translate = function(lang)
+	local word = M.get_visual()
+	local job = Job:new({
+		command = 'trans',
+		args = { '-b', ':' .. (lang or 'en'), word },
+	})
+
+	local ok, result = pcall(function()
+		return vim.trim(job:sync()[1])
+	end)
+
+	if ok then
+		vim.lsp.handlers['textDocument/hover'](nil, 'textDocument/hover', {
+			contents = {
+				{
+					language = 'txt',
+					-- currently only support think English and Japanese
+					value = lang == 'en' and 'Japanese ⟶  English' or 'English ⟶  Japanese',
+				},
+				result,
+			},
+		})
+	end
+end
+vim.cmd('command! -range -nargs=1 Translate call v:lua.Util.translate(<f-args>)')
 
 M.check_backspace = function()
 	local curr_col = vim.fn.col('.')

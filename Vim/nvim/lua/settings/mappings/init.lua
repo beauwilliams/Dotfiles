@@ -3,8 +3,9 @@ local telescope = safe_require('settings.mappings._telescope')
 local hotkeys = safe_require('settings.mappings._hotkeys')
 local splits = safe_require('settings.mappings._splits')
 local terminal = safe_require('settings.mappings._terminal')
+local formatter = safe_require('settings.mappings._formatter')
 
-if not utils or not telescope or not hotkeys or not splits or not terminal then
+if not utils or not telescope or not hotkeys or not splits or not terminal or not formatter then
 	return
 end
 
@@ -164,15 +165,6 @@ vim.cmd([[cnoreabbrev git Git]])
 --TODO: ABBREVIATIONS refactor
 --Markdown Previwer
 vim.cmd([[cnoreabbrev mdp MarkdownPreview]])
-
---TODO: command refactor
--- CODE FORMATTERS
---Remove indents from code! (a simple code formatter)
-utils.nnoremap(leader .. 'i', 'gg=G<c-o>')
--- Run Neoformat
-utils.nnoremap(leader .. 'F', ':Neoformat<CR>')
-vim.cmd('cnoreabbrev fmt Neoformat')
-vim.cmd('ca fmtlsp w <bar> lua vim.lsp.buf.format()')
 
 --Dismiss messages
 vim.keymap.set('', '<Esc>', "<ESC>:noh<CR>:lua require('notify').dismiss()<CR>", { silent = true })
