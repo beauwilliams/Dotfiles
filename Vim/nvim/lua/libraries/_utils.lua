@@ -1,8 +1,7 @@
-local Job = require('plenary.job')
+-- local Job = require('plenary.job')
 local api = vim.api
 local cmd = vim.cmd
 local M = {}
-
 
 function M._echo_multiline(msg)
 	for _, s in ipairs(vim.fn.split(msg, '\n')) do
@@ -28,7 +27,6 @@ function M.err(msg)
 	vim.cmd('echohl None')
 end
 
-
 -- returns nil if not exists
 function M.is_dir(filepath)
 	local ok, _ = os.rename(filepath, filepath)
@@ -49,35 +47,34 @@ M.IsVersion5 = function()
 end
 
 M.hasVersion = function(version)
-	return api.nvim_call_function('has', { 'nvim-'..version }) == 1
+	return api.nvim_call_function('has', { 'nvim-' .. version }) == 1
 end
 
-
-M.translate = function(lang)
-	local word = M.get_visual()
-	local job = Job:new({
-		command = 'trans',
-		args = { '-b', ':' .. (lang or 'en'), word },
-	})
-
-	local ok, result = pcall(function()
-		return vim.trim(job:sync()[1])
-	end)
-
-	if ok then
-		vim.lsp.handlers['textDocument/hover'](nil, 'textDocument/hover', {
-			contents = {
-				{
-					language = 'txt',
-					-- currently only support think English and Japanese
-					value = lang == 'en' and 'Japanese ⟶  English' or 'English ⟶  Japanese',
-				},
-				result,
-			},
-		})
-	end
-end
-vim.cmd('command! -range -nargs=1 Translate call v:lua.Util.translate(<f-args>)')
+--M.translate = function(lang)
+--	local word = M.get_visual()
+--	local job = Job:new({
+--		command = 'trans',
+--		args = { '-b', ':' .. (lang or 'en'), word },
+--	})
+--
+--	local ok, result = pcall(function()
+--		return vim.trim(job:sync()[1])
+--	end)
+--
+--	if ok then
+--		vim.lsp.handlers['textDocument/hover'](nil, 'textDocument/hover', {
+--			contents = {
+--				{
+--					language = 'txt',
+--					-- currently only support think English and Japanese
+--					value = lang == 'en' and 'Japanese ⟶  English' or 'English ⟶  Japanese',
+--				},
+--				result,
+--			},
+--		})
+--	end
+--end
+--vim.cmd('command! -range -nargs=1 Translate call v:lua.Util.translate(<f-args>)')
 
 M.check_backspace = function()
 	local curr_col = vim.fn.col('.')
@@ -349,66 +346,67 @@ M.sudo_write = function(tmpfile, filepath)
 	vim.fn.delete(tmpfile)
 end
 
-
 M.TestInBufferOnWrite = function()
--- TODO: Add nui popup to ask for pattern, create new buffer, with ft out
+	-- TODO: Add nui popup to ask for pattern, create new buffer, with ft out
 	local bufnr = 16
-	vim.api.nvim_create_autocmd("BufWritePost", {
-		group = vim.api.nvim_create_augroup("TestInBufferOnWriteAuGroup", {clear = true}),
-		pattern = "*", --NOTE: Here we can feed in array of patterns chosen by user at runtime
+	vim.api.nvim_create_autocmd('BufWritePost', {
+		group = vim.api.nvim_create_augroup('TestInBufferOnWriteAuGroup', { clear = true }),
+		pattern = '*', --NOTE: Here we can feed in array of patterns chosen by user at runtime
 		callback = function()
-			vim.api.nvim_buf_call(16, function() vim.cmd("set ft=term") end)
-			vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { "-------------------OUTPUT------------------" })
+			vim.api.nvim_buf_call(16, function()
+				vim.cmd('set ft=term')
+			end)
+			vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, { '-------------------OUTPUT------------------' })
 			-- vim.fn.jobs
-			vim.fn.jobstart({"echo","hello", "world"}, {
+			vim.fn.jobstart({ 'echo', 'hello', 'world' }, {
 				stdout_buffered = true,
 				on_stdout = function(_, data) --NOTE: Print stdout
-					if data and data[1] ~= "" then --NOTE: Ignore empty lines
-					vim.pretty_print(data)
+					if data and data[1] ~= '' then --NOTE: Ignore empty lines
+						vim.pretty_print(data)
 						vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data)
-						vim.api.nvim_buf_call(16, function() vim.cmd("norm G") end)
-
+						vim.api.nvim_buf_call(16, function()
+							vim.cmd('norm G')
+						end)
 					end
 				end,
 				on_stderr = function(_, data) --NOTE: print stderr
-					if data and data[1] ~= "" then
-					vim.pretty_print(data)
-						vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data ) --NOTE: use -1,-1 to append to bottom of buffer
+					if data and data[1] ~= '' then
+						vim.pretty_print(data)
+						vim.api.nvim_buf_set_lines(bufnr, -1, -1, false, data) --NOTE: use -1,-1 to append to bottom of buffer
 					end
 				end,
 			})
-		end
+		end,
 	})
 end
 
-
 -- closes tab + all of its buffers
 M.closeAllBufs = function(action)
-  local bufs = vim.t.bufs
+	local bufs = vim.t.bufs
 
-  if action == "closeTab" then
-    vim.cmd "tabclose"
-  end
+	if action == 'closeTab' then
+		vim.cmd('tabclose')
+	end
 
-  for _, buf in ipairs(bufs) do
-    M.close_buffer(buf)
-  end
+	for _, buf in ipairs(bufs) do
+		M.close_buffer(buf)
+	end
 
-  if action ~= "closeTab" then
-    vim.cmd "enew"
-  end
+	if action ~= 'closeTab' then
+		vim.cmd('enew')
+	end
 end
 
 M.close_buffer = function(bufnr)
-  if vim.bo.buftype == "terminal" then
-    vim.cmd(vim.bo.buflisted and "set nobl | enew" or "hide")
-  elseif vim.bo.modified then
-    print "save the file bruh"
-  else
-    bufnr = bufnr or api.nvim_get_current_buf()
-    require("core.utils").tabuflinePrev()
-    vim.cmd("bd" .. bufnr)
-  end
+	if vim.bo.buftype == 'terminal' then
+		vim.cmd(vim.bo.buflisted and 'set nobl | enew' or 'hide')
+	elseif vim.bo.modified then
+		print('save the file bruh')
+	else
+		bufnr = bufnr or api.nvim_get_current_buf()
+		require('core.utils').tabuflinePrev()
+		vim.cmd('bd' .. bufnr)
+	end
 end
 
 --[[ vim.o.confirm = true
@@ -426,7 +424,7 @@ determine if [leaf, winnr]
 if leaf, determine if last tab (cur is 1)
 if so exit vim, not exit tab (or just :q which works for both closing tab and vim?)
 else do nothing ]]
-    -- run on winenter?
+-- run on winenter?
 
 --[[ vim.api.nvim_create_autocmd("BufEnter", {
 	group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
@@ -438,12 +436,11 @@ else do nothing ]]
 
 -- lua local layout = vim.api.nvim_call_function("winlayout", {}) if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("quit")end
 
-    --[[ local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(M.sizes.current_window), "filetype")
+--[[ local ft = api.nvim_buf_get_option(api.nvim_win_get_buf(M.sizes.current_window), "filetype")
     local tabpage = api.nvim_get_current_tabpage()
 if tbl[i][1] == "leaf" then
     ft = api.nvim_buf_get_option(api.nvim_win_get_buf(tbl[i][2]), "filetype")
 end ]]
-
 
 return M
 ---------

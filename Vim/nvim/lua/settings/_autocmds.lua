@@ -122,7 +122,7 @@ autocmd('FileType', {
 	group = augroup,
 	callback = function()
 		vim.opt.laststatus = 0
-		vim.cmd([[IndentBlanklineDisable]])
+		vim.cmd([[IBLDisable ]])
 	end,
 })
 autocmd('BufUnload', {
@@ -130,6 +130,7 @@ autocmd('BufUnload', {
 	group = augroup,
 	callback = function()
 		vim.opt.laststatus = 3
+		vim.cmd([[IBLEnable]])
 	end,
 })
 -- Don't auto commenting new lines

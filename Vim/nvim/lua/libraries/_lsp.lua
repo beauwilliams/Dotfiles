@@ -88,7 +88,6 @@ function M.echo_diagnostics()
 	end, echo_timeout)
 end
 
-
 --[[ function M.echo_diagnostics(opts, bufnr, line_nr, client_id)
   bufnr = bufnr or 0
   line_nr = line_nr or (vim.api.nvim_win_get_cursor(0)[1] - 1)
@@ -107,8 +106,6 @@ end
   end
   vim.api.nvim_echo({{diagnostic_message, "Normal"}}, false, {})
 end ]]
-
-
 
 -- async formatting
 -- https://www.reddit.com/r/neovim/comments/jvisg5/lets_talk_formatting_again/
@@ -143,16 +140,11 @@ local format_async_legacy = function(err, _, result, _, bufnr)
 end
 
 M.get_async_format_fn = function()
-	if utils.hasVersion("0.5.1") then
+	if utils.hasVersion('0.5.1') then
 		return format_async
-	elseif utils.hasVersion("0.5") then
+	elseif utils.hasVersion('0.5') then
 		return format_async_legacy
 	end
 end
-
-
-
-
-
 
 return M

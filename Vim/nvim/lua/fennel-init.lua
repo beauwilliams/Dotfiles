@@ -26,7 +26,9 @@ function _fennel_runtime_searcher(name)
 		-- "lua/"..basename.."/init.fnl",
 		-- "fnl/"..basename..".fnl",
 		-- "fnl/"..basename.."/init.fnl",
-		'fennel/' .. basename .. '.fnl',
+		'fennel/'
+			.. basename
+			.. '.fnl',
 		'fennel/' .. basename .. '/init.fnl',
 	}
 

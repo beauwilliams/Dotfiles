@@ -10,7 +10,6 @@ _G.printp = function(stuff)
 	return vim.pretty_print(stuff)
 end
 
-
 -- Dumper
 -- ':lua printd(vim.fn.getwininfo())'
 function _G.printd(...)
