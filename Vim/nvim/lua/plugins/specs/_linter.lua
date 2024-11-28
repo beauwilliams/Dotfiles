@@ -12,6 +12,7 @@ return {
 			svelte = { 'eslint_d' },
 			python = { 'pylint' },
 			solidity = { 'solhint' },
+			lua = { 'luacheck' },
 		}
 	end,
 }
