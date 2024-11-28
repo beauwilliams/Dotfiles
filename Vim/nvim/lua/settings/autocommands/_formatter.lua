@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 	group = augroup,
 	pattern = '*',
 	callback = function(args)
-		vim.notify('Automatically formatting...')
+		-- vim.notify('Automatically formatting...')
 		require('conform').format({ bufnr = args.buf })
 	end,
 })

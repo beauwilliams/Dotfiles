@@ -165,7 +165,7 @@ mason_lsp.setup_handlers({
 })
 
 -- CUSTOM LANG CONFS
---safe_require('settings.lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
+safe_require('settings.lsp._solidity_hardhat').setup(custom_attach, custom_init, custom_capabilities)
 --safe_require('settings.lsp._typescript').setup(custom_init, custom_attach)
 --safe_require('lsp._null_ls') --Null ls, additional formatters, diags and more..
 --safe_require('settings.lsp._lua').setup(custom_init, custom_attach)
