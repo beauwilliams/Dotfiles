@@ -64,10 +64,17 @@ alias sshhosts="vim ~/.ssh/known_hosts"
 alias gitignore="nvim ~/.config/git/ignore"
 alias gitconfig="nvim ~/.config/git/config"
 
+###LLM/AI###
+alias llm='ollama run llama3.2'
+alias c2p='repomix'
 
 
+####CHEATS####
 #alias cheatsheet-git="nvim ~/.cheatsheet/git-cheatsheet.md"
-#CODING
+
+
+#####JUSTFILE####
+#full
 alias start='just start'
 alias deploy='just deploy'
 alias compile='just compile'
@@ -77,6 +84,20 @@ alias build='just build'
 alias test='just test'
 alias lint='just lint'
 alias format='just format'
+alias generate='just generate'
+##shorthand
+alias ji='just install'
+alias jid='just install-dev'
+alias js='just start'
+alias jd='just deploy'
+alias jc='just compile'
+alias jr='just run'
+alias jb='just build'
+alias jt='just test'
+alias jl='just lint'
+alias jf='just format'
+alias jg='just generate'
+
 
 
 ###PAIR PROGRAMMING###

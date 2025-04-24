@@ -1,5 +1,3 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 #     ____    _   __    ____  ______
 #    /  _/   / | / /   /  _/ /_  __/
 #    / /    /  |/ /    / /    / /
@@ -40,11 +38,12 @@ ulimit -n 10240
 #Disable the username@hostname text in terminal when logged in to local machine
 prompt_context(){}
 
-# Init Homebrew, which adds environment variables
-eval "$(brew shellenv)"
+#########COMPLETIONS############
 #ENABLE ZSH COMPLETION SYSTEM (OMZSH USED TO DO IT FOR US)
-#Add homebrew completions
-fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+# Add homebrew completions
+if [ -d "$HOMEBREW_PREFIX/share/zsh/site-functions" ]; then
+  fpath=($HOMEBREW_PREFIX/share/zsh/site-functions $fpath)
+fi
 #Set up the completions
 autoload -Uz compinit && compinit
 zmodload -i zsh/complist
@@ -83,7 +82,7 @@ for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would l
 [[ -f ~/.config/zsh/configs/.fzf.zsh ]] && source ~/.config/zsh/configs/.fzf.zsh
 [[ -f ~/.config/zsh/configs/.p10k.zsh ]] && source ~/.config/zsh/configs/.p10k.zsh #powerline theme config
 eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
-eval "$(lua /Users/admin/Git_Downloads/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
+eval "$(lua ~/.config/zsh/plugins/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 # source ~/Git_Downloads/z/z.sh
 source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
 source ~/.config/zsh/plugins/.iterm2_shell_integration.zsh
@@ -215,7 +214,7 @@ export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 #NOTE: gcc is symlinked to replace usr/bin/cc
 #ln -s /usr/local/Cellar/gcc/11.2.0/bin/gcc-11 /usr/local/bin/cc
 #Use GCC-11 by default
-export CC=gcc-11
+# export CC=gcc-11
 
 #SYSTEM
 # export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin #default path ls, mv etc
@@ -225,12 +224,12 @@ export PATH="$PATH:/Users/admin/.local/bin" #MY CUSTOM BINARY LOCATION
 # export PATH="/usr/local/sbin:$PATH"
 
 #NODE
-#Adding path for node installation, something happened during update and npm dissapeared!
-# export PATH="/usr/local/bin/:$PATH"
-# node version manager
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+export PNPM_HOME="/Users/admin/Library/pnpm"
+export PATH="$PATH:$PNPM_HOME"
 
 #HASKELL GHC
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
@@ -241,7 +240,7 @@ export PATH=$HOME/Library/Haskell/bin:$PATH
 #export PATH="/usr/local/opt/qt/bin:$PATH"
 
 #JAVA --> using my setjdk() function
-setjdk 11 #using v11 for scala/sbt comp3000 26/7/21
+setjdk 17 #using v11 for scala/sbt comp3000 26/7/21
 
 #SCALA
 export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Coursier ,Pure Scala Artifact Fetching
@@ -264,10 +263,9 @@ export PATH=$PATH:$GOROOT/bin
 
 
 #ANDROID
-#export PATH="$PATH:/Users/admin/SDK/Android_Studio/platform-tools"
-# export ANDROID_HOME=/Users/$USER/SDK/Android_Studio/
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH
 # export ANDROID_SDK_ROOT=$ANDROID_HOME
-# export PATH="$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools"
 
 
 ###VIM PATHS###
@@ -402,10 +400,3 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 #export PATH=/opt/homebrew/bin:/Users/admin/.rvm/gems/ruby-2.7.0/bin:/Users/admin/.rvm/gems/ruby-2.7.0@global/bin:/Users/admin/.rvm/rubies/ruby-2.7.0/bin:/Users/admin/.bun/bin:/Users/admin/.sdkman/candidates/scala/current/bin:/Users/admin/.sdkman/candidates/sbt/current/bin:/Users/admin/.luarocks/bin:/usr/local/php5/bin:/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home/bin:/Users/admin/Library/Haskell/bin:/Users/admin/.cabal/bin:/Users/admin/.ghcup/bin:/Users/admin/.nvm/versions/node/v16.13.1/bin:/usr/local/bin:/Users/admin/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/git/bin:/Users/admin/.fig/bin:/Users/admin/.local/bin:/usr/local/opt/fzf/bin:/Users/admin/.local/bin:/Users/admin/Library/Application Support/Coursier/bin:/Users/admin/.langservers/solidity/llvm12.0/bin:/Users/admin/.langservers/solidity/:/Users/admin/workspaces/golang/bin:/usr/local/opt/go/libexec/bin:/Users/admin/.langservers:/Users/admin/.formatters:/Users/admin/.rvm/bin
 
-# pnpm
-export PNPM_HOME="/Users/admin/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
