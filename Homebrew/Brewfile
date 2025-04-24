@@ -41,6 +41,7 @@ brew "openjdk@17"
 brew "pngquant"
 brew "pre-commit"
 brew "prettier", link: false
+brew "python-argcomplete", link: false
 brew "python@3.10"
 brew "python@3.11"
 brew "qemu"
