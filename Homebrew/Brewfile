@@ -1,8 +1,6 @@
 tap "charmbracelet/tap"
 tap "dwarvesf/tap"
 tap "hashicorp/tap"
-tap "homebrew/bundle"
-tap "homebrew/services"
 tap "mongodb/brew"
 tap "ngrok/ngrok"
 tap "oven-sh/bun"
