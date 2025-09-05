@@ -4,7 +4,11 @@
 #  _/ /    / /|  /   _/ /    / /
 # /___/   /_/ |_/   /___/   /_/
 
+
 # GITSTATUS_LOG_LEVEL=DEBUG
+
+# Skip interactive features when running in Cursor Agent
+if [[ -z "$CURSOR_AGENT" ]]; then
 
 #TODO: solve the pesky auto quote issue with acp command
 # https://superuser.com/questions/1508079/auto-quote-arguments-in-zshhttps://superuser.com/questions/1508079/auto-quote-arguments-in-zsh
@@ -201,6 +205,7 @@ export MANPAGER='nvim +Man!'
 #ITERM OPTIONS
 export iterm2_hostname=`hostname -f` #NOTE: download with scp not working..
 
+fi # End of non-CURSOR_AGENT section
 
 
 #     ____     ___   ______    __  __   _____
