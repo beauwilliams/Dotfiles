@@ -5,3 +5,6 @@
 for file (~/.config/zsh/functions/*); do
   source $file
 done
+
+export PATH="$PATH:/Users/admin/.foundry/bin"
+. "$HOME/.cargo/env"

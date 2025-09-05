@@ -705,6 +705,67 @@ fkill() {
 	fi
 }
 
+# Interactive process manager for node/nodemon processes
+pkiller() {
+	local processes selected pids process_name
+
+	# Find node and nodemon processes
+	processes=$(ps -A -o pid,ppid,user,time,command | grep -E "(node|nodemon)" | grep -v grep | grep -v "pkill-node")
+
+	if [ -z "$processes" ]; then
+		cecho "@red[[No node/nodemon processes found]]"
+		return 1
+	fi
+
+	# Use fzf to select processes with preview
+	selected=$(echo "$processes" | fzf \
+		--multi \
+		--header="Select node/nodemon processes to kill (TAB to select multiple)" \
+		--preview="echo {} | awk '{print \"PID: \" \$1 \"\\nUser: \" \$3 \"\\nTime: \" \$4 \"\\nCommand: \" substr(\$0, index(\$0,\$5))}'" \
+		--preview-window=right:60%)
+
+	if [ -z "$selected" ]; then
+		cecho "@yellow[[Process selection cancelled]]"
+		return 0
+	fi
+
+	# Extract PIDs and process names
+	pids=$(echo "$selected" | awk '{print $1}')
+
+	echo "About to kill the following processes:"
+	echo "$selected" | while read -r line; do
+		pid=$(echo "$line" | awk '{print $1}')
+		process_name=$(echo "$line" | awk '{print substr($0, index($0,$5))}' | cut -c1-60)
+		cecho "@yellow[[PID: $pid - $process_name]]"
+	done
+
+	echo -n "Continue? (y/N): "
+	read -r confirm
+
+	if [[ "$confirm" =~ ^[Yy]$ ]]; then
+		echo -n "Force kill? (y/N - No will attempt graceful shutdown): "
+		read -r force_kill
+
+		if [[ "$force_kill" =~ ^[Yy]$ ]]; then
+			signal=9
+			echo "Using force kill (SIGKILL)..."
+		else
+			signal=15
+			echo "Using graceful shutdown (SIGTERM)..."
+		fi
+
+		echo "$pids" | while read -r pid; do
+			if kill -"$signal" "$pid" 2>/dev/null; then
+				cecho "@green[[Successfully killed PID: $pid]]"
+			else
+				cecho "@red[[Failed to kill PID: $pid]]"
+			fi
+		done
+	else
+		cecho "@yellow[[Operation cancelled]]"
+	fi
+}
+
 # Restart my buggy mouse app
 restartmouse() (
 	PID=$(ps -eaf | grep LogiMgrDaemon | grep -v grep | awk '{print $2}')
@@ -1080,3 +1141,63 @@ cecho() (
 		-e "s/@b/$(tput bold)/g" \
 		-e "s/@u/$(tput sgr 0 1)/g"
 )
+
+#
+# Interactively rewrites the timestamps of recent git commits automatically.
+# Usage: git-rewrite-dates
+# Call with -h or --help for more details.
+#
+git-rewrite-dates() {
+  RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; BLUE='\033[0;34m'; NC='\033[0m'
+
+  if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    echo "${YELLOW}Usage:${NC} git_rewrite_times <num_commits> <minutes_ago_1> <minutes_ago_2> ..."
+    echo "Example: git_rewrite_times 3 10 25 40"
+    echo "Rewrites HEAD to 10 mins ago, HEAD~1 to 25 mins ago, etc."
+    return 0
+  fi
+
+  NUM_COMMITS=$1
+  shift
+  if [ -z "$NUM_COMMITS" ] || [ "$#" -ne "$NUM_COMMITS" ]; then
+    echo "${RED}Error:${NC} Expected $NUM_COMMITS time offsets, but got $#."
+    return 1
+  fi
+
+  echo "${BLUE}Rewriting last $NUM_COMMITS commits...${NC}"
+
+  # Create rebase todo that edits every commit
+  export GIT_SEQUENCE_EDITOR='sed -i "" "s/^pick /edit /"'
+  git rebase -i HEAD~"$NUM_COMMITS" || return 1
+
+  # Reverse offsets into an array
+  REVERSED_OFFSETS=()
+  for val in "$@"; do
+    REVERSED_OFFSETS=("$val" "${REVERSED_OFFSETS[@]}")
+  done
+
+  i=1
+  for MINUTES_AGO in "${REVERSED_OFFSETS[@]}"; do
+    # Only macOS-compatible logic
+    if ! EPOCH=$(date -v -"${MINUTES_AGO}"M +%s 2>/dev/null); then
+      echo "${RED}Error:${NC} Invalid minutes offset: $MINUTES_AGO"
+      return 1
+    fi
+
+    NEW_DATE=$(date -r "$EPOCH" "+%Y-%m-%dT%H:%M:%S")
+    echo "${YELLOW}[$i] ${MINUTES_AGO} mins ago → $NEW_DATE${NC}"
+
+    GIT_COMMITTER_DATE="$NEW_DATE" GIT_AUTHOR_DATE="$NEW_DATE" git commit --amend --no-edit
+
+    if git rev-parse --verify REBASE_HEAD >/dev/null 2>&1; then
+      git rebase --continue || {
+        echo "${RED}❌ Rebase failed — please fix and run 'git rebase --continue' manually.${NC}"
+        return 1
+      }
+    fi
+
+    i=$((i + 1))
+  done
+
+  echo "${GREEN}✔ Done rewriting commit dates.${NC}"
+}

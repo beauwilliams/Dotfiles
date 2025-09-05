@@ -225,11 +225,11 @@ export PATH="$PATH:/Users/admin/.local/bin" #MY CUSTOM BINARY LOCATION
 
 #NODE
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
-export PNPM_HOME="/Users/admin/Library/pnpm"
-export PATH="$PATH:$PNPM_HOME"
+# export PNPM_HOME="/Users/admin/Library/pnpm"
+# export PATH="$PATH:$PNPM_HOME"
 
 #HASKELL GHC
 [ -f "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env" ] && source "${GHCUP_INSTALL_BASE_PREFIX:=$HOME}/.ghcup/env"
