@@ -1,10 +1,14 @@
 # NOTE: We put this here so that we can load our functions inside scripts
 # To run a script with zsh env included either.. include usr/bin/env zsh
 # Or run the script with `zsh <script-name.sh>`
-# funcs and aliases and other scripts
-for file (~/.config/zsh/functions/*); do
-  source $file
-done
+
+# Skip interactive features when running in Cursor Agent
+if [[ -z "$CURSOR_AGENT" ]]; then
+  # funcs and aliases and other scripts
+  for file (~/.config/zsh/functions/*); do
+    source $file
+  done
+fi
 
 export PATH="$PATH:/Users/admin/.foundry/bin"
 . "$HOME/.cargo/env"

@@ -4,7 +4,6 @@
 #  _/ /    / /|  /   _/ /    / /
 # /___/   /_/ |_/   /___/   /_/
 
-
 # GITSTATUS_LOG_LEVEL=DEBUG
 
 # Skip interactive features when running in Cursor Agent
@@ -404,4 +403,3 @@ export BUN_INSTALL="/Users/admin/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 #export PATH=/opt/homebrew/bin:/Users/admin/.rvm/gems/ruby-2.7.0/bin:/Users/admin/.rvm/gems/ruby-2.7.0@global/bin:/Users/admin/.rvm/rubies/ruby-2.7.0/bin:/Users/admin/.bun/bin:/Users/admin/.sdkman/candidates/scala/current/bin:/Users/admin/.sdkman/candidates/sbt/current/bin:/Users/admin/.luarocks/bin:/usr/local/php5/bin:/Library/Java/JavaVirtualMachines/jdk-11.0.11.jdk/Contents/Home/bin:/Users/admin/Library/Haskell/bin:/Users/admin/.cabal/bin:/Users/admin/.ghcup/bin:/Users/admin/.nvm/versions/node/v16.13.1/bin:/usr/local/bin:/Users/admin/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/share/dotnet:/opt/X11/bin:~/.dotnet/tools:/Library/Apple/usr/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/git/bin:/Users/admin/.fig/bin:/Users/admin/.local/bin:/usr/local/opt/fzf/bin:/Users/admin/.local/bin:/Users/admin/Library/Application Support/Coursier/bin:/Users/admin/.langservers/solidity/llvm12.0/bin:/Users/admin/.langservers/solidity/:/Users/admin/workspaces/golang/bin:/usr/local/opt/go/libexec/bin:/Users/admin/.langservers:/Users/admin/.formatters:/Users/admin/.rvm/bin
-
