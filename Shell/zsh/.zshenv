@@ -11,4 +11,4 @@ if [[ -z "$CURSOR_AGENT" ]]; then
 fi
 
 export PATH="$PATH:/Users/admin/.foundry/bin"
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"

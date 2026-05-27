@@ -8,6 +8,7 @@ tap "romkatv/gitstatus"
 tap "romkatv/powerlevel10k"
 brew "bat"
 brew "crytic-compile", link: false
+brew "eza"
 brew "gmp"
 brew "slither-analyzer", link: false
 brew "echidna"

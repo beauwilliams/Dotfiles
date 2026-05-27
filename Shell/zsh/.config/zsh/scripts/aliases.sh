@@ -113,10 +113,10 @@ alias 2pane='tmux-2pane'
 alias zshreload="source ~/.zshrc"
 alias sshagentload='eval `ssh-agent -s`' #load ssh agent when ssh-add not working
 #BEAU Below alias enables colourful ls
-#alias ls="exa -G -a --git-ignore --icons"
-alias ls=" ls -a"
-alias lst="exa -T -a --git-ignore --icons"
-alias lsl="exa --long -a -u -h --icons"
+#alias ls="eza -G -a --git-ignore --icons"
+alias ls="eza -G -a --git-ignore --icons"
+alias lst="eza -T -a --git-ignore --icons"
+alias lsl="eza --long -a -u -h --icons"
 alias cat="bat"
 #fuzzysearch open in vim I did this because fuzzy search won't open anything at the moment
 # alias ff="nvim -c 'FZF'"

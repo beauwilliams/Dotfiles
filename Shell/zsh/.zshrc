@@ -52,7 +52,7 @@ autoload -Uz compinit && compinit
 zmodload -i zsh/complist
 autoload -U bashcompinit
 bashcompinit
-eval "$(register-python-argcomplete pipx)"
+command -v register-python-argcomplete >/dev/null 2>&1 && eval "$(register-python-argcomplete pipx)"
 
 
 #Hopefully this loads powerlevel10k theme faster
@@ -84,22 +84,22 @@ for code ({000..255}) print -P -- "$code: %F{$code}This is how your text would l
 
 [[ -f ~/.config/zsh/configs/.fzf.zsh ]] && source ~/.config/zsh/configs/.fzf.zsh
 [[ -f ~/.config/zsh/configs/.p10k.zsh ]] && source ~/.config/zsh/configs/.p10k.zsh #powerline theme config
-eval "$(zoxide init zsh)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim
-eval "$(lua ~/.config/zsh/plugins/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh --no-aliases)" #Faster than z.lua, works with https://github.com/nanotee/zoxide.vim (--no-aliases since z.lua handles 'z' command)
+command -v lua >/dev/null 2>&1 && [[ -f ~/.config/zsh/plugins/z.lua/z.lua ]] && eval "$(lua ~/.config/zsh/plugins/z.lua/z.lua --init zsh enhanced fzf)" #I use this for z because it has tab completion zoxide is just for vim :z
 # source ~/Git_Downloads/z/z.sh
-source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
-source ~/.config/zsh/plugins/.iterm2_shell_integration.zsh
-source ~/.config/zsh/plugins/git-auto-fetch.plugin.zsh
-source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
-source ~/.config/zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
-source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
-source ~/.config/zsh/plugins/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
-source ~/.config/zsh/plugins/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
-source ~/.config/zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
-source ~/.config/zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
-source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
-source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
+[[ -f ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme ]] && source ~/.config/zsh/plugins/powerlevel10k/powerlevel10k.zsh-theme #theme binaries
+[[ -f ~/.config/zsh/plugins/.iterm2_shell_integration.zsh ]] && source ~/.config/zsh/plugins/.iterm2_shell_integration.zsh
+[[ -f ~/.config/zsh/plugins/git-auto-fetch.plugin.zsh ]] && source ~/.config/zsh/plugins/git-auto-fetch.plugin.zsh
+[[ -f ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]] && source ~/.config/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+[[ -f ~/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh ]] && source ~/.config/zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh
+[[ -f ~/.config/zsh/plugins/enhancd/init.sh ]] && source ~/.config/zsh/plugins/enhancd/init.sh && export ENHANCD_DISABLE_DOT=1 #disable cd ..
+[[ -f ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh ]] && source ~/.config/zsh/plugins/zsh-completions/zsh-completions.plugin.zsh && fpath=(~/.zsh/zsh-completions/src $fpath)
+[[ -f ~/.config/zsh/plugins/alias-tips/alias-tips.plugin.zsh ]] && source ~/.config/zsh/plugins/alias-tips/alias-tips.plugin.zsh #Reminds you of your aliases
+[[ -f ~/.config/zsh/plugins/plugin-osx/osx-aliases.plugin.zsh ]] && source ~/.config/zsh/plugins/plugin-osx/osx-aliases.plugin.zsh #OSX Aliases
+[[ -f ~/.config/zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh ]] && source ~/.config/zsh/plugins/hacker-quotes/hacker-quotes.plugin.zsh
+[[ -f ~/.config/zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh ]] && source ~/.config/zsh/plugins/zsh-vim-mode/zsh-vim-mode.plugin.zsh #must be loaded before fzf-tab
+[[ -f ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh ]] && source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+[[ -f ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh ]] && source ~/Git_Downloads/awesome-fzf/awesome-fzf.zsh
 fpath=(~/.config/zsh/plugins/zsh-cht.sh-completions/ $fpath) #source cht.sh completions
 # source ~/.zsh/boss-git-zsh-plugin/boss-git.plugin.zsh
 # source ~/.zsh/zsh-z/zsh-z.plugin.zsh #zsh native version of z for speed
@@ -158,8 +158,8 @@ zstyle ':completion:*:git-checkout:*' sort false
 zstyle ':completion:*:descriptions' format '[%d]'
 # set list-colors to enable filename colorizing
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# preview directory's content with exa when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'exa -1 --color=always $realpath'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `,` and `.`
 zstyle ':fzf-tab:*' switch-group ',' '.'
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20 #avoids lag pasting large chunks of text into the shell
@@ -186,6 +186,7 @@ precmd() { export BAT_THEME=$(refresh-bat-theme) }
 
 #export LSCOLORS=GxFxCxDxBxegedabagaced
 #export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
+
 #export LSCOLORS=exfxcxdxbxegedabagacad
 
 # Ignore pointless files in filename completion
@@ -244,7 +245,10 @@ export PATH=$HOME/Library/Haskell/bin:$PATH
 #export PATH="/usr/local/opt/qt/bin:$PATH"
 
 #JAVA --> using my setjdk() function
-setjdk 17 #using v11 for scala/sbt comp3000 26/7/21
+# Only set Java if it's installed and setjdk function is available
+if command -v /usr/libexec/java_home >/dev/null 2>&1 && type setjdk >/dev/null 2>&1; then
+  setjdk 17 2>/dev/null || true #using v11 for scala/sbt comp3000 26/7/21
+fi
 
 #SCALA
 export PATH="$PATH:/Users/admin/Library/Application Support/Coursier/bin" #Coursier ,Pure Scala Artifact Fetching
