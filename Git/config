@@ -10,7 +10,8 @@
 	editor = nvim
     pager = delta
 [interactive]
-    diffFilter = delta --color-onlyhelper = store
+    diffFilter = delta --color-only
+    helper = store
 [delta]
     features = line-numbers decorations
     ; syntax-theme = Gruvbox
@@ -55,11 +56,15 @@
 	template = /Users/admin/.config/git/commitconventions.txt
 [init]
 	defaultBranch = main
-[credential]
-
 [pull]
-	; ff = only
+    rebase = true
+[fetch]
+    prune = true
 [safe]
 	directory = /github/workspace
 [help]
 	autocorrect = 15
+[credential]
+    helper = osxkeychain
+[http]
+	postBuffer = 524288000

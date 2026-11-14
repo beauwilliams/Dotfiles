@@ -203,3 +203,5 @@ WakaTime.sublime-settings
 .vscode/tags
 .pyre
 
+
+**/.claude/settings.local.json

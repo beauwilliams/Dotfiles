@@ -2,6 +2,8 @@
 #TODO: Set up forgit -> https://github.com/wfxr/forgit
 
 AWESOME_FZF_LOCATION="/Users/admin/Git_Downloads/awesome-fzf/awesome-fzf.zsh"
+# morhetz/gruvbox theme for FZF
+export FZF_DEFAULT_OPTS='--color=bg+:#3c3836,bg:#32302f,spinner:#fb4934,hl:#928374,fg:#ebdbb2,header:#928374,info:#8ec07c,pointer:#fb4934,marker:#fb4934,fg+:#ebdbb2,prompt:#fb4934,hl+:#fb4934'
 
 #Test if user has binary installed
 function hasBinary() (
@@ -1240,11 +1242,28 @@ portkill() {
 		return 1
 	fi
 
-	local res=$(lsof -ti :$port)
-	if [[ -z "$res" ]]; then
+	# ${(f)...} splits on newlines — zsh does NOT word-split unquoted $(...),
+	# so multiple PIDs would otherwise be passed to kill as one bad argument.
+	local -a pids
+	pids=(${(f)"$(lsof -ti :$port 2>/dev/null)"})
+	pids=(${(u)pids:#$$})   # unique, and never kill this shell
+
+	if (( ${#pids} == 0 )); then
 		cecho "@yellow[[No process found on port $port]]"
 		return 0
 	fi
 
-	kill -9 $res && cecho "@green[[Successfully killed process on port $port]]"
+	kill -TERM $pids 2>/dev/null
+	# wait up to ~1s for graceful exit, then force whatever is left
+	local -a alive
+	local i
+	for i in {1..10}; do
+		alive=(${(f)"$(ps -o pid= -p ${(j:,:)pids} 2>/dev/null)"})
+		alive=(${alive// /})
+		(( ${#alive} == 0 )) && break
+		sleep 0.1
+	done
+	(( ${#alive} > 0 )) && kill -9 $alive 2>/dev/null
+
+	cecho "@green[[Killed ${#pids} process(es) on port $port: ${pids}]]"
 }
