@@ -1199,3 +1199,52 @@ git-rewrite-dates() {
 
   echo "${GREEN}✔ Done rewriting commit dates.${NC}"
 }
+
+# Initialize AGENTS.md from ~/Downloads/AGENTS with folder picker
+agentinit() {
+	local agents_base_dir="$HOME/Downloads/AGENTS"
+	local selected_folder
+	local agents_file
+
+	if [[ ! -d "$agents_base_dir" ]]; then
+		cecho "@red[[AGENTS directory not found at $agents_base_dir]]"
+		return 1
+	fi
+
+	# Use fzf to select from available subfolders in AGENTS directory
+	selected_folder=$(find "$agents_base_dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | fzf --reverse --prompt="Select agent config > ")
+
+	case "$selected_folder" in
+	"")
+		cecho "@yellow[[Selection cancelled]]"
+		return 0
+		;;
+	*)
+		agents_file="$agents_base_dir/$selected_folder/AGENTS.md"
+		if [[ -f "$agents_file" ]]; then
+			cp "$agents_file" "./AGENTS.md"
+			cecho "@green[[Successfully copied AGENTS.md from $selected_folder to current directory]]"
+		else
+			cecho "@red[[AGENTS.md not found in $selected_folder folder]]"
+			return 1
+		fi
+		;;
+	esac
+}
+
+# Kill process on specific port
+portkill() {
+	local port=$1
+	if [[ -z "$port" ]]; then
+		cecho "@red[[Please specify a port number]]"
+		return 1
+	fi
+
+	local res=$(lsof -ti :$port)
+	if [[ -z "$res" ]]; then
+		cecho "@yellow[[No process found on port $port]]"
+		return 0
+	fi
+
+	kill -9 $res && cecho "@green[[Successfully killed process on port $port]]"
+}
