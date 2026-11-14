@@ -1,165 +1,227 @@
 tap "charmbracelet/tap"
 tap "dwarvesf/tap"
+tap "entireio/tap", trusted: true
 tap "hashicorp/tap"
 tap "mongodb/brew"
 tap "ngrok/ngrok"
 tap "oven-sh/bun"
+tap "pulumi/tap", trusted: true
 tap "romkatv/gitstatus"
 tap "romkatv/powerlevel10k"
+# Automatically exclude development dependencies from Time Machine backups
+brew "asimov"
+# Securely store and access AWS credentials in development environments
+brew "aws-vault"
+# Official Amazon AWS command-line interface
+brew "awscli"
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-brew "crytic-compile", link: false
-brew "eza"
+# Dependency manager for Cocoa projects
+brew "cocoapods"
+# Validate and define text-based and dynamic configuration
+brew "cue"
+# Secure runtime for JavaScript and TypeScript
+brew "deno"
+# GNU multiple precision arithmetic library
 brew "gmp"
-brew "slither-analyzer", link: false
+# Solidity static analysis framework written in Python 3
+brew "slither-analyzer"
+# Ethereum smart contract fuzzer
 brew "echidna"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
-brew "unbound"
+# GNU Transport Layer Security (TLS) Library
 brew "gnutls"
+# Validating, recursive, caching DNS resolver
+brew "unbound"
+# Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# GNU compiler collection
 brew "gcc"
+# GNU compiler collection
 brew "gcc@11"
+# GNU compiler collection
 brew "gcc@12"
-brew "gh"
-brew "git"
-brew "git-delta"
-brew "gnu-sed"
-brew "go"
-brew "gum"
-brew "gzip"
-brew "hey"
-brew "jpegoptim"
-brew "just"
-brew "lazygit"
-brew "libgit2"
-brew "llvm"
-brew "lua"
-brew "luarocks"
+# Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# Interact with Google Gemini AI models from the command-line
+brew "gemini-cli"
+# GitHub command-line tool
+brew "gh"
+# Distributed revision control system
+brew "git"
+# Syntax-highlighting pager for git and diff output
+brew "git-delta"
+# Quickly rewrite git repository history
+brew "git-filter-repo"
+# GNU implementation of the famous stream editor
+brew "gnu-sed"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
+# Tool for glamorous shell scripts
+brew "gum"
+# Popular GNU data compression program
+brew "gzip"
+# HTTP load generator, ApacheBench (ab) replacement
+brew "hey"
+# Utility to optimize JPEG files
+brew "jpegoptim"
+# Handy way to save and run project-specific commands
+brew "just"
+# Simple terminal UI for git commands
+brew "lazygit"
+# Graphical front-end for GCC's coverage testing tool (gcov)
+brew "lcov"
+# C library of Git core methods that is re-entrant and linkable
+brew "libgit2"
+# Next-gen compiler infrastructure
+brew "llvm"
+# Powerful, lightweight programming language
+brew "lua"
+# Package manager for the Lua programming language
+brew "luarocks"
+# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
+# Port scanning utility for large networks
 brew "nmap"
+# Manage multiple Node.js versions
 brew "nvm"
+# Development kit for the Java programming language
 brew "openjdk@17"
+# Swiss-army knife of markup format conversion
+brew "pandoc"
+# PNG image optimizing utility
 brew "pngquant"
+# Fast, disk space efficient package manager
+brew "pnpm"
+# PDF rendering library (based on the xpdf-3.0 code base)
+brew "poppler"
+# Object-relational database system
+brew "postgresql@14", restart_service: :changed
+# Framework for managing multi-language pre-commit hooks
 brew "pre-commit"
+# Code formatter for JavaScript, CSS, JSON, GraphQL, Markdown, YAML
 brew "prettier", link: false
+# Tab completion for Python argparse
 brew "python-argcomplete", link: false
+# Interpreted, interactive, object-oriented programming language
 brew "python@3.10"
+# Interpreted, interactive, object-oriented programming language
 brew "python@3.11"
+# Generic machine emulator and virtualizer
 brew "qemu"
+# Develop and deploy code with zero configuration
+brew "railway"
+# Pack repository contents into a single AI-friendly file
 brew "repomix"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
-brew "ruby"
+# Modern Day Portscanner
 brew "rustscan"
+# Create beautiful image of your source code
 brew "silicon"
+# Manage multiple Solidity compiler versions
 brew "solc-select", link: false
+# SOund eXchange: universal sound sample translator
+brew "sox"
+# Instant terminal sharing
 brew "tmate"
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Parser generator tool
+brew "tree-sitter-cli"
+# Tool for creating isolated virtual python environments
 brew "virtualenv", link: false
+# Internet file retriever
 brew "wget"
+# JavaScript package manager
 brew "yarn"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
+# UNIX shell (command interpreter)
 brew "zsh"
-brew "hashicorp/tap/terraform"
-brew "mongodb/brew/mongodb-community"
-brew "oven-sh/bun/bun"
-brew "romkatv/gitstatus/gitstatus"
+# Pulumi - Modern Infrastructure as Code. Any cloud, any language 
+brew "pulumi/tap/pulumi"
+# Command-line interface for 1Password
+cask "1password-cli"
+# Tools for building Android applications
 cask "android-studio"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
+# Turns any device with a web browser into a secondary screen
 cask "deskreen"
+# CLI for Entire
+cask "entireio/tap/entire", trusted: true
+cask "font-dm-mono"
 cask "font-hack-nerd-font"
+cask "font-manrope"
+# Menu bar manager
 cask "jordanbaird-ice"
+# Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
+# Convert HTML to PDF
+cask "prince"
+# Quick Look plug-in that renders source code with syntax highlighting
 cask "qlcolorcode"
+# MySQL/MariaDB database management
 cask "sequel-ace"
+# Plugin for AWS CLI to start and end sessions that connect to managed instances
+cask "session-manager-plugin"
+# Mesh VPN based on WireGuard
+cask "tailscale-app"
+# Development environment
 cask "vagrant"
-vscode "ajkhoury.beautiful-light"
 vscode "ajshort.include-autocomplete"
-vscode "aramok.aramoks-black"
-vscode "bmalehorn.shell-syntax"
-vscode "christian-kohler.path-intellisense"
-vscode "codezombiech.gitignore"
-vscode "cschlosser.doxdocgen"
-vscode "cstrap.flask-snippets"
-vscode "danielpinto8zz6.c-cpp-compile-run"
-vscode "davidanson.vscode-markdownlint"
+vscode "alexytsu.adl-vscode"
+vscode "anthropic.claude-code"
+vscode "anysphere.cursorpyright"
+vscode "anysphere.remote-containers"
+vscode "anysphere.remote-ssh"
+vscode "anysphere.remote-wsl"
+vscode "coderabbit.coderabbit-vscode"
+vscode "cweijan.dbclient-jdbc"
+vscode "cweijan.vscode-mysql-client2"
+vscode "databricks.sqltools-databricks-driver"
 vscode "dbaeumer.vscode-eslint"
-vscode "ecmel.vscode-html-css"
+vscode "denoland.vscode-deno"
 vscode "esbenp.prettier-vscode"
-vscode "fallenwood.viml"
-vscode "fehey.brackets-light-pro"
-vscode "felixfbecker.php-intellisense"
-vscode "firefox-devtools.vscode-firefox-debug"
-vscode "firsttris.vscode-jest-runner"
-vscode "formulahendry.code-runner"
 vscode "github.copilot"
 vscode "github.copilot-chat"
+vscode "github.vscode-github-actions"
 vscode "github.vscode-pull-request-github"
 vscode "hars.cppsnippets"
-vscode "henrytsz.nvim"
 vscode "hyzeta.vscode-theme-github-light"
-vscode "ionutvmi.path-autocomplete"
-vscode "jdinhlife.gruvbox"
-vscode "jeff-hykin.better-cpp-syntax"
-vscode "johnpapa.vscode-peacock"
-vscode "leojhonsong.ccpp-extension-pack"
-vscode "llvm-vs-code-extensions.vscode-clangd"
-vscode "mohsen1.prettify-json"
-vscode "monokai.theme-monokai-pro-vscode"
+vscode "mechatroner.rainbow-csv"
 vscode "ms-azuretools.vscode-docker"
 vscode "ms-python.anaconda-extension-pack"
 vscode "ms-python.debugpy"
 vscode "ms-python.python"
-vscode "ms-python.vscode-pylance"
 vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
 vscode "ms-toolsai.jupyter-renderers"
 vscode "ms-toolsai.vscode-jupyter-cell-tags"
 vscode "ms-toolsai.vscode-jupyter-slideshow"
 vscode "ms-vscode-remote.remote-containers"
-vscode "ms-vscode-remote.remote-ssh"
-vscode "ms-vscode-remote.remote-ssh-edit"
-vscode "ms-vscode-remote.remote-wsl"
-vscode "ms-vscode.cmake-tools"
 vscode "ms-vscode.cpptools"
 vscode "ms-vscode.makefile-tools"
-vscode "ms-vscode.remote-explorer"
-vscode "ms-vsliveshare.vsliveshare"
 vscode "ms-vsliveshare.vsliveshare-pack"
-vscode "nomicfoundation.hardhat-solidity"
-vscode "notskm.clang-tidy"
-vscode "nrwl.angular-console"
-vscode "numso.prettier-standard-vscode"
-vscode "nur.just-black"
+vscode "mtxr.sqltools"
+vscode "mtxr.sqltools-driver-pg"
 vscode "pkosta2005.heroku-command"
-vscode "pythagoratechnologies.gpt-pilot-vs-code"
-vscode "redhat.java"
-vscode "redhat.vscode-yaml"
-vscode "ritwickdey.liveserver"
 vscode "rust-lang.rust-analyzer"
-vscode "scala-lang.scala"
-vscode "serayuzgur.crates"
-vscode "sonarsource.sonarlint-vscode"
-vscode "streetsidesoftware.code-spell-checker"
-vscode "swellaby.rust-pack"
-vscode "tamasfe.even-better-toml"
-vscode "twxs.cmake"
-vscode "vadimcn.vscode-lldb"
-vscode "visualstudioexptteam.intellicode-api-usage-examples"
-vscode "visualstudioexptteam.vscodeintellicode"
-vscode "vscjava.vscode-gradle"
-vscode "vscjava.vscode-java-debug"
-vscode "vscjava.vscode-java-dependency"
-vscode "vscjava.vscode-java-pack"
-vscode "vscjava.vscode-java-test"
-vscode "vscjava.vscode-maven"
-vscode "vscode-icons-team.vscode-icons"
+vscode "shd101wyy.markdown-preview-enhanced"
 vscode "vscodevim.vim"
-vscode "wayou.vscode-icons-mac"
-vscode "withfig.fig"
 vscode "xabikos.javascriptsnippets"
-vscode "xaver.clang-format"
-vscode "xdebug.php-debug"
-vscode "xdebug.php-pack"
 vscode "zhouronghui.propertylist"
-vscode "zhuangtongfa.material-theme"
-vscode "zobo.php-intellisense"
+cargo "adl-lsp"
+cargo "avm", source: "https://github.com/coral-xyz/anchor?tag=v0.31.1"
+cargo "cargo-binstall"
+cargo "cargo-watch"
+cargo "cotton", source: "https://github.com/danielhuang/cotton"
+cargo "example_backend"
+cargo "rustlings"
+cargo "stylua"
+cargo "typeshare-cli"
+uv "basic-memory"
+npm "corepack"
