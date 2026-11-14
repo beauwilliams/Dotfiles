@@ -11,6 +11,7 @@ return {
 				typescript = { 'prettier' },
 				javascriptreact = { 'prettier' },
 				typescriptreact = { 'prettier' },
+				solidity = { 'forge_fmt' },
 				svelte = { 'prettier' },
 				css = { 'prettier' },
 				html = { 'prettier' },
@@ -29,12 +30,22 @@ return {
 			--},
 		})
 
-		vim.keymap.set({ 'n', 'v' }, '<leader>mp', function()
-			conform.format({
-				lsp_fallback = true,
-				async = false,
-				timeout_ms = 1000,
-			})
-		end, { desc = 'Format file or range (in visual mode)' })
+		--enables lsp builtin formatters via vim.lsp.buf.format()
+		Formatexpr = function()
+			return conform.formatexpr({ timeout_ms = 10000 })
+		end
+
+		vim.o.formatexpr = 'v:lua.Formatexpr()'
+
+		----Custom solidity formatter using
+		--vim.api.nvim_create_autocmd('BufWritePre', {
+		--	pattern = '*.sol',
+		--	callback = function()
+		--		-- Format the file using LSP
+		--		vim.lsp.buf.format()
+		--		-- Write the buffer
+		--		vim.cmd('write')
+		--	end,
+		--})
 	end,
 }

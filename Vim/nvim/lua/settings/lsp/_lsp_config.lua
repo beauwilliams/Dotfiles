@@ -1,4 +1,3 @@
-local vim = vim
 local cwd = vim.loop.cwd
 
 local lsp = safe_require('lspconfig')
@@ -67,7 +66,7 @@ local custom_init = function(server)
 		float = {
 			focusable = false,
 			style = 'minimal',
-			source = 'always',
+			source = true,
 			border = 'rounded',
 			header = '',
 			prefix = '',
@@ -83,9 +82,15 @@ local custom_init = function(server)
 		vim.lsp.with(vim.lsp.handlers.signature_help, { border = 'rounded', focusable = false }) ]]
 
 	-- SET DIAG GUTTER SIGNS
-	local signs = { Error = '✘', Warning = '', Hint = '', Information = '' }
+	local signs = {
+		Error = '✘',
+		Warn = '',
+		Hint = '',
+		Info = '',
+	}
+
 	for type, icon in pairs(signs) do
-		local hl = 'LspDiagnosticsSign' .. type
+		local hl = 'DiagnosticSign' .. type
 		vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 	end
 
@@ -128,16 +133,12 @@ end
 ---------------------------------------------------------------------------------------
 
 mason_lsp.setup({
-	automatic_installation = false,
+	automatic_enable = true,
 	ensure_installed = {
 		'lua_ls',
 		'ts_ls',
 		'eslint',
-		'typescript',
 		'tailwindcss',
-		'isort', -- python formatter
-		'black', -- python formatter
-		'pylint',
 		'bashls',
 		'vimls',
 		'rust_analyzer',
@@ -162,14 +163,28 @@ mason_lsp.setup({
 		--'tflint',
 	},
 })
-mason_lsp.setup_handlers({
-	function(server_name)
-		require('lspconfig')[server_name].setup({
-			on_attach = custom_attach,
-			on_init = custom_init,
-			capabilities = custom_capabilities(),
-		})
-	end,
+vim.lsp.config('*', {
+	on_attach = custom_attach,
+	on_init = custom_init,
+	capabilities = custom_capabilities(),
+})
+vim.lsp.config('lua_ls', {
+	settings = {
+		Lua = {
+			runtime = { version = 'LuaJIT' },
+			diagnostics = { globals = { 'vim' } },
+			workspace = {
+				checkThirdParty = true,
+				library = {
+					vim.api.nvim_get_runtime_file('', true),
+					'/usr/share/nvim/runtime',
+					vim.fn.expand('$VIMRUNTIME/lua'),
+					vim.fn.stdpath('config') .. '/lua',
+				},
+			},
+			telemetry = { enable = false },
+		},
+	},
 })
 
 -- CUSTOM LANG CONFS
@@ -180,9 +195,9 @@ mason_lsp.setup_handlers({
 --safe_require('lsp._html').setup(custom_attach, custom_init, custom_capabilities)
 -- require('lsp._omnisharp').setup(custom_attach, custom_init)
 -- require('lsp._solang').setup(custom_attach, custom_init)
-vim.cmd( -- NOTE: sets workspace per project..
-	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
-)
+--vim.cmd( -- NOTE: sets workspace per project..
+--	[[au FileType java lua require('jdtls').start_or_attach({filetypes = {'java'},cmd = {'/Users/admin/.config/nvim/lua/lsp/launch_jdtls.sh', '/Users/admin/workspaces/nvim/eclipse-workspace/' .. vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')},on_init = custom_init, on_attach = custom_attach})]]
+--)
 
 --[[
     __  __     __                   ______                 __  _

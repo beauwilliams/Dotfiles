@@ -4,10 +4,6 @@ if not utils then
 end
 
 local leader = '<space>'
-local g = vim.g
---- @diagnostic disable-next-line: unused-local
-local api = vim.api
-local cmd = vim.cmd
 local set_keymap = vim.keymap.set
 
 --TODO: command refactor

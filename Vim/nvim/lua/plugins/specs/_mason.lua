@@ -101,6 +101,7 @@ return {
 				'luacheck',
 				'codespell',
 				'solhint',
+				'eslint_d',
 				-- 'gofumpt',
 				-- 'golines',
 				-- 'goimports',
@@ -148,6 +149,9 @@ return {
 			-- e.g.: 5000 = 5 second delay, 10000 = 10 second delay, etc...
 			-- Default: 0
 			start_delay = 3000, -- 3 second delay
+			integrations = {
+				['mason-lspconfig'] = true,
+			},
 		})
 
 		-- Notify when Mason tools update is complete

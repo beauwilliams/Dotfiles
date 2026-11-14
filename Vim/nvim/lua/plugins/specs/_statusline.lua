@@ -4,12 +4,11 @@ return {
 		'nvim-lua/lsp-status.nvim',
 	},
 	config = function()
-		local statusline = safe_require('statusline')
-		if not statusline then
-			return
-		end
-		statusline.enable = true
-		statusline.lsp_diagnostics = true
-		statusline.ale_diagnostics = false
+		require('statusline').setup({
+			match_colorscheme = false, -- Enable colorscheme inheritance (Default: false)
+			tabline = true, -- Enable the tabline (Default: true)
+			lsp_diagnostics = true, -- Enable Native LSP diagnostics (Default: true)
+			ale_diagnostics = false, -- Enable ALE diagnostics (Default: false)
+		})
 	end,
 }

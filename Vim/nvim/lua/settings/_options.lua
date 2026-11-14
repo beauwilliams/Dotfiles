@@ -94,6 +94,7 @@ opt.menuitems = 20 --Maximum number of items to use in a menu.  Used for menus t
 -- opt.winblend = 10 -- (default 0) local to window Enables pseudo-transparency for a floating window. Valid values are in the range of 0 for fully opaque window (disabled) to 100 for fully transparent background. Values between 0-30 are typically most useful.
 opt.shortmess:append('csa') -- This option helps to avoid all the |hit-enter| prompts caused by file messages
 opt.matchpairs:append({ '<:>,「:」,『:』,【:】,“:”,‘:’,《:》' }) -- Characters that form pairs. The % command jumps from one to the other
+vim.cmd('filetype plugin indent on')
 
 --NOTE: ripgrep
 opt.grepprg = 'rg --vimgrep'

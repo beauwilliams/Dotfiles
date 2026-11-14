@@ -29,8 +29,8 @@ cmd([[nnoremap <leader>9 :ConvertMapToLua<CR>]])
 utils.map('n', leader .. leader, ':')
 
 --KOMMENTARY MAPPINGS, COMMENT WITH CMD+/
-utils.nmap('++', '<Plug>kommentary_line_default')
-utils.vmap('++', '<Plug>kommentary_visual_default')
+utils.nmap('++', 'gcc')
+utils.vmap('++', 'gcc')
 
 --Toggle between 0 and ^ with JUST 0. Does not work well with wrap off and side scrolling..
 set_keymap(
